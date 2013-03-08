@@ -24,6 +24,10 @@ function mediacommons_feature_ctools_plugin_api() {
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
+  list($module, $api) = func_get_args();
+  if ($module == "video_embed_field" && $api == "default_video_embed_styles") {
+    return array("version" => "1");
+  }
 }
 
 /**
@@ -38,26 +42,10 @@ function mediacommons_feature_views_api() {
  */
 function mediacommons_feature_node_info() {
   $items = array(
-    'article' => array(
-      'name' => t('Article'),
-      'base' => 'node_content',
-      'description' => t('Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.'),
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-    'cluster' => array(
-      'name' => t('Cluster'),
+    'hub' => array(
+      'name' => t('Hub'),
       'base' => 'node_content',
       'description' => t('A theme-based aggregation of contributed pieces.'),
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-    'contributed_piece' => array(
-      'name' => t('Contributed Piece'),
-      'base' => 'node_content',
-      'description' => t('A text or multimedia document.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
@@ -70,6 +58,31 @@ function mediacommons_feature_node_info() {
       'title_label' => t('Title'),
       'help' => '',
     ),
+    'spoke' => array(
+      'name' => t('Spoke'),
+      'base' => 'node_content',
+      'description' => t('A text or multimedia document.'),
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
   );
+  return $items;
+}
+
+/**
+ * Implements hook_default_profile2_type().
+ */
+function mediacommons_feature_default_profile2_type() {
+  $items = array();
+  $items['main'] = entity_import('profile2_type', '{
+    "userCategory" : true,
+    "userView" : true,
+    "type" : "main",
+    "label" : "Main profile",
+    "weight" : "0",
+    "data" : { "registration" : true, "use_page" : true },
+    "rdf_mapping" : [  ]
+  }');
   return $items;
 }

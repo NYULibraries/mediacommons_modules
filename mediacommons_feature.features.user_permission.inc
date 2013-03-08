@@ -15,6 +15,8 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'access administration pages',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
     ),
     'module' => 'system',
   );
@@ -55,6 +57,8 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'access content overview',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -73,8 +77,48 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'access dashboard',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
     ),
     'module' => 'dashboard',
+  );
+
+  // Exported permission: access mediacommons content.
+  $permissions['access mediacommons content'] = array(
+    'name' => 'access mediacommons content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+      3 => 'curator',
+      4 => 'managing editor',
+    ),
+    'module' => 'mediacommons_ui',
+  );
+
+  // Exported permission: access mediacommons dashboard.
+  $permissions['access mediacommons dashboard'] = array(
+    'name' => 'access mediacommons dashboard',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
+    ),
+    'module' => 'mediacommons_ui',
+  );
+
+  // Exported permission: access own authorizations.
+  $permissions['access own authorizations'] = array(
+    'name' => 'access own authorizations',
+    'roles' => array(),
+    'module' => 'oauth_common',
+  );
+
+  // Exported permission: access own consumers.
+  $permissions['access own consumers'] = array(
+    'name' => 'access own consumers',
+    'roles' => array(),
+    'module' => 'oauth_common',
   );
 
   // Exported permission: access rules debug.
@@ -109,6 +153,8 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'access toolbar',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
     ),
     'module' => 'toolbar',
   );
@@ -120,6 +166,16 @@ function mediacommons_feature_user_default_permissions() {
       0 => 'administrator',
     ),
     'module' => 'user',
+  );
+
+  // Exported permission: admin contributors content.
+  $permissions['admin contributors content'] = array(
+    'name' => 'admin contributors content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'curator',
+    ),
+    'module' => 'mediacommons_ui',
   );
 
   // Exported permission: administer actions.
@@ -145,8 +201,19 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'administer comments',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
     ),
     'module' => 'comment',
+  );
+
+  // Exported permission: administer consumers.
+  $permissions['administer consumers'] = array(
+    'name' => 'administer consumers',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'oauth_common',
   );
 
   // Exported permission: administer content types.
@@ -194,6 +261,15 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'filter',
   );
 
+  // Exported permission: administer gravatar.
+  $permissions['administer gravatar'] = array(
+    'name' => 'administer gravatar',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'gravatar',
+  );
+
   // Exported permission: administer image styles.
   $permissions['administer image styles'] = array(
     'name' => 'administer image styles',
@@ -201,6 +277,33 @@ function mediacommons_feature_user_default_permissions() {
       0 => 'administrator',
     ),
     'module' => 'image',
+  );
+
+  // Exported permission: administer imce.
+  $permissions['administer imce'] = array(
+    'name' => 'administer imce',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'imce',
+  );
+
+  // Exported permission: administer languages.
+  $permissions['administer languages'] = array(
+    'name' => 'administer languages',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'locale',
+  );
+
+  // Exported permission: administer mediacommons.
+  $permissions['administer mediacommons'] = array(
+    'name' => 'administer mediacommons',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'mediacommons_image_extended',
   );
 
   // Exported permission: administer menu.
@@ -226,8 +329,27 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'administer nodes',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: administer oauth.
+  $permissions['administer oauth'] = array(
+    'name' => 'administer oauth',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'oauth_common',
+  );
+
+  // Exported permission: administer pathauto.
+  $permissions['administer pathauto'] = array(
+    'name' => 'administer pathauto',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'pathauto',
   );
 
   // Exported permission: administer permissions.
@@ -237,6 +359,24 @@ function mediacommons_feature_user_default_permissions() {
       0 => 'administrator',
     ),
     'module' => 'user',
+  );
+
+  // Exported permission: administer profile types.
+  $permissions['administer profile types'] = array(
+    'name' => 'administer profile types',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'profile2',
+  );
+
+  // Exported permission: administer profiles.
+  $permissions['administer profiles'] = array(
+    'name' => 'administer profiles',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'profile2',
   );
 
   // Exported permission: administer realname.
@@ -298,6 +438,7 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'administer taxonomy',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
     ),
     'module' => 'taxonomy',
   );
@@ -327,6 +468,15 @@ function mediacommons_feature_user_default_permissions() {
       0 => 'administrator',
     ),
     'module' => 'user',
+  );
+
+  // Exported permission: administer video styles.
+  $permissions['administer video styles'] = array(
+    'name' => 'administer video styles',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'video_embed_field',
   );
 
   // Exported permission: administer views.
@@ -383,25 +533,28 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'user',
   );
 
-  // Exported permission: create article content.
-  $permissions['create article content'] = array(
-    'name' => 'create article content',
+  // Exported permission: contribute content.
+  $permissions['contribute content'] = array(
+    'name' => 'contribute content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'authenticated user',
+      2 => 'curator',
+      3 => 'managing editor',
     ),
-    'module' => 'node',
+    'module' => 'mediacommons_ui',
   );
 
-  // Exported permission: create cluster content.
-  $permissions['create cluster content'] = array(
-    'name' => 'create cluster content',
+  // Exported permission: contribute content hub.
+  $permissions['contribute content hub'] = array(
+    'name' => 'contribute content hub',
     'roles' => array(),
-    'module' => 'node',
+    'module' => 'mediacommons_ui',
   );
 
-  // Exported permission: create contributed_piece content.
-  $permissions['create contributed_piece content'] = array(
-    'name' => 'create contributed_piece content',
+  // Exported permission: create hub content.
+  $permissions['create hub content'] = array(
+    'name' => 'create hub content',
     'roles' => array(),
     'module' => 'node',
   );
@@ -412,6 +565,13 @@ function mediacommons_feature_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
     ),
+    'module' => 'node',
+  );
+
+  // Exported permission: create spoke content.
+  $permissions['create spoke content'] = array(
+    'name' => 'create spoke content',
+    'roles' => array(),
     'module' => 'node',
   );
 
@@ -433,25 +593,9 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'shortcut',
   );
 
-  // Exported permission: delete any article content.
-  $permissions['delete any article content'] = array(
-    'name' => 'delete any article content',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: delete any cluster content.
-  $permissions['delete any cluster content'] = array(
-    'name' => 'delete any cluster content',
-    'roles' => array(),
-    'module' => 'node',
-  );
-
-  // Exported permission: delete any contributed_piece content.
-  $permissions['delete any contributed_piece content'] = array(
-    'name' => 'delete any contributed_piece content',
+  // Exported permission: delete any hub content.
+  $permissions['delete any hub content'] = array(
+    'name' => 'delete any hub content',
     'roles' => array(),
     'module' => 'node',
   );
@@ -465,25 +609,16 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own article content.
-  $permissions['delete own article content'] = array(
-    'name' => 'delete own article content',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: delete own cluster content.
-  $permissions['delete own cluster content'] = array(
-    'name' => 'delete own cluster content',
+  // Exported permission: delete any spoke content.
+  $permissions['delete any spoke content'] = array(
+    'name' => 'delete any spoke content',
     'roles' => array(),
     'module' => 'node',
   );
 
-  // Exported permission: delete own contributed_piece content.
-  $permissions['delete own contributed_piece content'] = array(
-    'name' => 'delete own contributed_piece content',
+  // Exported permission: delete own hub content.
+  $permissions['delete own hub content'] = array(
+    'name' => 'delete own hub content',
     'roles' => array(),
     'module' => 'node',
   );
@@ -494,6 +629,13 @@ function mediacommons_feature_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
     ),
+    'module' => 'node',
+  );
+
+  // Exported permission: delete own spoke content.
+  $permissions['delete own spoke content'] = array(
+    'name' => 'delete own spoke content',
+    'roles' => array(),
     'module' => 'node',
   );
 
@@ -515,27 +657,30 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'taxonomy',
   );
 
-  // Exported permission: edit any article content.
-  $permissions['edit any article content'] = array(
-    'name' => 'edit any article content',
+  // Exported permission: disable own gravatar.
+  $permissions['disable own gravatar'] = array(
+    'name' => 'disable own gravatar',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'gravatar',
+  );
+
+  // Exported permission: edit any hub content.
+  $permissions['edit any hub content'] = array(
+    'name' => 'edit any hub content',
+    'roles' => array(),
+    'module' => 'node',
+  );
+
+  // Exported permission: edit any main profile.
+  $permissions['edit any main profile'] = array(
+    'name' => 'edit any main profile',
     'roles' => array(
       0 => 'administrator',
     ),
-    'module' => 'node',
-  );
-
-  // Exported permission: edit any cluster content.
-  $permissions['edit any cluster content'] = array(
-    'name' => 'edit any cluster content',
-    'roles' => array(),
-    'module' => 'node',
-  );
-
-  // Exported permission: edit any contributed_piece content.
-  $permissions['edit any contributed_piece content'] = array(
-    'name' => 'edit any contributed_piece content',
-    'roles' => array(),
-    'module' => 'node',
+    'module' => 'profile2',
   );
 
   // Exported permission: edit any page content.
@@ -547,18 +692,9 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit own article content.
-  $permissions['edit own article content'] = array(
-    'name' => 'edit own article content',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: edit own cluster content.
-  $permissions['edit own cluster content'] = array(
-    'name' => 'edit own cluster content',
+  // Exported permission: edit any spoke content.
+  $permissions['edit any spoke content'] = array(
+    'name' => 'edit any spoke content',
     'roles' => array(),
     'module' => 'node',
   );
@@ -568,15 +704,26 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'edit own comments',
     'roles' => array(
       0 => 'administrator',
+      1 => 'managing editor',
     ),
     'module' => 'comment',
   );
 
-  // Exported permission: edit own contributed_piece content.
-  $permissions['edit own contributed_piece content'] = array(
-    'name' => 'edit own contributed_piece content',
+  // Exported permission: edit own hub content.
+  $permissions['edit own hub content'] = array(
+    'name' => 'edit own hub content',
     'roles' => array(),
     'module' => 'node',
+  );
+
+  // Exported permission: edit own main profile.
+  $permissions['edit own main profile'] = array(
+    'name' => 'edit own main profile',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'profile2',
   );
 
   // Exported permission: edit own page content.
@@ -588,11 +735,19 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit own spoke content.
+  $permissions['edit own spoke content'] = array(
+    'name' => 'edit own spoke content',
+    'roles' => array(),
+    'module' => 'node',
+  );
+
   // Exported permission: edit terms in 1.
   $permissions['edit terms in 1'] = array(
     'name' => 'edit terms in 1',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
     ),
     'module' => 'taxonomy',
   );
@@ -606,6 +761,33 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'features',
   );
 
+  // Exported permission: notify of path changes.
+  $permissions['notify of path changes'] = array(
+    'name' => 'notify of path changes',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'pathauto',
+  );
+
+  // Exported permission: oauth authorize any consumers.
+  $permissions['oauth authorize any consumers'] = array(
+    'name' => 'oauth authorize any consumers',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'oauth_common',
+  );
+
+  // Exported permission: oauth register any consumers.
+  $permissions['oauth register any consumers'] = array(
+    'name' => 'oauth register any consumers',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'oauth_common',
+  );
+
   // Exported permission: post comments.
   $permissions['post comments'] = array(
     'name' => 'post comments',
@@ -616,11 +798,20 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'comment',
   );
 
+  // Exported permission: promote hub content.
+  $permissions['promote hub content'] = array(
+    'name' => 'promote hub content',
+    'roles' => array(),
+    'module' => 'mediacommons_ui',
+  );
+
   // Exported permission: revert revisions.
   $permissions['revert revisions'] = array(
     'name' => 'revert revisions',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -643,6 +834,20 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'user',
   );
 
+  // Exported permission: set current hub.
+  $permissions['set current hub'] = array(
+    'name' => 'set current hub',
+    'roles' => array(),
+    'module' => 'mediacommons_ui',
+  );
+
+  // Exported permission: set upcoming hub.
+  $permissions['set upcoming hub'] = array(
+    'name' => 'set upcoming hub',
+    'roles' => array(),
+    'module' => 'mediacommons_ui',
+  );
+
   // Exported permission: skip comment approval.
   $permissions['skip comment approval'] = array(
     'name' => 'skip comment approval',
@@ -662,6 +867,24 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'shortcut',
   );
 
+  // Exported permission: translate content.
+  $permissions['translate content'] = array(
+    'name' => 'translate content',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'translation',
+  );
+
+  // Exported permission: translate interface.
+  $permissions['translate interface'] = array(
+    'name' => 'translate interface',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'locale',
+  );
+
   // Exported permission: use advanced search.
   $permissions['use advanced search'] = array(
     'name' => 'use advanced search',
@@ -671,6 +894,16 @@ function mediacommons_feature_user_default_permissions() {
     'module' => 'search',
   );
 
+  // Exported permission: use gravatar.
+  $permissions['use gravatar'] = array(
+    'name' => 'use gravatar',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'gravatar',
+  );
+
   // Exported permission: use text format filtered_html.
   $permissions['use text format filtered_html'] = array(
     'name' => 'use text format filtered_html',
@@ -678,17 +911,56 @@ function mediacommons_feature_user_default_permissions() {
       0 => 'administrator',
       1 => 'anonymous user',
       2 => 'authenticated user',
+      3 => 'curator',
+      4 => 'managing editor',
     ),
     'module' => 'filter',
   );
 
-  // Exported permission: use text format full_html.
-  $permissions['use text format full_html'] = array(
-    'name' => 'use text format full_html',
+  // Exported permission: view advanced help index.
+  $permissions['view advanced help index'] = array(
+    'name' => 'view advanced help index',
     'roles' => array(
       0 => 'administrator',
     ),
-    'module' => 'filter',
+    'module' => 'advanced_help',
+  );
+
+  // Exported permission: view advanced help popup.
+  $permissions['view advanced help popup'] = array(
+    'name' => 'view advanced help popup',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'advanced_help',
+  );
+
+  // Exported permission: view advanced help topic.
+  $permissions['view advanced help topic'] = array(
+    'name' => 'view advanced help topic',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'advanced_help',
+  );
+
+  // Exported permission: view any main profile.
+  $permissions['view any main profile'] = array(
+    'name' => 'view any main profile',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'profile2',
+  );
+
+  // Exported permission: view own main profile.
+  $permissions['view own main profile'] = array(
+    'name' => 'view own main profile',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'profile2',
   );
 
   // Exported permission: view own unpublished content.
@@ -696,6 +968,8 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'view own unpublished content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -705,6 +979,8 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'view revisions',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -714,6 +990,8 @@ function mediacommons_feature_user_default_permissions() {
     'name' => 'view the administration theme',
     'roles' => array(
       0 => 'administrator',
+      1 => 'curator',
+      2 => 'managing editor',
     ),
     'module' => 'system',
   );

@@ -13,15 +13,16 @@ function mediacommons_feature_apachesolr_environments() {
   $environment = new stdClass();
   $environment->api_version = 1;
   $environment->env_id = 'solr';
-  $environment->name = 'localhost server';
-  $environment->url = 'http://localhost:8983/solr';
+  $environment->name = 'Dev Discovery';
+  $environment->url = 'http://dev-discovery.dlib.nyu.edu:8080/solr3_discovery/core0';
   $environment->service_class = '';
-  $environment->conf = array();
+  $environment->conf = array(
+    'apachesolr_read_only' => '0',
+  );
   $environment->index_bundles = array(
     'node' => array(
-      0 => 'article',
-      1 => 'cluster',
-      2 => 'page',
+      0 => 'hub',
+      1 => 'page',
     ),
   );
   $export['solr'] = $environment;
