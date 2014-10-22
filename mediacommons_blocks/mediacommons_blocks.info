@@ -1,0 +1,7 @@
+name = MediaCommons Blocks
+description = Define MediaCommons default blocks.
+core = 7.x
+dependencies[] = block
+package = MediaCommons
+
+;stylesheets[all][] = mediacommons_block.css

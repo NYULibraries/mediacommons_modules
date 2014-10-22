@@ -1,21 +1,21 @@
 <?php
 /**
  * @file
- * mediacommons_feature.features.taxonomy.inc
+ * mediacommons_content_types.features.taxonomy.inc
  */
 
 /**
  * Implements hook_taxonomy_default_vocabularies().
  */
-function mediacommons_feature_taxonomy_default_vocabularies() {
+function mediacommons_content_types_taxonomy_default_vocabularies() {
   return array(
     'tags' => array(
       'name' => 'Tags',
       'machine_name' => 'tags',
       'description' => 'Use tags to group articles on similar topics into categories.',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',

@@ -1,0 +1,110 @@
+<?php
+/**
+ * @file
+ * Module file for mediacommons_block.
+ */
+ 
+/**
+ * Implements hook_menu_default_menu_custom().
+ */
+function mediacommons_blocks_menu_default_menu_custom() {
+
+  $menus = array();
+
+  // Exported menu: menu-mcglobalnav.
+  $menus['menu-mcglobalnav'] = array(
+    'menu_name' => 'menu-mcglobalnav',
+    'title' => 'MediaCommons Global Navigation',
+    'description' => 'Global nav - Menu for navigating among projects ',
+  );
+  
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Global nav - Menu for navigating among projects ');
+  t('MediaCommons Global Navigation');
+
+
+  return $menus;
+}
+ 
+ 
+/**
+ * Implements hook_block_info().
+ *
+ * This hook declares what blocks are provided by the module.
+ */
+function mediacommons_blocks_block_info() {
+
+  $blocks['mc_footer'] = array(
+    'info' => t('MediaCommons default footer'),
+  );
+
+  return $blocks;
+
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function mediacommons_blocks_block_view($delta = '') {
+
+  //The $delta parameter tells us which block is being requested.
+  switch ($delta) {
+
+    case 'mc_footer' :
+      $block['subject'] = t('Columbia University Search form widget');
+      $block['content'] = mediacommons_blocks_contents($delta);
+
+      break;
+
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_block_configure().
+ *
+ * This hook declares configuration options for blocks provided by this module.
+ */
+function mediacommons_blocks_block_configure($delta = '') {
+
+  $form = array();
+
+  if ($delta == 'mc_footer') {
+
+    $form['mc_footer_project_name'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Project name'),
+      '#size' => 20,
+      '#description' => t('Add the name of the project here.'),
+      '#default_value' => variable_get('mc_footer_project_name',  t('A MediaCommons Project')),
+    );
+  }
+  
+  return $form;
+
+}
+
+/**
+ * A module-defined block content function.
+ */
+function mediacommons_blocks_contents($which_block) {
+ 
+  switch ($which_block) {
+
+    case 'mc_footer':
+
+      $block_content = '
+        <div>' . variable_get('mc_footer_project_name',  t('A MediaCommons Project')) . '</div>
+        <div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>
+      ';
+
+      return array('#markup' => $block_content);
+
+      break;
+
+  }
+}

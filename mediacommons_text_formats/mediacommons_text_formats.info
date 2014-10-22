@@ -1,0 +1,14 @@
+name = MediaCommons Text formats
+description = MediaCommons Text formats
+core = 7.x
+package = Features
+version = 7.x-1.0-beta1
+project = mediacommons_text_formats
+dependencies[] = ds_format
+dependencies[] = features
+dependencies[] = filter
+features[features_api][] = api:2
+features[filter][] = ds_code
+features[filter][] = filtered_html
+features[filter][] = full_html
+features[filter][] = plain_text
