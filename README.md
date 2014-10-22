@@ -1,2 +1,2 @@
-mediacommons_feature
+MediaCommons project default modules and features
 ====================
