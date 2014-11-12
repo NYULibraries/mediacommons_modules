@@ -12,7 +12,6 @@ dependencies[] = imagefield_crop
 dependencies[] = link
 dependencies[] = list
 dependencies[] = mediacommons_editorialworkflow
-dependencies[] = mediacommons_roles_and_permissions
 dependencies[] = mediacommons_text_formats
 dependencies[] = node_reference
 dependencies[] = options

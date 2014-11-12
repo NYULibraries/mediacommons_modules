@@ -23,6 +23,7 @@ dependencies[] = system
 dependencies[] = taxonomy
 dependencies[] = toolbar
 dependencies[] = user
+dependencies[] = mediacommons_content_types
 features[features_api][] = api:2
 features[user_permission][] = access administration pages
 features[user_permission][] = access comments
