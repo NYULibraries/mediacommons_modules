@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the MC front page post setup feature.
- */
-
-include_once 'mc_front_page_post_setup.features.inc';
