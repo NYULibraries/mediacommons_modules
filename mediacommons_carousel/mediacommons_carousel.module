@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the MC carousel feature.
+ */
+
+include_once 'mediacommons_carousel.features.inc';
