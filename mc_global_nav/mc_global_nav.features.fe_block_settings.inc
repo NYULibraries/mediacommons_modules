@@ -28,8 +28,8 @@ function mc_global_nav_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'globalnav',
+        'status' => 1,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
