@@ -21,7 +21,6 @@ dependencies[] = search
 dependencies[] = shortcut
 dependencies[] = system
 dependencies[] = taxonomy
-dependencies[] = toolbar
 dependencies[] = user
 dependencies[] = mediacommons_content_types
 features[features_api][] = api:2
