@@ -154,7 +154,14 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 6,
+        'weight' => 2,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
       ),
       'homepage_featured_articles' => array(
         'label' => 'hidden',
@@ -168,7 +175,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 15,
+        'weight' => 9,
       ),
     ),
     'entity_type' => 'node',
@@ -206,7 +213,7 @@ function mediacommons_content_types_field_default_field_instances() {
           'image_style' => '',
         ),
         'type' => 'image',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -278,7 +285,13 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 12,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
       ),
       'homepage_featured_articles' => array(
         'label' => 'hidden',
@@ -294,7 +307,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 10,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -327,6 +340,56 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'type' => 'imagefield_crop_widget',
       'weight' => 34,
+    ),
+  );
+
+  // Exported field_instance: 'node-front_page_post-field_project'
+  $field_instances['node-front_page_post-field_project'] = array(
+    'bundle' => 'front_page_post',
+    'default_value' => array(
+      0 => array(
+        'value' => 'MediaCommons',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 8,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'field_project',
+    'label' => 'Project',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 35,
     ),
   );
 
@@ -1043,6 +1106,7 @@ function mediacommons_content_types_field_default_field_instances() {
   t('Embed');
   t('Featured Image Thumb');
   t('Part of hub');
+  t('Project');
   t('Publication Status');
   t('Representative Image');
   t('Spokes');
