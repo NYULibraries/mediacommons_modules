@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the MediaCommons DS settings feature.
+ */
+
+include_once 'mediacommons_ds_settings.features.inc';

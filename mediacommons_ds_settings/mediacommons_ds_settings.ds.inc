@@ -1,0 +1,167 @@
+<?php
+/**
+ * @file
+ * mediacommons_ds_settings.ds.inc
+ */
+
+/**
+ * Implements hook_ds_layout_settings_info().
+ */
+function mediacommons_ds_settings_ds_layout_settings_info() {
+  $export = array();
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|hub|default';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'hub';
+  $ds_layout->view_mode = 'default';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'field_period',
+        1 => 'title',
+        2 => 'field_curators_editors',
+        3 => 'field_co_editor',
+        4 => 'field_body',
+        5 => 'field_spokes',
+        6 => 'field_contributors',
+      ),
+    ),
+    'fields' => array(
+      'field_period' => 'ds_content',
+      'title' => 'ds_content',
+      'field_curators_editors' => 'ds_content',
+      'field_co_editor' => 'ds_content',
+      'field_body' => 'ds_content',
+      'field_spokes' => 'ds_content',
+      'field_contributors' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|hub|default'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|hub|teaser';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'hub';
+  $ds_layout->view_mode = 'teaser';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'title',
+        1 => 'field_period',
+        2 => 'field_curators_editors',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'ds_content',
+      'field_period' => 'ds_content',
+      'field_curators_editors' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|hub|teaser'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|spoke|default';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'spoke';
+  $ds_layout->view_mode = 'default';
+  $ds_layout->layout = 'ds_2col_stacked';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'header' => array(
+        0 => 'post_date',
+        1 => 'title',
+        2 => 'author',
+      ),
+      'left' => array(
+        3 => 'field_embed',
+        4 => 'field_body',
+        5 => 'field_contributors',
+        6 => 'field_taxonomy',
+      ),
+      'right' => array(
+        7 => 'comments',
+      ),
+    ),
+    'fields' => array(
+      'post_date' => 'header',
+      'title' => 'header',
+      'author' => 'header',
+      'field_embed' => 'left',
+      'field_body' => 'left',
+      'field_contributors' => 'left',
+      'field_taxonomy' => 'left',
+      'comments' => 'right',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'header' => 'div',
+      'left' => 'div',
+      'right' => 'div',
+      'footer' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|spoke|default'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|spoke|teaser';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'spoke';
+  $ds_layout->view_mode = 'teaser';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'title',
+        1 => 'post_date',
+        2 => 'author',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'ds_content',
+      'post_date' => 'ds_content',
+      'author' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|spoke|teaser'] = $ds_layout;
+
+  return $export;
+}
