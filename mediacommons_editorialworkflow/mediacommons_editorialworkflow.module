@@ -453,7 +453,9 @@ function mediacommons_editorialworkflow_node_presave($node) {
 
   // Inserting a new node @TODO: test work, add validation
   if ($node->type == 'spoke') {	
-    if (!$node->nid) {
+  
+  
+    if ( !isset( $node->nid ) ) { // aof December 4, 2014
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
         foreach($node->field_contributors[$node->language] as $struct) {
