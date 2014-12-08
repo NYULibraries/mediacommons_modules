@@ -40,13 +40,34 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
         'link' => '1',
-        'wrapper' => 'h2',
-        'class' => '',
+        'wrapper' => 'h3',
+        'class' => 'hub-title',
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+        ),
+      ),
+    ),
+    'field_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+        ),
+      ),
+    ),
+    'field_contributors' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_minimal',
+        ),
+      ),
+    ),
+    'field_curators_editors' => array(
+      'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_minimal',
         ),
@@ -56,6 +77,13 @@ function mediacommons_content_types_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_minimal',
+        ),
+      ),
+    ),
+    'field_representative_image' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
         ),
       ),
     ),
@@ -69,8 +97,18 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'author_metadata_for_spoke' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_minimal',
+        ),
+      ),
+    ),
     'hub_navigation' => array(
-      'weight' => '8',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -86,35 +124,36 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'title' => array(
-      'weight' => '1',
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
         'link' => '0',
-        'wrapper' => 'h2',
+        'wrapper' => 'h1',
         'class' => '',
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+        ),
       ),
     ),
     'comments' => array(
-      'weight' => '7',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'author' => array(
-      'weight' => '2',
-      'label' => 'hidden',
-      'format' => 'author',
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
-    ),
     'post_date' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'ds_post_date_long',
       'formatter_settings' => array(
         'ft' => array(),
+      ),
+    ),
+    'field_contributors' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_minimal',
+        ),
       ),
     ),
   );
