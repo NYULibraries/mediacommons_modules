@@ -5,6 +5,30 @@
  */
 
 /**
+ * Implements hook_ds_custom_fields_info().
+ */
+function mediacommons_ds_settings_ds_custom_fields_info() {
+  $export = array();
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'hub_navigation';
+  $ds_field->label = 'Hub Navigation';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'node' => 'node',
+  );
+  $ds_field->ui_limit = 'spoke|default';
+  $ds_field->properties = array(
+    'block' => 'views|82d8a75bde4ff36a1c89b3fb77664e68',
+    'block_render' => '3',
+  );
+  $export['hub_navigation'] = $ds_field;
+
+  return $export;
+}
+
+/**
  * Implements hook_ds_layout_settings_info().
  */
 function mediacommons_ds_settings_ds_layout_settings_info() {
@@ -101,9 +125,10 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
         4 => 'field_body',
         5 => 'field_contributors',
         6 => 'field_taxonomy',
+        7 => 'comments',
       ),
       'right' => array(
-        7 => 'comments',
+        8 => 'hub_navigation',
       ),
     ),
     'fields' => array(
@@ -114,7 +139,8 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'field_body' => 'left',
       'field_contributors' => 'left',
       'field_taxonomy' => 'left',
-      'comments' => 'right',
+      'comments' => 'left',
+      'hub_navigation' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
