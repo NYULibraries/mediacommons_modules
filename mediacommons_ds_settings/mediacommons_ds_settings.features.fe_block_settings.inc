@@ -31,7 +31,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => -1,
+        'weight' => 0,
       ),
       'rubik' => array(
         'region' => '',
@@ -92,10 +92,10 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'homepage_bottom',
+        'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 1,
+        'weight' => 0,
       ),
       'rubik' => array(
         'region' => '',
@@ -127,7 +127,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => 'homepage_top',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => -13,
+        'weight' => 0,
       ),
       'rubik' => array(
         'region' => '',
@@ -159,7 +159,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 2,
+        'weight' => 0,
       ),
       'rubik' => array(
         'region' => '',

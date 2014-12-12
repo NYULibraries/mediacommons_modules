@@ -192,23 +192,23 @@ function mediacommons_ds_settings_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'account' => array(
-          'weight' => '-10',
+          'weight' => '0',
         ),
         'timezone' => array(
-          'weight' => '6',
+          'weight' => '3',
         ),
         'picture' => array(
-          'weight' => '5',
+          'weight' => '2',
         ),
       ),
       'display' => array(
         'summary' => array(
           'default' => array(
-            'weight' => '2',
+            'weight' => '10',
             'visible' => FALSE,
           ),
           'full' => array(
-            'weight' => '5',
+            'weight' => '8',
             'visible' => TRUE,
           ),
           'user_teaser' => array(
