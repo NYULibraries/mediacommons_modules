@@ -31,7 +31,7 @@ function mediacommons_carousel_default_fe_block_settings() {
         'region' => 'homepage_top',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -14,
       ),
       'rubik' => array(
         'region' => '',

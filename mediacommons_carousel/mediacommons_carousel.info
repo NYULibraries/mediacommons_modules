@@ -36,4 +36,4 @@ features[user_permission][] = administer flexslider
 features[variable][] = ds_extras_field_permissions
 features[variable][] = field_bundle_settings_node__front_page_post
 features[views_view][] = homepage_carousel
-mtime = 1417631675
+mtime = 1417800996
