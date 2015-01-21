@@ -31,7 +31,7 @@ function mc_global_nav_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/',
   );
-  // Exported menu link: menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/
+  // Exported menu link: menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons
   $menu_links['menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/'] = array(
     'menu_name' => 'menu-mcglobalnav',
     'link_path' => 'http://devmc.dlib.nyu.edu/7/mediacommons/',

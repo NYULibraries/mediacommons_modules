@@ -3,3 +3,6 @@
  * @file
  * mc_global_nav.module
  */
+
+include_once('mc_global_nav.features.inc');
+?>

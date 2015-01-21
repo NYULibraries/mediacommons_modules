@@ -3,31 +3,7 @@
  * @file
  * Module file for mediacommons_block.
  */
- 
-/**
- * Implements hook_menu_default_menu_custom().
- */
-function mediacommons_blocks_menu_default_menu_custom() {
 
-  $menus = array();
-
-  // Exported menu: menu-mcglobalnav.
-  $menus['menu-mcglobalnav'] = array(
-    'menu_name' => 'menu-mcglobalnav',
-    'title' => 'MediaCommons Global Navigation',
-    'description' => 'Global nav - Menu for navigating among projects ',
-  );
-  
-  // Translatables
-  // Included for use with string extractors like potx.
-  t('Global nav - Menu for navigating among projects ');
-  t('MediaCommons Global Navigation');
-
-
-  return $menus;
-}
- 
- 
 /**
  * Implements hook_block_info().
  *
@@ -54,7 +30,7 @@ function mediacommons_blocks_block_view($delta = '') {
   switch ($delta) {
 
     case 'mc_footer' :
-      $block['subject'] = t('Columbia University Search form widget');
+      $block['subject'] = t('MediaCommons default footer');
       $block['content'] = mediacommons_blocks_contents($delta);
 
       break;
@@ -83,7 +59,7 @@ function mediacommons_blocks_block_configure($delta = '') {
       '#default_value' => variable_get('mc_footer_project_name',  t('A MediaCommons Project')),
     );
   }
-  
+
   return $form;
 
 }
@@ -92,7 +68,7 @@ function mediacommons_blocks_block_configure($delta = '') {
  * A module-defined block content function.
  */
 function mediacommons_blocks_contents($which_block) {
- 
+
   switch ($which_block) {
 
     case 'mc_footer':
