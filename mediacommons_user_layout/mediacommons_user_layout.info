@@ -1,7 +1,7 @@
 name = MediaCommons User Layout
 core = 7.x
 package = Features
-version = 7.x-1.0-beta1
+version = 7.x-1.0-beta2
 project = mediacommons_user_layout
 dependencies[] = ctools
 dependencies[] = ds
@@ -13,6 +13,6 @@ dependencies[] = realname
 features[ctools][] = ds:ds:1
 features[ctools][] = field_group:field_group:1
 features[ds_layout_settings][] = user|user|full
+features[ds_layout_settings][] = user|user|user_teaser
 features[features_api][] = api:2
-features[field_group][] = group_contactinfo|user|user|full
-mtime = 1418426821
+mtime = 1421777716
