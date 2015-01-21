@@ -86,11 +86,11 @@ function mediacommons_ds_settings_views_default_views() {
   $export['all_spokes_in_this_spokes_hub'] = $view;
 
   $view = new view();
-  $view->name = 'author_metadata_for_spoke';
+  $view->name = 'author_byline_for_spoke';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'Author metadata for spoke';
+  $view->human_name = 'Author byline for spoke';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -112,18 +112,31 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['relationships']['uid']['required'] = TRUE;
-  /* Field: User: Rendered User */
-  $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
-  $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_user';
-  $handler->display->display_options['fields']['rendered_entity']['field'] = 'rendered_entity';
-  $handler->display->display_options['fields']['rendered_entity']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['rendered_entity']['label'] = '';
-  $handler->display->display_options['fields']['rendered_entity']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['rendered_entity']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['rendered_entity']['link_to_entity'] = 1;
-  $handler->display->display_options['fields']['rendered_entity']['display'] = 'view';
-  $handler->display->display_options['fields']['rendered_entity']['view_mode'] = 'user_teaser';
-  $handler->display->display_options['fields']['rendered_entity']['bypass_access'] = 0;
+  /* Field: User: Picture */
+  $handler->display->display_options['fields']['picture']['id'] = 'picture';
+  $handler->display->display_options['fields']['picture']['table'] = 'users';
+  $handler->display->display_options['fields']['picture']['field'] = 'picture';
+  $handler->display->display_options['fields']['picture']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['picture']['label'] = '';
+  $handler->display->display_options['fields']['picture']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['picture']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['picture']['image_style'] = 'profile_pic_small';
+  /* Field: Realname: Real name */
+  $handler->display->display_options['fields']['realname']['id'] = 'realname';
+  $handler->display->display_options['fields']['realname']['table'] = 'realname';
+  $handler->display->display_options['fields']['realname']['field'] = 'realname';
+  $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['realname']['label'] = 'By';
+  $handler->display->display_options['fields']['realname']['element_label_type'] = 'span';
+  $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['realname']['element_default_classes'] = FALSE;
+  /* Field: User: Organization */
+  $handler->display->display_options['fields']['field_organization']['id'] = 'field_organization';
+  $handler->display->display_options['fields']['field_organization']['table'] = 'field_data_field_organization';
+  $handler->display->display_options['fields']['field_organization']['field'] = 'field_organization';
+  $handler->display->display_options['fields']['field_organization']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['field_organization']['label'] = '';
+  $handler->display->display_options['fields']['field_organization']['element_label_colon'] = FALSE;
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
@@ -143,7 +156,17 @@ function mediacommons_ds_settings_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
-  $export['author_metadata_for_spoke'] = $view;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $export['author_byline_for_spoke'] = $view;
 
   $view = new view();
   $view->name = 'list_of_all_hubs';

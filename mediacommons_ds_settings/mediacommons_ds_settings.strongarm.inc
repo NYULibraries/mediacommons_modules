@@ -195,21 +195,21 @@ function mediacommons_ds_settings_strongarm() {
           'weight' => '0',
         ),
         'timezone' => array(
-          'weight' => '3',
+          'weight' => '5',
         ),
         'picture' => array(
-          'weight' => '2',
+          'weight' => '4',
         ),
       ),
       'display' => array(
         'summary' => array(
           'default' => array(
-            'weight' => '10',
+            'weight' => '16',
             'visible' => FALSE,
           ),
           'full' => array(
-            'weight' => '8',
-            'visible' => TRUE,
+            'weight' => '14',
+            'visible' => FALSE,
           ),
           'user_teaser' => array(
             'weight' => '3',
@@ -278,7 +278,7 @@ function mediacommons_ds_settings_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_picture_style';
-  $strongarm->value = 'thumbnail';
+  $strongarm->value = 'profile_page_pic';
   $export['user_picture_style'] = $strongarm;
 
   return $export;

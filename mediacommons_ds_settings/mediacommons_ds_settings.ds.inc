@@ -12,23 +12,6 @@ function mediacommons_ds_settings_ds_custom_fields_info() {
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
-  $ds_field->field = 'author_metadata_for_spoke';
-  $ds_field->label = 'Author Metadata For Spoke';
-  $ds_field->field_type = 6;
-  $ds_field->entities = array(
-    'node' => 'node',
-    'user' => 'user',
-  );
-  $ds_field->ui_limit = 'spoke|default
-spoke|full';
-  $ds_field->properties = array(
-    'block' => 'views|author_metadata_for_spoke-block',
-    'block_render' => '3',
-  );
-  $export['author_metadata_for_spoke'] = $ds_field;
-
-  $ds_field = new stdClass();
-  $ds_field->api_version = 1;
   $ds_field->field = 'hub_navigation';
   $ds_field->label = 'Hub Navigation';
   $ds_field->field_type = 6;
@@ -225,13 +208,13 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'header' => array(
         0 => 'post_date',
         1 => 'title',
-        2 => 'author_metadata_for_spoke',
+        2 => 'author_byline',
+        6 => 'field_contributors',
       ),
       'left' => array(
         3 => 'field_embed',
         4 => 'field_attached_images',
         5 => 'field_body',
-        6 => 'field_contributors',
         7 => 'field_taxonomy',
         8 => 'comments',
       ),
@@ -242,11 +225,11 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'fields' => array(
       'post_date' => 'header',
       'title' => 'header',
-      'author_metadata_for_spoke' => 'header',
+      'author_byline' => 'header',
       'field_embed' => 'left',
       'field_attached_images' => 'left',
       'field_body' => 'left',
-      'field_contributors' => 'left',
+      'field_contributors' => 'header',
       'field_taxonomy' => 'left',
       'comments' => 'left',
       'hub_navigation' => 'right',
