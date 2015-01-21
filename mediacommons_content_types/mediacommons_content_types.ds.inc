@@ -191,8 +191,8 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'author_metadata_for_spoke' => array(
-      'weight' => '2',
+    'author_byline' => array(
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),
