@@ -25,6 +25,11 @@ function mediacommons_user_setup_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'field_organization' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['user|user|full'] = $ds_fieldsetting;
 

@@ -360,7 +360,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'weight' => 2,
       ),
     ),
-    'ds_extras_field_template' => 'theme_ds_field_minimal',
+    'ds_extras_field_template' => '',
     'entity_type' => 'user',
     'field_name' => 'field_organization',
     'label' => 'Organization',

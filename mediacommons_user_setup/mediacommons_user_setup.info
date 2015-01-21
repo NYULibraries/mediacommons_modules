@@ -1,7 +1,7 @@
 name = MediaCommons User Setup
 core = 7.x
 package = Features
-version = 7.x-1.0-beta3
+version = 7.x-1.0-beta4
 project = mediacommons_user_setup
 dependencies[] = ctools
 dependencies[] = ds
@@ -62,4 +62,4 @@ features[field_instance][] = user-user-field_twitter
 features[field_instance][] = user-user-field_url
 features[image][] = profile_page_pic
 features[image][] = profile_pic_small
-mtime = 1421777683
+mtime = 1421874061
