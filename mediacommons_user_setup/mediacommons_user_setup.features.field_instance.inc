@@ -75,7 +75,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 9,
+        'weight' => 7,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -258,7 +258,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 10,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -304,7 +304,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 9,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -351,7 +351,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -446,7 +446,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 10,
+        'weight' => 8,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -491,10 +491,9 @@ function mediacommons_user_setup_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 1,
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -517,7 +516,7 @@ function mediacommons_user_setup_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'size' => 60,
+        'size' => 40,
       ),
       'type' => 'text_textfield',
       'weight' => 1,
@@ -634,7 +633,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'user_teaser' => array(
         'label' => 'above',

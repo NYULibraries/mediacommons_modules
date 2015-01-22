@@ -15,4 +15,3 @@ features[ctools][] = field_group:field_group:1
 features[ds_layout_settings][] = user|user|full
 features[ds_layout_settings][] = user|user|user_teaser
 features[features_api][] = api:2
-mtime = 1421777716

@@ -17,15 +17,21 @@ function mediacommons_user_setup_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'user';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'name' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '0',
+        'wrapper' => 'h1',
+        'class' => 'p-name fn',
+        'ft' => array(),
+      ),
+    ),
     'ds_user_picture' => array(
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'ds_picture_profile_page_pic',
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
-    ),
-    'field_organization' => array(
       'formatter_settings' => array(
         'ft' => array(),
       ),

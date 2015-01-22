@@ -21,7 +21,7 @@ function mediacommons_user_setup_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Address',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'field_city',
       1 => 'field_country',
