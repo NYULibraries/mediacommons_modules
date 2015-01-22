@@ -159,27 +159,9 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'header' => array(
         0 => 'title',
       ),
-      'left' => array(
-        1 => 'field_embed',
-        2 => 'field_attached_images',
-        3 => 'field_body',
-        4 => 'field_contributors',
-        5 => 'field_taxonomy',
-        6 => 'comments',
-      ),
-      'right' => array(
-        7 => 'hub_navigation',
-      ),
     ),
     'fields' => array(
       'title' => 'header',
-      'field_embed' => 'left',
-      'field_attached_images' => 'left',
-      'field_body' => 'left',
-      'field_contributors' => 'left',
-      'field_taxonomy' => 'left',
-      'comments' => 'left',
-      'hub_navigation' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -208,11 +190,11 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'header' => array(
         0 => 'post_date',
         1 => 'title',
-        2 => 'author_byline',
+        3 => 'author_byline',
         6 => 'field_contributors',
       ),
       'left' => array(
-        3 => 'field_embed',
+        2 => 'field_embed',
         4 => 'field_attached_images',
         5 => 'field_body',
         7 => 'field_taxonomy',
@@ -225,8 +207,8 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'fields' => array(
       'post_date' => 'header',
       'title' => 'header',
-      'author_byline' => 'header',
       'field_embed' => 'left',
+      'author_byline' => 'header',
       'field_attached_images' => 'left',
       'field_body' => 'left',
       'field_contributors' => 'header',

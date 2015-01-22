@@ -140,22 +140,6 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
-    'hub_navigation' => array(
-      'weight' => '7',
-      'label' => 'hidden',
-      'format' => 'default',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'ow' => TRUE,
-          'ow-el' => 'aside',
-          'ow-cl' => '',
-          'ow-def-cl' => FALSE,
-          'ow-at' => 'role="complementary"',
-          'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
     'title' => array(
       'weight' => '0',
       'label' => 'hidden',
@@ -169,18 +153,6 @@ function mediacommons_content_types_ds_field_settings_info() {
         ),
       ),
     ),
-    'comments' => array(
-      'weight' => '6',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'field_contributors' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-        ),
-      ),
-    ),
   );
   $export['node|spoke|default'] = $ds_fieldsetting;
 
@@ -191,11 +163,6 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'author_byline' => array(
-      'weight' => '3',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'hub_navigation' => array(
       'weight' => '9',
       'label' => 'hidden',
@@ -212,6 +179,16 @@ function mediacommons_content_types_ds_field_settings_info() {
         ),
       ),
     ),
+    'author_byline' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_minimal',
+        ),
+      ),
+    ),
     'title' => array(
       'weight' => '1',
       'label' => 'hidden',
@@ -225,7 +202,10 @@ function mediacommons_content_types_ds_field_settings_info() {
     'post_date' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'ds_post_date_long',
+      'format' => 'ds_post_date_mediacommons_date_long',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
     ),
   );
   $export['node|spoke|full'] = $ds_fieldsetting;
@@ -251,17 +231,15 @@ function mediacommons_content_types_ds_field_settings_info() {
     'author' => array(
       'weight' => '3',
       'label' => 'hidden',
-      'format' => 'author',
+      'format' => 'author_linked',
       'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-        ),
+        'ft' => array(),
       ),
     ),
     'post_date' => array(
       'weight' => '2',
       'label' => 'hidden',
-      'format' => 'ds_post_date_long',
+      'format' => 'ds_post_date_mediacommons_date_long',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_minimal',
