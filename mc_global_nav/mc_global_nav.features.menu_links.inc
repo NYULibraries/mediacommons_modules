@@ -31,39 +31,6 @@ function mc_global_nav_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/redesign/mediacommons/',
   );
-  // Exported menu link: menu-mcglobalnav_edit-my-account:menutoken/54cbda6e25416
-  $menu_links['menu-mcglobalnav_edit-my-account:menutoken/54cbda6e25416'] = array(
-    'menu_name' => 'menu-mcglobalnav',
-    'link_path' => 'menutoken/54cbda6e25416',
-    'router_path' => 'menutoken/%',
-    'link_title' => 'Edit My Account',
-    'options' => array(
-      'menu_token_link_path' => '[current-user:edit-url]',
-      'menu_token_data' => array(
-        'user' => array(
-          'type' => 'user',
-          'plugin' => 'user_context',
-          'options' => array(),
-        ),
-      ),
-      'menu_token_options' => array(
-        'clear' => 0,
-      ),
-      'attributes' => array(
-        'title' => '',
-      ),
-      'alter' => TRUE,
-      'identifier' => 'menu-mcglobalnav_edit-my-account:menutoken/54cbda6e25416',
-    ),
-    'module' => 'menu',
-    'hidden' => 0,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => -49,
-    'customized' => 1,
-    'parent_identifier' => 'menu-mcglobalnav_my-account:user',
-  );
   // Exported menu link: menu-mcglobalnav_field-guide:http://devmc.dlib.nyu.edu/redesign/fieldguide
   $menu_links['menu-mcglobalnav_field-guide:http://devmc.dlib.nyu.edu/redesign/fieldguide'] = array(
     'menu_name' => 'menu-mcglobalnav',
@@ -254,7 +221,6 @@ function mc_global_nav_menu_default_menu_links() {
   // Translatables
   // Included for use with string extractors like potx.
   t('#Alt-Academy');
-  t('Edit My Account');
   t('Field Guide');
   t('In Media Res');
   t('Log in');
