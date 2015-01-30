@@ -16,7 +16,6 @@ features[menu_custom][] = menu-mcglobalnav
 features[menu_links][] = menu-mcglobalnav_alt-academy:http://devmc.dlib.nyu.edu/redesign/alt-ac/
 features[menu_links][] = menu-mcglobalnav_edit-my-account:menutoken/54cbda6e25416
 features[menu_links][] = menu-mcglobalnav_field-guide:http://devmc.dlib.nyu.edu/redesign/fieldguide
-features[menu_links][] = menu-mcglobalnav_front-page:<front>
 features[menu_links][] = menu-mcglobalnav_in-media-res:http://devmc.dlib.nyu.edu/redesign/imr/
 features[menu_links][] = menu-mcglobalnav_intransition:http://devmc.dlib.nyu.edu/redesign/in-transition/
 features[menu_links][] = menu-mcglobalnav_log-in:user/login
