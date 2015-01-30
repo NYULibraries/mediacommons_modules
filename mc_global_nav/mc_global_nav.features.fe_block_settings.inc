@@ -12,7 +12,6 @@ function mc_global_nav_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
-
   $export['menu-menu-mcglobalnav'] = array(
     'cache' => -1,
     'custom' => 0,
@@ -22,23 +21,28 @@ function mc_global_nav_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => 'globalnav',
         'status' => 1,
         'theme' => 'mediacommons',
         'weight' => 0,
-        ),
-
-      'rubik' => array(
-        'theme' => 'rubik',
-        ),
-      'zen' => array(
-        'theme' => 'zen',
-        ),
       ),
+      'rubik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+    ),
     'title' => '',
     'visibility' => 0,
-    );
+  );
 
   return $export;
 }
