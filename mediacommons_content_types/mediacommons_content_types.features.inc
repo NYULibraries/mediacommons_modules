@@ -8,6 +8,9 @@
  * Implements hook_ctools_plugin_api().
  */
 function mediacommons_content_types_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "corresponding_node_references" && $api == "default_corresponding_node_references_presets") {
+    return array("version" => "1");
+  }
   if ($module == "ds" && $api == "ds") {
     return array("version" => "1");
   }
