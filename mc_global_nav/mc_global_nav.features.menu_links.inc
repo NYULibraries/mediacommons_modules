@@ -10,38 +10,58 @@
 function mc_global_nav_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: menu-mcglobalnav_alt-academy:http://devmc.dlib.nyu.edu/redesign/alt-ac/
-  $menu_links['menu-mcglobalnav_alt-academy:http://devmc.dlib.nyu.edu/redesign/alt-ac/'] = array(
+  // Exported menu link: menu-mcglobalnav_alt-academy:http://devmc.dlib.nyu.edu/7/alt-ac/
+  $menu_links['menu-mcglobalnav_alt-academy:http://devmc.dlib.nyu.edu/7/alt-ac/'] = array(
     'menu_name' => 'menu-mcglobalnav',
-    'link_path' => 'http://devmc.dlib.nyu.edu/redesign/alt-ac/',
+    'link_path' => 'http://devmc.dlib.nyu.edu/7/alt-ac/',
     'router_path' => '',
     'link_title' => '#Alt-Academy',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'menu-mcglobalnav_alt-academy:http://devmc.dlib.nyu.edu/redesign/alt-ac/',
+      'identifier' => 'menu-mcglobalnav_alt-academy:http://devmc.dlib.nyu.edu/7/alt-ac/',
     ),
     'module' => 'menu',
     'hidden' => 0,
     'external' => 1,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -46,
+    'weight' => -47,
     'customized' => 1,
-    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/redesign/mediacommons/',
+    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/',
   );
-  // Exported menu link: menu-mcglobalnav_field-guide:http://devmc.dlib.nyu.edu/redesign/fieldguide
-  $menu_links['menu-mcglobalnav_field-guide:http://devmc.dlib.nyu.edu/redesign/fieldguide'] = array(
+  // Exported menu link: menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons
+  $menu_links['menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/'] = array(
     'menu_name' => 'menu-mcglobalnav',
-    'link_path' => 'http://devmc.dlib.nyu.edu/redesign/fieldguide',
+    'link_path' => 'http://devmc.dlib.nyu.edu/7/mediacommons/',
     'router_path' => '',
-    'link_title' => 'Field Guide',
+    'link_title' => 'Front page',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'menu-mcglobalnav_field-guide:http://devmc.dlib.nyu.edu/redesign/fieldguide',
+      'identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 1,
+    'has_children' => 1,
+    'expanded' => 1,
+    'weight' => 0,
+    'customized' => 1,
+  );
+  // Exported menu link: menu-mcglobalnav_in-media-res:http://devmc.dlib.nyu.edu/7/imr/
+  $menu_links['menu-mcglobalnav_in-media-res:http://devmc.dlib.nyu.edu/7/imr/'] = array(
+    'menu_name' => 'menu-mcglobalnav',
+    'link_path' => 'http://devmc.dlib.nyu.edu/7/imr/',
+    'router_path' => '',
+    'link_title' => 'In Media Res',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'menu-mcglobalnav_in-media-res:http://devmc.dlib.nyu.edu/7/imr/',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -50,49 +70,28 @@ function mc_global_nav_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -50,
     'customized' => 1,
-    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/redesign/mediacommons/',
+    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/',
   );
-  // Exported menu link: menu-mcglobalnav_in-media-res:http://devmc.dlib.nyu.edu/redesign/imr/
-  $menu_links['menu-mcglobalnav_in-media-res:http://devmc.dlib.nyu.edu/redesign/imr/'] = array(
+  // Exported menu link: menu-mcglobalnav_intransition:http://devmc.dlib.nyu.edu/7/in-transition/
+  $menu_links['menu-mcglobalnav_intransition:http://devmc.dlib.nyu.edu/7/in-transition/'] = array(
     'menu_name' => 'menu-mcglobalnav',
-    'link_path' => 'http://devmc.dlib.nyu.edu/redesign/imr/',
-    'router_path' => '',
-    'link_title' => 'In Media Res',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-      'identifier' => 'menu-mcglobalnav_in-media-res:http://devmc.dlib.nyu.edu/redesign/imr/',
-    ),
-    'module' => 'menu',
-    'hidden' => 0,
-    'external' => 1,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => -49,
-    'customized' => 1,
-    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/redesign/mediacommons/',
-  );
-  // Exported menu link: menu-mcglobalnav_intransition:http://devmc.dlib.nyu.edu/redesign/in-transition/
-  $menu_links['menu-mcglobalnav_intransition:http://devmc.dlib.nyu.edu/redesign/in-transition/'] = array(
-    'menu_name' => 'menu-mcglobalnav',
-    'link_path' => 'http://devmc.dlib.nyu.edu/redesign/in-transition/',
+    'link_path' => 'http://devmc.dlib.nyu.edu/7/in-transition/',
     'router_path' => '',
     'link_title' => '[in]Transition',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'menu-mcglobalnav_intransition:http://devmc.dlib.nyu.edu/redesign/in-transition/',
+      'identifier' => 'menu-mcglobalnav_intransition:http://devmc.dlib.nyu.edu/7/in-transition/',
     ),
     'module' => 'menu',
     'hidden' => 0,
     'external' => 1,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -45,
+    'weight' => 10,
     'customized' => 1,
-    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/redesign/mediacommons/',
+    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/',
   );
   // Exported menu link: menu-mcglobalnav_log-in:user/login
   $menu_links['menu-mcglobalnav_log-in:user/login'] = array(
@@ -152,9 +151,9 @@ function mc_global_nav_menu_default_menu_links() {
     'external' => 1,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -47,
+    'weight' => -48,
     'customized' => 1,
-    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/redesign/mediacommons/',
+    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/',
   );
   // Exported menu link: menu-mcglobalnav_my-account:user
   $menu_links['menu-mcglobalnav_my-account:user'] = array(
@@ -176,26 +175,26 @@ function mc_global_nav_menu_default_menu_links() {
     'weight' => 12,
     'customized' => 1,
   );
-  // Exported menu link: menu-mcglobalnav_the-new-everyday:http://devmc.dlib.nyu.edu/redesign/tne/
-  $menu_links['menu-mcglobalnav_the-new-everyday:http://devmc.dlib.nyu.edu/redesign/tne/'] = array(
+  // Exported menu link: menu-mcglobalnav_the-new-everyday:http://devmc.dlib.nyu.edu/7/tne/
+  $menu_links['menu-mcglobalnav_the-new-everyday:http://devmc.dlib.nyu.edu/7/tne/'] = array(
     'menu_name' => 'menu-mcglobalnav',
-    'link_path' => 'http://devmc.dlib.nyu.edu/redesign/tne/',
+    'link_path' => 'http://devmc.dlib.nyu.edu/7/tne/',
     'router_path' => '',
     'link_title' => 'The New Everyday',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'menu-mcglobalnav_the-new-everyday:http://devmc.dlib.nyu.edu/redesign/tne/',
+      'identifier' => 'menu-mcglobalnav_the-new-everyday:http://devmc.dlib.nyu.edu/7/tne/',
     ),
     'module' => 'menu',
     'hidden' => 0,
     'external' => 1,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -48,
+    'weight' => -49,
     'customized' => 1,
-    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/redesign/mediacommons/',
+    'parent_identifier' => 'menu-mcglobalnav_front-page:http://devmc.dlib.nyu.edu/7/mediacommons/',
   );
   // Exported menu link: menu-mcglobalnav_view-my-contributions:user
   $menu_links['menu-mcglobalnav_view-my-contributions:user'] = array(
@@ -221,7 +220,7 @@ function mc_global_nav_menu_default_menu_links() {
   // Translatables
   // Included for use with string extractors like potx.
   t('#Alt-Academy');
-  t('Field Guide');
+  t('Front page');
   t('In Media Res');
   t('Log in');
   t('Log out');
