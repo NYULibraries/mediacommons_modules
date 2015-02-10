@@ -75,7 +75,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 7,
+        'weight' => 8,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -258,7 +258,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 12,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -304,7 +304,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 11,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -351,7 +351,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 3,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -446,7 +446,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -455,7 +455,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
-    'ds_extras_field_template' => 'theme_ds_field_minimal',
+    'ds_extras_field_template' => 'theme_field',
     'entity_type' => 'user',
     'field_name' => 'field_plan',
     'label' => 'Plan',
@@ -493,7 +493,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 10,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -633,7 +633,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'user_teaser' => array(
         'label' => 'above',

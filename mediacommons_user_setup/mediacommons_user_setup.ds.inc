@@ -17,6 +17,16 @@ function mediacommons_user_setup_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'user';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'comments_from_this_user' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'posts_from_user' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'name' => array(
       'weight' => '1',
       'label' => 'hidden',
@@ -77,6 +87,36 @@ function mediacommons_user_setup_ds_custom_fields_info() {
     'block_render' => '3',
   );
   $export['author_byline'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'comments_from_this_user';
+  $ds_field->label = 'Comments from this user';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'views|comments_from_user-block',
+    'block_render' => '2',
+  );
+  $export['comments_from_this_user'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'posts_from_user';
+  $ds_field->label = 'Posts from user';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'views|posts_from_user-block',
+    'block_render' => '2',
+  );
+  $export['posts_from_user'] = $ds_field;
 
   return $export;
 }
