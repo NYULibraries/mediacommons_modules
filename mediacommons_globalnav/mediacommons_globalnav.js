@@ -1,4 +1,7 @@
-(function($) {
+;(function ($) {
+    Drupal.behaviors.mediacommons_globalnav = {
+
+        attach : function(context, settings) {
 
     function respond() {
         console.log(" mc_global_nav: respond");
@@ -219,4 +222,7 @@
         setUpLoginLink();
 
     });
+
+        }
+    };
 })(jQuery);
