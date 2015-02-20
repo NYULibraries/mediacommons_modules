@@ -53,16 +53,12 @@ function mediacommons_content_types_ds_field_settings_info() {
     ),
     'field_co_editor' => array(
       'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-        ),
+        'ft' => array(),
       ),
     ),
     'field_curators_editors' => array(
       'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-        ),
+        'ft' => array(),
       ),
     ),
     'field_spokes' => array(
@@ -99,20 +95,6 @@ function mediacommons_content_types_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-        ),
-      ),
-    ),
-    'field_contributors' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-        ),
-      ),
-    ),
-    'field_curators_editors' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
         ),
       ),
     ),
@@ -164,7 +146,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'hub_navigation' => array(
-      'weight' => '9',
+      'weight' => '10',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -180,12 +162,12 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'author_byline' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_minimal',
+          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
@@ -195,14 +177,14 @@ function mediacommons_content_types_ds_field_settings_info() {
       'format' => 'default',
     ),
     'comments' => array(
-      'weight' => '8',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'post_date' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'ds_post_date_mediacommons_date_long',
+      'format' => 'ds_post_date_long',
       'formatter_settings' => array(
         'ft' => array(),
       ),
