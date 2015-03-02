@@ -252,17 +252,6 @@ function mediacommons_ds_settings_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'theme_mediacommons_settings';
-  $strongarm->value = array(
-    'zen_rebuild_registry' => 0,
-    'zen_wireframes' => 0,
-    'special_body_class' => 'mc',
-  );
-  $export['theme_mediacommons_settings'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'user_picture_dimensions';
   $strongarm->value = '1024x1024';
   $export['user_picture_dimensions'] = $strongarm;
