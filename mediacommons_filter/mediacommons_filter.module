@@ -1,0 +1,126 @@
+<?php
+/**
+ * @file
+ * Module file for mediacommons_filter.
+ */
+
+/**
+ * @defgroup mediacommons_filter: Filter
+ * @ingroup examples
+ * @{
+ * Foo filter
+ *
+ * Drupal has several content formats (they are not filters), and in our example
+ * the foo replacement can be configured for each one of them, allowing an html
+ * or php replacement, so the module includes a settings callback, with options
+ * to configure that replacements. Also, a Tips callback will help showing the
+ * current replacement for the content type being edited.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function mediacommons_filter_menu() {
+  /**
+  $items['admin/people/external-sources'] = array(
+    'title' => 'Filter iframe',
+    'page callback' => '_mediacommons_filter_configure_external_sources',
+    'access callback' => TRUE,
+  );
+  return $items;
+  */
+}
+
+/**
+ * Implements hook_help().
+ */
+function mediacommons_filter_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#mediacommons_filter':
+      return t("<p>To use these filters, go to !link and configure an input format, or create a new one.</p>",
+         array('!link' => l(t('admin/config/content/formats'), 'admin/config/content/formats'))
+      );
+  }
+}
+
+/**
+ * Implements hook_filter_info().
+ *
+ * Here we define the different filters provided by the module. For this
+ * example, time_filter is a very static and simple replacement, but it requires
+ * some preparation of the string because of the special html tags < and >. The
+ * foo_filter is more complex, including its own settings and inline tips.
+ */
+function mediacommons_filter_filter_info() {
+  $filters['filter_iframe'] = array(
+    'title' => t('Limit allowed iframe sources'),
+    'description' => t('Remove iframes with unwanted sources.'),
+    'default settings' => array( 'filter_iframe' => 'mediacommons.futureofthebook.org', ),
+    'prepare callback' => '_filter_iframe_prepare',
+    'process callback' => '_filter_iframe_process',
+    'settings callback' => '_filter_iframe_settings',
+    'tips callback' => '_filter_iframe_tips',
+  );
+  return $filters;
+}
+
+/**
+ * Settings callback for iframe filter.
+ *
+ * The settings defined in this form are stored in database by the filter
+ * module, and they will be available in the $filter argument.
+ */
+function _filter_iframe_settings($form, $form_state, $filter, $format, $defaults) {
+  $settings['filter_iframe'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Domains  that are allow to be use in ifames'),
+    '#default_value' => isset($filter->settings['filter_iframe']) ? $filter->settings['filter_iframe'] : $defaults['filter_iframe'],
+    '#description' => t('Comma separated string of domains  that are allow (whitelisted) to be use with iframes.'),
+  );
+  return $settings;
+}
+
+/**
+ * Foo filter process callback.
+ *
+ * The actual filtering is performed here. The supplied text should be returned,
+ * once any necessary substitutions have taken place. The example just replaces
+ * foo with our custom defined string in the settings page.
+ */
+function _filter_iframe_process($text, $filter, $format) {
+
+  $replacement = isset($filter->settings['mediacommons_filter_iframe']) ? $filter->settings['mediacommons_filter_iframe'] : 'ALBERTO ORTIZ FLORES';
+
+  return preg_replace('!\[filter-iframe(.*?)\]!', '<iframe data-filter="mediacommons_filter" $\1></iframe>', $text);  
+}
+
+
+/**
+ * Filter tips callback for iframe filter.
+ */
+function _filter_iframe_tips($filter, $format, $long = FALSE) {
+  $replacement = isset($filter->settings['mediacommons_filter_iframe']) ? $filter->settings['mediacommons_filter_iframe'] : 'ALBERTO ORTIZ FLORES';
+  if (!$long) {
+    // This string will be shown in the content add/edit form.
+    return t('<em>ALBERTO ORTIZ FLORES</em> replaced with %replacement.', array('%replacement' => $replacement));
+  }
+  else {
+    return t('Every instance of "ALBERTO ORTIZ FLORES" in the input text will be replaced with a configurable value. You can configure this value and put whatever you want there. The replacement value is "%replacement".', array('%replacement' => $replacement));
+  }
+}
+
+/**
+ * iframe filter prepare callback.
+ *
+ * We'll use [filter-example-time] as a replacement for the time tag.
+ * Note that in a more complicated filter a closing tag may also be
+ * required. For more information, see "Temporary placeholders and
+ * delimiters" at http://drupal.org/node/209715.
+ */
+function _filter_iframe_prepare($text, $filter) {
+  return preg_replace('!<iframe(.*?)>(.*?)</iframe>!', '[filter-iframe $\1]', $text);
+}
+
+/**
+ * @} End of "defgroup filter_example".
+ */
