@@ -1,6 +1,6 @@
 name = MediaCommons Site Navigation
 core = 7.x
-package = Features
+package = MediaCommons
 version = 7.x-1.0-beta1
 project = mediacommons_site_navigation
 dependencies[] = features

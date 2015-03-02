@@ -1,6 +1,6 @@
 name = MediaCommons Carousel
 core = 7.x
-package = Features
+package = MediaCommons
 version = 7.x-1.2-beta2
 project = mediacommons_carousel
 dependencies[] = ctools
