@@ -250,6 +250,13 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'filter',
   );
 
+  // Exported permission: 'administer gravatar'.
+  $permissions['administer gravatar'] = array(
+    'name' => 'administer gravatar',
+    'roles' => array(),
+    'module' => 'gravatar',
+  );
+
   // Exported permission: 'administer image styles'.
   $permissions['administer image styles'] = array(
     'name' => 'administer image styles',
@@ -622,9 +629,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   // Exported permission: 'delete terms in editorialcategories'.
   $permissions['delete terms in editorialcategories'] = array(
     'name' => 'delete terms in editorialcategories',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'taxonomy',
   );
 
@@ -653,6 +658,13 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'taxonomy',
+  );
+
+  // Exported permission: 'disable own gravatar'.
+  $permissions['disable own gravatar'] = array(
+    'name' => 'disable own gravatar',
+    'roles' => array(),
+    'module' => 'gravatar',
   );
 
   // Exported permission: 'display drupal links'.
@@ -767,9 +779,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   // Exported permission: 'edit terms in editorialcategories'.
   $permissions['edit terms in editorialcategories'] = array(
     'name' => 'edit terms in editorialcategories',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'taxonomy',
   );
 
@@ -970,6 +980,13 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'ctools',
+  );
+
+  // Exported permission: 'use gravatar'.
+  $permissions['use gravatar'] = array(
+    'name' => 'use gravatar',
+    'roles' => array(),
+    'module' => 'gravatar',
   );
 
   // Exported permission: 'use text format ds_code'.
