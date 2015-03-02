@@ -126,9 +126,10 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
   $handler->display->display_options['fields']['name']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['label'] = 'By';
   $handler->display->display_options['fields']['name']['alter']['trim_whitespace'] = TRUE;
-  $handler->display->display_options['fields']['name']['element_label_type'] = 'div';
+  $handler->display->display_options['fields']['name']['element_label_type'] = 'span';
+  $handler->display->display_options['fields']['name']['element_label_class'] = 'by-label';
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['name']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['name']['hide_empty'] = TRUE;

@@ -10,7 +10,7 @@ dependencies[] = menu
 scripts[] = underscore-min.js
 scripts[] = mediacommons_globalnav.js
 
-mediacommons[environment] = development
+mediacommons[environment] = local
 
 mediacommons[environments][local][fieldguide] = http://localhost:8000/fieldguide/
 mediacommons[environments][local][tne] = http://localhost:8000/tne/
