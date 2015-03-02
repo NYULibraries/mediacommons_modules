@@ -39,6 +39,12 @@ function mediacommons_user_setup_default_fe_block_settings() {
         'theme' => 'rubik',
         'weight' => 0,
       ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
     ),
     'title' => '',
     'visibility' => 0,
