@@ -13,6 +13,7 @@ dependencies[] = field_group
 dependencies[] = mediacommons_user_setup
 dependencies[] = realname
 dependencies[] = views
+dependencies[] = gravatar
 features[ctools][] = ds:ds:1
 features[ctools][] = field_group:field_group:1
 features[ds_layout_settings][] = user|user|full
