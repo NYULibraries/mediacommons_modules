@@ -1,34 +1,30 @@
 <?php
+
 /**
  * @file
  * Module file for mediacommons_filter.
  */
 
 /**
- * @defgroup mediacommons_filter: Filter
- * @ingroup examples
- * @{
- * Foo filter
- *
- * Drupal has several content formats (they are not filters), and in our example
- * the foo replacement can be configured for each one of them, allowing an html
- * or php replacement, so the module includes a settings callback, with options
- * to configure that replacements. Also, a Tips callback will help showing the
- * current replacement for the content type being edited.
- */
-
-/**
  * Implements hook_menu().
  */
 function mediacommons_filter_menu() {
-  /**
+
+  $access = array('administer mediacommons filters');
+
+  $items = array () ;
+
   $items['admin/people/external-sources'] = array(
     'title' => 'Filter iframe',
-    'page callback' => '_mediacommons_filter_configure_external_sources',
-    'access callback' => TRUE,
+    'description' => t('Provides an extended Image Field for displaying.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('mediacommons_filter_admin'),
+    'access arguments' => $access,
+    'file' => 'mediacommons_filter.admin.inc',
   );
+
   return $items;
-  */
+
 }
 
 /**
@@ -65,6 +61,27 @@ function mediacommons_filter_filter_info() {
 }
 
 /**
+ * Get the list of allowed domains.
+ *
+ * @return
+ *   An array of domains.
+ */
+function mediacommons_filter_get_allowed_domains() {
+  if ( $cache = cache_get('domains', 'cache_mediacommons_filter') ) {
+    $domains = $cache->data;
+  }
+  else {
+    $domains = array();
+    $result = db_query("SELECT * FROM {mediacommons_filter} ORDER BY domain");
+    while ( $domain = $result->fetchAssoc() ) {
+      $domains[] = $domain['domain'];
+    }
+    cache_set('domains', $domains, 'cache_mediacommons_filter');
+  }
+  return $domains;
+}
+
+/**
  * Settings callback for iframe filter.
  *
  * The settings defined in this form are stored in database by the filter
@@ -72,10 +89,10 @@ function mediacommons_filter_filter_info() {
  */
 function _filter_iframe_settings($form, $form_state, $filter, $format, $defaults) {
   $settings['filter_iframe'] = array(
-    '#type' => 'textarea',
+    '#type' => 'item',
     '#title' => t('Domains  that are allow to be use in ifames'),
-    '#default_value' => isset($filter->settings['filter_iframe']) ? $filter->settings['filter_iframe'] : $defaults['filter_iframe'],
     '#description' => t('Comma separated string of domains  that are allow (whitelisted) to be use with iframes.'),
+    '#markup' => t ('Manage !link.', array( '!link' => l( t('allowed domains'), 'admin/people/external-sources') ) ),
   );
   return $settings;
 }
@@ -89,9 +106,9 @@ function _filter_iframe_settings($form, $form_state, $filter, $format, $defaults
  */
 function _filter_iframe_process($text, $filter, $format) {
 
-  $replacement = isset($filter->settings['mediacommons_filter_iframe']) ? $filter->settings['mediacommons_filter_iframe'] : 'ALBERTO ORTIZ FLORES';
+  $replacement = array();
 
-  return preg_replace('!\[filter-iframe(.*?)\]!', '<iframe data-filter="mediacommons_filter" $\1></iframe>', $text);  
+  return preg_replace('!\[filter-iframe(.*?)\]!', '<iframe data-filter="mediacommons_filter" $\1></iframe>', $text);
 }
 
 
@@ -99,7 +116,8 @@ function _filter_iframe_process($text, $filter, $format) {
  * Filter tips callback for iframe filter.
  */
 function _filter_iframe_tips($filter, $format, $long = FALSE) {
-  $replacement = isset($filter->settings['mediacommons_filter_iframe']) ? $filter->settings['mediacommons_filter_iframe'] : 'ALBERTO ORTIZ FLORES';
+  $replacement = array();
+
   if (!$long) {
     // This string will be shown in the content add/edit form.
     return t('<em>ALBERTO ORTIZ FLORES</em> replaced with %replacement.', array('%replacement' => $replacement));
@@ -121,6 +139,39 @@ function _filter_iframe_prepare($text, $filter) {
   return preg_replace('!<iframe(.*?)>(.*?)</iframe>!', '[filter-iframe $\1]', $text);
 }
 
-/**
- * @} End of "defgroup filter_example".
- */
+function mediacommons_filter_form_alter(&$form, &$form_state, $form_id) {
+  $form['actions']['submit']['#validate'][] = 'mediacommons_filter_node_validate_handler';
+}
+
+function mediacommons_filter_node_validate_handler( $form, &$form_state ) {
+
+  if ( ! isset ( $form_state['node'] ) ) return TRUE ;
+
+  include_once ( libraries_get_path('simplehtmldom') . '/simple_html_dom.php' );
+
+  $node = $form_state['values'];
+
+  $allowed_domains = mediacommons_filter_get_allowed_domains() ;
+
+  $fields = field_info_instances('node', $node['type'] );
+
+  foreach ( $fields as $key => $field ) {
+    $field_info_instance = field_info_instance($field['entity_type'], $field['field_name'], $field['bundle']) ;
+    if ( $field_info_instance['widget']['module'] === 'text') {
+      $this_field = $node[$key];
+      foreach ( $this_field[$node['language']] as $value ) {
+        if ( $value['format'] === 'limited_html' ) {
+          $html = str_get_html( $value['value'] ) ;
+          // Find all iframe
+          foreach ( $html->find('iframe') as $element) {
+          	$parse_url = parse_url( $element->src ) ;
+          	if ( ! in_array( $parse_url['host'], $allowed_domains, true ) ) {
+          	  form_set_error( $key, t('Found not valid iframe !source', array ( '!source' => $element->src ) ) );
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
