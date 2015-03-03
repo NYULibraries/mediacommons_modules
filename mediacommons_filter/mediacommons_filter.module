@@ -106,9 +106,27 @@ function _filter_iframe_settings($form, $form_state, $filter, $format, $defaults
  */
 function _filter_iframe_process($text, $filter, $format) {
 
-  $replacement = array();
+  $allowed_domains = mediacommons_filter_get_allowed_domains() ;
 
-  return preg_replace('!\[filter-iframe(.*?)\]!', '<iframe data-filter="mediacommons_filter" $\1></iframe>', $text);
+  include_once ( libraries_get_path('simplehtmldom') . '/simple_html_dom.php' );
+
+  $dom = '';
+
+  $clean_html = preg_replace('!\[filter-iframe(.*?)\]!', '<iframe data-filter="mediacommons_filter" \1></iframe>', $text ) ;
+
+  if ( ! empty ( $clean_html ) ) {
+    $dom = str_get_html( $clean_html  ) ;
+    foreach ( $dom->find('iframe') as $element) {
+      $parse_url = parse_url( $element->src ) ;
+      if ( ! in_array( $parse_url['host'], $allowed_domains, true ) ) {
+      	$element->src = '';
+      	$element->class = 'invalid-source';
+      }
+    }
+  }
+
+  return $dom;
+
 }
 
 
@@ -116,14 +134,12 @@ function _filter_iframe_process($text, $filter, $format) {
  * Filter tips callback for iframe filter.
  */
 function _filter_iframe_tips($filter, $format, $long = FALSE) {
-  $replacement = array();
-
   if (!$long) {
     // This string will be shown in the content add/edit form.
-    return t('<em>ALBERTO ORTIZ FLORES</em> replaced with %replacement.', array('%replacement' => $replacement));
+    return t('Remove non-allowed iframe sources.');
   }
   else {
-    return t('Every instance of "ALBERTO ORTIZ FLORES" in the input text will be replaced with a configurable value. You can configure this value and put whatever you want there. The replacement value is "%replacement".', array('%replacement' => $replacement));
+    return t ('Remove non-allowed iframe sources. You can add, edit or remove domains in  !link.', array( '!link' => l( t('allowed domains'), 'admin/people/external-sources') ) ) ;
   }
 }
 
@@ -136,7 +152,7 @@ function _filter_iframe_tips($filter, $format, $long = FALSE) {
  * delimiters" at http://drupal.org/node/209715.
  */
 function _filter_iframe_prepare($text, $filter) {
-  return preg_replace('!<iframe(.*?)>(.*?)</iframe>!', '[filter-iframe $\1]', $text);
+  return preg_replace('!<iframe(.*?)>(.*?)</iframe>!', '[filter-iframe \1]', $text);
 }
 
 function mediacommons_filter_form_alter(&$form, &$form_state, $form_id) {
@@ -160,7 +176,8 @@ function mediacommons_filter_node_validate_handler( $form, &$form_state ) {
     if ( $field_info_instance['widget']['module'] === 'text') {
       $this_field = $node[$key];
       foreach ( $this_field[$node['language']] as $value ) {
-        if ( $value['format'] === 'limited_html' ) {
+      	$formats = filter_list_format ( $value['format'] ) ;
+        if ( array_key_exists( 'filter_iframe', $formats ) ) {
           $html = str_get_html( $value['value'] ) ;
           // Find all iframe
           foreach ( $html->find('iframe') as $element) {
