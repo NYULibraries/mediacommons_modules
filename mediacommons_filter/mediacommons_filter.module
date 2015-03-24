@@ -116,11 +116,13 @@ function _filter_iframe_process($text, $filter, $format) {
 
   if ( ! empty ( $clean_html ) ) {
     $dom = str_get_html( $clean_html  ) ;
-    foreach ( $dom->find('iframe') as $element) {
-      $parse_url = parse_url( $element->src ) ;
-      if ( ! in_array( $parse_url['host'], $allowed_domains, true ) ) {
-      	$element->src = '';
-      	$element->class = 'invalid-source';
+    if ( is_object  ( $dom ) ) { 
+      foreach ( $dom->find('iframe') as $element) {
+        $parse_url = parse_url( $element->src ) ;
+        if ( ! in_array( $parse_url['host'], $allowed_domains, true ) ) {
+          $element->src = '';
+      	  $element->class = 'invalid-source';
+        }
       }
     }
   }

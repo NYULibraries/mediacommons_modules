@@ -3,6 +3,14 @@
 function _mediacommons_globalnav_config() {
 
   $info = drupal_parse_info_file ( drupal_get_path('module', 'mediacommons_globalnav') . '/mediacommons_globalnav.info' );
+  
+  if ( function_exists ( 'drush_get_option' )  ) {
+    if ( $environment = drush_get_option('environment') ) {
+      if ( isset ( $info['mediacommons']['environments'][$environment] ) ) { 
+        $info['mediacommons']['environment'] = $environment ;
+      }
+    }
+  }
 
   $menu_name = 'menu-mcglobalnav';
   
