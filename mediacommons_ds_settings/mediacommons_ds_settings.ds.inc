@@ -195,13 +195,12 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       ),
       'left' => array(
         4 => 'field_embed',
-        5 => 'field_attached_images',
-        6 => 'field_body',
-        7 => 'field_taxonomy',
-        8 => 'comments',
+        5 => 'field_body',
+        6 => 'field_taxonomy',
+        7 => 'comments',
       ),
       'right' => array(
-        9 => 'hub_navigation',
+        8 => 'hub_navigation',
       ),
     ),
     'fields' => array(
@@ -210,7 +209,6 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'author_byline' => 'header',
       'field_contributors' => 'header',
       'field_embed' => 'left',
-      'field_attached_images' => 'left',
       'field_body' => 'left',
       'field_taxonomy' => 'left',
       'comments' => 'left',
