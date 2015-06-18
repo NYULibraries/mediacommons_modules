@@ -41,11 +41,18 @@ function mediacommons_text_formats_filter_default_formats() {
           'filter_url_length' => 72,
         ),
       ),
+      'filter_iframe' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(
+          'filter_iframe' => 'mediacommons.futureofthebook.org',
+        ),
+      ),
       'filter_html' => array(
         'weight' => 1,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>',
+          'allowed_html' => '<a> <abbr> <acronym> <address> <b> <blockquote> <br> <caption> <cite> <code> <dd> <del> <div> <dl> <dt> <em> <h1> <h2> <h3> <h4> <h5> <h6> <hr> <i> <img> <ins> <li> <ol> <p> <pre> <quote> <small> <span> <strike> <strong> <sub> <sup> <table> <tbody> <td> <th> <thead> <tr> <u> <ul>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 0,
         ),
