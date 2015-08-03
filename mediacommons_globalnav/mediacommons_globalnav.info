@@ -7,7 +7,7 @@ package = MediaCommons
 
 dependencies[] = menu
 
-;scripts[] = underscore-min.js
+scripts[] = underscore-min.js
 scripts[] = mediacommons_globalnav.js
 
 mediacommons[environment] = development
