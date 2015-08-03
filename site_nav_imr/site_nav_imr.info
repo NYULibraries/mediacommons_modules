@@ -1,0 +1,12 @@
+name = Site Nav: IMR
+core = 7.x
+package = MediaCommons
+version = 7.x-1.01
+dependencies[] = features
+dependencies[] = menu
+features[features_api][] = api:2
+features[menu_custom][] = main-menu
+features[menu_links][] = main-menu_about:node/1942
+features[menu_links][] = main-menu_archives:previous
+features[menu_links][] = main-menu_current-calls:node/1943
+features[menu_links][] = main-menu_home:<front>
