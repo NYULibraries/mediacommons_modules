@@ -15,3 +15,10 @@ function mediacommons_user_layout_ctools_plugin_api($module = NULL, $api = NULL)
     return array("version" => "1");
   }
 }
+
+/**
+ * Implements hook_views_api().
+ */
+function mediacommons_user_layout_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}

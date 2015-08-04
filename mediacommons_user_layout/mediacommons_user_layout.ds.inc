@@ -92,12 +92,16 @@ function mediacommons_user_layout_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'ds_user_picture',
-        1 => 'field_profile_name',
+        1 => 'name',
+        2 => 'field_title',
+        3 => 'field_organization',
       ),
     ),
     'fields' => array(
       'ds_user_picture' => 'ds_content',
-      'field_profile_name' => 'ds_content',
+      'name' => 'ds_content',
+      'field_title' => 'ds_content',
+      'field_organization' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
