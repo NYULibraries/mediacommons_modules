@@ -315,7 +315,12 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['inline'] = array(
+    'title_1' => 'title_1',
+  );
   /* Relationship: Content: Part of hub (field_part_of) */
   $handler->display->display_options['relationships']['field_part_of_nid']['id'] = 'field_part_of_nid';
   $handler->display->display_options['relationships']['field_part_of_nid']['table'] = 'field_data_field_part_of';
@@ -327,8 +332,11 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
   $handler->display->display_options['fields']['title_1']['relationship'] = 'field_part_of_nid';
-  $handler->display->display_options['fields']['title_1']['label'] = '';
+  $handler->display->display_options['fields']['title_1']['label'] = 'From: ';
+  $handler->display->display_options['fields']['title_1']['alter']['trim_whitespace'] = TRUE;
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title_1']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['title_1']['element_default_classes'] = FALSE;
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';

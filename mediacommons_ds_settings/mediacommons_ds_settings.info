@@ -1,7 +1,7 @@
 name = MediaCommons DS settings
 core = 7.x
 package = MediaCommons
-version = 7.x-1.291
+version = 7.x-1.292
 project = mediacommons_ds_settings
 dependencies[] = ctools
 dependencies[] = ds
@@ -30,7 +30,6 @@ features[fe_block_settings][] = views-list_of_all_hubs-block
 features[fe_block_settings][] = views-single_hub_latest-block
 features[fe_block_settings][] = views-this_spokes_parent_hub-block
 features[features_api][] = api:2
-features[field_group][] = hubhead|node|hub|full
 features[variable][] = ds_extras_field_template
 features[variable][] = ds_extras_fields_extra
 features[variable][] = ds_extras_fields_extra_list

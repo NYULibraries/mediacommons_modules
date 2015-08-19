@@ -17,7 +17,9 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'custom' => 0,
     'delta' => '82d8a75bde4ff36a1c89b3fb77664e68',
     'module' => 'views',
-    'node_types' => array(),
+    'node_types' => array(
+      0 => 'spoke',
+    ),
     'pages' => '',
     'roles' => array(),
     'themes' => array(
