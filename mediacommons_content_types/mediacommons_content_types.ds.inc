@@ -40,7 +40,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -49,16 +49,6 @@ function mediacommons_content_types_ds_field_settings_info() {
         'ft' => array(
           'func' => 'theme_ds_field_minimal',
         ),
-      ),
-    ),
-    'field_co_editor' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
-    ),
-    'field_curators_editors' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
       ),
     ),
     'field_spokes' => array(
@@ -146,7 +136,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'hub_navigation' => array(
-      'weight' => '10',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -175,16 +165,24 @@ function mediacommons_content_types_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '0',
+        'wrapper' => 'h1',
+        'class' => '',
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'comments' => array(
-      'weight' => '9',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'post_date' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'ds_post_date_long',
+      'format' => 'ds_post_date_long_day_of_week_no_time',
       'formatter_settings' => array(
         'ft' => array(),
       ),
@@ -199,8 +197,13 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
+    'empty' => array(
+      'weight' => '0',
+      'label' => 'inline',
+      'format' => 'default',
+    ),
     'title' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -211,7 +214,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'author' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'author_linked',
       'formatter_settings' => array(
@@ -219,9 +222,9 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'post_date' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
-      'format' => 'ds_post_date_mediacommons_date_long',
+      'format' => 'ds_post_date_long_day_of_week_no_time',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_minimal',

@@ -118,6 +118,13 @@ function mediacommons_content_types_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_long_day_of_week_no_time';
+  $strongarm->value = 'l, F j, Y';
+  $export['date_format_long_day_of_week_no_time'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'date_format_mediacommons_date_long';
   $strongarm->value = 'F j, Y - g:ia';
   $export['date_format_mediacommons_date_long'] = $strongarm;
