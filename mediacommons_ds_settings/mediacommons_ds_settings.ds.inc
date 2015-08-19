@@ -79,16 +79,18 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'field_representative_image',
-        1 => 'title',
-        2 => 'field_period',
-        3 => 'field_curators_editors',
-        4 => 'field_co_editor',
-        5 => 'field_body',
-        6 => 'field_spokes',
+        0 => 'hubhead',
+        1 => 'field_representative_image',
+        2 => 'title',
+        3 => 'field_period',
+        4 => 'field_curators_editors',
+        5 => 'field_co_editor',
+        6 => 'field_body',
+        7 => 'field_spokes',
       ),
     ),
     'fields' => array(
+      'hubhead' => 'ds_content',
       'field_representative_image' => 'ds_content',
       'title' => 'ds_content',
       'field_period' => 'ds_content',
@@ -175,6 +177,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => 0,
   );
   $export['node|spoke|default'] = $ds_layout;
 
@@ -226,6 +229,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => 0,
   );
   $export['node|spoke|full'] = $ds_layout;
 
@@ -239,13 +243,15 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'field_attached_images',
-        1 => 'title',
-        2 => 'post_date',
-        3 => 'author',
+        0 => 'empty',
+        1 => 'field_attached_images',
+        2 => 'title',
+        3 => 'post_date',
+        4 => 'author',
       ),
     ),
     'fields' => array(
+      'empty' => 'ds_content',
       'field_attached_images' => 'ds_content',
       'title' => 'ds_content',
       'post_date' => 'ds_content',

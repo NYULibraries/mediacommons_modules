@@ -212,7 +212,7 @@ function mediacommons_ds_settings_strongarm() {
             'visible' => FALSE,
           ),
           'user_teaser' => array(
-            'weight' => '3',
+            'weight' => '20',
             'visible' => FALSE,
           ),
         ),
@@ -267,7 +267,7 @@ function mediacommons_ds_settings_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_picture_style';
-  $strongarm->value = 'profile_page_pic';
+  $strongarm->value = 'thumbnail';
   $export['user_picture_style'] = $strongarm;
 
   return $export;
