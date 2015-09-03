@@ -10,14 +10,16 @@
 function mediacommons_site_navigation_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: main-menu_about:node/1959
-  $menu_links['main-menu_about:node/1959'] = array(
+
+
+    // Exported menu link: main-menu_about:node/1
+  $menu_links['main-menu_about:node/1'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'node/1959',
+    'link_path' => 'node/1',
     'router_path' => 'node/%',
     'link_title' => 'About',
     'options' => array(
-      'identifier' => 'main-menu_about:node/1959',
+      'identifier' => 'main-menu_about:node/1',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -47,14 +49,14 @@ function mediacommons_site_navigation_menu_default_menu_links() {
     'weight' => -49,
     'customized' => 1,
   );
-  // Exported menu link: main-menu_call-for-contributions:node/1960
-  $menu_links['main-menu_call-for-contributions:node/1960'] = array(
+  // Exported menu link: main-menu_call-for-contributions:node/2
+  $menu_links['main-menu_call-for-contributions:node/2'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'node/1960',
+    'link_path' => 'node/2',
     'router_path' => 'node/%',
     'link_title' => 'Call for Contributions',
     'options' => array(
-      'identifier' => 'main-menu_call-for-contributions:node/1960',
+      'identifier' => 'main-menu_call-for-contributions:node/2',
     ),
     'module' => 'menu',
     'hidden' => 0,
