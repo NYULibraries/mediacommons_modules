@@ -10,17 +10,34 @@
 function mediacommons_site_navigation_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: main-menu_all-content:previous
-  $menu_links['main-menu_all-content:previous'] = array(
+  // Exported menu link: main-menu_about:node/1959
+  $menu_links['main-menu_about:node/1959'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'node/1959',
+    'router_path' => 'node/%',
+    'link_title' => 'About',
+    'options' => array(
+      'identifier' => 'main-menu_about:node/1959',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 0,
+    'customized' => 0,
+  );
+  // Exported menu link: main-menu_archives:previous
+  $menu_links['main-menu_archives:previous'] = array(
     'menu_name' => 'main-menu',
     'link_path' => 'previous',
     'router_path' => 'previous',
-    'link_title' => 'All content',
+    'link_title' => 'Archives',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'main-menu_all-content:previous',
+      'identifier' => 'main-menu_archives:previous',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -29,6 +46,23 @@ function mediacommons_site_navigation_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -49,
     'customized' => 1,
+  );
+  // Exported menu link: main-menu_call-for-contributions:node/1960
+  $menu_links['main-menu_call-for-contributions:node/1960'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'node/1960',
+    'router_path' => 'node/%',
+    'link_title' => 'Call for Contributions',
+    'options' => array(
+      'identifier' => 'main-menu_call-for-contributions:node/1960',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 0,
+    'customized' => 0,
   );
   // Exported menu link: main-menu_home:<front>
   $menu_links['main-menu_home:<front>'] = array(
@@ -47,11 +81,13 @@ function mediacommons_site_navigation_menu_default_menu_links() {
     'weight' => -50,
     'customized' => 1,
   );
+
   // Translatables
   // Included for use with string extractors like potx.
-  t('All content');
+  t('About');
+  t('Archives');
+  t('Call for Contributions');
   t('Home');
-
 
   return $menu_links;
 }
