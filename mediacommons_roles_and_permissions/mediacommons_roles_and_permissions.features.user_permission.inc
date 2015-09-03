@@ -626,13 +626,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'taxonomy',
   );
 
-  // Exported permission: 'delete terms in editorialcategories'.
-  $permissions['delete terms in editorialcategories'] = array(
-    'name' => 'delete terms in editorialcategories',
-    'roles' => array(),
-    'module' => 'taxonomy',
-  );
-
   // Exported permission: 'delete terms in organizations'.
   $permissions['delete terms in organizations'] = array(
     'name' => 'delete terms in organizations',
@@ -773,13 +766,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
     ),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'edit terms in editorialcategories'.
-  $permissions['edit terms in editorialcategories'] = array(
-    'name' => 'edit terms in editorialcategories',
-    'roles' => array(),
     'module' => 'taxonomy',
   );
 
