@@ -1,0 +1,14 @@
+name = Mediacommons homepage featured
+description = A set of hub teasers, drawn from nodequeue_2 (Queue 'Featured Content for Homepage')
+core = 7.x
+package = MediaCommons
+version = 7.x-1.0
+dependencies[] = fe_block
+dependencies[] = fe_nodequeue
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[fe_block_settings][] = views-nodequeue_2-block
+features[fe_nodequeue][] = featured_content_for_homepage
+features[features_api][] = api:2
+features_exclude[dependencies][ctools] = ctools
+features_exclude[dependencies][nodequeue] = nodequeue
