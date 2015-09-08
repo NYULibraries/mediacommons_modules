@@ -5,69 +5,6 @@
  */
 
 /**
- * Implements hook_ds_field_settings_info().
- */
-function mediacommons_user_setup_ds_field_settings_info() {
-  $export = array();
-
-  $ds_fieldsetting = new stdClass();
-  $ds_fieldsetting->api_version = 1;
-  $ds_fieldsetting->id = 'user|user|full';
-  $ds_fieldsetting->entity_type = 'user';
-  $ds_fieldsetting->bundle = 'user';
-  $ds_fieldsetting->view_mode = 'full';
-  $ds_fieldsetting->settings = array(
-    'comments_from_this_user' => array(
-      'weight' => '7',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'posts_from_user' => array(
-      'weight' => '6',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'name' => array(
-      'weight' => '1',
-      'label' => 'hidden',
-      'format' => 'default',
-      'formatter_settings' => array(
-        'link' => '0',
-        'wrapper' => 'h1',
-        'class' => 'p-name fn',
-        'ft' => array(),
-      ),
-    ),
-    'ds_user_picture' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'ds_picture_profile_page_pic',
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
-    ),
-  );
-  $export['user|user|full'] = $ds_fieldsetting;
-
-  $ds_fieldsetting = new stdClass();
-  $ds_fieldsetting->api_version = 1;
-  $ds_fieldsetting->id = 'user|user|user_teaser';
-  $ds_fieldsetting->entity_type = 'user';
-  $ds_fieldsetting->bundle = 'user';
-  $ds_fieldsetting->view_mode = 'user_teaser';
-  $ds_fieldsetting->settings = array(
-    'ds_user_picture' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'ds_picture_profile_page_pic',
-    ),
-  );
-  $export['user|user|user_teaser'] = $ds_fieldsetting;
-
-  return $export;
-}
-
-/**
  * Implements hook_ds_custom_fields_info().
  */
 function mediacommons_user_setup_ds_custom_fields_info() {
