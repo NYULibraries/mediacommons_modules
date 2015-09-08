@@ -1,34 +1,22 @@
 <?php
 
-function mediacommons_editorialworkflow_init() {
-  
-  if ( isset($_GET['mail']) ) {
-    /** Need a email/language to send. */       
-    mediacommons_editorialworkflow_mail_send(
-      array(
-        'email' => 'aortiz@ynu.edu',
-        'from' => 'aortiz@ynu.edu',
-        'key' => 'user_promoted',
-        'message' => 'hey there'
-      )
-    );
-  }
-	
-  $path_is_admin = path_is_admin(current_path());
-  
-  if ($path_is_admin) {
+function mediacommons_editorialworkflow_init () {
 
-    global $user;
+	global $user;
 
-    $menu_object = menu_get_object();
-    
+  $path_is_admin = path_is_admin ( current_path() ) ;
+
+  if ( $path_is_admin ) {
+
+    $menu_object = menu_get_object() ;
+
     $user->contribute = array(
       'hubs_can_contribute' => mediacommons_editorialworkflow_hubs_user_can_contribute(),
       'spokes_can_contribute' => mediacommons_editorialworkflow_contributor(),
     );
-		
-    if (isset($menu_object)) {
-      
+
+    if ( isset ( $menu_object ) ) {
+
       $user->contribute += array(
         'current_nid' => $menu_object->nid,
         'current_uid' => $menu_object->uid,
@@ -36,7 +24,7 @@ function mediacommons_editorialworkflow_init() {
         'type' => $menu_object->type,
         'path_is_admin' => $path_is_admin,
       );
-      
+
       /** primary author */
       if ($user->uid == $menu_object->uid) {
         $user->contribute += array(
@@ -47,7 +35,7 @@ function mediacommons_editorialworkflow_init() {
       /** admin, additional author or no privileges */
       else {
         /** Check if user is admin or an additional author **/
-        if (in_array('administrator', $user->roles)) {
+        if ( in_array( 'administrator', $user->roles ) ) {
           $user->contribute += array(
             'contributor' => TRUE,
             'role' => 'administrator',
@@ -68,9 +56,10 @@ function mediacommons_editorialworkflow_init() {
       }
     }
   }
+
 }
 
-/** 
+/**
  * All things email
  */
 
@@ -92,7 +81,7 @@ function mediacommons_editorialworkflow_init() {
  * Note that hook_mail() is not actually a hook. It is only called for a single
  * module, the module named in the first argument of drupal_mail(). So it's
  * a callback of a type, but not a hook.
- * 
+ *
  * taken from: http://drupalcode.org/project/examples.git/blob_plain/refs/heads/7.x-1.x:/email_example/email_example.module
  */
 function mediacommons_editorialworkflow_mail($key, &$message, $params) {
@@ -110,10 +99,10 @@ function mediacommons_editorialworkflow_mail($key, &$message, $params) {
     // Send a simple message from the contact form.
     case 'contributor':
       $message['subject'] = t('E-mail sent from @site-name', array('@site-name' => variable_get('site_name', 'MediaCommons Project')), $options);
-      
+
       // Note that the message body is an array, not a string.
       $message['body'][] = t('@name sent you the following message:', array('@name' => $user->name), $options);
-      
+
       // Because this is just user-entered text, we do not need to translate it.
       // Since user-entered text may have unintentional HTML entities in it like
       // '<' or '>', we need to make sure these entities are properly escaped,
@@ -122,7 +111,7 @@ function mediacommons_editorialworkflow_mail($key, &$message, $params) {
       $message['body'][] = check_plain($params['message']);
       break;
   }
-  
+
 }
 
 /**
@@ -138,13 +127,13 @@ function mediacommons_editorialworkflow_mail_send($form_values) {
   // All system mails need to specify the module and template key (mirrored from
   // hook_mail()) that the message they want to send comes from.
   $module = 'mediacommons_editorialworkflow';
-  
+
   // what action to takes
   $key = $form_values['key'];
 
   // Specify 'to' addresses.
   $to = $form_values['email'];
-  
+
   // Specify 'from' addresses
   $from = $form_values['from'];
 
@@ -176,7 +165,7 @@ function mediacommons_editorialworkflow_mail_send($form_values) {
   // message delivery; only that there were no PHP-related issues encountered
   // while sending.
   $result = drupal_mail($module, $key, $to, $language, $params, $from, $send);
-  
+
   if ($result['result'] == TRUE) {
     // watchdog($module, t('Email message has been sent to @contributor. Sender @sender', array('@contributor' => $to, '@sender' => $from)), WATCHDOG_INFO);
     drupal_set_message(t('Your message has been sent.'));
@@ -195,41 +184,41 @@ function mediacommons_editorialworkflow_permission() {
   return array(
     'access mediacommons content' => array(
       'title' => t('Access mediacommons content'),
-      'description' => t(''), 
+      'description' => t(''),
     ),
     'contribute content spoke' => array(
       'title' => t('Contribute spoke'),
-      'description' => t(''), 
+      'description' => t(''),
     ),
     'contribute content hub' => array(
       'title' => t('Contribute hubs'),
-      'description' => t(''), 
+      'description' => t(''),
     ),
     'promote hub content' => array(
       'title' => t('Promote hubs'),
-      'description' => t(''), 
+      'description' => t(''),
     ),
     'set current hub' => array(
       'title' => t('Set current hub'),
-      'description' => t(''), 
+      'description' => t(''),
     ),
     'set upcoming hub' => array(
       'title' => t('Set upcoming hub'),
-      'description' => t(''), 
+      'description' => t(''),
     ),
     'admin contributors content' => array(
       'title' => t('Admin contributors content'),
-      'description' => t(''), 
+      'description' => t(''),
     ),
     'access mediacommons dashboard' => array(
       'title' => t('Access mediacommons dashboard'),
-      'description' => t(''), 
+      'description' => t(''),
     ),
     'promote users role' => array(
       'title' => t('Promote authenticaded user'),
-      'description' => t('User is allow to promote authenticaded users to contributor role'), 
+      'description' => t('User is allow to promote authenticaded users to contributor role'),
     ),
-		
+
   );
 }
 
@@ -271,11 +260,13 @@ function mediacommons_editorialworkflow_menu() {
 }
 
 function mediacommons_editorialworkflow_contributor() {
-  global $user;
-	
+
+	global $user;
+
 	$field = field_info_instances('node');
+
 	$mediacommons_editorialworkflow_contributor = &drupal_static(__FUNCTION__, array());
-	
+
 	/** If content-type HUB or SPOKE exist and field_contributors exist in any of the 2 types continue */
 	if ((isset($field['hub']) && isset($field['hub']['field_contributors'])) || (isset($field['spoke']) && isset($field['spoke']['field_contributors']))) {
 
@@ -285,11 +276,11 @@ function mediacommons_editorialworkflow_contributor() {
               ->entityCondition('entity_type', 'node')
               ->fieldCondition('field_contributors', 'uid', $user->uid, '=')
               ->execute();
-							
+
     if (isset($result['node'])) {
       $mediacommons_editorialworkflow_contributor = array_keys($result['node']);
     }
-		
+
 	}
 
   return $mediacommons_editorialworkflow_contributor;
@@ -297,15 +288,15 @@ function mediacommons_editorialworkflow_contributor() {
 }
 
 function mediacommons_editorialworkflow_hubs_user_can_contribute() {
-  	
+
   global $user;
-	
+
 	$field = field_info_instances('node');
 
   $hubs_user_can_contribute = &drupal_static(__FUNCTION__, array());
-	
+
 	/** If content-type HUB or SPOKE exist and field_contributors exist in any of the 2 types continue */
-	if ((isset($field['hub']) && isset($field['hub']['field_contributors']))) {	
+	if ((isset($field['hub']) && isset($field['hub']['field_contributors']))) {
 
     $query = new EntityFieldQuery;
 
@@ -315,8 +306,8 @@ function mediacommons_editorialworkflow_hubs_user_can_contribute() {
                 ->fieldCondition('field_contributors', 'uid', $user->uid, '=')
                 ->execute();
 
-    if (isset($result['node'])) {
-      $hubs_user_can_contribute = array_keys($result['node']);
+    if ( isset ( $result['node'] ) ) {
+      $hubs_user_can_contribute = array_keys($result['node']) ;
     }
 
   }
@@ -326,34 +317,34 @@ function mediacommons_editorialworkflow_hubs_user_can_contribute() {
 }
 
 function mediacommons_editorialworkflow_preprocess_button(&$variables) {
-  
+
   global $user;
-  
-  if (isset($user->contribute)) {
+
+  if ( isset ( $user->contribute ) ) {
 
     $element = &$variables['element'];
-    
+
     // disable submit button
     if (
+    		1 == 2 &&
         $element['#type'] == 'submit' /** submit buttons */
-        && 
-        isset($user->contribute['current_nid']) /** is a node */ 
-        && 
+        &&
+        isset( $user->contribute['current_nid'] ) /** is a node */
+        &&
         $user->uid != $user->contribute['current_uid'] /** not the primary contributor */
-        &&
-        !in_array('administrator', $user->roles) /** not an administrator */
-        &&
-        !in_array($user->contribute['current_nid'], $user->contribute['spokes_can_contribute']) /** not a additional contributor */        
+    		&& ! in_array('administrator', $user->roles) /** not an administrator */
     ) {
-      
-      $element['#attributes'] = array(
-        'disabled' => 'disabled',
-        'class' => array('no-contributor-permission element-invisible')
-      );
+
+    	if ( ! in_array ( $user->contribute['current_nid'], $user->contribute['spokes_can_contribute'] ) /** not a additional contributor */ ) {
+       $element['#attributes'] = array(
+          'disabled' => 'disabled',
+          'class' => array('no-contributor-permission element-invisible')
+       );
+      }
 
     }
-    
-    if (isset($element['#value']) && isset($element['#name'])) {    
+
+    if (isset($element['#value']) && isset($element['#name'])) {
       switch ($element['#name']) {
         case 'field_contributed_piece_add_more' :
           $element['#value'] = t('Add another spoke');
@@ -368,13 +359,13 @@ function mediacommons_editorialworkflow_preprocess_button(&$variables) {
           break;
       }
     }
-    
+
   }
 }
 
 function mediacommons_editorialworkflow_preprocess_container(&$variables) {
   global $user;
-  
+
   if (isset($user->contribute)) {
     $element = &$variables['element'];
     if (isset($element['#id'])) {
@@ -391,7 +382,7 @@ function mediacommons_editorialworkflow_preprocess_container(&$variables) {
 function mediacommons_editorialworkflow_preprocess_textfield(&$variables) {
 
   $element = &$variables['element'];
-  
+
   if ($element['#name'] == 'title') {
     $element['#attributes']['placeholder'] = t('Untitled');
   }
@@ -401,20 +392,20 @@ function mediacommons_editorialworkflow_preprocess_textfield(&$variables) {
 function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
 
   global $user;
-  
-  /** 
+
+  /**
    * User is coming with a is_contributor flag; the flag is the nid (int)
    * of a known hub.
-   */  
+   */
   $is_contributor_flag = isset($_GET['is_contributor']) ? (int)$_GET['is_contributor'] : 0;
-  
+
   if (
-    isset($user->contribute) 
+    isset($user->contribute)
     && !in_array('administrator', $user->roles)
   ) {
 
     $element = &$variables['element'];
-    
+
     if (
       isset($element['#parents']) // check if is set
       && isset($element['#parents'][0]) // has parent
@@ -422,7 +413,7 @@ function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
     ) {
       /** user have permission to add piece to this cluster */
       if (isset($element['#return_value']) ) {
-        
+
         if (!in_array($element['#return_value'], $user->contribute['hubs_can_contribute'])) {
           $element['#attributes'] = array(
             'disabled' => 'disabled',
@@ -436,7 +427,7 @@ function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
           );
         }
       }
-      
+
 
       /** if is already checked and user is not the cluster manager; disable the field and mark as read-only */
       if ($element['#checked']) {
@@ -452,9 +443,9 @@ function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
 function mediacommons_editorialworkflow_node_presave($node) {
 
   // Inserting a new node @TODO: test work, add validation
-  if ($node->type == 'spoke') {	
-  
-  
+  if ($node->type == 'spoke') {
+
+
     if ( !isset( $node->nid ) ) { // aof December 4, 2014
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
@@ -490,21 +481,21 @@ function mediacommons_editorialworkflow_add_assets() {
 function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_state, $form_id) {
 
   global $user;
-  
+
   $node_exist = false;
-  
+
   // node exist
   if (isset($form['#node']->nid)) {
     $node_exist = true;
   }
-	
+
   if (isset($user->contribute['contributor'])) {
 
     /** Add CSS and JS files */
 	  mediacommons_editorialworkflow_add_assets();
-		
+
 		drupal_set_message(t('Contributing as @contributor.', array('@contributor' => $user->contribute['role'])), 'status');
-		
+
     $field = field_get_items('node', $form['#node'], 'field_type');
 
     if (isset($field[0])) {
@@ -524,7 +515,7 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
       }
     }
   }
-	
+
 }
 
 function mediacommons_editorialworkflow_preprocess_image_widget(&$variables) {
@@ -534,13 +525,13 @@ function mediacommons_editorialworkflow_preprocess_image_widget(&$variables) {
 function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {
 
   global $user;
-  
+
   /** add editorial workflow assest */
   mediacommons_editorialworkflow_add_assets();
-  
+
   /** indication of that this form was process by the editorial workflow module */
   $form['#attributes']['class'][] = 'editorial-workflow';
-  
+
   /** node exist */
   if (isset($form['#node']->nid)) {
     /** contributor is allow to edit node */
@@ -555,13 +546,13 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
     /** set message */
     drupal_set_message($message, 'warning');
   }
-  
+
   /** New spoke */
   else {
 
-    
+
   }
-   
+
 }
 
 /*
@@ -569,7 +560,7 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
  */
 function mediacommons_editorialworkflow_cron() { }
 
-/** 
+/**
  * All things queue
  */
 
@@ -577,40 +568,40 @@ function mediacommons_editorialworkflow_cron() { }
   * Implementation of hook_cron_queue_info()
   * http://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_cron_queue_info/7
   */
-   
+
 function mediacommons_editorialworkflow_cron_queue_info() {
   $queues['mediacommons_editorialworkflow_promote_user_worker'] = array(
     'worker callback' => 'mediacommons_editorialworkflow_promote_user',
     'time' => 60,
   );
-  return $queues; 
+  return $queues;
 }
 
 /**
  * Promote user worker (callback); add contributor role to authenticated user
- * @param array $data 
+ * @param array $data
  *   User ID (uid) to be associated with task. e.g., array('uid' => 2)
  */
 function mediacommons_editorialworkflow_promote_user($data) {
-	
+
 	// drush_print(__FUNCTION__);
 
 	if (
 	  isset($data['uid']) // we have a user account ID
 	  && $data['uid'] != 1 // no need to proceed if user 1
-	  && isset($data['sponsor']) // we have a sponsor ID 
+	  && isset($data['sponsor']) // we have a sponsor ID
   )
-	{ 
+	{
 
 		$uid = $data['uid'];
 		$sid = $data['sponsor'];
 	  $account_roles = array();
 
     try {
-    	
+
       // load sponsor account
       $sponsor = user_load($sid);
-			
+
 			// sponsor is allow to promote users role
 			if (user_access('promote users role', $sponsor)) {
 
@@ -626,15 +617,15 @@ function mediacommons_editorialworkflow_promote_user($data) {
         ) {
 
       	  // user is not a contributor; find role index and assign it to user
-          $account_roles['roles'] = $account->roles; 
+          $account_roles['roles'] = $account->roles;
           $account_roles['roles'][array_search('contributor', user_roles(TRUE))] = 'contributor';
 
           user_save($account, $account_roles);
-				
+
 				  // log task
 				  watchdog('mediacommons_editorialworkflow', 'User @user was promoted to contributor by @sponsor.', array('@user' => $account->name, '@sponsor' => $sponsor->name), WATCHDOG_NOTICE);
-        
-				  // send notifications	
+
+				  // send notifications
           mediacommons_editorialworkflow_mail_send(
             array(
               'email' => $account->mail,
@@ -642,9 +633,9 @@ function mediacommons_editorialworkflow_promote_user($data) {
               'key' => 'contributor_promoted',
             )
           );
-          
+
         }
-				
+
       }
     }
     catch (Exception $e) {
