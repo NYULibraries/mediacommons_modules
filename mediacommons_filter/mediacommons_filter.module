@@ -52,7 +52,6 @@ function mediacommons_filter_filter_info() {
     'title' => t('Limit allowed iframe sources'),
     'description' => t('Remove iframes with unwanted sources.'),
     'default settings' => array( 'filter_iframe' => 'mediacommons.futureofthebook.org', ),
-    'prepare callback' => '_filter_iframe_prepare',
     'process callback' => '_filter_iframe_process',
     'settings callback' => '_filter_iframe_settings',
     'tips callback' => '_filter_iframe_tips',
@@ -66,19 +65,30 @@ function mediacommons_filter_filter_info() {
  * @return
  *   An array of domains.
  */
-function mediacommons_filter_get_allowed_domains() {
-  if ( $cache = cache_get('domains', 'cache_mediacommons_filter') ) {
-    $domains = $cache->data;
+function mediacommons_filter_get_allowed_domains ( ) {
+
+	$cache = cache_get('domains', 'cache_mediacommons_filter') ;
+
+	$domains = array() ;
+
+	if ( $cache ) {
+    $domains = $cache->data ;
   }
+
   else {
-    $domains = array();
+
     $result = db_query("SELECT * FROM {mediacommons_filter} ORDER BY domain");
+
     while ( $domain = $result->fetchAssoc() ) {
       $domains[] = $domain['domain'];
     }
+
     cache_set('domains', $domains, 'cache_mediacommons_filter');
+
   }
+
   return $domains;
+
 }
 
 /**
@@ -104,30 +114,28 @@ function _filter_iframe_settings($form, $form_state, $filter, $format, $defaults
  * once any necessary substitutions have taken place. The example just replaces
  * foo with our custom defined string in the settings page.
  */
-function _filter_iframe_process($text, $filter, $format) {
+function _filter_iframe_process ( $text, $filter, $format ) {
+
+	if ( empty ( $text ) ) return ;
 
   $allowed_domains = mediacommons_filter_get_allowed_domains() ;
 
   include_once ( libraries_get_path('simplehtmldom') . '/simple_html_dom.php' );
 
-  $dom = '';
+  $dom = str_get_html ( $text ) ;
 
-  $clean_html = preg_replace('!\[filter-iframe(.*?)\]!', '<iframe data-filter="mediacommons_filter" \1></iframe>', $text ) ;
-
-  if ( ! empty ( $clean_html ) ) {
-    $dom = str_get_html( $clean_html  ) ;
-    if ( is_object  ( $dom ) ) { 
-      foreach ( $dom->find('iframe') as $element) {
-        $parse_url = parse_url( $element->src ) ;
-        if ( ! in_array( $parse_url['host'], $allowed_domains, true ) ) {
-          $element->src = '';
-      	  $element->class = 'invalid-source';
-        }
+  if ( is_object  ( $dom ) ) {
+    foreach ( $dom->find( 'iframe') as $element ) {
+      $parse_url = parse_url ( $element->src ) ;
+      if ( isset ( $parse_url['host'] ) && ! in_array ( $parse_url['host'], $allowed_domains, true ) ) {
+        $element->src = '';
+        $element->class = 'invalid-source';
       }
     }
+    $text = (string) $dom ;
   }
 
-  return $dom;
+  return $text ;
 
 }
 
@@ -136,7 +144,7 @@ function _filter_iframe_process($text, $filter, $format) {
  * Filter tips callback for iframe filter.
  */
 function _filter_iframe_tips($filter, $format, $long = FALSE) {
-  if (!$long) {
+  if ( ! $long ) {
     // This string will be shown in the content add/edit form.
     return t('Remove non-allowed iframe sources.');
   }
@@ -145,23 +153,11 @@ function _filter_iframe_tips($filter, $format, $long = FALSE) {
   }
 }
 
-/**
- * iframe filter prepare callback.
- *
- * We'll use [filter-example-time] as a replacement for the time tag.
- * Note that in a more complicated filter a closing tag may also be
- * required. For more information, see "Temporary placeholders and
- * delimiters" at http://drupal.org/node/209715.
- */
-function _filter_iframe_prepare($text, $filter) {
-  return preg_replace('!<iframe(.*?)>(.*?)</iframe>!', '[filter-iframe \1]', $text);
-}
-
 function mediacommons_filter_form_alter(&$form, &$form_state, $form_id) {
   $form['actions']['submit']['#validate'][] = 'mediacommons_filter_node_validate_handler';
 }
 
-function mediacommons_filter_node_validate_handler( $form, &$form_state ) {
+function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
 
   if ( ! isset ( $form_state['node'] ) ) return TRUE ;
 
@@ -182,9 +178,9 @@ function mediacommons_filter_node_validate_handler( $form, &$form_state ) {
         if ( array_key_exists( 'filter_iframe', $formats ) ) {
           $html = str_get_html( $value['value'] ) ;
           // Find all iframe
-          foreach ( $html->find('iframe') as $element) {
+          foreach ( $html->find('iframe') as $element ) {
           	$parse_url = parse_url( $element->src ) ;
-          	if ( ! in_array( $parse_url['host'], $allowed_domains, true ) ) {
+          	if ( isset ( $parse_url['host'] ) && ! in_array ( $parse_url['host'] , $allowed_domains, true ) ) {
           	  form_set_error( $key, t('Found not valid iframe !source', array ( '!source' => $element->src ) ) );
             }
           }
