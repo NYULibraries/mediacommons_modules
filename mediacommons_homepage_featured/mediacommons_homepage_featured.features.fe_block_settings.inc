@@ -12,6 +12,41 @@ function mediacommons_homepage_featured_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
+  $export['views-134078340f43e23836ebd1c5358a44a9'] = array(
+    'cache' => -1,
+    'delta' => '134078340f43e23836ebd1c5358a44a9',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'mediacommons' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons',
+        'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+  );
+
   $export['views-nodequeue_2-block'] = array(
     'cache' => -1,
     'custom' => 0,
