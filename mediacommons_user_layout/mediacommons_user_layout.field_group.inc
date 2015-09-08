@@ -21,13 +21,13 @@ function mediacommons_user_layout_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contact',
-    'weight' => '8',
+    'weight' => '5',
     'children' => array(
       0 => 'field_aim',
       1 => 'field_email',
-      2 => 'field_skype',
-      3 => 'field_twitter',
-      4 => 'field_phone',
+      2 => 'field_phone',
+      3 => 'field_skype',
+      4 => 'field_twitter',
       5 => 'field_url',
     ),
     'format_type' => 'html-element',

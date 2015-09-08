@@ -1,7 +1,7 @@
 name = MediaCommons User Setup
 core = 7.x
 package = MediaCommons
-version = 7.x-1.1
+version = 7.x-1.25
 project = mediacommons_user_setup
 dependencies[] = ctools
 dependencies[] = ds
@@ -26,8 +26,6 @@ features[ctools][] = ds:ds:1
 features[ctools][] = field_group:field_group:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
-features[ds_field_settings][] = user|user|full
-features[ds_field_settings][] = user|user|user_teaser
 features[ds_fields][] = author_byline
 features[ds_fields][] = comments_from_this_user
 features[ds_fields][] = posts_from_user

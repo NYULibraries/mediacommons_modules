@@ -5,6 +5,89 @@
  */
 
 /**
+ * Implements hook_ds_field_settings_info().
+ */
+function mediacommons_user_layout_ds_field_settings_info() {
+  $export = array();
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'user|user|full';
+  $ds_fieldsetting->entity_type = 'user';
+  $ds_fieldsetting->bundle = 'user';
+  $ds_fieldsetting->view_mode = 'full';
+  $ds_fieldsetting->settings = array(
+    'comments_from_this_user' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'posts_from_user' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'name' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '0',
+        'wrapper' => 'h1',
+        'class' => 'p-name fn',
+        'ft' => array(),
+      ),
+    ),
+    'ds_user_picture' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'ds_picture_profile_page_pic',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
+  );
+  $export['user|user|full'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'user|user|user_teaser';
+  $ds_fieldsetting->entity_type = 'user';
+  $ds_fieldsetting->bundle = 'user';
+  $ds_fieldsetting->view_mode = 'user_teaser';
+  $ds_fieldsetting->settings = array(
+    'name' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => '',
+        'class' => '',
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'h2',
+          'fi-cl' => 'p-name name',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+    'ds_user_picture' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'ds_picture_profile_page_pic',
+    ),
+  );
+  $export['user|user|user_teaser'] = $ds_fieldsetting;
+
+  return $export;
+}
+
+/**
  * Implements hook_ds_layout_settings_info().
  */
 function mediacommons_user_layout_ds_layout_settings_info() {
@@ -23,22 +106,22 @@ function mediacommons_user_layout_ds_layout_settings_info() {
         0 => 'ds_user_picture',
         1 => 'field_email',
         2 => 'name',
-        3 => 'field_title',
-        4 => 'field_skype',
-        5 => 'field_organization',
-        6 => 'field_twitter',
-        7 => 'field_aim',
-        8 => 'group_location',
-        9 => 'field_city',
-        10 => 'group_contactinfo',
-        11 => 'field_url',
-        13 => 'field_phone',
-        14 => 'field_state',
-        16 => 'field_country',
+        3 => 'field_state',
+        4 => 'field_title',
+        5 => 'field_skype',
+        6 => 'field_country',
+        7 => 'field_city',
+        8 => 'field_twitter',
+        9 => 'field_organization',
+        10 => 'field_aim',
+        11 => 'group_location',
+        12 => 'group_contactinfo',
+        13 => 'field_url',
+        14 => 'field_phone',
       ),
       'left' => array(
-        12 => 'posts_from_user',
-        15 => 'comments_from_this_user',
+        15 => 'posts_from_user',
+        16 => 'comments_from_this_user',
       ),
       'right' => array(
         17 => 'field_bio',
@@ -49,20 +132,20 @@ function mediacommons_user_layout_ds_layout_settings_info() {
       'ds_user_picture' => 'header',
       'field_email' => 'header',
       'name' => 'header',
+      'field_state' => 'header',
       'field_title' => 'header',
       'field_skype' => 'header',
-      'field_organization' => 'header',
+      'field_country' => 'header',
+      'field_city' => 'header',
       'field_twitter' => 'header',
+      'field_organization' => 'header',
       'field_aim' => 'header',
       'group_location' => 'header',
-      'field_city' => 'header',
       'group_contactinfo' => 'header',
       'field_url' => 'header',
-      'posts_from_user' => 'left',
       'field_phone' => 'header',
-      'field_state' => 'header',
+      'posts_from_user' => 'left',
       'comments_from_this_user' => 'left',
-      'field_country' => 'header',
       'field_bio' => 'right',
       'field_plan' => 'right',
     ),
@@ -78,6 +161,7 @@ function mediacommons_user_layout_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => 0,
   );
   $export['user|user|full'] = $ds_layout;
 
