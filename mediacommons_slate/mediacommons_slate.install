@@ -36,4 +36,7 @@ function mediacommons_slate_install () {
 	// Hubs
 	mediacommons_slate_create_hubs ( ) ;
 
+	// Comments
+	mediacommons_slate_create_comments ( ) ;
+
 }
