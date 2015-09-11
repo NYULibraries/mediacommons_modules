@@ -24,7 +24,7 @@ function mediacommons_site_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => 0,
+    'weight' => 5,
     'customized' => 0,
   );
   // Exported menu link: main-menu_archives:previous
@@ -44,7 +44,7 @@ function mediacommons_site_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -49,
+    'weight' => 10,
     'customized' => 1,
   );
   // Exported menu link: main-menu_call-for-contributions:node/2
@@ -61,7 +61,7 @@ function mediacommons_site_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => 0,
+    'weight' => 15,
     'customized' => 0,
   );
 
