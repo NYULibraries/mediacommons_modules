@@ -52,6 +52,7 @@ function mediacommons_homepage_featured_default_fe_block_settings() {
 
   $export['views-nodequeue_2-block'] = array(
     'cache' => -1,
+    'custom' => 0,
     'delta' => 'nodequeue_2-block',
     'module' => 'views',
     'node_types' => array(),
@@ -83,6 +84,8 @@ function mediacommons_homepage_featured_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
+    'title' => '',
+    'visibility' => 0,
   );
 
   $export['views-single_hub_latest-block'] = array(
