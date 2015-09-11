@@ -71,45 +71,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => -12,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
-  $export['views-single_hub_latest-block'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'delta' => 'single_hub_latest-block',
-    'module' => 'views',
-    'node_types' => array(),
-    'pages' => '',
-    'roles' => array(),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'mediacommons' => array(
-        'region' => 'homepage_top',
-        'status' => 1,
-        'theme' => 'mediacommons',
-        'weight' => -13,
       ),
       'rubik' => array(
         'region' => '',
