@@ -84,3 +84,13 @@ function mediacommons_content_types_node_info() {
   drupal_alter('node_info', $items);
   return $items;
 }
+/**
+* Implements hook_entity_info_alter().
+*/
+function mediacommons_content_types_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['hub_for_home'] = array(
+    'label' => t('Hub for Home'),
+    'custom settings' => TRUE,
+  );
+}
+
