@@ -104,6 +104,7 @@ function create_spoke ( array $old_node ) {
 }
 
 function mediacommons_slate_create_spokes ( ) {
+  $number_of_spokes = 35;
 
 	module_load_include('inc', 'mediacommons_slate', 'inc/create') ;
 
@@ -119,7 +120,7 @@ function mediacommons_slate_create_spokes ( ) {
 
 	foreach ( db_query('SELECT fid FROM file_managed', array ( ) ) as $file ) $files[] = $file->fid ;
 
-	for ( $i = 0 ; $i < 15 ; $i++ ) {
+	for ( $i = 0 ; $i < $number_of_spokes ; $i++ ) {
 
 		$uid = $users[ array_rand ( $users ) ] ;
 

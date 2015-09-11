@@ -73,7 +73,9 @@ function create_hub ( array $old_node ) {
 
 function mediacommons_slate_create_hubs ( ) {
 
-	module_load_include('inc', 'mediacommons_slate', 'inc/create') ;
+  $number_of_hubs = 11;
+	
+  module_load_include('inc', 'mediacommons_slate', 'inc/create') ;
 
 	$nodes = array ( ) ;
 
@@ -89,7 +91,7 @@ function mediacommons_slate_create_hubs ( ) {
 
 	foreach ( db_query ( 'SELECT fid FROM file_managed', array ( ) ) as $file ) $files[] = $file->fid ;
 
-	for ( $i = 1 ; $i < 4 ; $i++ ) {
+	for ( $i = 1 ; $i < $number_of_hubs ; $i++ ) {
 
 		$old_node = array (
 		  'title' => mediacommons_slate_body_title ( ) ,
@@ -102,7 +104,7 @@ function mediacommons_slate_create_hubs ( ) {
 			'sticky' => NODE_NOT_STICKY,
 			'position' => 2,
 			'field_body' => mediacommons_slate_body_text ( ) ,
-			'field_spokes' => array_rand ( $spokes , 5 ),
+			'field_spokes' => array_rand ( $spokes , 8 ),
 			'field_pubstat' => 1,
       'field_period_1' => strtotime ( '+' . $i . ' week' ) ,
       'field_period_2' => strtotime ( '+' . $i + 1 . ' week' ) ,
