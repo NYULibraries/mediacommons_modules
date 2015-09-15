@@ -80,15 +80,19 @@ function mediacommons_filter_get_allowed_domains ( ) {
     $result = db_query("SELECT * FROM {mediacommons_filter} ORDER BY domain");
 
     while ( $domain = $result->fetchAssoc() ) {
-      $domains[] = $domain['domain'];
+      $domains[] = $domain['domain'] ;
     }
 
-    cache_set('domains', $domains, 'cache_mediacommons_filter');
+    cache_set('domains', $domains, 'cache_mediacommons_filter' , CACHE_TEMPORARY ) ;
 
   }
 
   return $domains;
 
+}
+
+function mediacommons_filter_flush_caches (  ) {
+	return array ( 'cache_mediacommons_filter' ) ;
 }
 
 /**
@@ -149,7 +153,7 @@ function _filter_iframe_tips($filter, $format, $long = FALSE) {
     return t('Remove non-allowed iframe sources.');
   }
   else {
-    return t ('Remove non-allowed iframe sources. You can add, edit or remove domains in  !link.', array( '!link' => l( t('allowed domains'), 'admin/people/external-sources') ) ) ;
+    return t ('Remove non-allowed iframe sources. You can add, edit or remove domains in !link.', array( '!link' => l( t('allowed domains'), 'admin/people/external-sources') ) ) ;
   }
 }
 
