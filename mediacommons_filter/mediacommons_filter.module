@@ -167,8 +167,6 @@ function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
 
   $allowed_domains = mediacommons_filter_get_allowed_domains ( ) ;
 
-  dpm ( $allowed_domains ) ;
-
   $fields = field_info_instances('node', $node['type'] );
 
   foreach ( $fields as $key => $field ) {
