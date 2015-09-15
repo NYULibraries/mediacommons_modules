@@ -8,7 +8,7 @@
 /**
  * Implements hook_menu().
  */
-function mediacommons_filter_menu() {
+function mediacommons_filter_menu ( ) {
 
   $access = array('administer mediacommons filters');
 
@@ -69,9 +69,9 @@ function mediacommons_filter_get_allowed_domains ( ) {
 
 	$cache = cache_get('domains', 'cache_mediacommons_filter') ;
 
-	$domains = array() ;
+	$domains = array ( ) ;
 
-	if ( $cache ) {
+	if ( $cache && ! empty ( $cache->data ) ) {
     $domains = $cache->data ;
   }
 
@@ -165,7 +165,9 @@ function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
 
   $node = $form_state['values'];
 
-  $allowed_domains = mediacommons_filter_get_allowed_domains() ;
+  $allowed_domains = mediacommons_filter_get_allowed_domains ( ) ;
+
+  dpm ( $allowed_domains ) ;
 
   $fields = field_info_instances('node', $node['type'] );
 
