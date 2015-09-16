@@ -5,21 +5,28 @@
  * Module file for mediacommons_filter.
  */
 
+function mediacommons_filter_permission ( ) {
+	return array (
+			'administer mediacommons filters' => array(
+					'title' => t('Administer allowed external sources widget'),
+					'description' => t('Allow external sources in iframes'),
+			),
+	);
+}
+
 /**
  * Implements hook_menu().
  */
 function mediacommons_filter_menu ( ) {
 
-  $access = array('administer mediacommons filters');
-
   $items = array () ;
 
-  $items['admin/people/external-sources'] = array(
+  $items['admin/people/external-sources'] = array (
     'title' => 'Filter iframe',
     'description' => t('Provides an extended Image Field for displaying.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('mediacommons_filter_admin'),
-    'access arguments' => $access,
+    'access arguments' => array ( 'administer mediacommons filters' ),
     'file' => 'mediacommons_filter.admin.inc',
   );
 
@@ -158,7 +165,11 @@ function _filter_iframe_tips($filter, $format, $long = FALSE) {
 }
 
 function mediacommons_filter_form_alter(&$form, &$form_state, $form_id) {
-  $form['actions']['submit']['#validate'][] = 'mediacommons_filter_node_validate_handler';
+
+	if ( isset ( $form_state['node'] ) ) {
+		$form['actions']['submit']['#validate'][] = 'mediacommons_filter_node_validate_handler';
+	}
+
 }
 
 function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
