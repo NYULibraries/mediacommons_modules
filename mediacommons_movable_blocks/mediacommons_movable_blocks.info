@@ -1,7 +1,7 @@
 name = MediaCommons Movable Blocks
 description = Recent Comments
 core = 7.x
-package = Features
+package = MediaCommons
 version = 7.x-1.0-beta1
 dependencies[] = comment
 dependencies[] = ctools
