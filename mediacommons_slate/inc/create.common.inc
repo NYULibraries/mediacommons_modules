@@ -46,7 +46,7 @@ function mediacommons_slate_body_title ( ) {
 
   $text_strlen = strlen ( $text ) ;
 
-  $text = substr ( $text, 0 ,  rand ( 20 , 65 ) ) ;
+  $text = substr ( $text, 0 ,  rand ( 15 , 45 ) ) ;
 
   if ( ! $text ) $text = "Sed ut omittam pericula -- Sed ut omittam pericula Sed ut" ; // no need for fancy things!
 
