@@ -20,30 +20,6 @@ function mediacommons_content_types_ctools_plugin_api($module = NULL, $api = NUL
 }
 
 /**
- * Implements hook_image_default_styles().
- */
-function mediacommons_content_types_image_default_styles() {
-  $styles = array();
-
-  // Exported image style: 450_by_175.
-  $styles['450_by_175'] = array(
-    'label' => '450 by 175',
-    'effects' => array(
-      1 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 450,
-          'height' => 175,
-        ),
-        'weight' => 1,
-      ),
-    ),
-  );
-
-  return $styles;
-}
-
-/**
  * Implements hook_node_info().
  */
 function mediacommons_content_types_node_info() {
@@ -84,13 +60,3 @@ function mediacommons_content_types_node_info() {
   drupal_alter('node_info', $items);
   return $items;
 }
-/**
-* Implements hook_entity_info_alter().
-*/
-function mediacommons_content_types_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['hub_for_home'] = array(
-    'label' => t('Hub for Home'),
-    'custom settings' => TRUE,
-  );
-}
-

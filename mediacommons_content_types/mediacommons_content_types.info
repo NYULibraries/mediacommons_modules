@@ -82,7 +82,6 @@ features[field_instance][] = node-spoke-field_embed
 features[field_instance][] = node-spoke-field_part_of
 features[field_instance][] = node-spoke-field_pubstat
 features[field_instance][] = node-spoke-field_taxonomy
-features[image][] = 450_by_175
 features[node][] = front_page_post
 features[node][] = hub
 features[node][] = page
