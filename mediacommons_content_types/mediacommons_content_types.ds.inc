@@ -35,7 +35,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '4',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -185,8 +185,19 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'contributors_view_for_bylines' => array(
+      'weight' => '2',
+      'label' => 'inline',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+          'lb' => 'Authors',
+        ),
+      ),
+    ),
     'hub_navigation' => array(
-      'weight' => '8',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -198,16 +209,6 @@ function mediacommons_content_types_ds_field_settings_info() {
           'ow-def-cl' => FALSE,
           'ow-at' => 'role="complementary"',
           'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
-    'author_byline' => array(
-      'weight' => '2',
-      'label' => 'hidden',
-      'format' => 'default',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
@@ -225,14 +226,14 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'comments' => array(
-      'weight' => '7',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'post_date' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'ds_post_date_long_day_of_week_no_time',
+      'format' => 'ds_post_date_long',
       'formatter_settings' => array(
         'ft' => array(),
       ),
@@ -248,7 +249,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -267,24 +268,12 @@ function mediacommons_content_types_ds_field_settings_info() {
         ),
       ),
     ),
-    'author' => array(
-      'weight' => '4',
-      'label' => 'hidden',
-      'format' => 'author_linked',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-        ),
-      ),
-    ),
     'post_date' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'ds_post_date_long',
       'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-        ),
+        'ft' => array(),
       ),
     ),
     'field_attached_images' => array(
@@ -300,8 +289,39 @@ function mediacommons_content_types_ds_field_settings_info() {
         ),
       ),
     ),
+    'field_contributors' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'lb' => 'Authors',
+        ),
+      ),
+    ),
   );
   $export['node|spoke|teaser'] = $ds_fieldsetting;
+
+  return $export;
+}
+
+/**
+ * Implements hook_ds_custom_fields_info().
+ */
+function mediacommons_content_types_ds_custom_fields_info() {
+  $export = array();
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'contributors_view_for_bylines';
+  $ds_field->label = 'Contributors - View for Bylines';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'node' => 'node',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'views|byline_contributors-block',
+    'block_render' => '3',
+  );
+  $export['contributors_view_for_bylines'] = $ds_field;
 
   return $export;
 }
