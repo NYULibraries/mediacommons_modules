@@ -12,21 +12,6 @@ function mediacommons_user_setup_ds_custom_fields_info() {
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
-  $ds_field->field = 'author_byline';
-  $ds_field->label = 'Author Byline';
-  $ds_field->field_type = 6;
-  $ds_field->entities = array(
-    'node' => 'node',
-  );
-  $ds_field->ui_limit = 'spoke|*';
-  $ds_field->properties = array(
-    'block' => 'views|author_byline_for_spoke-block',
-    'block_render' => '3',
-  );
-  $export['author_byline'] = $ds_field;
-
-  $ds_field = new stdClass();
-  $ds_field->api_version = 1;
   $ds_field->field = 'comments_from_this_user';
   $ds_field->label = 'Comments from this user';
   $ds_field->field_type = 6;
@@ -63,6 +48,15 @@ function mediacommons_user_setup_ds_custom_fields_info() {
  */
 function mediacommons_user_setup_ds_view_modes_info() {
   $export = array();
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'user_name_org';
+  $ds_view_mode->label = 'User name and org';
+  $ds_view_mode->entities = array(
+    'user' => 'user',
+  );
+  $export['user_name_org'] = $ds_view_mode;
 
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;
