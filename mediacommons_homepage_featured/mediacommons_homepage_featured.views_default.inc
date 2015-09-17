@@ -78,15 +78,6 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_curators_editors']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_curators_editors']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_curators_editors']['delta_offset'] = '0';
-  /* Field: Content: Contributors */
-  $handler->display->display_options['fields']['field_contributors']['id'] = 'field_contributors';
-  $handler->display->display_options['fields']['field_contributors']['table'] = 'field_data_field_contributors';
-  $handler->display->display_options['fields']['field_contributors']['field'] = 'field_contributors';
-  $handler->display->display_options['fields']['field_contributors']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_contributors']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['field_contributors']['element_wrapper_class'] = 'peoplelist';
-  $handler->display->display_options['fields']['field_contributors']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_contributors']['delta_offset'] = '0';
   /* Sort criterion: Content: Updated date */
   $handler->display->display_options['sorts']['changed']['id'] = 'changed';
   $handler->display->display_options['sorts']['changed']['table'] = 'node';
@@ -227,7 +218,6 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'hub_for_home';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['block_description'] = 'Single Hub Latest';
   $export['single_hub_latest'] = $view;
