@@ -14,6 +14,7 @@ function mediacommons_user_layout_default_fe_block_settings() {
 
   $export['views-52167a887404734942d45eeaee15de3e'] = array(
     'cache' => -1,
+    'custom' => 0,
     'delta' => '52167a887404734942d45eeaee15de3e',
     'module' => 'views',
     'node_types' => array(),
@@ -45,10 +46,13 @@ function mediacommons_user_layout_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
+    'title' => '',
+    'visibility' => 0,
   );
 
   $export['views-a2e7a755fdaaee1a9943e675e8a328b4'] = array(
     'cache' => -1,
+    'custom' => 0,
     'delta' => 'a2e7a755fdaaee1a9943e675e8a328b4',
     'module' => 'views',
     'node_types' => array(),
@@ -62,8 +66,8 @@ function mediacommons_user_layout_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => 'homepage_sidebar',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
@@ -80,6 +84,8 @@ function mediacommons_user_layout_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
+    'title' => '',
+    'visibility' => 0,
   );
 
   $export['views-comments_from_user-block'] = array(

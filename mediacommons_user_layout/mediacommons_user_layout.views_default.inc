@@ -98,6 +98,13 @@ function mediacommons_user_layout_views_default_views() {
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'No contributors are available for this hub. ';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Relationship: Content: Contributors (field_contributors) */
   $handler->display->display_options['relationships']['field_contributors_uid']['id'] = 'field_contributors_uid';
   $handler->display->display_options['relationships']['field_contributors_uid']['table'] = 'field_data_field_contributors';
