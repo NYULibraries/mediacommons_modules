@@ -1,7 +1,7 @@
 name = MediaCommons Carousel
 core = 7.x
 package = MediaCommons
-version = 7.x-1.2-beta3
+version = 7.x-1.2-beta4
 project = mediacommons_carousel
 dependencies[] = ctools
 dependencies[] = ds
@@ -26,6 +26,8 @@ features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[ds_field_settings][] = node|front_page_post|full
 features[ds_layout_settings][] = node|front_page_post|full
+features[fe_block_settings][] = views-homepage_carousel-block
+features[fe_block_settings][] = views-nodequeue_1-block
 features[fe_nodequeue][] = homepage_carousel
 features[features_api][] = api:2
 features[field_group][] = group_meta|node|front_page_post|default

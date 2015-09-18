@@ -11,11 +11,11 @@ function mediacommons_homepage_featured_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'most_recent_6_hubs_offset_1_';
+  $view->name = 'recent_6_hubs';
   $view->description = 'For use on homepage';
   $view->tag = '';
   $view->base_table = 'node';
-  $view->human_name = 'Most recent 6 hubs (offset 1)';
+  $view->human_name = 'Recent 6 hubs';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -111,8 +111,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['block_description'] = 'Latest 6 hubs';
-  $export['most_recent_6_hubs_offset_1_'] = $view;
+  $export['recent_6_hubs'] = $view;
 
   $view = new view();
   $view->name = 'single_hub_latest';
