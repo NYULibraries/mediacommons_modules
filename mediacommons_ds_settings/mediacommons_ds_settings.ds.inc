@@ -5,6 +5,50 @@
  */
 
 /**
+ * Implements hook_ds_field_settings_info().
+ */
+function mediacommons_ds_settings_ds_field_settings_info() {
+  $export = array();
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|hub|third_mode';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'hub';
+  $ds_fieldsetting->view_mode = 'third_mode';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => 'h1',
+        'class' => 'hub-title',
+        'ft' => array(),
+      ),
+    ),
+    'field_period' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'time',
+          'fi-cl' => 'timerangeheader',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+  );
+  $export['node|hub|third_mode'] = $ds_fieldsetting;
+
+  return $export;
+}
+
+/**
  * Implements hook_ds_custom_fields_info().
  */
 function mediacommons_ds_settings_ds_custom_fields_info() {
@@ -125,49 +169,6 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
-  $ds_layout->id = 'node|hub|hub_for_home';
-  $ds_layout->entity_type = 'node';
-  $ds_layout->bundle = 'hub';
-  $ds_layout->view_mode = 'hub_for_home';
-  $ds_layout->layout = 'ds_1col';
-  $ds_layout->settings = array(
-    'regions' => array(
-      'ds_content' => array(
-        0 => 'hubhead',
-        1 => 'field_period',
-        2 => 'field_representative_image',
-        3 => 'title',
-        4 => 'field_spokes',
-        5 => 'field_curators_editors',
-        6 => 'field_co_editor',
-        7 => 'field_body',
-      ),
-    ),
-    'fields' => array(
-      'hubhead' => 'ds_content',
-      'field_period' => 'ds_content',
-      'field_representative_image' => 'ds_content',
-      'title' => 'ds_content',
-      'field_spokes' => 'ds_content',
-      'field_curators_editors' => 'ds_content',
-      'field_co_editor' => 'ds_content',
-      'field_body' => 'ds_content',
-    ),
-    'classes' => array(),
-    'wrappers' => array(
-      'ds_content' => 'div',
-      'ds_hidden' => 'div',
-    ),
-    'layout_wrapper' => 'div',
-    'layout_attributes' => '',
-    'layout_attributes_merge' => 1,
-    'layout_link_attribute' => '',
-    'layout_link_custom' => '',
-  );
-  $export['node|hub|hub_for_home'] = $ds_layout;
-
-  $ds_layout = new stdClass();
-  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|hub|teaser';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'hub';
@@ -203,6 +204,48 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'layout_link_custom' => '',
   );
   $export['node|hub|teaser'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|hub|third_mode';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'hub';
+  $ds_layout->view_mode = 'third_mode';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'group_headerinfo',
+        1 => 'field_representative_image',
+        2 => 'title',
+        3 => 'field_curators_editors',
+        4 => 'field_period',
+        5 => 'field_co_editor',
+        6 => 'field_spokes',
+        7 => 'field_body',
+      ),
+    ),
+    'fields' => array(
+      'group_headerinfo' => 'ds_content',
+      'field_representative_image' => 'ds_content',
+      'title' => 'ds_content',
+      'field_curators_editors' => 'ds_content',
+      'field_period' => 'ds_content',
+      'field_co_editor' => 'ds_content',
+      'field_spokes' => 'ds_content',
+      'field_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|hub|third_mode'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;

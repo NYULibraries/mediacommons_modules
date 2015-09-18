@@ -13,11 +13,11 @@ function mediacommons_content_types_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'hubhead|node|hub|full';
-  $field_group->group_name = 'hubhead';
+  $field_group->identifier = 'group_headerinfo|node|hub|third_mode';
+  $field_group->group_name = 'group_headerinfo';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'hub';
-  $field_group->mode = 'full';
+  $field_group->mode = 'third_mode';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'headerInfo',
@@ -26,9 +26,8 @@ function mediacommons_content_types_field_group_info() {
       0 => 'field_body',
       1 => 'field_co_editor',
       2 => 'field_curators_editors',
-      3 => 'field_period',
-      4 => 'field_representative_image',
-      5 => 'title',
+      3 => 'field_representative_image',
+      4 => 'title',
     ),
     'format_type' => 'html5',
     'format_settings' => array(
@@ -40,7 +39,7 @@ function mediacommons_content_types_field_group_info() {
       ),
     ),
   );
-  $export['hubhead|node|hub|full'] = $field_group;
+  $export['group_headerinfo|node|hub|third_mode'] = $field_group;
 
   return $export;
 }

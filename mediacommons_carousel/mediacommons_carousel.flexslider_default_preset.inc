@@ -16,8 +16,6 @@ function mediacommons_carousel_flexslider_default_presets() {
   $preset->name = 'mediacommons_home_page';
   $preset->title = 'MediaCommons Home Page';
   $preset->theme = 'classic';
-  $preset->imagestyle_normal = 'flexslider_full';
-  $preset->imagestyle_thumbnail = 'flexslider_thumbnail';
   $preset->options = array(
     'namespace' => 'flex-',
     'selector' => '.slides > li',

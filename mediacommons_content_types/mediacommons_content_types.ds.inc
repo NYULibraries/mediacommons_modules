@@ -325,3 +325,21 @@ function mediacommons_content_types_ds_custom_fields_info() {
 
   return $export;
 }
+
+/**
+ * Implements hook_ds_view_modes_info().
+ */
+function mediacommons_content_types_ds_view_modes_info() {
+  $export = array();
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'third_mode';
+  $ds_view_mode->label = 'Third mode';
+  $ds_view_mode->entities = array(
+    'node' => 'node',
+  );
+  $export['third_mode'] = $ds_view_mode;
+
+  return $export;
+}

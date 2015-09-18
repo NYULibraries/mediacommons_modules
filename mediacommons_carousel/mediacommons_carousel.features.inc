@@ -49,6 +49,7 @@ function mediacommons_carousel_fe_nodequeue_export_fields() {
     'show_in_links' => 1,
     'reference' => 0,
     'reverse' => 1,
+    'insert_at_front' => NULL,
     'i18n' => 0,
     'subqueues' => 1,
     'types' => array(

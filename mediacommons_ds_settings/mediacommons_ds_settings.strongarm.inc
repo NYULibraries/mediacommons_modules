@@ -35,7 +35,7 @@ function mediacommons_ds_settings_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ds_extras_hidden_region';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['ds_extras_hidden_region'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -111,6 +111,9 @@ function mediacommons_ds_settings_strongarm() {
         'custom_settings' => FALSE,
       ),
       'home_hub_full' => array(
+        'custom_settings' => TRUE,
+      ),
+      'third_mode' => array(
         'custom_settings' => TRUE,
       ),
     ),
