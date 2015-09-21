@@ -1,7 +1,7 @@
 name = MediaCommons DS settings
 core = 7.x
 package = MediaCommons
-version = 7.x-1.295
+version = 7.x-1.296
 project = mediacommons_ds_settings
 dependencies[] = ctools
 dependencies[] = ds
@@ -28,7 +28,6 @@ features[ds_layout_settings][] = node|spoke|default
 features[ds_layout_settings][] = node|spoke|full
 features[ds_layout_settings][] = node|spoke|teaser
 features[fe_block_settings][] = views-82d8a75bde4ff36a1c89b3fb77664e68
-features[fe_block_settings][] = views-byline_contributors-block
 features[fe_block_settings][] = views-list_of_all_hubs-block
 features[fe_block_settings][] = views-this_spokes_parent_hub-block
 features[features_api][] = api:2
