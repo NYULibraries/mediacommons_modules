@@ -1,7 +1,7 @@
 name = MediaCommons Carousel
 core = 7.x
 package = MediaCommons
-version = 7.x-1.2-beta4
+version = 7.x-1.2-beta5
 project = mediacommons_carousel
 dependencies[] = ctools
 dependencies[] = ds
