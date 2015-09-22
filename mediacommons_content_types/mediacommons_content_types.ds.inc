@@ -301,30 +301,6 @@ function mediacommons_content_types_ds_field_settings_info() {
 }
 
 /**
- * Implements hook_ds_custom_fields_info().
- */
-function mediacommons_content_types_ds_custom_fields_info() {
-  $export = array();
-
-  $ds_field = new stdClass();
-  $ds_field->api_version = 1;
-  $ds_field->field = 'contributors_view_for_bylines';
-  $ds_field->label = 'Contributors - View for Bylines';
-  $ds_field->field_type = 6;
-  $ds_field->entities = array(
-    'node' => 'node',
-  );
-  $ds_field->ui_limit = '';
-  $ds_field->properties = array(
-    'block' => 'views|byline_contributors-block',
-    'block_render' => '3',
-  );
-  $export['contributors_view_for_bylines'] = $ds_field;
-
-  return $export;
-}
-
-/**
  * Implements hook_ds_view_modes_info().
  */
 function mediacommons_content_types_ds_view_modes_info() {
