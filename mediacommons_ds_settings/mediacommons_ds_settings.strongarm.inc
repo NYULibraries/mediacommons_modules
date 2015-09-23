@@ -194,6 +194,9 @@ function mediacommons_ds_settings_strongarm() {
       'user_teaser' => array(
         'custom_settings' => TRUE,
       ),
+      'user_byline' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -218,6 +221,10 @@ function mediacommons_ds_settings_strongarm() {
             'visible' => FALSE,
           ),
           'user_teaser' => array(
+            'weight' => '20',
+            'visible' => FALSE,
+          ),
+          'user_byline' => array(
             'weight' => '20',
             'visible' => FALSE,
           ),

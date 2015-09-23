@@ -30,6 +30,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 4,
       ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -76,6 +82,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 8,
+      ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -125,6 +137,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 3,
       ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -173,6 +191,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 2,
       ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -216,6 +240,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'settings' => array(),
         'type' => 'email_default',
         'weight' => 1,
+      ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -262,6 +292,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 12,
       ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -307,6 +343,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 11,
+      ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -355,6 +397,13 @@ function mediacommons_user_setup_field_default_field_instances() {
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 3,
+      ),
+      'user_byline' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 1,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -406,6 +455,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'telephone_link',
         'weight' => 6,
       ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -451,6 +506,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 9,
+      ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 19,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -499,6 +560,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 10,
       ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'user_teaser' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -545,6 +612,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 2,
+      ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -594,6 +667,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 1,
       ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -638,6 +717,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 2,
+      ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -687,6 +772,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -733,6 +824,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_url',
         'weight' => 5,
+      ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 11,
       ),
       'user_teaser' => array(
         'label' => 'above',

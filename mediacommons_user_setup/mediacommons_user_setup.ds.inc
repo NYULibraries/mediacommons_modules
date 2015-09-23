@@ -51,6 +51,15 @@ function mediacommons_user_setup_ds_view_modes_info() {
 
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'user_byline';
+  $ds_view_mode->label = 'User byline';
+  $ds_view_mode->entities = array(
+    'user' => 'user',
+  );
+  $export['user_byline'] = $ds_view_mode;
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
   $ds_view_mode->view_mode = 'user_teaser';
   $ds_view_mode->label = 'User teaser';
   $ds_view_mode->entities = array(

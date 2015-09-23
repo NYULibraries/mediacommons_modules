@@ -51,6 +51,21 @@ function mediacommons_user_layout_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'user|user|user_byline';
+  $ds_fieldsetting->entity_type = 'user';
+  $ds_fieldsetting->bundle = 'user';
+  $ds_fieldsetting->view_mode = 'user_byline';
+  $ds_fieldsetting->settings = array(
+    'name' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['user|user|user_byline'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'user|user|user_teaser';
   $ds_fieldsetting->entity_type = 'user';
   $ds_fieldsetting->bundle = 'user';
@@ -164,6 +179,36 @@ function mediacommons_user_layout_ds_layout_settings_info() {
     'layout_disable_css' => 0,
   );
   $export['user|user|full'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'user|user|user_byline';
+  $ds_layout->entity_type = 'user';
+  $ds_layout->bundle = 'user';
+  $ds_layout->view_mode = 'user_byline';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'name',
+        1 => 'field_organization',
+      ),
+    ),
+    'fields' => array(
+      'name' => 'ds_content',
+      'field_organization' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['user|user|user_byline'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
