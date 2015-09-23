@@ -28,8 +28,8 @@ function mediacommons_carousel_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'homepage_top',
+        'status' => 1,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
