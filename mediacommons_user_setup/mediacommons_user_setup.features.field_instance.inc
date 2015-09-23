@@ -23,24 +23,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 13,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 17,
-      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 4,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 13,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -82,24 +70,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 14,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 18,
-      ),
       'full' => array(
         'label' => 'above',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 8,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 14,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -142,25 +118,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 17,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 9,
-      ),
       'full' => array(
         'label' => 'above',
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 3,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 17,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -203,25 +166,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 19,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 6,
-      ),
       'full' => array(
         'label' => 'above',
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 2,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 19,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -260,24 +210,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 11,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 15,
-      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'email',
         'settings' => array(),
         'type' => 'email_default',
         'weight' => 1,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 11,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -318,23 +256,11 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 9,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 13,
-      ),
       'full' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 12,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 9,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -376,23 +302,11 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 8,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 12,
-      ),
       'full' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 11,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 8,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -435,26 +349,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 16,
       ),
-      'forbyline' => array(
-        'label' => 'hidden',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 1,
-      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 3,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 16,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -497,12 +397,6 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 6,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 10,
-      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'telephone',
@@ -510,12 +404,6 @@ function mediacommons_user_setup_field_default_field_instances() {
           'title' => '',
         ),
         'type' => 'telephone_link',
-        'weight' => 6,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
         'weight' => 6,
       ),
       'user_teaser' => array(
@@ -557,24 +445,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 15,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 19,
-      ),
       'full' => array(
         'label' => 'above',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 9,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 15,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -617,24 +493,11 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 0,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 3,
-      ),
       'full' => array(
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 10,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 0,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -676,24 +539,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 12,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 16,
-      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 2,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 12,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -736,25 +587,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 18,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 7,
-      ),
       'full' => array(
         'label' => 'above',
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 1,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 18,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -794,25 +632,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 1,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 8,
-      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 2,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 1,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -855,24 +680,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 10,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 14,
-      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 3,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 10,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -914,24 +727,12 @@ function mediacommons_user_setup_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 7,
       ),
-      'forbyline' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 11,
-      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_url',
         'weight' => 5,
-      ),
-      'testorg' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 7,
       ),
       'user_teaser' => array(
         'label' => 'above',

@@ -1186,12 +1186,9 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'inline',
-        'module' => 'user_reference',
-        'settings' => array(
-          'user_reference_view_mode' => 'forbyline',
-        ),
-        'type' => 'user_reference_user',
-        'weight' => 2,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1200,12 +1197,10 @@ function mediacommons_content_types_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'inline',
+        'label' => 'above',
         'module' => 'user_reference',
-        'settings' => array(
-          'user_reference_view_mode' => 'forbyline',
-        ),
-        'type' => 'user_reference_user',
+        'settings' => array(),
+        'type' => 'user_reference_default',
         'weight' => 3,
       ),
     ),

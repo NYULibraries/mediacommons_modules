@@ -280,7 +280,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'header' => array(
         0 => 'post_date',
         1 => 'title',
-        2 => 'field_contributors',
+        2 => 'contributors_view_for_bylines',
       ),
       'left' => array(
         3 => 'field_embed',
@@ -295,7 +295,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'fields' => array(
       'post_date' => 'header',
       'title' => 'header',
-      'field_contributors' => 'header',
+      'contributors_view_for_bylines' => 'header',
       'field_embed' => 'left',
       'field_body' => 'left',
       'field_taxonomy' => 'left',
@@ -308,6 +308,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'left' => 'div',
       'right' => 'div',
       'footer' => 'div',
+      'ds_hidden' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
@@ -346,6 +347,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'classes' => array(),
     'wrappers' => array(
       'ds_content' => 'div',
+      'ds_hidden' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
