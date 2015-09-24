@@ -1,7 +1,7 @@
 name = MediaCommons User Setup
 core = 7.x
 package = MediaCommons
-version = 7.x-1.27
+version = 7.x-1.28
 project = mediacommons_user_setup
 dependencies[] = ctools
 dependencies[] = ds

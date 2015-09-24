@@ -308,7 +308,6 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'left' => 'div',
       'right' => 'div',
       'footer' => 'div',
-      'ds_hidden' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
@@ -347,7 +346,6 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'classes' => array(),
     'wrappers' => array(
       'ds_content' => 'div',
-      'ds_hidden' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',

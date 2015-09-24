@@ -1188,7 +1188,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 10,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1197,7 +1197,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',

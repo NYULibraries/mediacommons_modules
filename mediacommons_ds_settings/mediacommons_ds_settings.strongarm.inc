@@ -214,7 +214,7 @@ function mediacommons_ds_settings_strongarm() {
         'summary' => array(
           'default' => array(
             'weight' => '20',
-            'visible' => FALSE,
+            'visible' => TRUE,
           ),
           'full' => array(
             'weight' => '13',

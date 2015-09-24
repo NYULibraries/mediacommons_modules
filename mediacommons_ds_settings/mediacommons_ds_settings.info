@@ -1,7 +1,7 @@
 name = MediaCommons DS settings
 core = 7.x
 package = MediaCommons
-version = 7.x-1.295
+version = 7.x-1.297
 project = mediacommons_ds_settings
 dependencies[] = ctools
 dependencies[] = ds
