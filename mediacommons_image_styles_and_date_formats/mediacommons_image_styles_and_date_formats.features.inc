@@ -14,10 +14,62 @@ function mediacommons_image_styles_and_date_formats_ctools_plugin_api($module = 
 }
 
 /**
+ * Implements hook_fe_date_custom_date_formats().
+ */
+function mediacommons_image_styles_and_date_formats_fe_date_custom_date_formats() {
+  $custom_date_formats = array();
+  $custom_date_formats['l, F j, Y'] = 'l, F j, Y';
+  $custom_date_formats['n/j/Y'] = 'n/j/Y';
+  return $custom_date_formats;
+}
+
+/**
+ * Implements hook_date_format_types().
+ */
+function mediacommons_image_styles_and_date_formats_date_format_types() {
+  $format_types = array();
+  // Exported date format type: long_no_time
+  $format_types['long_no_time'] = 'Long no time';
+  // Exported date format type: short_no_time
+  $format_types['short_no_time'] = 'Short no time';
+  return $format_types;
+}
+
+/**
  * Implements hook_image_default_styles().
  */
 function mediacommons_image_styles_and_date_formats_image_default_styles() {
   $styles = array();
+
+  // Exported image style: 16_9_ratio.
+  $styles['16_9_ratio'] = array(
+    'label' => '16:9 ratio',
+    'effects' => array(
+      3 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 480,
+          'height' => 270,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: 21_9_ratio.
+  $styles['21_9_ratio'] = array(
+    'label' => '21:9 ratio',
+    'effects' => array(
+      4 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 504,
+          'height' => 216,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
 
   // Exported image style: 450_by_175.
   $styles['450_by_175'] = array(
@@ -62,6 +114,21 @@ function mediacommons_image_styles_and_date_formats_image_default_styles() {
       ),
     ),
     'label' => 'flexslider_thumbnail',
+  );
+
+  // Exported image style: homepage_featured_item__480x320_.
+  $styles['homepage_featured_item__480x320_'] = array(
+    'label' => 'Homepage Featured Item (480x320)',
+    'effects' => array(
+      2 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 480,
+          'height' => 320,
+        ),
+        'weight' => 1,
+      ),
+    ),
   );
 
   // Exported image style: large.
@@ -138,6 +205,21 @@ function mediacommons_image_styles_and_date_formats_image_default_styles() {
           'upscale' => 1,
         ),
         'weight' => 0,
+      ),
+    ),
+  );
+
+  // Exported image style: thumbnail__120x80_.
+  $styles['thumbnail__120x80_'] = array(
+    'label' => 'Thumbnail (120x80)',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 120,
+          'height' => 80,
+        ),
+        'weight' => 1,
       ),
     ),
   );

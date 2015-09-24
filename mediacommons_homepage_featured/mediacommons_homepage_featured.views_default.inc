@@ -43,7 +43,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_representative_image']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_representative_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_representative_image']['settings'] = array(
-    'image_style' => '',
+    'image_style' => '16_9_ratio',
     'image_link' => 'content',
   );
   /* Field: Content: Start and end dates */
@@ -55,11 +55,12 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_period']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_period']['empty'] = 'No time range data available';
   $handler->display->display_options['fields']['field_period']['settings'] = array(
-    'format_type' => 'long',
+    'format_type' => 'short_no_time',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
+    'show_remaining_days' => 0,
   );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';

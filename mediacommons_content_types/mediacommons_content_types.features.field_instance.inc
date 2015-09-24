@@ -742,7 +742,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'date',
         'settings' => array(
-          'format_type' => 'medium',
+          'format_type' => 'long_no_time',
           'fromto' => 'both',
           'multiple_from' => '',
           'multiple_number' => '',
@@ -882,7 +882,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'medium',
+          'image_style' => 'homepage_featured_item__480x320_',
         ),
         'type' => 'image',
         'weight' => 4,
@@ -892,7 +892,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => '450_by_175',
+          'image_style' => '16_9_ratio',
         ),
         'type' => 'image',
         'weight' => 2,
@@ -1078,7 +1078,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'thumbnail',
+          'image_style' => 'thumbnail__120x80_',
         ),
         'type' => 'image',
         'weight' => 0,

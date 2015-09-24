@@ -20,6 +20,16 @@ function mediacommons_content_types_ctools_plugin_api($module = NULL, $api = NUL
 }
 
 /**
+ * Implements hook_fe_date_custom_date_formats().
+ */
+function mediacommons_content_types_fe_date_custom_date_formats() {
+  $custom_date_formats = array();
+  $custom_date_formats['l, F j, Y'] = 'l, F j, Y';
+  $custom_date_formats['n/j/Y'] = 'n/j/Y';
+  return $custom_date_formats;
+}
+
+/**
  * Implements hook_node_info().
  */
 function mediacommons_content_types_node_info() {

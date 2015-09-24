@@ -278,7 +278,7 @@ function mediacommons_content_types_ds_field_settings_info() {
     'post_date' => array(
       'weight' => '2',
       'label' => 'hidden',
-      'format' => 'ds_post_date_long',
+      'format' => 'ds_post_date_long_no_time',
       'formatter_settings' => array(
         'ft' => array(),
       ),

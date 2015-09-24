@@ -13,6 +13,20 @@ function mediacommons_image_styles_and_date_formats_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_long_no_time';
+  $strongarm->value = 'l, F j, Y';
+  $export['date_format_long_no_time'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_short_no_time';
+  $strongarm->value = 'n/j/Y';
+  $export['date_format_short_no_time'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'imagefield_crop_info';
   $strongarm->value = array();
   $export['imagefield_crop_info'] = $strongarm;
