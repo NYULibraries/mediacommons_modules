@@ -892,7 +892,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => '16_9_ratio',
+          'image_style' => '',
         ),
         'type' => 'image',
         'weight' => 2,

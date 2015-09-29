@@ -21,7 +21,7 @@ function mediacommons_ds_settings_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'headerInfo',
-    'weight' => '0',
+    'weight' => '1',
     'children' => array(
       0 => 'field_body',
       1 => 'field_co_editor',

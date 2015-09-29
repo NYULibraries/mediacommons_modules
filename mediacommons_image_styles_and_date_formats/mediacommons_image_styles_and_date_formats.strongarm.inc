@@ -28,7 +28,14 @@ function mediacommons_image_styles_and_date_formats_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'imagefield_crop_info';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    22 => array(
+      'x' => '0',
+      'y' => '0',
+      'width' => '450',
+      'height' => '175',
+    ),
+  );
   $export['imagefield_crop_info'] = $strongarm;
 
   $strongarm = new stdClass();

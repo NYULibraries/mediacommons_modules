@@ -1,8 +1,8 @@
 name = MediaCommons Content Types
-description = Default MediaCommons content types
+description = Default MediaCommons content types 
 core = 7.x
 package = MediaCommons
-version = 7.x-1.294
+version = 7.x-1.295
 project = mediacommons_content_types
 dependencies[] = corresponding_node_references
 dependencies[] = ctools

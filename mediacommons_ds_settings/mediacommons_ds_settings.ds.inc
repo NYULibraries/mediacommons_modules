@@ -42,6 +42,11 @@ function mediacommons_ds_settings_ds_field_settings_info() {
         ),
       ),
     ),
+    'field_representative_image' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|hub|third_mode'] = $ds_fieldsetting;
 
@@ -215,24 +220,24 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'group_headerinfo',
-        1 => 'field_representative_image',
-        2 => 'title',
-        3 => 'field_curators_editors',
-        4 => 'field_period',
-        5 => 'field_co_editor',
-        6 => 'field_spokes',
+        0 => 'field_period',
+        1 => 'group_headerinfo',
+        2 => 'field_spokes',
+        3 => 'field_representative_image',
+        4 => 'title',
+        5 => 'field_curators_editors',
+        6 => 'field_co_editor',
         7 => 'field_body',
       ),
     ),
     'fields' => array(
+      'field_period' => 'ds_content',
       'group_headerinfo' => 'ds_content',
+      'field_spokes' => 'ds_content',
       'field_representative_image' => 'ds_content',
       'title' => 'ds_content',
       'field_curators_editors' => 'ds_content',
-      'field_period' => 'ds_content',
       'field_co_editor' => 'ds_content',
-      'field_spokes' => 'ds_content',
       'field_body' => 'ds_content',
     ),
     'classes' => array(),
