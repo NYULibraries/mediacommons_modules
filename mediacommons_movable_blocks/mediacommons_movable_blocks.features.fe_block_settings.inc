@@ -14,6 +14,7 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
 
   $export['views-contributors_this_hub-block'] = array(
     'cache' => -1,
+    'custom' => 0,
     'delta' => 'contributors_this_hub-block',
     'module' => 'views',
     'node_types' => array(),
@@ -45,6 +46,8 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
+    'title' => '',
+    'visibility' => 0,
   );
 
   $export['views-mc_recent_comments-block'] = array(
