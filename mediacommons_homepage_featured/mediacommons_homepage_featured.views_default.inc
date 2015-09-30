@@ -43,7 +43,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_representative_image']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_representative_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_representative_image']['settings'] = array(
-    'image_style' => '16_9_ratio',
+    'image_style' => '',
     'image_link' => 'content',
   );
   /* Field: Content: Start and end dates */
