@@ -163,12 +163,9 @@
     setUpNavLink();
     setUpProjectNavMobile();
   }, 200));
+  console.log("Soon rendering up global nav ");
+  setUpLoginLink();
+  setUpNavLink();
 
-  jQuery(document).ready(function($) {
-    // executed once every element of the page is loaded, including fonts
-    console.log("Soon rendering up global nav ");
-    setUpLoginLink();
-    setUpNavLink();
-  });
 
 })(jQuery);
