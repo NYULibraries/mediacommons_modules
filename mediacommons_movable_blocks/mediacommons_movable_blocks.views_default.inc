@@ -54,6 +54,8 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['fields']['rendered_entity']['field'] = 'rendered_entity';
   $handler->display->display_options['fields']['rendered_entity']['relationship'] = 'field_contributors_uid';
   $handler->display->display_options['fields']['rendered_entity']['label'] = '';
+  $handler->display->display_options['fields']['rendered_entity']['element_type'] = 'div';
+  $handler->display->display_options['fields']['rendered_entity']['element_class'] = 'h-card';
   $handler->display->display_options['fields']['rendered_entity']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['rendered_entity']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['rendered_entity']['link_to_entity'] = 1;
