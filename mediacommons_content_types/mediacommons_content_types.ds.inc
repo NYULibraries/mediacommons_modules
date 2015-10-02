@@ -271,6 +271,20 @@ function mediacommons_content_types_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'field_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'section',
+          'fi-cl' => 'body-text',
+          'fi-at' => '',
+          'fi-def-at' => TRUE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
   );
   $export['node|spoke|full'] = $ds_fieldsetting;
 

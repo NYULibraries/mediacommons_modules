@@ -253,7 +253,9 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   // Exported permission: 'administer gravatar'.
   $permissions['administer gravatar'] = array(
     'name' => 'administer gravatar',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'gravatar',
   );
 
@@ -656,7 +658,9 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   // Exported permission: 'disable own gravatar'.
   $permissions['disable own gravatar'] = array(
     'name' => 'disable own gravatar',
-    'roles' => array(),
+    'roles' => array(
+      'authenticated user' => 'authenticated user',
+    ),
     'module' => 'gravatar',
   );
 
@@ -975,7 +979,9 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   // Exported permission: 'use gravatar'.
   $permissions['use gravatar'] = array(
     'name' => 'use gravatar',
-    'roles' => array(),
+    'roles' => array(
+      'authenticated user' => 'authenticated user',
+    ),
     'module' => 'gravatar',
   );
 
