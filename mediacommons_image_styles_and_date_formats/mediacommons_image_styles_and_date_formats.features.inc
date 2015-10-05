@@ -147,6 +147,22 @@ function mediacommons_image_styles_and_date_formats_image_default_styles() {
     ),
   );
 
+  // Exported image style: max_width_600px.
+  $styles['max_width_600px'] = array(
+    'label' => 'Max width 600px',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 600,
+          'height' => '',
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
   // Exported image style: medium.
   $styles['medium'] = array(
     'label' => 'Medium (220x220)',
