@@ -1,0 +1,146 @@
+<?php
+
+/**
+ * @file
+ * Module file for mediacommons_block.
+ */
+
+/**
+ * Implements hook_block_info().
+ *
+ * This hook declares what blocks are provided by the module.
+ */
+function mediacommons_apis_block_info ( ) {
+
+  $blocks['mc_apis_status'] = array (
+    'info' => t('Site status'),
+  );
+
+  return $blocks;
+
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function mediacommons_apis_block_view ( $delta = '' ) {
+
+	switch ( $delta ) {
+    case 'mc_apis_status' :
+    	$block['subject'] = t('Site status') ;
+      $block['content'] = mediacommons_apis_content () ;
+      break ;
+  }
+
+  return $block ;
+}
+
+/**
+ * A module-defined block content function.
+ */
+function mediacommons_apis_contents ( ) {
+
+  $block_content = '<div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>';
+
+  return array('#markup' => $block_content);
+
+}
+
+/**
+ * Package and send page callback as JSON/JSONP.
+ * See: http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_deliver_html_page/7
+ *
+ * @param $page_callback_result
+ * A keyed array to be converted into JSON
+ */
+function mediacommons_apis_deliver_json ($page_callback_result) {
+
+	/** Send appropriate HTTP-Header for browsers and search engines. */
+	global $language;
+	drupal_add_http_header('Content-Language', $language->language);
+
+	/** Menu status constants are integers; page content is a string or array. */
+	if (is_int($page_callback_result)) {
+		switch ($page_callback_result) {
+
+			/*
+			 * Send a 404 response.
+			*/
+			case MENU_NOT_FOUND:
+				drupal_add_http_header('Status', 'HTTP/1.1 404 Not Found');
+				watchdog('Request not found', check_plain($_GET['q']), NULL, WATCHDOG_WARNING);
+
+				$page_callback_result = array(
+						'msg' => t('404 Not Found'),
+						'code' => 404,
+				);
+				break;
+
+				/*
+				 * Send a 403 response.
+				*/
+			case MENU_ACCESS_DENIED:
+				drupal_add_http_header('Status', 'HTTP/1.1 403 Forbidden');
+				watchdog('dlts_utilities', check_plain($_GET['q']), NULL, WATCHDOG_WARNING);
+
+				$page_callback_result = array(
+						'msg' => t('403 Forbidden'),
+						'code' => 403,
+				);
+				break;
+
+				/*
+				 * Send a 503 response.
+				*/
+			case MENU_SITE_OFFLINE:
+				drupal_add_http_header('Status', 'HTTP/1.1 503 Service unavailable');
+				$page_callback_result = array(
+						'msg' => t('503 Service unavailable.') . filter_xss_admin(variable_get('site_offline_message', t(' @site is currently under maintenance. We should be back shortly. Thank you for your patience.', array('@site' => variable_get('site_name', 'Drupal'))))),
+						'code' => 503,
+				);
+				break;
+		}
+	}
+
+	// Only add Content-Length if we actually have any content. Some non-standard
+	// servers get confused by Content-Length in at least HEAD/GET requests
+	// $content_length = strlen($data);
+	// if ($content_length > 0 || $method == 'POST' || $method == 'PUT') {
+	//  $defaults['Content-Length'] = 'Content-Length: '. $content_length;
+		// }
+
+		if (isset($page_callback_result)) {
+			if (array_key_exists('callback', $_GET)) {
+				drupal_add_http_header('Content-Type', 'text/javascript; charset=utf-8');
+				echo sprintf('%s(%s);', filter_xss($_GET['callback'], array()), drupal_json_encode($page_callback_result));
+			} else {
+				drupal_add_http_header('Content-Type', 'application/json; charset=utf-8');
+				echo drupal_json_encode($page_callback_result);
+			}
+		}
+}
+
+/**
+ * Implements hook_menu().
+ */
+function mediacommons_apis_menu ( ) {
+
+	$menu = array (
+    'apis/status' => array (
+      'title' => 'Site status',
+			'access arguments' => array('access content'),
+			'page callback' => 'mediacommons_apis_status_report',
+    	'delivery callback' => 'mediacommons_apis_deliver_json',
+      'type' => MENU_CALLBACK,
+    ) ,
+  ) ;
+
+  return $menu ;
+
+}
+
+function mediacommons_apis_status_report ( ) {
+  return array ( 'time' => time() ) ;
+}

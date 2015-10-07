@@ -1,0 +1,5 @@
+name = MediaCommons APIs
+description = Define MediaCommons APIs.
+core = 7.x
+dependencies[] = entity
+package = MediaCommons
