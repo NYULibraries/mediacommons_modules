@@ -142,5 +142,9 @@ function mediacommons_apis_menu ( ) {
 }
 
 function mediacommons_apis_status_report ( ) {
-  return array ( 'time' => time() ) ;
+
+	$status = variable_get('mediacommons_migration_status', '{}' ) ;
+
+  return json_decode ( $status ) ;
+
 }
