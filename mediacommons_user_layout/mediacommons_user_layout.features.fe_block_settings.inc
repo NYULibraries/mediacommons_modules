@@ -50,10 +50,9 @@ function mediacommons_user_layout_default_fe_block_settings() {
     'visibility' => 0,
   );
 
-  $export['views-posts_from_user-block'] = array(
+  $export['views-posts_contributed-block'] = array(
     'cache' => -1,
-    'custom' => 0,
-    'delta' => 'posts_from_user-block',
+    'delta' => 'posts_contributed-block',
     'module' => 'views',
     'node_types' => array(),
     'pages' => '',
@@ -84,8 +83,6 @@ function mediacommons_user_layout_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => '',
-    'visibility' => 0,
   );
 
   return $export;

@@ -1,7 +1,7 @@
 name = MediaCommons User Layout
 core = 7.x
 package = MediaCommons
-version = 7.x-1.034
+version = 7.x-1.04
 project = mediacommons_user_layout
 dependencies[] = ctools
 dependencies[] = ds
@@ -24,7 +24,7 @@ features[ds_layout_settings][] = user|user|full
 features[ds_layout_settings][] = user|user|user_byline
 features[ds_layout_settings][] = user|user|user_teaser
 features[fe_block_settings][] = views-comments_from_user-block
-features[fe_block_settings][] = views-posts_from_user-block
+features[fe_block_settings][] = views-posts_contributed-block
 features[features_api][] = api:2
 features[field_group][] = group_contactinfo|user|user|full
 features[views_view][] = all_users

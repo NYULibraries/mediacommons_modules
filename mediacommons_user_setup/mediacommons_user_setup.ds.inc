@@ -27,18 +27,18 @@ function mediacommons_user_setup_ds_custom_fields_info() {
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
-  $ds_field->field = 'posts_from_user';
-  $ds_field->label = 'Posts from user';
+  $ds_field->field = 'posts_contributed';
+  $ds_field->label = 'Posts Contributed';
   $ds_field->field_type = 6;
   $ds_field->entities = array(
     'user' => 'user',
   );
   $ds_field->ui_limit = '';
   $ds_field->properties = array(
-    'block' => 'views|posts_from_user-block',
-    'block_render' => '2',
+    'block' => 'views|posts_contributed-block',
+    'block_render' => '1',
   );
-  $export['posts_from_user'] = $ds_field;
+  $export['posts_contributed'] = $ds_field;
 
   return $export;
 }

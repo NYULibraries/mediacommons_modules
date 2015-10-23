@@ -290,7 +290,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 13,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -342,7 +342,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'user_byline' => array(
         'label' => 'above',
