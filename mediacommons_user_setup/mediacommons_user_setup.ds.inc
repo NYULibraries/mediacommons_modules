@@ -36,7 +36,7 @@ function mediacommons_user_setup_ds_custom_fields_info() {
   $ds_field->ui_limit = '';
   $ds_field->properties = array(
     'block' => 'views|posts_contributed-block',
-    'block_render' => '1',
+    'block_render' => '2',
   );
   $export['posts_contributed'] = $ds_field;
 
