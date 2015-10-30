@@ -35,8 +35,8 @@ function mediacommons_user_layout_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '1',
-            'visible' => TRUE,
+            'weight' => '2',
+            'visible' => FALSE,
           ),
         ),
       ),

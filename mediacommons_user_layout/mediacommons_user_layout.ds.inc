@@ -32,18 +32,10 @@ function mediacommons_user_layout_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'organizations';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'title' => array(
+    'users_in_this_org' => array(
       'weight' => '0',
-      'label' => 'inline',
+      'label' => 'hidden',
       'format' => 'default',
-      'formatter_settings' => array(
-        'link' => '0',
-        'wrapper' => 'h2',
-        'class' => '',
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-        ),
-      ),
     ),
   );
   $export['taxonomy_term|organizations|full'] = $ds_fieldsetting;
@@ -176,8 +168,37 @@ function mediacommons_user_layout_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'ds_picture_profile_page_pic',
     ),
+    'field_organization' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['user|user|user_teaser'] = $ds_fieldsetting;
+
+  return $export;
+}
+
+/**
+ * Implements hook_ds_custom_fields_info().
+ */
+function mediacommons_user_layout_ds_custom_fields_info() {
+  $export = array();
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'users_in_this_org';
+  $ds_field->label = 'Users in this org';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'taxonomy_term' => 'taxonomy_term',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'views|users_in_an_org-block',
+    'block_render' => '2',
+  );
+  $export['users_in_this_org'] = $ds_field;
 
   return $export;
 }
@@ -228,13 +249,11 @@ function mediacommons_user_layout_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'title',
-        1 => 'description',
+        0 => 'users_in_this_org',
       ),
     ),
     'fields' => array(
-      'title' => 'ds_content',
-      'description' => 'ds_content',
+      'users_in_this_org' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
