@@ -155,7 +155,7 @@ function mediacommons_user_layout_ds_field_settings_info() {
           'func' => 'theme_ds_field_expert',
           'fi' => TRUE,
           'fi-el' => 'h2',
-          'fi-cl' => 'p-name name',
+          'fi-cl' => 'p-name name fn',
           'fi-at' => '',
           'fi-def-at' => FALSE,
           'fi-odd-even' => FALSE,
@@ -167,11 +167,6 @@ function mediacommons_user_layout_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'ds_picture_profile_page_pic',
-    ),
-    'field_organization' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
     ),
   );
   $export['user|user|user_teaser'] = $ds_fieldsetting;
