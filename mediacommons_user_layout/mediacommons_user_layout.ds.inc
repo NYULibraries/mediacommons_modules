@@ -132,6 +132,12 @@ function mediacommons_user_layout_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => '',
+        'class' => '',
+        'ft' => array(),
+      ),
     ),
   );
   $export['user|user|user_byline'] = $ds_fieldsetting;

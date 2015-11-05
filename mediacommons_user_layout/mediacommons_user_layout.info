@@ -36,5 +36,6 @@ features[fe_block_settings][] = views-users_in_an_org-block
 features[features_api][] = api:2
 features[field_group][] = group_contactinfo|user|user|full
 features[variable][] = field_bundle_settings_taxonomy_term__organizations
+features[variable][] = field_bundle_settings_taxonomy_term__tags
 features[views_view][] = all_users
 features[views_view][] = users_in_an_org
