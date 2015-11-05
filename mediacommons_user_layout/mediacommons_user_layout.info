@@ -1,7 +1,7 @@
 name = MediaCommons User Layout
 core = 7.x
 package = MediaCommons
-version = 7.x-1.051
+version = 7.x-1.052
 project = mediacommons_user_layout
 dependencies[] = ctools
 dependencies[] = ds

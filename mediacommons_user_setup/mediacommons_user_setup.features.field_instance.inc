@@ -81,7 +81,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -505,7 +505,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 9,
+        'weight' => 10,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -558,7 +558,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -694,6 +694,60 @@ function mediacommons_user_setup_field_default_field_instances() {
       'settings' => array(),
       'type' => 'options_select',
       'weight' => 9,
+    ),
+  );
+
+  // Exported field_instance: 'user-user-field_taxonomy'
+  $field_instances['user-user-field_taxonomy'] = array(
+    'bundle' => 'user',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'These are tied to MediaCommons "tags";  they will be linked to from your profile page, and your profile will be linked to from the corresponding tag page. ',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 20,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 8,
+      ),
+      'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'user_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'user',
+    'field_name' => 'field_taxonomy',
+    'label' => 'Research Interests',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => 1,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'taxonomy',
+      'settings' => array(
+        'autocomplete_path' => 'taxonomy/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'taxonomy_autocomplete',
+      'weight' => 20,
     ),
   );
 
@@ -889,8 +943,10 @@ function mediacommons_user_setup_field_default_field_instances() {
   t('Organization');
   t('Phone');
   t('Plan');
+  t('Research Interests');
   t('Skype');
   t('State');
+  t('These are tied to MediaCommons "tags";  they will be linked to from your profile page, and your profile will be linked to from the corresponding tag page. ');
   t('Title');
   t('Twitter');
   t('URL');
