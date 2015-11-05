@@ -225,7 +225,7 @@ function mediacommons_ds_settings_strongarm() {
             'visible' => FALSE,
           ),
           'user_byline' => array(
-            'weight' => '20',
+            'weight' => '21',
             'visible' => FALSE,
           ),
         ),

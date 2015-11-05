@@ -211,16 +211,10 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'contributors_view_for_bylines' => array(
+    'contributors_to_this_spoke' => array(
       'weight' => '2',
-      'label' => 'inline',
+      'label' => 'hidden',
       'format' => 'default',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
-          'lb' => 'Authors',
-        ),
-      ),
     ),
     'hub_navigation' => array(
       'weight' => '7',
@@ -328,11 +322,11 @@ function mediacommons_content_types_ds_field_settings_info() {
         'ft' => array(
           'func' => 'theme_ds_field_expert',
           'ow' => TRUE,
-          'ow-el' => 'div ',
+          'ow-el' => 'div',
           'ow-cl' => 'thumb',
-          'ow-def-cl' => TRUE,
+          'ow-def-cl' => FALSE,
           'ow-at' => '',
-          'ow-def-at' => TRUE,
+          'ow-def-at' => FALSE,
         ),
       ),
     ),

@@ -61,6 +61,21 @@ function mediacommons_ds_settings_ds_custom_fields_info() {
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
+  $ds_field->field = 'contributors_to_this_spoke';
+  $ds_field->label = 'Contributors to this spoke';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'node' => 'node',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'views|contributors_this_spoke-block',
+    'block_render' => '3',
+  );
+  $export['contributors_to_this_spoke'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
   $ds_field->field = 'hub_navigation';
   $ds_field->label = 'Hub Navigation';
   $ds_field->field_type = 6;
@@ -285,7 +300,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'header' => array(
         0 => 'post_date',
         1 => 'title',
-        2 => 'contributors_view_for_bylines',
+        2 => 'contributors_to_this_spoke',
       ),
       'left' => array(
         3 => 'field_embed',
@@ -300,7 +315,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'fields' => array(
       'post_date' => 'header',
       'title' => 'header',
-      'contributors_view_for_bylines' => 'header',
+      'contributors_to_this_spoke' => 'header',
       'field_embed' => 'left',
       'field_body' => 'left',
       'field_taxonomy' => 'left',

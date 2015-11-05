@@ -5,3 +5,49 @@
  */
 
 include_once 'mediacommons_content_types.features.inc';
+
+
+/**
+ * Helper to replace default field base image.  https://www.drupal.org/node/1439136
+ * 
+ * @param $field_name
+ * @param $filename
+ * @param $source
+ */
+function mediacommons_content_types_replace_default_image($field_name, $filename, $source) {
+  // Load field info.
+  $field = field_info_field($field_name);
+
+  // Create new file object and get new fid.
+  if (file_exists($source)) {
+    $file = new stdClass;
+    $file->filename = $filename;
+    $file->timestamp = REQUEST_TIME;
+    $file->uri = $source;
+    $file->filemime = file_get_mimetype($source);
+    $file->uid = 1;
+    $file->status = 1;
+    $file = file_copy($file, 'public://styles', FILE_EXISTS_REPLACE);
+    $fid = $file->fid;
+
+    // Replace old fid with new fid.
+    $field['settings']['default_image'] = (string) $fid;
+
+    // Update field.
+    field_update_field($field);
+  }
+}
+
+/**
+ * Update default image on field base.
+ */
+function mediacommons_content_types_update_N() {
+  // $source should point to the new file. If you don't have "default_images"
+  // folder in your module, create it.
+  $field_name = 'field_attached_images';
+  $filename = 'transparent.png';
+  $source = drupal_get_path('module', 'mediacommons_content_types') . '/default_images'. '/' . $filename;
+  // Replace default image for $field_name field base.
+  mediacommons_content_types_replace_default_image($field_name, $filename, $source);
+}
+
