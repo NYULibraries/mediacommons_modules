@@ -192,6 +192,7 @@ function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
       	$formats = filter_list_format ( $value['format'] ) ;
         if ( array_key_exists( 'filter_iframe', $formats ) ) {
           $html = str_get_html( $value['value'] ) ;
+          if ( empty ( $html ) ) continue;
           // Find all iframe
           foreach ( $html->find('iframe') as $element ) {
           	$parse_url = parse_url( $element->src ) ;
