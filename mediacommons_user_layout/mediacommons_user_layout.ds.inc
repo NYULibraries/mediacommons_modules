@@ -47,13 +47,18 @@ function mediacommons_user_layout_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'user';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'posts_contributed' => array(
+    'curated_hubs' => array(
       'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'comments_from_this_user' => array(
+    'posts_contributed' => array(
       'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'comments_from_this_user' => array(
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -289,19 +294,20 @@ function mediacommons_user_layout_ds_layout_settings_info() {
         8 => 'field_aim',
         9 => 'group_location',
         10 => 'field_state',
-        11 => 'field_url',
+        11 => 'field_country',
         12 => 'group_contactinfo',
-        13 => 'field_country',
-        14 => 'field_phone',
+        13 => 'field_url',
+        15 => 'field_phone',
       ),
       'left' => array(
-        15 => 'posts_contributed',
-        16 => 'comments_from_this_user',
+        14 => 'curated_hubs',
+        16 => 'posts_contributed',
+        17 => 'comments_from_this_user',
       ),
       'right' => array(
-        17 => 'field_taxonomy',
-        18 => 'field_bio',
-        19 => 'field_plan',
+        18 => 'field_taxonomy',
+        19 => 'field_bio',
+        20 => 'field_plan',
       ),
     ),
     'fields' => array(
@@ -316,9 +322,10 @@ function mediacommons_user_layout_ds_layout_settings_info() {
       'field_aim' => 'header',
       'group_location' => 'header',
       'field_state' => 'header',
-      'field_url' => 'header',
-      'group_contactinfo' => 'header',
       'field_country' => 'header',
+      'group_contactinfo' => 'header',
+      'field_url' => 'header',
+      'curated_hubs' => 'left',
       'field_phone' => 'header',
       'posts_contributed' => 'left',
       'comments_from_this_user' => 'left',

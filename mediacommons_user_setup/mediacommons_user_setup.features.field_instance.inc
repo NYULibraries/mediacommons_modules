@@ -81,7 +81,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 9,
+        'weight' => 10,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -290,7 +290,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 14,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -342,7 +342,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 13,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -505,7 +505,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -558,7 +558,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -716,7 +716,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'user_byline' => array(
         'label' => 'above',
