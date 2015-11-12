@@ -133,7 +133,6 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
-      'ds_hidden' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',

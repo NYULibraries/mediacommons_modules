@@ -452,6 +452,12 @@ function mediacommons_content_types_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 5,
       ),
+      'hub_teaser_compact' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -519,6 +525,13 @@ function mediacommons_content_types_field_default_field_instances() {
         'type' => 'user_reference_default',
         'weight' => 4,
       ),
+      'hub_teaser_compact' => array(
+        'label' => 'inline',
+        'module' => 'user_reference',
+        'settings' => array(),
+        'type' => 'user_reference_default',
+        'weight' => 4,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -579,6 +592,13 @@ function mediacommons_content_types_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 5,
       ),
+      'hub_teaser_compact' => array(
+        'label' => 'inline',
+        'module' => 'user_reference',
+        'settings' => array(),
+        'type' => 'user_reference_default',
+        'weight' => 5,
+      ),
       'teaser' => array(
         'label' => 'inline',
         'module' => 'user_reference',
@@ -635,6 +655,13 @@ function mediacommons_content_types_field_default_field_instances() {
         'weight' => 4,
       ),
       'hub_for_home' => array(
+        'label' => 'inline',
+        'module' => 'user_reference',
+        'settings' => array(),
+        'type' => 'user_reference_default',
+        'weight' => 3,
+      ),
+      'hub_teaser_compact' => array(
         'label' => 'inline',
         'module' => 'user_reference',
         'settings' => array(),
@@ -724,6 +751,20 @@ function mediacommons_content_types_field_default_field_instances() {
         'type' => 'date_default',
         'weight' => 1,
       ),
+      'hub_teaser_compact' => array(
+        'label' => 'hidden',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+          'show_remaining_days' => FALSE,
+        ),
+        'type' => 'date_default',
+        'weight' => 2,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'date',
@@ -811,6 +852,12 @@ function mediacommons_content_types_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 6,
       ),
+      'hub_teaser_compact' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -876,6 +923,16 @@ function mediacommons_content_types_field_default_field_instances() {
         ),
         'type' => 'image',
         'weight' => 1,
+      ),
+      'hub_teaser_compact' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'thumbnail__120x80_',
+        ),
+        'type' => 'image',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -962,6 +1019,12 @@ function mediacommons_content_types_field_default_field_instances() {
         ),
         'type' => 'node_reference_node',
         'weight' => 3,
+      ),
+      'hub_teaser_compact' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
       ),
       'teaser' => array(
         'label' => 'above',

@@ -116,6 +116,9 @@ function mediacommons_ds_settings_strongarm() {
       'third_mode' => array(
         'custom_settings' => TRUE,
       ),
+      'hub_teaser_compact' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -217,7 +220,7 @@ function mediacommons_ds_settings_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '14',
+            'weight' => '15',
             'visible' => FALSE,
           ),
           'user_teaser' => array(
