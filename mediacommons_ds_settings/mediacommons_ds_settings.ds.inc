@@ -351,6 +351,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
         1 => 'title',
         2 => 'post_date',
         3 => 'field_contributors',
+        4 => 'comment_count_spokes',
       ),
     ),
     'fields' => array(
@@ -358,6 +359,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'title' => 'ds_content',
       'post_date' => 'ds_content',
       'field_contributors' => 'ds_content',
+      'comment_count_spokes' => 'ds_content',
     ),
     'limit' => array(
       'field_attached_images' => '1',
