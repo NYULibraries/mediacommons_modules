@@ -95,8 +95,8 @@
           });
       } else {
         // if search is closed
-        closeTopTwo()
-          // if main is already open, first close it 
+        closeTopTwo();
+        // if main is already open, first close it 
         if ($('nav.main ul').is(":visible")) {
           $('nav.main ul').slideUp(300, 'easeInQuad', function() {
             $('header[role=banner] form[role=search]').addClass("open");
@@ -108,9 +108,10 @@
         } else {
           // if main is closed
           $('header[role=banner] form[role=search]').addClass("open");
-          $('header[role=banner] form[role=search] fieldset').slideDown(300, 'easeInQuad',
+          $('header[role=banner] form[role=search] fieldset').slideDown(300, 'easeOutQuad',
             function() {
-              $(this).parent('form').addClass("open");
+             //console.log("search fieldset should be nicely open");
+              
             });
         }
 
@@ -125,7 +126,7 @@
 
         var $theMenuButton = this;
         if ($("nav.main ul").is(":visible")) {
-          console.log("case now 1, visible");
+          console.log("case now 1, main ul is visible");
           $('nav.main ul').slideUp(300, 'easeInQuad', function() {
             $("header[role=banner] button").removeClass("open");
           });
@@ -166,6 +167,6 @@
   console.log("Soon rendering up global nav ");
   setUpLoginLink();
   setUpNavLink();
-
+  setUpProjectNavMobile();
 
 })(jQuery);
