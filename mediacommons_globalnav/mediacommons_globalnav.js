@@ -33,14 +33,18 @@
 
   function setUpNavLink() {
     console.log("mc_global_nav setUpNavLink ");
-    $('.sites_nav ul').removeAttr("style");
+    //$('.sites_nav ul').removeAttr("style");
+   
     // Global nav - Login - global behavior
     var w = $(window).width();
     if (w > 800) {
       $('.sites_nav ul[aria-hidden="true"]').attr('aria-hidden', 'false');
+       $('.sites_nav ul').removeAttr("style");
       $('.sites_nav a.logolink').unbind("click");
     } else {
+      $('.sites_nav').addClass("closed");
       $('.sites_nav ul').attr('aria-hidden', 'true');
+      $('.sites_nav ul').css('display', 'none');
       $('.sites_nav a.logolink').unbind('click').click(function(e) {
         console.log("just clicked and narrower than 800px");
         if (!e) {
@@ -52,19 +56,23 @@
           $('.sites_nav a.logolink').removeClass("open");
           $('.sites_nav ul').slideUp(300,
             function() {
-              $('.sites_nav ul[aria-hidden="false"]').attr('aria-hidden', 'true').removeAttr("style");
+              $('.sites_nav ul[aria-hidden="false"]').attr('aria-hidden', 'true');
+              $('.sites_nav').removeClass("open").addClass("closed");
+               console.log("nav should now be closed and have class closed");
             });
         } else {
-          console.log("nav box is closed: open me");
+          console.log("NOT visible nav box is closed: open me");
           $('.sites_nav a.logolink').addClass("open");
+          $('.sites_nav').removeClass("closed").addClass("open");
+            console.log("\t class is now open - nav should slide down ");
           $('.sites_nav ul').slideDown(300,
             function() {
-              $('.sites_nav ul[aria-hidden="true"]').attr('aria-hidden', 'false').removeAttr("style");
+        
+              $('.sites_nav ul[aria-hidden="true"]').attr('aria-hidden', 'false');
               console.log("nav should be open now sites_nav ul[aria-hidden='false'] ");
             });
         }
       });
-
     }
 
 
@@ -156,7 +164,7 @@
   }
   $(window).resize(function() {
     // Collapsing the height doesn't interfere with the jquery, but display:none does.
-    $('.sites_nav ul').attr('style', 'height:0px; overflow:hidden');
+    //$('.sites_nav ul').attr('style', 'height:0px; overflow:hidden');
   });
   $(window).resize(_.debounce(function() {
     // executed when the DOM is ready
