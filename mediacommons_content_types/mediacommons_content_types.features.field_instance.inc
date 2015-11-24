@@ -185,10 +185,9 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 9,
+        'type' => 'hidden',
+        'weight' => 15,
       ),
     ),
     'entity_type' => 'node',
@@ -208,7 +207,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 4,
+      'weight' => 2,
     ),
   );
 
@@ -252,13 +251,9 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
-        'weight' => 1,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -290,7 +285,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'resolution' => '800x500',
       ),
       'type' => 'imagefield_crop_widget',
-      'weight' => 32,
+      'weight' => 4,
     ),
   );
 
@@ -330,9 +325,13 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 10,
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '450_by_175',
+        ),
+        'type' => 'image',
+        'weight' => 1,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -364,18 +363,14 @@ function mediacommons_content_types_field_default_field_instances() {
         'resolution' => '450x175',
       ),
       'type' => 'imagefield_crop_widget',
-      'weight' => 34,
+      'weight' => 5,
     ),
   );
 
   // Exported field_instance: 'node-front_page_post-field_project'
   $field_instances['node-front_page_post-field_project'] = array(
     'bundle' => 'front_page_post',
-    'default_value' => array(
-      0 => array(
-        'value' => 'MediaCommons',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -400,11 +395,11 @@ function mediacommons_content_types_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 8,
+        'weight' => 5,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -420,7 +415,73 @@ function mediacommons_content_types_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 35,
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'node-front_page_post-field_rlink'
+  $field_instances['node-front_page_post-field_rlink'] = array(
+    'bundle' => 'front_page_post',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 13,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 13,
+      ),
+      'teaser' => array(
+        'label' => 'hidden',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 6,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'field_rlink',
+    'label' => 'Link to Resource',
+    'required' => 0,
+    'settings' => array(
+      'absolute_url' => 1,
+      'attributes' => array(
+        'class' => 'rlink',
+        'configurable_class' => 0,
+        'configurable_title' => 1,
+        'rel' => '',
+        'target' => 'default',
+        'title' => '',
+      ),
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 0,
+      'rel_remove' => 'default',
+      'title' => 'required',
+      'title_label_use_field_label' => 0,
+      'title_maxlength' => 128,
+      'title_value' => '',
+      'url' => 'optional',
+      'user_register_form' => FALSE,
+      'validate_url' => 1,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'link',
+      'settings' => array(),
+      'type' => 'link_field',
+      'weight' => 1,
     ),
   );
 
@@ -1509,6 +1570,7 @@ function mediacommons_content_types_field_default_field_instances() {
   t('Description');
   t('Embed');
   t('Featured Image Thumb');
+  t('Link to Resource');
   t('Part of hub');
   t('Project');
   t('Publication Status');
