@@ -134,7 +134,7 @@ function mediacommons_content_types_ds_field_settings_info() {
     'field_body' => array(
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
+          'func' => 'theme_ds_field_minimal',
         ),
       ),
     ),
@@ -142,7 +142,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Authors',
+          'lb' => 'Contributors',
           'ow' => TRUE,
           'ow-el' => 'div',
           'ow-cl' => 'peoplelist contributors',
@@ -174,7 +174,7 @@ function mediacommons_content_types_ds_field_settings_info() {
     'field_representative_image' => array(
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
+          'func' => 'theme_ds_field_minimal',
         ),
       ),
     ),
