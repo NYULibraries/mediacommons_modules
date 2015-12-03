@@ -164,11 +164,11 @@ function mediacommons_content_types_field_default_field_instances() {
         'weight' => 2,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 15,
       ),
       'homepage_featured_articles' => array(
         'label' => 'hidden',
@@ -185,9 +185,10 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 15,
+        'type' => 'text_default',
+        'weight' => 7,
       ),
     ),
     'entity_type' => 'node',
@@ -211,84 +212,6 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-front_page_post-field_carousel_image'
-  $field_instances['node-front_page_post-field_carousel_image'] = array(
-    'bundle' => 'front_page_post',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
-        'weight' => 3,
-      ),
-      'full' => array(
-        'label' => 'hidden',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
-        'weight' => 4,
-      ),
-      'homepage_featured_articles' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 13,
-      ),
-      'hub_for_home' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 14,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'field_carousel_image',
-    'label' => 'Carousel Image',
-    'required' => 0,
-    'settings' => array(
-      'alt_field' => 0,
-      'default_image' => 50,
-      'file_directory' => '',
-      'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
-      'max_resolution' => '800x500',
-      'min_resolution' => '800x500',
-      'title_field' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'imagefield_crop',
-      'settings' => array(
-        'collapsible' => 1,
-        'croparea' => '800x500',
-        'enforce_minimum' => 1,
-        'enforce_ratio' => 1,
-        'preview_image_style' => 'flexslider_full',
-        'progress_indicator' => 'throbber',
-        'resolution' => '800x500',
-      ),
-      'type' => 'imagefield_crop_widget',
-      'weight' => 4,
-    ),
-  );
-
   // Exported field_instance: 'node-front_page_post-field_featured_image_thumb'
   $field_instances['node-front_page_post-field_featured_image_thumb'] = array(
     'bundle' => 'front_page_post',
@@ -305,7 +228,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 15,
       ),
       'homepage_featured_articles' => array(
         'label' => 'hidden',
@@ -328,7 +251,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => '450_by_175',
+          'image_style' => 'homepage_featured_item__480x320_',
         ),
         'type' => 'image',
         'weight' => 1,
@@ -367,10 +290,75 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-front_page_post-field_large_image'
+  $field_instances['node-front_page_post-field_large_image'] = array(
+    'bundle' => 'front_page_post',
+    'deleted' => 0,
+    'description' => 'The image that will be displayed on the umbrella home page top left most featured spot.  Should be a big beautiful image. ',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 14,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '21_9_ratio',
+        ),
+        'type' => 'image',
+        'weight' => 1,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'field_large_image',
+    'label' => 'Large image',
+    'required' => 0,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 73,
+      'file_directory' => '',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'image',
+      'settings' => array(
+        'preview_image_style' => '16_9_ratio',
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'image_image',
+      'weight' => 6,
+    ),
+  );
+
   // Exported field_instance: 'node-front_page_post-field_project'
   $field_instances['node-front_page_post-field_project'] = array(
     'bundle' => 'front_page_post',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'value' => 'mc',
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -382,11 +370,11 @@ function mediacommons_content_types_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 0,
+        'weight' => 12,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -415,7 +403,7 @@ function mediacommons_content_types_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 6,
+      'weight' => 4,
     ),
   );
 
@@ -424,7 +412,7 @@ function mediacommons_content_types_field_default_field_instances() {
     'bundle' => 'front_page_post',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'The headline of the front page post as it will appear to the user. ',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -434,7 +422,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'weight' => 13,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_default',
@@ -452,13 +440,13 @@ function mediacommons_content_types_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_rlink',
     'label' => 'Link to Resource',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'absolute_url' => 1,
       'attributes' => array(
         'class' => 'rlink',
         'configurable_class' => 0,
-        'configurable_title' => 1,
+        'configurable_title' => 0,
         'rel' => '',
         'target' => 'default',
         'title' => '',
@@ -472,7 +460,7 @@ function mediacommons_content_types_field_default_field_instances() {
       'title_label_use_field_label' => 0,
       'title_maxlength' => 128,
       'title_value' => '',
-      'url' => 'optional',
+      'url' => 0,
       'user_register_form' => FALSE,
       'validate_url' => 1,
     ),
@@ -956,13 +944,14 @@ function mediacommons_content_types_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'flexslider_fields',
+        'module' => 'image',
         'settings' => array(
           'caption' => FALSE,
+          'image_link' => '',
           'image_style' => '',
           'optionset' => 'default',
         ),
-        'type' => 'flexslider',
+        'type' => 'image',
         'weight' => 6,
       ),
       'full' => array(
@@ -1562,7 +1551,6 @@ function mediacommons_content_types_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Attached Images');
   t('Body');
-  t('Carousel Image');
   t('Co-editor');
   t('Comment');
   t('Contributors');
@@ -1570,6 +1558,7 @@ function mediacommons_content_types_field_default_field_instances() {
   t('Description');
   t('Embed');
   t('Featured Image Thumb');
+  t('Large image');
   t('Link to Resource');
   t('Part of hub');
   t('Project');
@@ -1578,6 +1567,8 @@ function mediacommons_content_types_field_default_field_instances() {
   t('Spokes');
   t('Start and end dates');
   t('Tags');
+  t('The headline of the front page post as it will appear to the user. ');
+  t('The image that will be displayed on the umbrella home page top left most featured spot.  Should be a big beautiful image. ');
 
   return $field_instances;
 }

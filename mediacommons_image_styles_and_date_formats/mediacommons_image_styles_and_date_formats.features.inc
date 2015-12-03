@@ -86,36 +86,6 @@ function mediacommons_image_styles_and_date_formats_image_default_styles() {
     ),
   );
 
-  // Exported image style: flexslider_full.
-  $styles['flexslider_full'] = array(
-    'effects' => array(
-      0 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 800,
-          'height' => 500,
-        ),
-        'weight' => 0,
-      ),
-    ),
-    'label' => 'flexslider_full',
-  );
-
-  // Exported image style: flexslider_thumbnail.
-  $styles['flexslider_thumbnail'] = array(
-    'effects' => array(
-      0 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 160,
-          'height' => 100,
-        ),
-        'weight' => 0,
-      ),
-    ),
-    'label' => 'flexslider_thumbnail',
-  );
-
   // Exported image style: homepage_featured_item__480x320_.
   $styles['homepage_featured_item__480x320_'] = array(
     'label' => 'Homepage Featured Item (480x320)',
