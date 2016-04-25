@@ -12,7 +12,7 @@ function mediacommons_homepage_featured_views_default_views() {
 
   $view = new view();
   $view->name = 'recent_6_hubs';
-  $view->description = 'For use on homepage';
+  $view->description = 'For use on homepage, for all child sites';
   $view->tag = '';
   $view->base_table = 'node';
   $view->human_name = 'Recent 6 hubs';
@@ -43,7 +43,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_representative_image']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_representative_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_representative_image']['settings'] = array(
-    'image_style' => '',
+    'image_style' => 'homepage_featured_item__480x320_',
     'image_link' => 'content',
   );
   /* Field: Content: Start and end dates */
