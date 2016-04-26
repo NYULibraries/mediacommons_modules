@@ -34,10 +34,6 @@
   padding: .5em 1em;
 }
 
-.image-preview img {
-  height: 80px;
-}
-
 .image-preview img:hover {
   cursor: move;
 }
