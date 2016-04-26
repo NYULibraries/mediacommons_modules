@@ -290,189 +290,6 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-front_page_post-field_large_image'
-  $field_instances['node-front_page_post-field_large_image'] = array(
-    'bundle' => 'front_page_post',
-    'deleted' => 0,
-    'description' => 'The image that will be displayed on the umbrella home page top left most featured spot.  Should be a big beautiful image. ',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
-        'weight' => 14,
-      ),
-      'full' => array(
-        'label' => 'hidden',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '21_9_ratio',
-        ),
-        'type' => 'image',
-        'weight' => 1,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'field_large_image',
-    'label' => 'Large image',
-    'required' => 0,
-    'settings' => array(
-      'alt_field' => 0,
-      'default_image' => 73,
-      'file_directory' => '',
-      'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
-      'max_resolution' => '',
-      'min_resolution' => '',
-      'title_field' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'image',
-      'settings' => array(
-        'preview_image_style' => '16_9_ratio',
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'image_image',
-      'weight' => 6,
-    ),
-  );
-
-  // Exported field_instance: 'node-front_page_post-field_project'
-  $field_instances['node-front_page_post-field_project'] = array(
-    'bundle' => 'front_page_post',
-    'default_value' => array(
-      0 => array(
-        'value' => 'mc',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 0,
-      ),
-      'full' => array(
-        'label' => 'hidden',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 12,
-      ),
-      'hub_for_home' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'hidden',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 5,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'field_project',
-    'label' => 'Project',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 4,
-    ),
-  );
-
-  // Exported field_instance: 'node-front_page_post-field_rlink'
-  $field_instances['node-front_page_post-field_rlink'] = array(
-    'bundle' => 'front_page_post',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'The headline of the front page post as it will appear to the user. ',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'link',
-        'settings' => array(),
-        'type' => 'link_default',
-        'weight' => 13,
-      ),
-      'full' => array(
-        'label' => 'hidden',
-        'module' => 'link',
-        'settings' => array(),
-        'type' => 'link_default',
-        'weight' => 13,
-      ),
-      'teaser' => array(
-        'label' => 'hidden',
-        'module' => 'link',
-        'settings' => array(),
-        'type' => 'link_default',
-        'weight' => 6,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'field_rlink',
-    'label' => 'Link to Resource',
-    'required' => 1,
-    'settings' => array(
-      'absolute_url' => 1,
-      'attributes' => array(
-        'class' => 'rlink',
-        'configurable_class' => 0,
-        'configurable_title' => 0,
-        'rel' => '',
-        'target' => 'default',
-        'title' => '',
-      ),
-      'display' => array(
-        'url_cutoff' => 80,
-      ),
-      'enable_tokens' => 0,
-      'rel_remove' => 'default',
-      'title' => 'required',
-      'title_label_use_field_label' => 0,
-      'title_maxlength' => 128,
-      'title_value' => '',
-      'url' => 0,
-      'user_register_form' => FALSE,
-      'validate_url' => 1,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'link',
-      'settings' => array(),
-      'type' => 'link_field',
-      'weight' => 1,
-    ),
-  );
-
   // Exported field_instance: 'node-hub-field_body'
   $field_instances['node-hub-field_body'] = array(
     'bundle' => 'hub',
@@ -1012,28 +829,23 @@ function mediacommons_content_types_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 0,
+      'default_image' => 13,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '10 MB',
-      'max_resolution' => '450x175',
-      'min_resolution' => '450x175',
+      'max_resolution' => '1200x640',
+      'min_resolution' => '480x320',
       'title_field' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'imagefield_crop',
+      'module' => 'image',
       'settings' => array(
-        'collapsible' => 1,
-        'croparea' => '450x175',
-        'enforce_minimum' => 1,
-        'enforce_ratio' => 1,
-        'preview_image_style' => '450_by_175',
+        'preview_image_style' => 'homepage_featured_item__480x320_',
         'progress_indicator' => 'throbber',
-        'resolution' => '450x175',
       ),
-      'type' => 'imagefield_crop_widget',
+      'type' => 'image_image',
       'weight' => 8,
     ),
   );
@@ -1558,17 +1370,12 @@ function mediacommons_content_types_field_default_field_instances() {
   t('Description');
   t('Embed');
   t('Featured Image Thumb');
-  t('Large image');
-  t('Link to Resource');
   t('Part of hub');
-  t('Project');
   t('Publication Status');
   t('Representative Image');
   t('Spokes');
   t('Start and end dates');
   t('Tags');
-  t('The headline of the front page post as it will appear to the user. ');
-  t('The image that will be displayed on the umbrella home page top left most featured spot.  Should be a big beautiful image. ');
 
   return $field_instances;
 }

@@ -13,38 +13,6 @@ function mediacommons_content_types_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_meta|node|front_page_post|default';
-  $field_group->group_name = 'group_meta';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'front_page_post';
-  $field_group->mode = 'default';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Meta',
-    'weight' => '15',
-    'children' => array(),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'formatter' => 'collapsible',
-      'instance_settings' => array(
-        'description' => '',
-        'show_label' => 1,
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-        'classes' => 'group-meta field-group-div',
-        'id' => '',
-        'element' => 'div',
-        'attributes' => '',
-        'required_fields' => 1,
-      ),
-    ),
-  );
-  $export['group_meta|node|front_page_post|default'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
   $field_group->identifier = 'group_meta|node|front_page_post|full';
   $field_group->group_name = 'group_meta';
   $field_group->entity_type = 'node';
