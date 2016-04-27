@@ -46,6 +46,19 @@ function mediacommons_homepage_featured_views_default_views() {
     'image_style' => 'homepage_featured_item__480x320_',
     'image_link' => 'content',
   );
+  /* Field: Global: Fieldset */
+  $handler->display->display_options['fields']['fieldset']['id'] = 'fieldset';
+  $handler->display->display_options['fields']['fieldset']['table'] = 'views';
+  $handler->display->display_options['fields']['fieldset']['field'] = 'fieldset';
+  $handler->display->display_options['fields']['fieldset']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['fieldset']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['fieldset']['children'] = array(
+    0 => 'field_period',
+    1 => 'title',
+    2 => 'field_curators_editors',
+  );
+  $handler->display->display_options['fields']['fieldset']['fieldset']['type'] = 'div';
+  $handler->display->display_options['fields']['fieldset']['fieldset']['classes'] = 'featuredhub-info';
   /* Field: Content: Start and end dates */
   $handler->display->display_options['fields']['field_period']['id'] = 'field_period';
   $handler->display->display_options['fields']['field_period']['table'] = 'field_data_field_period';
