@@ -90,13 +90,23 @@ function mediacommons_image_styles_and_date_formats_image_default_styles() {
   $styles['homepage_featured_item__480x320_'] = array(
     'label' => 'Homepage Featured Item (480x320)',
     'effects' => array(
-      2 => array(
-        'name' => 'image_scale_and_crop',
+      8 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 480,
+          'height' => '',
+          'upscale' => 1,
+        ),
+        'weight' => 2,
+      ),
+      9 => array(
+        'name' => 'image_crop',
         'data' => array(
           'width' => 480,
           'height' => 320,
+          'anchor' => 'center-top',
         ),
-        'weight' => 1,
+        'weight' => 2,
       ),
     ),
   );

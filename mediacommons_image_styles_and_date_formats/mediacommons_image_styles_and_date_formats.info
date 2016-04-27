@@ -1,7 +1,7 @@
 name = MediaCommons Image Styles and date formats
 core = 7.x
 package = MediaCommons
-version = 7.x-1.04
+version = 7.x-1.05
 dependencies[] = ctools
 dependencies[] = fe_date
 dependencies[] = image

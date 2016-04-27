@@ -60,10 +60,10 @@ function mediacommons_image_styles_and_date_formats_strongarm() {
       'height' => '500',
     ),
     33 => array(
-      'x' => '0',
-      'y' => '0',
-      'width' => '450',
-      'height' => '175',
+      'x' => '18',
+      'y' => '21',
+      'width' => '189',
+      'height' => '126',
     ),
     35 => array(
       'x' => '0',
@@ -262,6 +262,18 @@ function mediacommons_image_styles_and_date_formats_strongarm() {
       'y' => '0',
       'width' => '452',
       'height' => '176',
+    ),
+    30 => array(
+      'x' => '115',
+      'y' => '38',
+      'width' => '311',
+      'height' => '207',
+    ),
+    2 => array(
+      'x' => '104',
+      'y' => '120',
+      'width' => '542',
+      'height' => '360',
     ),
   );
   $export['imagefield_crop_info'] = $strongarm;
