@@ -834,7 +834,7 @@ function mediacommons_content_types_field_default_field_instances() {
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '10 MB',
       'max_resolution' => '1200x640',
-      'min_resolution' => '480x320',
+      'min_resolution' => '450x175',
       'title_field' => 1,
       'user_register_form' => FALSE,
     ),
