@@ -776,7 +776,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => '',
+          'image_style' => 'manual_crop_480_320',
         ),
         'type' => 'image',
         'weight' => 1,
@@ -806,7 +806,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'max_width_600px',
+          'image_style' => 'manual_crop_480_320',
         ),
         'type' => 'image',
         'weight' => 4,
@@ -829,7 +829,7 @@ function mediacommons_content_types_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 13,
+      'default_image' => 0,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '10 MB',
@@ -842,7 +842,23 @@ function mediacommons_content_types_field_default_field_instances() {
       'active' => 1,
       'module' => 'image',
       'settings' => array(
-        'preview_image_style' => 'homepage_featured_item__480x320_',
+        'manualcrop_crop_info' => 1,
+        'manualcrop_default_crop_area' => 1,
+        'manualcrop_enable' => 1,
+        'manualcrop_inline_crop' => 0,
+        'manualcrop_instant_crop' => 0,
+        'manualcrop_instant_preview' => 1,
+        'manualcrop_keyboard' => 1,
+        'manualcrop_maximize_default_crop_area' => 0,
+        'manualcrop_require_cropping' => array(
+          'manual_crop_480_320' => 'manual_crop_480_320',
+        ),
+        'manualcrop_styles_list' => array(
+          'manual_crop_480_320' => 'manual_crop_480_320',
+        ),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => 0,
+        'preview_image_style' => 'manual_crop_480_320',
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',

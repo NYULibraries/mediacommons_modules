@@ -66,6 +66,11 @@ function mediacommons_content_types_ds_field_settings_info() {
         ),
       ),
     ),
+    'field_representative_image' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
     'field_spokes' => array(
       'formatter_settings' => array(
         'ft' => array(
