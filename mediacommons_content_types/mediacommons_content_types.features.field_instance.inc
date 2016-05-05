@@ -11,7 +11,7 @@ function mediacommons_content_types_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance:
-  // 'comment-comment_node_front_page_post-comment_body'
+  // 'comment-comment_node_front_page_post-comment_body'.
   $field_instances['comment-comment_node_front_page_post-comment_body'] = array(
     'bundle' => 'comment_node_front_page_post',
     'default_value' => NULL,
@@ -44,7 +44,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'comment-comment_node_hub-comment_body'
+  // Exported field_instance: 'comment-comment_node_hub-comment_body'.
   $field_instances['comment-comment_node_hub-comment_body'] = array(
     'bundle' => 'comment_node_hub',
     'default_value' => NULL,
@@ -77,7 +77,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'comment-comment_node_page-comment_body'
+  // Exported field_instance: 'comment-comment_node_page-comment_body'.
   $field_instances['comment-comment_node_page-comment_body'] = array(
     'bundle' => 'comment_node_page',
     'default_value' => NULL,
@@ -110,7 +110,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'comment-comment_node_spoke-comment_body'
+  // Exported field_instance: 'comment-comment_node_spoke-comment_body'.
   $field_instances['comment-comment_node_spoke-comment_body'] = array(
     'bundle' => 'comment_node_spoke',
     'default_value' => NULL,
@@ -149,7 +149,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-front_page_post-field_body'
+  // Exported field_instance: 'node-front_page_post-field_body'.
   $field_instances['node-front_page_post-field_body'] = array(
     'bundle' => 'front_page_post',
     'default_value' => NULL,
@@ -212,7 +212,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-front_page_post-field_featured_image_thumb'
+  // Exported field_instance: 'node-front_page_post-field_featured_image_thumb'.
   $field_instances['node-front_page_post-field_featured_image_thumb'] = array(
     'bundle' => 'front_page_post',
     'deleted' => 0,
@@ -290,7 +290,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-hub-field_body'
+  // Exported field_instance: 'node-hub-field_body'.
   $field_instances['node-hub-field_body'] = array(
     'bundle' => 'hub',
     'default_value' => NULL,
@@ -363,7 +363,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-hub-field_co_editor'
+  // Exported field_instance: 'node-hub-field_co_editor'.
   $field_instances['node-hub-field_co_editor'] = array(
     'bundle' => 'hub',
     'default_value' => NULL,
@@ -432,7 +432,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-hub-field_contributors'
+  // Exported field_instance: 'node-hub-field_contributors'.
   $field_instances['node-hub-field_contributors'] = array(
     'bundle' => 'hub',
     'default_value' => NULL,
@@ -499,7 +499,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-hub-field_curators_editors'
+  // Exported field_instance: 'node-hub-field_curators_editors'.
   $field_instances['node-hub-field_curators_editors'] = array(
     'bundle' => 'hub',
     'default_value' => NULL,
@@ -569,7 +569,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-hub-field_period'
+  // Exported field_instance: 'node-hub-field_period'.
   $field_instances['node-hub-field_period'] = array(
     'bundle' => 'hub',
     'deleted' => 0,
@@ -688,7 +688,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-hub-field_pubstat'
+  // Exported field_instance: 'node-hub-field_pubstat'.
   $field_instances['node-hub-field_pubstat'] = array(
     'bundle' => 'hub',
     'default_value' => array(
@@ -753,11 +753,13 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-hub-field_representative_image'
+  // Exported field_instance: 'node-hub-field_representative_image'.
   $field_instances['node-hub-field_representative_image'] = array(
     'bundle' => 'hub',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page. 
+
+Please choose "Crop" to create an additional version of your image which will be visible in hub "teasers" on the homepage and in the archive list. ',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -776,7 +778,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'manual_crop_480_320',
+          'image_style' => '',
         ),
         'type' => 'image',
         'weight' => 1,
@@ -849,10 +851,8 @@ function mediacommons_content_types_field_default_field_instances() {
         'manualcrop_instant_crop' => 0,
         'manualcrop_instant_preview' => 1,
         'manualcrop_keyboard' => 1,
-        'manualcrop_maximize_default_crop_area' => 0,
-        'manualcrop_require_cropping' => array(
-          'manual_crop_480_320' => 'manual_crop_480_320',
-        ),
+        'manualcrop_maximize_default_crop_area' => 1,
+        'manualcrop_require_cropping' => array(),
         'manualcrop_styles_list' => array(
           'manual_crop_480_320' => 'manual_crop_480_320',
         ),
@@ -866,7 +866,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-hub-field_spokes'
+  // Exported field_instance: 'node-hub-field_spokes'.
   $field_instances['node-hub-field_spokes'] = array(
     'bundle' => 'hub',
     'default_value' => NULL,
@@ -940,7 +940,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page-body'
+  // Exported field_instance: 'node-page-body'.
   $field_instances['node-page-body'] = array(
     'bundle' => 'page',
     'default_value' => NULL,
@@ -990,7 +990,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-spoke-field_attached_images'
+  // Exported field_instance: 'node-spoke-field_attached_images'.
   $field_instances['node-spoke-field_attached_images'] = array(
     'bundle' => 'spoke',
     'deleted' => 0,
@@ -1058,7 +1058,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-spoke-field_body'
+  // Exported field_instance: 'node-spoke-field_body'.
   $field_instances['node-spoke-field_body'] = array(
     'bundle' => 'spoke',
     'default_value' => NULL,
@@ -1113,7 +1113,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-spoke-field_contributors'
+  // Exported field_instance: 'node-spoke-field_contributors'.
   $field_instances['node-spoke-field_contributors'] = array(
     'bundle' => 'spoke',
     'default_value' => NULL,
@@ -1166,7 +1166,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-spoke-field_embed'
+  // Exported field_instance: 'node-spoke-field_embed'.
   $field_instances['node-spoke-field_embed'] = array(
     'bundle' => 'spoke',
     'default_value' => NULL,
@@ -1219,7 +1219,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-spoke-field_part_of'
+  // Exported field_instance: 'node-spoke-field_part_of'.
   $field_instances['node-spoke-field_part_of'] = array(
     'bundle' => 'spoke',
     'default_value' => NULL,
@@ -1271,7 +1271,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-spoke-field_pubstat'
+  // Exported field_instance: 'node-spoke-field_pubstat'.
   $field_instances['node-spoke-field_pubstat'] = array(
     'bundle' => 'spoke',
     'default_value' => array(
@@ -1323,7 +1323,7 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-spoke-field_taxonomy'
+  // Exported field_instance: 'node-spoke-field_taxonomy'.
   $field_instances['node-spoke-field_taxonomy'] = array(
     'bundle' => 'spoke',
     'default_value' => NULL,
@@ -1392,6 +1392,9 @@ function mediacommons_content_types_field_default_field_instances() {
   t('Spokes');
   t('Start and end dates');
   t('Tags');
+  t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page. 
+
+Please choose "Crop" to create an additional version of your image which will be visible in hub "teasers" on the homepage and in the archive list. ');
 
   return $field_instances;
 }
