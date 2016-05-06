@@ -182,6 +182,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['node|hub|full'] = $ds_layout;
 
@@ -195,21 +196,19 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'field_period',
-        1 => 'title',
-        2 => 'field_curators_editors',
-        3 => 'field_contributors',
-        4 => 'field_representative_image',
-        5 => 'field_body',
+        0 => 'field_representative_image',
+        1 => 'field_period',
+        2 => 'title',
+        3 => 'field_curators_editors',
+        4 => 'field_contributors',
       ),
     ),
     'fields' => array(
+      'field_representative_image' => 'ds_content',
       'field_period' => 'ds_content',
       'title' => 'ds_content',
       'field_curators_editors' => 'ds_content',
       'field_contributors' => 'ds_content',
-      'field_representative_image' => 'ds_content',
-      'field_body' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -220,6 +219,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['node|hub|teaser'] = $ds_layout;
 
@@ -372,6 +372,7 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['node|spoke|teaser'] = $ds_layout;
 

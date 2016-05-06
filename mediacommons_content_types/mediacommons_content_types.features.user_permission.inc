@@ -10,13 +10,35 @@
 function mediacommons_content_types_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: 'administer fieldgroups'.
-  $permissions['administer fieldgroups'] = array(
-    'name' => 'administer fieldgroups',
+  // Exported permission: 'administer manualcrop settings'.
+  $permissions['administer manualcrop settings'] = array(
+    'name' => 'administer manualcrop settings',
+    'roles' => array(),
+    'module' => 'manualcrop',
+  );
+
+  // Exported permission: 'administer mediacommons filters'.
+  $permissions['administer mediacommons filters'] = array(
+    'name' => 'administer mediacommons filters',
+    'roles' => array(),
+    'module' => 'mediacommons_filter',
+  );
+
+  // Exported permission: 'administer uuid'.
+  $permissions['administer uuid'] = array(
+    'name' => 'administer uuid',
+    'roles' => array(),
+    'module' => 'uuid',
+  );
+
+  // Exported permission: 'use manualcrop'.
+  $permissions['use manualcrop'] = array(
+    'name' => 'use manualcrop',
     'roles' => array(
-      'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
-    'module' => 'field_group',
+    'module' => 'manualcrop',
   );
 
   return $permissions;

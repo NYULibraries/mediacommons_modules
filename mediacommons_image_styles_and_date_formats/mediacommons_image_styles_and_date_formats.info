@@ -27,5 +27,4 @@ features[image][] = thumbnail
 features[image][] = thumbnail__120x80_
 features[variable][] = date_format_long_no_time
 features[variable][] = date_format_short_no_time
-features[variable][] = imagefield_crop_info
 features[variable][] = user_pictures

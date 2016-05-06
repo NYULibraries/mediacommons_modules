@@ -215,6 +215,7 @@ function mediacommons_content_types_field_default_field_instances() {
   // Exported field_instance: 'node-front_page_post-field_featured_image_thumb'.
   $field_instances['node-front_page_post-field_featured_image_thumb'] = array(
     'bundle' => 'front_page_post',
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -275,17 +276,29 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'imagefield_crop',
+      'module' => 'image',
       'settings' => array(
         'collapsible' => 2,
         'croparea' => '450x175',
         'enforce_minimum' => 1,
         'enforce_ratio' => 1,
+        'manualcrop_crop_info' => TRUE,
+        'manualcrop_default_crop_area' => TRUE,
+        'manualcrop_enable' => FALSE,
+        'manualcrop_inline_crop' => FALSE,
+        'manualcrop_instant_crop' => FALSE,
+        'manualcrop_instant_preview' => TRUE,
+        'manualcrop_keyboard' => TRUE,
+        'manualcrop_maximize_default_crop_area' => FALSE,
+        'manualcrop_require_cropping' => array(),
+        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => FALSE,
         'preview_image_style' => 'large',
         'progress_indicator' => 'throbber',
         'resolution' => '450x175',
       ),
-      'type' => 'imagefield_crop_widget',
+      'type' => 'image_image',
       'weight' => 5,
     ),
   );
@@ -326,12 +339,9 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(
-          'trim_length' => 3000,
-        ),
-        'type' => 'text_summary_or_trimmed',
-        'weight' => 5,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
       ),
       'third_mode' => array(
         'label' => 'hidden',
@@ -402,7 +412,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 18,
       ),
       'third_mode' => array(
         'label' => 'inline',
@@ -470,7 +480,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'third_mode' => array(
         'label' => 'above',
@@ -539,7 +549,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'third_mode' => array(
         'label' => 'inline',
@@ -643,7 +653,7 @@ function mediacommons_content_types_field_default_field_instances() {
           'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'third_mode' => array(
         'label' => 'hidden',
@@ -728,7 +738,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 19,
       ),
       'third_mode' => array(
         'label' => 'above',
@@ -808,10 +818,10 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'manual_crop_480_320',
+          'image_style' => '',
         ),
         'type' => 'image',
-        'weight' => 4,
+        'weight' => 0,
       ),
       'third_mode' => array(
         'label' => 'hidden',
@@ -905,10 +915,10 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 17,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 5,
       ),
       'third_mode' => array(
         'label' => 'hidden',
