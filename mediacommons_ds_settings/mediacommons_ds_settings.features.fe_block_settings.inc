@@ -20,7 +20,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'node_types' => array(
       0 => 'spoke',
     ),
-    'options' => NULL,
     'pages' => '',
     'roles' => array(),
     'themes' => array(
@@ -59,7 +58,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'delta' => 'byline_contributors-block',
     'module' => 'views',
     'node_types' => array(),
-    'options' => NULL,
     'pages' => '',
     'roles' => array(),
     'themes' => array(
@@ -98,7 +96,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'delta' => 'contributors_this_spoke-block',
     'module' => 'views',
     'node_types' => array(),
-    'options' => NULL,
     'pages' => '',
     'roles' => array(),
     'themes' => array(
@@ -137,7 +134,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'delta' => 'list_of_all_hubs-block',
     'module' => 'views',
     'node_types' => array(),
-    'options' => NULL,
     'pages' => '',
     'roles' => array(),
     'themes' => array(
@@ -176,7 +172,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'delta' => 'this_spokes_parent_hub-block',
     'module' => 'views',
     'node_types' => array(),
-    'options' => NULL,
     'pages' => '',
     'roles' => array(),
     'themes' => array(

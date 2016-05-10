@@ -127,6 +127,24 @@ function mediacommons_image_styles_and_date_formats_image_default_styles() {
     ),
   );
 
+  // Exported image style: manual_crop_480_320.
+  $styles['manual_crop_480_320'] = array(
+    'label' => 'Manual Crop 480 320',
+    'effects' => array(
+      1 => array(
+        'name' => 'manualcrop_crop',
+        'data' => array(
+          'width' => 480,
+          'height' => 320,
+          'keepproportions' => 1,
+          'reuse_crop_style' => '',
+          'style_name' => 'manual_crop_480_320',
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
   // Exported image style: max_width_600px.
   $styles['max_width_600px'] = array(
     'label' => 'Max width 600px',

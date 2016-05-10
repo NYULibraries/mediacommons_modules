@@ -66,6 +66,11 @@ function mediacommons_content_types_ds_field_settings_info() {
         ),
       ),
     ),
+    'field_representative_image' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
     'field_spokes' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -119,7 +124,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -128,13 +133,6 @@ function mediacommons_content_types_ds_field_settings_info() {
         'class' => 'hub-title',
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-        ),
-      ),
-    ),
-    'field_body' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
         ),
       ),
     ),
