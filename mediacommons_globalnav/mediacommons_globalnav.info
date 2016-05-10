@@ -12,13 +12,13 @@ scripts[] = mediacommons_globalnav.js
 
 mediacommons[environment] = development
 
-mediacommons[environments][local_no_port][fieldguide] = http://localhost/fieldguide/
-mediacommons[environments][local_no_port][tne] = http://localhost/tne/
-mediacommons[environments][local_no_port][imr] = http://localhost/imr/
-mediacommons[environments][local_no_port][altac] = http://localhost/alt-ac/
-mediacommons[environments][local_no_port][intransition] = http://localhost/intransition/
-mediacommons[environments][local_no_port][mediacommons] = http://localhost/mediacommons/
-mediacommons[environments][local_no_port][mcpress] = http://mcpress.media-commons.org/
+mediacommons[environments][local_da70][mcpress] = http://mcpress.media-commons.org/
+mediacommons[environments][local_da70][fieldguide] = http://mediacommons/fieldguide/
+mediacommons[environments][local_da70][tne] = http://mediacommons/tne/
+mediacommons[environments][local_da70][imr] = http://mediacommons/imr/
+mediacommons[environments][local_da70][altac] = http://mediacommons/alt-ac/
+mediacommons[environments][local_da70][intransition] = http://mediacommons/intransition/
+mediacommons[environments][local_da70][mediacommons] = http://mediacommons/mediacommons/
 
 mediacommons[environments][local_port_8000][fieldguide] = http://localhost:8000/fieldguide/
 mediacommons[environments][local_port_8000][tne] = http://localhost:8000/tne/
