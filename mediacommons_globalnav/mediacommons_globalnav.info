@@ -12,13 +12,21 @@ scripts[] = mediacommons_globalnav.js
 
 mediacommons[environment] = development
 
-mediacommons[environments][local][fieldguide] = http://localhost:8000/fieldguide/
-mediacommons[environments][local][tne] = http://localhost:8000/tne/
-mediacommons[environments][local][imr] = http://localhost:8000/imr/
-mediacommons[environments][local][altac] = http://localhost:8000/alt-ac/
-mediacommons[environments][local][intransition] = http://localhost:8000/intransition/
-mediacommons[environments][local][mediacommons] = http://localhost:8000/mediacommons/
-mediacommons[environments][local][mcpress] = http://mcpress.media-commons.org/
+mediacommons[environments][local_da70][mcpress] = http://mcpress.media-commons.org/
+mediacommons[environments][local_da70][fieldguide] = http://mediacommons/fieldguide/
+mediacommons[environments][local_da70][tne] = http://mediacommons/tne/
+mediacommons[environments][local_da70][imr] = http://mediacommons/imr/
+mediacommons[environments][local_da70][altac] = http://mediacommons/alt-ac/
+mediacommons[environments][local_da70][intransition] = http://mediacommons/intransition/
+mediacommons[environments][local_da70][mediacommons] = http://mediacommons/mediacommons/
+
+mediacommons[environments][local_port_8000][fieldguide] = http://localhost:8000/fieldguide/
+mediacommons[environments][local_port_8000][tne] = http://localhost:8000/tne/
+mediacommons[environments][local_port_8000][imr] = http://localhost:8000/imr/
+mediacommons[environments][local_port_8000][altac] = http://localhost:8000/alt-ac/
+mediacommons[environments][local_port_8000][intransition] = http://localhost:8000/intransition/
+mediacommons[environments][local_port_8000][mediacommons] = http://localhost:8000/mediacommons/
+mediacommons[environments][local_port_8000][mcpress] = http://mcpress.media-commons.org/
 
 mediacommons[environments][development][fieldguide] = http://devmc.dlib.nyu.edu/fieldguide/
 mediacommons[environments][development][tne] = http://devmc.dlib.nyu.edu/tne/
