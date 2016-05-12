@@ -66,10 +66,10 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => 'sidebar_previous_clusters',
+        'region' => 'sidebar_basicpage1',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -18,
       ),
       'rubik' => array(
         'region' => '',

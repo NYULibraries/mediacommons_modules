@@ -119,6 +119,9 @@ function mediacommons_ds_settings_strongarm() {
       'hub_teaser_compact' => array(
         'custom_settings' => TRUE,
       ),
+      'hub_teaser_for_archive_page' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -162,6 +165,15 @@ function mediacommons_ds_settings_strongarm() {
         'custom_settings' => FALSE,
       ),
       'revision' => array(
+        'custom_settings' => FALSE,
+      ),
+      'spoke_teaser_simplest' => array(
+        'custom_settings' => FALSE,
+      ),
+      'hub_teaser_for_archive_page' => array(
+        'custom_settings' => FALSE,
+      ),
+      'hub_teaser_compact' => array(
         'custom_settings' => FALSE,
       ),
     ),

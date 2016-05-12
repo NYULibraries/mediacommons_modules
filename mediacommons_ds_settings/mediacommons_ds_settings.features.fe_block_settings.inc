@@ -52,44 +52,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'visibility' => 0,
   );
 
-  $export['views-byline_contributors-block'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'delta' => 'byline_contributors-block',
-    'module' => 'views',
-    'node_types' => array(),
-    'pages' => '',
-    'roles' => array(),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
-        'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
   $export['views-contributors_this_spoke-block'] = array(
     'cache' => -1,
     'custom' => 0,
