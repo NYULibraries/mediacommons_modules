@@ -54,7 +54,6 @@ features[field_base][] = field_co_editor
 features[field_base][] = field_contributors
 features[field_base][] = field_curators_editors
 features[field_base][] = field_embed
-features[field_base][] = field_featured_image_thumb
 features[field_base][] = field_link
 features[field_base][] = field_part_of
 features[field_base][] = field_period
