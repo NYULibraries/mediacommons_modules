@@ -29,11 +29,7 @@ function mediacommons_content_types_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
-  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
-  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -42,16 +38,16 @@ function mediacommons_content_types_views_default_views() {
   $handler->display->display_options['fields']['title']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Path */
-  $handler->display->display_options['fields']['path']['id'] = 'path';
-  $handler->display->display_options['fields']['path']['table'] = 'node';
-  $handler->display->display_options['fields']['path']['field'] = 'path';
-  $handler->display->display_options['fields']['path']['label'] = '';
-  $handler->display->display_options['fields']['path']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['path']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['path']['absolute'] = TRUE;
+  /* Field: Content: Link */
+  $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
+  $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['view_node']['field'] = 'view_node';
+  $handler->display->display_options['fields']['view_node']['label'] = '';
+  $handler->display->display_options['fields']['view_node']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['view_node']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['view_node']['empty_zero'] = TRUE;
   /* Field: Content: Comment count */
   $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
   $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
@@ -59,12 +55,11 @@ function mediacommons_content_types_views_default_views() {
   $handler->display->display_options['fields']['comment_count']['label'] = '';
   $handler->display->display_options['fields']['comment_count']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['comment_count']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['comment_count']['alter']['path'] = '[path]#comments';
-  $handler->display->display_options['fields']['comment_count']['alter']['alt'] = '[comment_count] comments';
+  $handler->display->display_options['fields']['comment_count']['alter']['path'] = '[view_node]#comment-1';
   $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['comment_count']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['comment_count']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['comment_count']['format_plural'] = TRUE;
   $handler->display->display_options['fields']['comment_count']['format_plural_singular'] = '1 comment';
   $handler->display->display_options['fields']['comment_count']['format_plural_plural'] = '@count comments';
   /* Sort criterion: Content: Post date */

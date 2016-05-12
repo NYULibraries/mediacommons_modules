@@ -51,10 +51,3 @@ function mediacommons_content_types_update_N() {
   mediacommons_content_types_replace_default_image($field_name, $filename, $source);
 }
 
-function mediacommons_content_types_preprocess_html(&$variables) {
-  global $theme;
- 
-    // reference your own stylesheet
-    drupal_add_css(drupal_get_path('module', 'mediacommons_content_types') . '/adminstyles.css', array('weight' => CSS_THEME));
- 
-}

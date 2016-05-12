@@ -10,7 +10,7 @@
 function mediacommons_content_types_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'body'.
+  // Exported field_base: 'body'
   $field_bases['body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -31,7 +31,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'comment_body'.
+  // Exported field_base: 'comment_body'
   $field_bases['comment_body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -52,7 +52,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_attached_images'.
+  // Exported field_base: 'field_attached_images'
   $field_bases['field_attached_images'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -67,14 +67,14 @@ function mediacommons_content_types_field_default_field_bases() {
     'locked' => 0,
     'module' => 'image',
     'settings' => array(
-      'default_image' => 0,
+      'default_image' => 1,
       'uri_scheme' => 'public',
     ),
     'translatable' => 0,
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_body'.
+  // Exported field_base: 'field_body'
   $field_bases['field_body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -93,7 +93,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_body_all'.
+  // Exported field_base: 'field_body_all'
   $field_bases['field_body_all'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -112,7 +112,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_co_editor'.
+  // Exported field_base: 'field_co_editor'
   $field_bases['field_co_editor'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -145,7 +145,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'user_reference',
   );
 
-  // Exported field_base: 'field_contributors'.
+  // Exported field_base: 'field_contributors'
   $field_bases['field_contributors'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -178,7 +178,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'user_reference',
   );
 
-  // Exported field_base: 'field_curators_editors'.
+  // Exported field_base: 'field_curators_editors'
   $field_bases['field_curators_editors'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -211,7 +211,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'user_reference',
   );
 
-  // Exported field_base: 'field_embed'.
+  // Exported field_base: 'field_embed'
   $field_bases['field_embed'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -230,7 +230,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_featured_image_thumb'.
+  // Exported field_base: 'field_featured_image_thumb'
   $field_bases['field_featured_image_thumb'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -252,7 +252,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_link'.
+  // Exported field_base: 'field_link'
   $field_bases['field_link'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -281,7 +281,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_part_of'.
+  // Exported field_base: 'field_part_of'
   $field_bases['field_part_of'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -312,7 +312,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'node_reference',
   );
 
-  // Exported field_base: 'field_period'.
+  // Exported field_base: 'field_period'
   $field_bases['field_period'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -341,7 +341,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'datestamp',
   );
 
-  // Exported field_base: 'field_pubstat'.
+  // Exported field_base: 'field_pubstat'
   $field_bases['field_pubstat'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -366,7 +366,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'list_integer',
   );
 
-  // Exported field_base: 'field_representative_image'.
+  // Exported field_base: 'field_representative_image'
   $field_bases['field_representative_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -388,7 +388,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_spokes'.
+  // Exported field_base: 'field_spokes'
   $field_bases['field_spokes'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -419,7 +419,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'node_reference',
   );
 
-  // Exported field_base: 'field_subtitle'.
+  // Exported field_base: 'field_subtitle'
   $field_bases['field_subtitle'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -441,7 +441,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_taxonomy'.
+  // Exported field_base: 'field_taxonomy'
   $field_bases['field_taxonomy'] = array(
     'active' => 1,
     'cardinality' => -1,
