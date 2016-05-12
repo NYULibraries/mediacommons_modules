@@ -1,7 +1,7 @@
 name = MediaCommons Homepage Umbrella
 core = 7.x
 package = MediaCommons
-version = 7.x-1.1
+version = 7.x-1.0121
 dependencies[] = ctools
 dependencies[] = ds
 dependencies[] = entity
@@ -39,3 +39,4 @@ features_exclude[field_instance][node-front_page_post-field_featured_image_thumb
 features_exclude[field_instance][node-front_page_post-field_large_image] = node-front_page_post-field_large_image
 features_exclude[field_instance][node-front_page_post-field_project] = node-front_page_post-field_project
 features_exclude[field_instance][node-front_page_post-field_rlink] = node-front_page_post-field_rlink
+project path = sites/all/modules/mediacommons_modules
