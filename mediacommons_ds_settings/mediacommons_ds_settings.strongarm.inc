@@ -168,7 +168,7 @@ function mediacommons_ds_settings_strongarm() {
         'custom_settings' => FALSE,
       ),
       'spoke_teaser_simplest' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'hub_teaser_for_archive_page' => array(
         'custom_settings' => FALSE,

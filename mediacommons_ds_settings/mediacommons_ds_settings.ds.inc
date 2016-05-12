@@ -240,14 +240,16 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
         0 => 'field_representative_image',
         1 => 'field_period',
         2 => 'title',
-        3 => 'field_curators_editors',
-        4 => 'field_contributors',
+        3 => 'group_spokeinfo',
+        4 => 'field_curators_editors',
+        5 => 'field_contributors',
       ),
     ),
     'fields' => array(
       'field_representative_image' => 'ds_content',
       'field_period' => 'ds_content',
       'title' => 'ds_content',
+      'group_spokeinfo' => 'ds_content',
       'field_curators_editors' => 'ds_content',
       'field_contributors' => 'ds_content',
     ),
@@ -379,39 +381,6 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
-  $ds_layout->id = 'node|spoke|spoke_teaser_simplest';
-  $ds_layout->entity_type = 'node';
-  $ds_layout->bundle = 'spoke';
-  $ds_layout->view_mode = 'spoke_teaser_simplest';
-  $ds_layout->layout = 'ds_1col';
-  $ds_layout->settings = array(
-    'regions' => array(
-      'ds_content' => array(
-        0 => 'title',
-        1 => 'field_contributors',
-        2 => 'comment_count_spokes',
-      ),
-    ),
-    'fields' => array(
-      'title' => 'ds_content',
-      'field_contributors' => 'ds_content',
-      'comment_count_spokes' => 'ds_content',
-    ),
-    'classes' => array(),
-    'wrappers' => array(
-      'ds_content' => 'div',
-    ),
-    'layout_wrapper' => 'div',
-    'layout_attributes' => '',
-    'layout_attributes_merge' => 1,
-    'layout_link_attribute' => '',
-    'layout_link_custom' => '',
-    'layout_disable_css' => FALSE,
-  );
-  $export['node|spoke|spoke_teaser_simplest'] = $ds_layout;
-
-  $ds_layout = new stdClass();
-  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|spoke|teaser';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'spoke';
@@ -421,18 +390,20 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'field_attached_images',
-        1 => 'title',
-        2 => 'post_date',
-        3 => 'field_contributors',
-        4 => 'comment_count_spokes',
+        1 => 'group_spokeinfo',
+        2 => 'comment_count_spokes',
+        3 => 'title',
+        4 => 'post_date',
+        5 => 'field_contributors',
       ),
     ),
     'fields' => array(
       'field_attached_images' => 'ds_content',
+      'group_spokeinfo' => 'ds_content',
+      'comment_count_spokes' => 'ds_content',
       'title' => 'ds_content',
       'post_date' => 'ds_content',
       'field_contributors' => 'ds_content',
-      'comment_count_spokes' => 'ds_content',
     ),
     'limit' => array(
       'field_attached_images' => '1',
@@ -467,15 +438,6 @@ function mediacommons_ds_settings_ds_view_modes_info() {
     'node' => 'node',
   );
   $export['hub_teaser_for_archive_page'] = $ds_view_mode;
-
-  $ds_view_mode = new stdClass();
-  $ds_view_mode->api_version = 1;
-  $ds_view_mode->view_mode = 'spoke_teaser_simplest';
-  $ds_view_mode->label = 'Spoke teaser simplest';
-  $ds_view_mode->entities = array(
-    'node' => 'node',
-  );
-  $export['spoke_teaser_simplest'] = $ds_view_mode;
 
   return $export;
 }

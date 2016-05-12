@@ -347,7 +347,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 18,
       ),
       'third_mode' => array(
         'label' => 'hidden',
@@ -425,7 +425,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 19,
       ),
       'third_mode' => array(
         'label' => 'inline',
@@ -676,7 +676,7 @@ function mediacommons_content_types_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
-          'show_remaining_days' => FALSE,
+          'show_remaining_days' => 0,
         ),
         'type' => 'date_default',
         'weight' => 2,
@@ -784,7 +784,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 20,
       ),
       'third_mode' => array(
         'label' => 'above',
@@ -972,7 +972,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'module' => 'node_reference',
         'settings' => array(
-          'node_reference_view_mode' => 'spoke_teaser_simplest',
+          'node_reference_view_mode' => 'teaser',
         ),
         'type' => 'node_reference_node',
         'weight' => 5,
@@ -981,7 +981,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 17,
       ),
       'third_mode' => array(
         'label' => 'hidden',
@@ -1089,8 +1089,12 @@ Please choose "Crop" to create an additional version of your image which will be
       ),
       'spoke_teaser_simplest' => array(
         'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
         'weight' => 13,
       ),
       'teaser' => array(
@@ -1172,8 +1176,9 @@ Please choose "Crop" to create an additional version of your image which will be
       ),
       'spoke_teaser_simplest' => array(
         'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'text_default',
         'weight' => 16,
       ),
       'teaser' => array(
@@ -1242,7 +1247,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 3,
+        'weight' => 6,
       ),
     ),
     'entity_type' => 'node',
@@ -1293,8 +1298,9 @@ Please choose "Crop" to create an additional version of your image which will be
       ),
       'spoke_teaser_simplest' => array(
         'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'text_default',
         'weight' => 15,
       ),
       'teaser' => array(
@@ -1351,8 +1357,9 @@ Please choose "Crop" to create an additional version of your image which will be
       ),
       'spoke_teaser_simplest' => array(
         'label' => 'above',
+        'module' => 'node_reference',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'node_reference_default',
         'weight' => 18,
       ),
       'teaser' => array(
@@ -1413,8 +1420,9 @@ Please choose "Crop" to create an additional version of your image which will be
       ),
       'spoke_teaser_simplest' => array(
         'label' => 'above',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'list_default',
         'weight' => 17,
       ),
       'teaser' => array(
@@ -1468,8 +1476,9 @@ Please choose "Crop" to create an additional version of your image which will be
       ),
       'spoke_teaser_simplest' => array(
         'label' => 'inline',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'taxonomy_term_reference_link',
         'weight' => 14,
       ),
       'teaser' => array(
