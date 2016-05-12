@@ -188,6 +188,47 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|hub|hub_teaser_for_archive_page';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'hub';
+  $ds_layout->view_mode = 'hub_teaser_for_archive_page';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'field_representative_image',
+        1 => 'title',
+        2 => 'field_period',
+        3 => 'field_curators_editors',
+        4 => 'field_co_editor',
+        5 => 'field_spokes',
+        6 => 'group_rightside',
+      ),
+    ),
+    'fields' => array(
+      'field_representative_image' => 'ds_content',
+      'title' => 'ds_content',
+      'field_period' => 'ds_content',
+      'field_curators_editors' => 'ds_content',
+      'field_co_editor' => 'ds_content',
+      'field_spokes' => 'ds_content',
+      'group_rightside' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|hub|hub_teaser_for_archive_page'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|hub|teaser';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'hub';
@@ -199,14 +240,16 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
         0 => 'field_representative_image',
         1 => 'field_period',
         2 => 'title',
-        3 => 'field_curators_editors',
-        4 => 'field_contributors',
+        3 => 'group_spokeinfo',
+        4 => 'field_curators_editors',
+        5 => 'field_contributors',
       ),
     ),
     'fields' => array(
       'field_representative_image' => 'ds_content',
       'field_period' => 'ds_content',
       'title' => 'ds_content',
+      'group_spokeinfo' => 'ds_content',
       'field_curators_editors' => 'ds_content',
       'field_contributors' => 'ds_content',
     ),
@@ -273,14 +316,14 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
   $ds_layout->view_mode = 'default';
   $ds_layout->layout = 'ds_1col';
   $ds_layout->settings = array(
-    'regions' => array(),
-    'fields' => array(),
     'classes' => array(),
-    'wrappers' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
-    'layout_attributes_merge' => TRUE,
-    'layout_link_attribute' => FALSE,
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
     'layout_link_custom' => '',
     'layout_disable_css' => FALSE,
   );
@@ -347,18 +390,20 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'field_attached_images',
-        1 => 'title',
-        2 => 'post_date',
-        3 => 'field_contributors',
-        4 => 'comment_count_spokes',
+        1 => 'group_spokeinfo',
+        2 => 'comment_count_spokes',
+        3 => 'title',
+        4 => 'post_date',
+        5 => 'field_contributors',
       ),
     ),
     'fields' => array(
       'field_attached_images' => 'ds_content',
+      'group_spokeinfo' => 'ds_content',
+      'comment_count_spokes' => 'ds_content',
       'title' => 'ds_content',
       'post_date' => 'ds_content',
       'field_contributors' => 'ds_content',
-      'comment_count_spokes' => 'ds_content',
     ),
     'limit' => array(
       'field_attached_images' => '1',
@@ -375,6 +420,24 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'layout_disable_css' => FALSE,
   );
   $export['node|spoke|teaser'] = $ds_layout;
+
+  return $export;
+}
+
+/**
+ * Implements hook_ds_view_modes_info().
+ */
+function mediacommons_ds_settings_ds_view_modes_info() {
+  $export = array();
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'hub_teaser_for_archive_page';
+  $ds_view_mode->label = 'Hub teaser for archive page';
+  $ds_view_mode->entities = array(
+    'node' => 'node',
+  );
+  $export['hub_teaser_for_archive_page'] = $ds_view_mode;
 
   return $export;
 }
