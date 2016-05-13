@@ -37,6 +37,7 @@ features[ctools][] = views:views_default:3.0
 features[ds_field_settings][] = node|hub|default
 features[ds_field_settings][] = node|hub|full
 features[ds_field_settings][] = node|hub|hub_for_home
+features[ds_field_settings][] = node|hub|hub_teaser_for_archive_page
 features[ds_field_settings][] = node|hub|teaser
 features[ds_field_settings][] = node|spoke|default
 features[ds_field_settings][] = node|spoke|full
