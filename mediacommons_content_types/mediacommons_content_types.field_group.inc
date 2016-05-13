@@ -46,8 +46,44 @@ function mediacommons_content_types_field_group_info() {
   );
   $field_groups['group_rightside|node|hub|hub_teaser_for_archive_page'] = $field_group;
 
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_spokeinfo|node|spoke|teaser';
+  $field_group->group_name = 'group_spokeinfo';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'spoke';
+  $field_group->mode = 'teaser';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Spoke Info',
+    'weight' => '1',
+    'children' => array(
+      0 => 'field_contributors',
+      1 => 'comment_count_spokes',
+      2 => 'title',
+      3 => 'post_date',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Spoke Info',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-spokeinfo',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_spokeinfo|node|spoke|teaser'] = $field_group;
+
   // Translatables
   // Included for use with string extractors like potx.
+  t('Spoke Info');
   t('rightside');
 
   return $field_groups;

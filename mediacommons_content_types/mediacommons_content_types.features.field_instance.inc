@@ -1033,7 +1033,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 3,
+        'weight' => 8,
       ),
     ),
     'entity_type' => 'node',

@@ -64,6 +64,7 @@ features[field_base][] = field_spokes
 features[field_base][] = field_subtitle
 features[field_base][] = field_taxonomy
 features[field_group][] = group_rightside|node|hub|hub_teaser_for_archive_page
+features[field_group][] = group_spokeinfo|node|spoke|teaser
 features[field_instance][] = comment-comment_node_hub-comment_body
 features[field_instance][] = comment-comment_node_page-comment_body
 features[field_instance][] = comment-comment_node_spoke-comment_body

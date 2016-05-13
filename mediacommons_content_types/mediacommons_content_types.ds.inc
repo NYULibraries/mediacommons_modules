@@ -333,7 +333,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'comment_count_spokes' => array(
-      'weight' => '4',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -341,11 +341,20 @@ function mediacommons_content_types_ds_field_settings_info() {
         'title_wrapper' => '',
         'ctools' => 'a:3:{s:4:"conf";a:1:{s:7:"context";a:1:{i:0;s:25:"argument_entity_id:node_1";}}s:4:"type";s:11:"views_panes";s:7:"subtype";s:36:"comment_count_for_spoke-panel_pane_1";}',
         'load_terms' => 0,
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'div',
+          'fi-cl' => 'comment-count',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
       ),
     ),
     'title' => array(
-      'weight' => '1',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -365,7 +374,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'post_date' => array(
-      'weight' => '2',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'ds_post_date_long_no_time',
       'formatter_settings' => array(
