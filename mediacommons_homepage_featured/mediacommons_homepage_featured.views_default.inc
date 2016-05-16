@@ -130,9 +130,9 @@ function mediacommons_homepage_featured_views_default_views() {
   $view = new view();
   $view->name = 'single_hub_latest';
   $view->description = 'For use on homepage';
-  $view->tag = '';
+  $view->tag = 'homepage ';
   $view->base_table = 'node';
-  $view->human_name = 'single_hub_latest';
+  $view->human_name = 'Single Hub Latest';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -203,11 +203,11 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_contributors']['element_wrapper_class'] = 'peoplelist';
   $handler->display->display_options['fields']['field_contributors']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_contributors']['delta_offset'] = '0';
-  /* Sort criterion: Content: Updated date */
-  $handler->display->display_options['sorts']['changed']['id'] = 'changed';
-  $handler->display->display_options['sorts']['changed']['table'] = 'node';
-  $handler->display->display_options['sorts']['changed']['field'] = 'changed';
-  $handler->display->display_options['sorts']['changed']['order'] = 'DESC';
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
   /* Filter criterion: Content: Published or admin */
   $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
   $handler->display->display_options['filters']['status_extra']['table'] = 'node';
@@ -231,7 +231,6 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'third_mode';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['block_description'] = 'Single Hub Latest';
   $export['single_hub_latest'] = $view;

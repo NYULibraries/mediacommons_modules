@@ -12,6 +12,44 @@ function mediacommons_ds_settings_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
+  $export['views-2b17eeeac3341e947967a295b2c96265'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => '2b17eeeac3341e947967a295b2c96265',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'mediacommons' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons',
+        'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
   $export['views-82d8a75bde4ff36a1c89b3fb77664e68'] = array(
     'cache' => -1,
     'custom' => 0,
@@ -94,6 +132,44 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'cache' => -1,
     'custom' => 0,
     'delta' => 'list_of_all_hubs-block',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'mediacommons' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons',
+        'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['views-recent_6_front_page_posts-block'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'recent_6_front_page_posts-block',
     'module' => 'views',
     'node_types' => array(),
     'pages' => '',

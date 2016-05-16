@@ -157,12 +157,9 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(
-          'trim_length' => 3000,
-        ),
-        'type' => 'text_summary_or_trimmed',
-        'weight' => 5,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
       ),
       'third_mode' => array(
         'label' => 'hidden',
@@ -240,7 +237,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 15,
       ),
       'third_mode' => array(
         'label' => 'inline',
@@ -288,7 +285,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 15,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -314,7 +311,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 3,
+        'weight' => 5,
       ),
       'third_mode' => array(
         'label' => 'above',
@@ -390,7 +387,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 2,
+        'weight' => 4,
       ),
       'third_mode' => array(
         'label' => 'inline',
@@ -505,10 +502,10 @@ function mediacommons_content_types_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
-          'show_remaining_days' => FALSE,
+          'show_remaining_days' => 0,
         ),
         'type' => 'date_default',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'third_mode' => array(
         'label' => 'hidden',
@@ -575,7 +572,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 16,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -599,7 +596,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 16,
       ),
       'third_mode' => array(
         'label' => 'above',
@@ -689,10 +686,10 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'max_width_600px',
+          'image_style' => 'manual_crop_480_320',
         ),
         'type' => 'image',
-        'weight' => 4,
+        'weight' => 1,
       ),
       'third_mode' => array(
         'label' => 'hidden',
@@ -768,7 +765,7 @@ Please choose "Crop" to create an additional version of your image which will be
           'node_reference_view_mode' => 'teaser',
         ),
         'type' => 'node_reference_node',
-        'weight' => 7,
+        'weight' => 2,
       ),
       'hub_for_home' => array(
         'label' => 'hidden',
@@ -795,10 +792,13 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 4,
       ),
       'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 16,
+        'label' => 'hidden',
+        'module' => 'node_reference',
+        'settings' => array(
+          'node_reference_view_mode' => 'teaser',
+        ),
+        'type' => 'node_reference_node',
+        'weight' => 6,
       ),
       'third_mode' => array(
         'label' => 'hidden',

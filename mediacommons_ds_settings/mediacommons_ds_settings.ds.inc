@@ -82,10 +82,9 @@ function mediacommons_ds_settings_ds_custom_fields_info() {
   $ds_field->entities = array(
     'node' => 'node',
   );
-  $ds_field->ui_limit = 'spoke|default
-spoke|full';
+  $ds_field->ui_limit = 'spoke|full';
   $ds_field->properties = array(
-    'block' => 'views|82d8a75bde4ff36a1c89b3fb77664e68',
+    'block' => 'views|2b17eeeac3341e947967a295b2c96265',
     'block_render' => '3',
   );
   $export['hub_navigation'] = $ds_field;
@@ -154,24 +153,26 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'hubhead',
-        1 => 'field_representative_image',
-        2 => 'title',
-        3 => 'field_period',
-        4 => 'field_curators_editors',
-        5 => 'field_co_editor',
-        6 => 'field_body',
-        7 => 'field_spokes',
+        1 => 'group_flex2',
+        2 => 'field_representative_image',
+        3 => 'title',
+        4 => 'field_spokes',
+        5 => 'field_period',
+        6 => 'field_curators_editors',
+        7 => 'field_co_editor',
+        8 => 'field_body',
       ),
     ),
     'fields' => array(
       'hubhead' => 'ds_content',
+      'group_flex2' => 'ds_content',
       'field_representative_image' => 'ds_content',
       'title' => 'ds_content',
+      'field_spokes' => 'ds_content',
       'field_period' => 'ds_content',
       'field_curators_editors' => 'ds_content',
       'field_co_editor' => 'ds_content',
       'field_body' => 'ds_content',
-      'field_spokes' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -237,21 +238,25 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'field_representative_image',
-        1 => 'field_period',
+        0 => 'group_flex1',
+        1 => 'field_representative_image',
         2 => 'title',
-        3 => 'group_spokeinfo',
-        4 => 'field_curators_editors',
-        5 => 'field_contributors',
+        3 => 'group_flex2',
+        4 => 'field_period',
+        5 => 'field_curators_editors',
+        6 => 'field_contributors',
+        7 => 'field_spokes',
       ),
     ),
     'fields' => array(
+      'group_flex1' => 'ds_content',
       'field_representative_image' => 'ds_content',
-      'field_period' => 'ds_content',
       'title' => 'ds_content',
-      'group_spokeinfo' => 'ds_content',
+      'group_flex2' => 'ds_content',
+      'field_period' => 'ds_content',
       'field_curators_editors' => 'ds_content',
       'field_contributors' => 'ds_content',
+      'field_spokes' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(

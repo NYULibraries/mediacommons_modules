@@ -66,7 +66,7 @@ function mediacommons_ds_settings_field_group_info() {
       'label' => 'headerInfo',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'hubhead',
+        'classes' => 'hubhead group-flex1',
         'wrapper' => 'header',
       ),
     ),
