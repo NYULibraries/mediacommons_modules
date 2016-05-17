@@ -395,16 +395,14 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'field_attached_images',
-        1 => 'group_spokeinfo',
-        2 => 'comment_count_spokes',
-        3 => 'title',
-        4 => 'post_date',
-        5 => 'field_contributors',
+        1 => 'comment_count_spokes',
+        2 => 'title',
+        3 => 'post_date',
+        4 => 'field_contributors',
       ),
     ),
     'fields' => array(
       'field_attached_images' => 'ds_content',
-      'group_spokeinfo' => 'ds_content',
       'comment_count_spokes' => 'ds_content',
       'title' => 'ds_content',
       'post_date' => 'ds_content',

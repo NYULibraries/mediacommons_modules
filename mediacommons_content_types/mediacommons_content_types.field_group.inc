@@ -96,7 +96,7 @@ function mediacommons_content_types_field_group_info() {
       'label' => 'Flex Group 2 ',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-flex2 group_rightside',
+        'classes' => 'group-flex2',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
