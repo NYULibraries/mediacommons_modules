@@ -31,7 +31,7 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'region' => 'sidebar_first',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -18,
       ),
       'rubik' => array(
         'region' => '',
@@ -66,10 +66,10 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'sidebar_first',
+        'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -17,
       ),
       'rubik' => array(
         'region' => '',
