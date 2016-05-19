@@ -62,3 +62,8 @@ function mediacommons_content_types_node_info() {
   drupal_alter('node_info', $items);
   return $items;
 }
+function mediacommons_content_types_preprocess_html(&$variables) {
+  global $theme;
+  // ADD custom style sheet -- because rubik theme has an incompatibility with manual crop
+  drupal_add_css(drupal_get_path('module', 'mediacommons_content_types') . '/adminstyles.css', array('weight' => CSS_THEME));
+}
