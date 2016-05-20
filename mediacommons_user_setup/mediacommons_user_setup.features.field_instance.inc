@@ -10,7 +10,7 @@
 function mediacommons_user_setup_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'user-user-field_aim'
+  // Exported field_instance: 'user-user-field_aim'.
   $field_instances['user-user-field_aim'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -63,7 +63,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_bio'
+  // Exported field_instance: 'user-user-field_bio'.
   $field_instances['user-user-field_bio'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -116,7 +116,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_city'
+  // Exported field_instance: 'user-user-field_city'.
   $field_instances['user-user-field_city'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -170,7 +170,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_country'
+  // Exported field_instance: 'user-user-field_country'.
   $field_instances['user-user-field_country'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -221,7 +221,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_email'
+  // Exported field_instance: 'user-user-field_email'.
   $field_instances['user-user-field_email'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -273,7 +273,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_first_name'
+  // Exported field_instance: 'user-user-field_first_name'.
   $field_instances['user-user-field_first_name'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -325,7 +325,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_last_name'
+  // Exported field_instance: 'user-user-field_last_name'.
   $field_instances['user-user-field_last_name'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -377,7 +377,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_organization'
+  // Exported field_instance: 'user-user-field_organization'.
   $field_instances['user-user-field_organization'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -433,7 +433,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_phone'
+  // Exported field_instance: 'user-user-field_phone'.
   $field_instances['user-user-field_phone'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -487,7 +487,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_plan'
+  // Exported field_instance: 'user-user-field_plan'.
   $field_instances['user-user-field_plan'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -540,7 +540,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_profile_name'
+  // Exported field_instance: 'user-user-field_profile_name'.
   $field_instances['user-user-field_profile_name'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -593,7 +593,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_skype'
+  // Exported field_instance: 'user-user-field_skype'.
   $field_instances['user-user-field_skype'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -646,7 +646,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_state'
+  // Exported field_instance: 'user-user-field_state'.
   $field_instances['user-user-field_state'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -697,7 +697,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_taxonomy'
+  // Exported field_instance: 'user-user-field_taxonomy'.
   $field_instances['user-user-field_taxonomy'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -751,7 +751,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_title'
+  // Exported field_instance: 'user-user-field_title'.
   $field_instances['user-user-field_title'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -806,7 +806,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_twitter'
+  // Exported field_instance: 'user-user-field_twitter'.
   $field_instances['user-user-field_twitter'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -859,7 +859,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_url'
+  // Exported field_instance: 'user-user-field_url'.
   $field_instances['user-user-field_url'] = array(
     'bundle' => 'user',
     'default_value' => NULL,

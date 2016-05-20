@@ -10,7 +10,7 @@
 function mediacommons_user_setup_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_aim'
+  // Exported field_base: 'field_aim'.
   $field_bases['field_aim'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -31,7 +31,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_bio'
+  // Exported field_base: 'field_bio'.
   $field_bases['field_bio'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -50,7 +50,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_city'
+  // Exported field_base: 'field_city'.
   $field_bases['field_city'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -76,7 +76,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_country'
+  // Exported field_base: 'field_country'.
   $field_bases['field_country'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -102,7 +102,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_email'
+  // Exported field_base: 'field_email'.
   $field_bases['field_email'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -117,7 +117,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'email',
   );
 
-  // Exported field_base: 'field_first_name'
+  // Exported field_base: 'field_first_name'.
   $field_bases['field_first_name'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -138,7 +138,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_last_name'
+  // Exported field_base: 'field_last_name'.
   $field_bases['field_last_name'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -159,7 +159,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_organization'
+  // Exported field_base: 'field_organization'.
   $field_bases['field_organization'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -185,7 +185,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_phone'
+  // Exported field_base: 'field_phone'.
   $field_bases['field_phone'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -200,7 +200,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'telephone',
   );
 
-  // Exported field_base: 'field_plan'
+  // Exported field_base: 'field_plan'.
   $field_bases['field_plan'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -219,7 +219,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_profile_name'
+  // Exported field_base: 'field_profile_name'.
   $field_bases['field_profile_name'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -240,7 +240,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_skype'
+  // Exported field_base: 'field_skype'.
   $field_bases['field_skype'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -261,7 +261,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_state'
+  // Exported field_base: 'field_state'.
   $field_bases['field_state'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -287,7 +287,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_title'
+  // Exported field_base: 'field_title'.
   $field_bases['field_title'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -308,7 +308,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_twitter'
+  // Exported field_base: 'field_twitter'.
   $field_bases['field_twitter'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -329,7 +329,7 @@ function mediacommons_user_setup_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_url'
+  // Exported field_base: 'field_url'.
   $field_bases['field_url'] = array(
     'active' => 1,
     'cardinality' => 1,
