@@ -5,6 +5,7 @@ package = MediaCommons
 version = 7.x-1.29964
 project = mediacommons_ds_settings
 dependencies[] = better_exposed_filters
+dependencies[] = ctools
 dependencies[] = ds
 dependencies[] = entity
 dependencies[] = fe_block
