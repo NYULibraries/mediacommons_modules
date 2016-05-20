@@ -118,6 +118,13 @@ function mediacommons_content_types_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_medium_mc';
+  $strongarm->value = 'F j, Y';
+  $export['date_format_medium_mc'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'gravatar_default';
   $strongarm->value = '3';
   $export['gravatar_default'] = $strongarm;

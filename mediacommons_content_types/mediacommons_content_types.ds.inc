@@ -131,36 +131,17 @@ function mediacommons_content_types_ds_field_settings_info() {
         ),
       ),
     ),
-    'field_contributors' => array(
+    'field_period' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Contributors',
-          'ow' => TRUE,
-          'ow-el' => 'div',
-          'ow-cl' => 'peoplelist contributors',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-          'fis' => TRUE,
-          'fis-el' => 'ul',
-          'fis-cl' => '',
-          'fis-at' => '',
-          'fis-def-at' => FALSE,
           'fi' => TRUE,
-          'fi-el' => 'li',
+          'fi-el' => 'time',
           'fi-cl' => '',
           'fi-at' => '',
           'fi-def-at' => FALSE,
           'fi-odd-even' => FALSE,
           'fi-first-last' => FALSE,
-        ),
-      ),
-    ),
-    'field_period' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
         ),
       ),
     ),
@@ -327,7 +308,7 @@ function mediacommons_content_types_ds_field_settings_info() {
     'post_date' => array(
       'weight' => '3',
       'label' => 'hidden',
-      'format' => 'ds_post_date_long_no_time',
+      'format' => 'ds_post_date_medium_mc',
       'formatter_settings' => array(
         'ft' => array(),
       ),
