@@ -308,10 +308,9 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'inline',
-        'module' => 'user_reference',
         'settings' => array(),
-        'type' => 'user_reference_default',
-        'weight' => 5,
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'third_mode' => array(
         'label' => 'above',
@@ -497,7 +496,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'date',
         'settings' => array(
-          'format_type' => 'long',
+          'format_type' => 'medium_mc',
           'fromto' => 'both',
           'multiple_from' => '',
           'multiple_number' => '',

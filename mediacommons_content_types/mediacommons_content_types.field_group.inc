@@ -83,13 +83,12 @@ function mediacommons_content_types_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Flex Group 2 ',
-    'weight' => '2',
+    'weight' => '1',
     'children' => array(
-      0 => 'field_contributors',
-      1 => 'field_curators_editors',
-      2 => 'field_period',
-      3 => 'field_spokes',
-      4 => 'title',
+      0 => 'field_curators_editors',
+      1 => 'field_period',
+      2 => 'field_spokes',
+      3 => 'title',
     ),
     'format_type' => 'div',
     'format_settings' => array(
