@@ -174,5 +174,83 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['block_description'] = 'MC Recent Comments';
   $export['mc_recent_comments'] = $view;
 
+  $view = new view();
+  $view->name = 'top_tags';
+  $view->description = 'A movable block which lists the organizations from which we have the most users';
+  $view->tag = 'taxonomy, sidebar';
+  $view->base_table = 'taxonomy_term_data';
+  $view->human_name = 'Top Organizations';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Organizations Represented';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['group_by'] = TRUE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '25';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  /* Header: Global: Result summary */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  /* Relationship: Taxonomy term: User using Organization */
+  $handler->display->display_options['relationships']['reverse_field_organization_user']['id'] = 'reverse_field_organization_user';
+  $handler->display->display_options['relationships']['reverse_field_organization_user']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['relationships']['reverse_field_organization_user']['field'] = 'reverse_field_organization_user';
+  $handler->display->display_options['relationships']['reverse_field_organization_user']['required'] = TRUE;
+  /* Field: COUNT(DISTINCT User: User UUID) */
+  $handler->display->display_options['fields']['uuid']['id'] = 'uuid';
+  $handler->display->display_options['fields']['uuid']['table'] = 'users';
+  $handler->display->display_options['fields']['uuid']['field'] = 'uuid';
+  $handler->display->display_options['fields']['uuid']['relationship'] = 'reverse_field_organization_user';
+  $handler->display->display_options['fields']['uuid']['group_type'] = 'count_distinct';
+  $handler->display->display_options['fields']['uuid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['uuid']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['uuid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['uuid']['element_default_classes'] = FALSE;
+  /* Field: Taxonomy term: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['name']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['name']['alter']['alt'] = '[name] ([uuid] people)';
+  $handler->display->display_options['fields']['name']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['name']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['name']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['name']['link_to_taxonomy'] = TRUE;
+  /* Sort criterion: COUNT(User: User UUID) */
+  $handler->display->display_options['sorts']['uuid']['id'] = 'uuid';
+  $handler->display->display_options['sorts']['uuid']['table'] = 'users';
+  $handler->display->display_options['sorts']['uuid']['field'] = 'uuid';
+  $handler->display->display_options['sorts']['uuid']['relationship'] = 'reverse_field_organization_user';
+  $handler->display->display_options['sorts']['uuid']['group_type'] = 'count';
+  $handler->display->display_options['sorts']['uuid']['order'] = 'DESC';
+  /* Filter criterion: Taxonomy vocabulary: Machine name */
+  $handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
+  $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
+  $handler->display->display_options['filters']['machine_name']['field'] = 'machine_name';
+  $handler->display->display_options['filters']['machine_name']['value'] = array(
+    'organizations' => 'organizations',
+  );
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block');
+  $export['top_tags'] = $view;
+
   return $export;
 }
