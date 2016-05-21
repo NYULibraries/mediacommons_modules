@@ -40,9 +40,18 @@ function mediacommons_content_types_ds_field_settings_info() {
       'format' => 'default',
       'formatter_settings' => array(
         'link' => '1',
-        'wrapper' => 'h1',
-        'class' => 'hub-title',
-        'ft' => array(),
+        'wrapper' => '',
+        'class' => '',
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'h1',
+          'fi-cl' => 'hub-title',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
       ),
     ),
     'field_body' => array(
