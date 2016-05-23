@@ -475,42 +475,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'mediacommons_editorialworkflow',
   );
 
-  // Exported permission: 'create front_page_post content'.
-  $permissions['create front_page_post content'] = array(
-    'name' => 'create front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'create hub content'.
-  $permissions['create hub content'] = array(
-    'name' => 'create hub content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'create page content'.
-  $permissions['create page content'] = array(
-    'name' => 'create page content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'create spoke content'.
-  $permissions['create spoke content'] = array(
-    'name' => 'create spoke content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: 'create url aliases'.
   $permissions['create url aliases'] = array(
     'name' => 'create url aliases',
@@ -527,87 +491,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'shortcut',
-  );
-
-  // Exported permission: 'delete any front_page_post content'.
-  $permissions['delete any front_page_post content'] = array(
-    'name' => 'delete any front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'delete any hub content'.
-  $permissions['delete any hub content'] = array(
-    'name' => 'delete any hub content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'delete any page content'.
-  $permissions['delete any page content'] = array(
-    'name' => 'delete any page content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'delete any spoke content'.
-  $permissions['delete any spoke content'] = array(
-    'name' => 'delete any spoke content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'delete own front_page_post content'.
-  $permissions['delete own front_page_post content'] = array(
-    'name' => 'delete own front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'delete own hub content'.
-  $permissions['delete own hub content'] = array(
-    'name' => 'delete own hub content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'delete own page content'.
-  $permissions['delete own page content'] = array(
-    'name' => 'delete own page content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'delete own spoke content'.
-  $permissions['delete own spoke content'] = array(
-    'name' => 'delete own spoke content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'delete revisions'.
-  $permissions['delete revisions'] = array(
-    'name' => 'delete revisions',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
   );
 
   // Exported permission: 'delete terms in city'.
@@ -673,42 +556,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'admin_menu',
   );
 
-  // Exported permission: 'edit any front_page_post content'.
-  $permissions['edit any front_page_post content'] = array(
-    'name' => 'edit any front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'edit any hub content'.
-  $permissions['edit any hub content'] = array(
-    'name' => 'edit any hub content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'edit any page content'.
-  $permissions['edit any page content'] = array(
-    'name' => 'edit any page content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'edit any spoke content'.
-  $permissions['edit any spoke content'] = array(
-    'name' => 'edit any spoke content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: 'edit own comments'.
   $permissions['edit own comments'] = array(
     'name' => 'edit own comments',
@@ -717,42 +564,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'comment',
-  );
-
-  // Exported permission: 'edit own front_page_post content'.
-  $permissions['edit own front_page_post content'] = array(
-    'name' => 'edit own front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'edit own hub content'.
-  $permissions['edit own hub content'] = array(
-    'name' => 'edit own hub content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'edit own page content'.
-  $permissions['edit own page content'] = array(
-    'name' => 'edit own page content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'edit own spoke content'.
-  $permissions['edit own spoke content'] = array(
-    'name' => 'edit own spoke content',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node',
   );
 
   // Exported permission: 'edit terms in city'.
