@@ -11,13 +11,10 @@
  * This hook declares what blocks are provided by the module.
  */
 function mediacommons_apis_block_info ( ) {
-
   $blocks['mc_apis_status'] = array (
     'info' => t('Site status'),
   );
-
   return $blocks;
-
 }
 
 /**
@@ -26,14 +23,12 @@ function mediacommons_apis_block_info ( ) {
  * This hook generates the contents of the blocks themselves.
  */
 function mediacommons_apis_block_view ( $delta = '' ) {
-
 	switch ( $delta ) {
     case 'mc_apis_status' :
     	$block['subject'] = t('Site status') ;
       $block['content'] = mediacommons_apis_content () ;
       break ;
   }
-
   return $block ;
 }
 

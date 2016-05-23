@@ -10,13 +10,13 @@
  * This hook declares what blocks are provided by the module.
  */
 function mediacommons_blocks_block_info() {
-
   $blocks['mc_footer'] = array(
     'info' => t('MediaCommons default footer'),
   );
-
+  $blocks['mc_fieldguide'] = array(
+  	'info' => t('MediaCommons: Field Guide Survey Question'),
+  );
   return $blocks;
-
 }
 
 /**
@@ -25,19 +25,39 @@ function mediacommons_blocks_block_info() {
  * This hook generates the contents of the blocks themselves.
  */
 function mediacommons_blocks_block_view($delta = '') {
-
   //The $delta parameter tells us which block is being requested.
   switch ($delta) {
-
     case 'mc_footer' :
       $block['subject'] = t('MediaCommons default footer');
       $block['content'] = mediacommons_blocks_contents($delta);
-
       break;
-
+    case 'mc_fieldguide' :
+      $block['subject'] = t('Field Guide Survey Question');
+      $block['content'] = mediacommons_blocks_mc_fieldguide();
+      break;
   }
-
   return $block;
+}
+
+function mediacommons_blocks_mc_fieldguide() {
+	// @TODO: this might be a BAD idea. Look into a way to do this using Views module (aof1)
+	global $databases;
+	if (isset($databases['fieldguide'])) {
+		$items = array();
+	  /** Create a database connection to the source (fieldguide) database */
+	  $db = Database::getConnection('default','fieldguide');
+	  $hubs = $db->query("SELECT nid, title FROM {node} WHERE status = :status AND type = :type ORDER BY nid DESC LIMIT 1", array(':status' => 1, ':type' => 'hub'))->fetchAll();
+	  $spokes = $db->query("SELECT r.title, n.uid, n.nid, MAX(n.vid) AS vid FROM node n LEFT JOIN node_revision r ON r.vid = n.vid LEFT JOIN field_revision_field_part_of s ON s.revision_id = n.vid WHERE s.field_part_of_nid = :nid GROUP BY r.nid ORDER BY s.delta ASC", array(':nid' => $hubs[0]->nid))->fetchAll();
+	  foreach($spokes as $key => $spoke) {
+		  $alias = $db->query("SELECT alias FROM {url_alias} WHERE source = :source ORDER BY pid DESC", array(':source' => 'node/' . $spoke->nid))->fetchField();
+		  $spokes[$key]->user = user_load($spoke->uid);
+		  $items[$key] = array(
+		  	'data' => t('<a href="@url">@title</a>', array('@url' => url('/fieldguide/' . $alias, array('external'=> true)), '@title' => $spoke->title)),
+		  	'class' => array('item'),
+		  );
+	  }
+	  return theme_item_list(array('items' => $items, 'title' => $hubs[0]->title, 'type' => 'ul', 'attributes' => array('class' => 'fieldguide_toc')));
+	}
 }
 
 /**
@@ -46,11 +66,8 @@ function mediacommons_blocks_block_view($delta = '') {
  * This hook declares configuration options for blocks provided by this module.
  */
 function mediacommons_blocks_block_configure($delta = '') {
-
   $form = array();
-
   if ($delta == 'mc_footer') {
-
     $form['mc_footer_project_name'] = array(
       '#type' => 'textarea',
       '#title' => t('Project name'),
@@ -59,28 +76,26 @@ function mediacommons_blocks_block_configure($delta = '') {
       '#default_value' => variable_get('mc_footer_project_name',  t('A MediaCommons Project')),
     );
   }
-
   return $form;
+}
 
+function mediacommons_blocks_preprocess_block(&$variables) {
+  if ($variables['block_html_id'] == 'block-mediacommons-blocks-mc-fieldguide') {
+  	$variables['classes_array'][] = 'fieldguide_toc';
+  }
 }
 
 /**
  * A module-defined block content function.
  */
 function mediacommons_blocks_contents($which_block) {
-
   switch ($which_block) {
-
     case 'mc_footer':
-
       $block_content = '
         <div>' . variable_get('mc_footer_project_name',  t('A MediaCommons Project')) . '</div>
         <div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>
       ';
-
       return array('#markup' => $block_content);
-
       break;
-
   }
 }
