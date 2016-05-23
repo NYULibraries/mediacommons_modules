@@ -1,7 +1,7 @@
 name = MediaCommons User Setup
 core = 7.x
 package = MediaCommons
-version = 7.x-1.2952
+version = 7.x-1.0-beta2
 project = mediacommons_user_setup
 dependencies[] = ctools
 dependencies[] = ds
@@ -39,7 +39,6 @@ features[ds_layout_settings][] = taxonomy_term|tags|full
 features[ds_view_modes][] = hub_teaser_compact
 features[ds_view_modes][] = user_byline
 features[ds_view_modes][] = user_teaser
-features[fe_block_settings][] = views-all_organizations-block
 features[fe_block_settings][] = views-curated_hubs-block
 features[fe_block_settings][] = views-top_organizations-block
 features[fe_block_settings][] = views-users_tagged-block

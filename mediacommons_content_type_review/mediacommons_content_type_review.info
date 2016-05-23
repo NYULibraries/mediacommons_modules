@@ -1,6 +1,6 @@
 name = MediaCommons: Content type review
 core = 7.x
-package = Features
+package = MediaCommons
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = mediacommons_content_types

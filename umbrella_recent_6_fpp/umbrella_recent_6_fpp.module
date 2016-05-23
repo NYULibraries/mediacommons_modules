@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Umbrella - recent 6 FPP feature.
- */
-
-include_once 'umbrella_recent_6_fpp.features.inc';
