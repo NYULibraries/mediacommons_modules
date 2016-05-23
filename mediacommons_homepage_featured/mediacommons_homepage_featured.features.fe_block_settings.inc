@@ -31,7 +31,7 @@ function mediacommons_homepage_featured_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -4,
       ),
       'rubik' => array(
         'region' => '',
