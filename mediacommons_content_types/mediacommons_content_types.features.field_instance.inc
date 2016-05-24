@@ -143,6 +143,13 @@ function mediacommons_content_types_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 5,
       ),
+      'hub_home_vertical' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 6,
+      ),
       'hub_teaser_compact' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -219,6 +226,13 @@ function mediacommons_content_types_field_default_field_instances() {
         'type' => 'user_reference_default',
         'weight' => 4,
       ),
+      'hub_home_vertical' => array(
+        'label' => 'inline',
+        'module' => 'user_reference',
+        'settings' => array(),
+        'type' => 'user_reference_default',
+        'weight' => 5,
+      ),
       'hub_teaser_compact' => array(
         'label' => 'inline',
         'module' => 'user_reference',
@@ -293,6 +307,12 @@ function mediacommons_content_types_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 5,
       ),
+      'hub_home_vertical' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
+      ),
       'hub_teaser_compact' => array(
         'label' => 'inline',
         'module' => 'user_reference',
@@ -366,6 +386,13 @@ function mediacommons_content_types_field_default_field_instances() {
         'settings' => array(),
         'type' => 'user_reference_default',
         'weight' => 3,
+      ),
+      'hub_home_vertical' => array(
+        'label' => 'inline',
+        'module' => 'user_reference',
+        'settings' => array(),
+        'type' => 'user_reference_default',
+        'weight' => 4,
       ),
       'hub_teaser_compact' => array(
         'label' => 'inline',
@@ -463,6 +490,20 @@ function mediacommons_content_types_field_default_field_instances() {
         ),
         'type' => 'date_default',
         'weight' => 1,
+      ),
+      'hub_home_vertical' => array(
+        'label' => 'hidden',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+          'show_remaining_days' => FALSE,
+        ),
+        'type' => 'date_default',
+        'weight' => 3,
       ),
       'hub_teaser_compact' => array(
         'label' => 'hidden',
@@ -579,6 +620,12 @@ function mediacommons_content_types_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 6,
       ),
+      'hub_home_vertical' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
+      ),
       'hub_teaser_compact' => array(
         'label' => 'above',
         'settings' => array(),
@@ -632,10 +679,8 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
-          'caption' => FALSE,
           'image_link' => '',
           'image_style' => '',
-          'optionset' => 'default',
         ),
         'type' => 'image',
         'weight' => 6,
@@ -655,6 +700,16 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 1,
+      ),
+      'hub_home_vertical' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
           'image_style' => '',
         ),
         'type' => 'image',
@@ -774,6 +829,15 @@ Please choose "Crop" to create an additional version of your image which will be
         ),
         'type' => 'node_reference_node',
         'weight' => 3,
+      ),
+      'hub_home_vertical' => array(
+        'label' => 'hidden',
+        'module' => 'node_reference',
+        'settings' => array(
+          'node_reference_view_mode' => 'teaser',
+        ),
+        'type' => 'node_reference_node',
+        'weight' => 2,
       ),
       'hub_teaser_compact' => array(
         'label' => 'hidden',

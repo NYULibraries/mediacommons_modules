@@ -39,7 +39,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => '0',
         'wrapper' => '',
         'class' => '',
         'ft' => array(
@@ -421,6 +421,24 @@ function mediacommons_content_types_ds_custom_fields_info() {
     'block_render' => '3',
   );
   $export['contributors_view_for_bylines'] = $ds_field;
+
+  return $export;
+}
+
+/**
+ * Implements hook_ds_view_modes_info().
+ */
+function mediacommons_content_types_ds_view_modes_info() {
+  $export = array();
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'hub_home_vertical';
+  $ds_view_mode->label = 'Hub home vertical';
+  $ds_view_mode->entities = array(
+    'node' => 'node',
+  );
+  $export['hub_home_vertical'] = $ds_view_mode;
 
   return $export;
 }
