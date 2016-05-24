@@ -268,6 +268,13 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'image',
   );
 
+  // Exported permission: 'administer manualcrop settings'.
+  $permissions['administer manualcrop settings'] = array(
+    'name' => 'administer manualcrop settings',
+    'roles' => array(),
+    'module' => 'manualcrop',
+  );
+
   // Exported permission: 'administer menu'.
   $permissions['administer menu'] = array(
     'name' => 'administer menu',
@@ -311,6 +318,13 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: 'administer page manager'.
+  $permissions['administer page manager'] = array(
+    'name' => 'administer page manager',
+    'roles' => array(),
+    'module' => 'page_manager',
   );
 
   // Exported permission: 'administer pathauto'.
@@ -412,6 +426,13 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'user',
   );
 
+  // Exported permission: 'administer uuid'.
+  $permissions['administer uuid'] = array(
+    'name' => 'administer uuid',
+    'roles' => array(),
+    'module' => 'uuid',
+  );
+
   // Exported permission: 'administer views'.
   $permissions['administer views'] = array(
     'name' => 'administer views',
@@ -493,51 +514,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'shortcut',
   );
 
-  // Exported permission: 'delete terms in city'.
-  $permissions['delete terms in city'] = array(
-    'name' => 'delete terms in city',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'delete terms in country'.
-  $permissions['delete terms in country'] = array(
-    'name' => 'delete terms in country',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'delete terms in organizations'.
-  $permissions['delete terms in organizations'] = array(
-    'name' => 'delete terms in organizations',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'delete terms in state'.
-  $permissions['delete terms in state'] = array(
-    'name' => 'delete terms in state',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'delete terms in tags'.
-  $permissions['delete terms in tags'] = array(
-    'name' => 'delete terms in tags',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
-  );
-
   // Exported permission: 'disable own gravatar'.
   $permissions['disable own gravatar'] = array(
     'name' => 'disable own gravatar',
@@ -564,51 +540,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'comment',
-  );
-
-  // Exported permission: 'edit terms in city'.
-  $permissions['edit terms in city'] = array(
-    'name' => 'edit terms in city',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'edit terms in country'.
-  $permissions['edit terms in country'] = array(
-    'name' => 'edit terms in country',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'edit terms in organizations'.
-  $permissions['edit terms in organizations'] = array(
-    'name' => 'edit terms in organizations',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'edit terms in state'.
-  $permissions['edit terms in state'] = array(
-    'name' => 'edit terms in state',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'edit terms in tags'.
-  $permissions['edit terms in tags'] = array(
-    'name' => 'edit terms in tags',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'taxonomy',
   );
 
   // Exported permission: 'flush caches'.
@@ -796,6 +727,23 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'gravatar',
   );
 
+  // Exported permission: 'use manualcrop'.
+  $permissions['use manualcrop'] = array(
+    'name' => 'use manualcrop',
+    'roles' => array(
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'manualcrop',
+  );
+
+  // Exported permission: 'use page manager'.
+  $permissions['use page manager'] = array(
+    'name' => 'use page manager',
+    'roles' => array(),
+    'module' => 'page_manager',
+  );
+
   // Exported permission: 'use text format ds_code'.
   $permissions['use text format ds_code'] = array(
     'name' => 'use text format ds_code',
@@ -805,33 +753,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
       'cluster curator' => 'cluster curator',
       'contributor' => 'contributor',
       'managing editor' => 'managing editor',
-    ),
-    'module' => 'filter',
-  );
-
-  // Exported permission: 'use text format filtered_html'.
-  $permissions['use text format filtered_html'] = array(
-    'name' => 'use text format filtered_html',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'filter',
-  );
-
-  // Exported permission: 'use text format full_html'.
-  $permissions['use text format full_html'] = array(
-    'name' => 'use text format full_html',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'filter',
-  );
-
-  // Exported permission: 'use text format limited_html'.
-  $permissions['use text format limited_html'] = array(
-    'name' => 'use text format limited_html',
-    'roles' => array(
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'filter',
   );
