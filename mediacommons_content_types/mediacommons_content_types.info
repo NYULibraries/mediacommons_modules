@@ -18,6 +18,7 @@ dependencies[] = link
 dependencies[] = list
 dependencies[] = mediacommons_ds_settings
 dependencies[] = mediacommons_editorialworkflow
+dependencies[] = mediacommons_roles_and_permissions
 dependencies[] = mediacommons_text_formats
 dependencies[] = node
 dependencies[] = node_reference
