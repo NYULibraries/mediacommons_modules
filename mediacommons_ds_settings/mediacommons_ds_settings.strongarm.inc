@@ -122,6 +122,9 @@ function mediacommons_ds_settings_strongarm() {
       'hub_teaser_for_archive_page' => array(
         'custom_settings' => TRUE,
       ),
+      'hub_home_vertical' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
