@@ -15,6 +15,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'create hub content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -24,6 +26,9 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'create page content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -33,6 +38,9 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'create spoke content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -42,6 +50,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete any hub content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -51,6 +61,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete any page content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -60,6 +72,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete any spoke content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -69,6 +83,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete own hub content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -78,6 +94,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete own page content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -87,6 +105,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete own spoke content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -94,9 +114,7 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'delete revisions'.
   $permissions['delete revisions'] = array(
     'name' => 'delete revisions',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'node',
   );
 
@@ -105,6 +123,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit any hub content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -114,6 +134,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit any page content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -123,6 +145,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit any spoke content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -132,6 +156,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit own hub content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -141,6 +167,9 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit own page content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -150,6 +179,9 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit own spoke content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
