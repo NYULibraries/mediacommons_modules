@@ -206,6 +206,14 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'contributors_to_this_spoke' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
     'hub_navigation' => array(
       'weight' => '7',
       'label' => 'hidden',
@@ -221,20 +229,12 @@ function mediacommons_content_types_ds_field_settings_info() {
           'ow-def-at' => FALSE,
           'fi' => TRUE,
           'fi-el' => 'div',
-          'fi-cl' => 'block-views',
+          'fi-cl' => 'block-views block',
           'fi-at' => '',
           'fi-def-at' => FALSE,
           'fi-odd-even' => FALSE,
           'fi-first-last' => FALSE,
         ),
-      ),
-    ),
-    'contributors_to_this_spoke' => array(
-      'weight' => '2',
-      'label' => 'hidden',
-      'format' => 'default',
-      'formatter_settings' => array(
-        'ft' => array(),
       ),
     ),
     'title' => array(
