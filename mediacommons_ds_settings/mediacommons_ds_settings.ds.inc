@@ -475,20 +475,20 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'field_attached_images',
-        1 => 'comment_count_spokes',
-        2 => 'title',
-        3 => 'group_spoke_teaser_meta',
+        1 => 'title',
+        2 => 'group_spoke_teaser_meta',
+        3 => 'field_contributors',
         4 => 'post_date',
-        5 => 'field_contributors',
+        5 => 'comment_count_spokes',
       ),
     ),
     'fields' => array(
       'field_attached_images' => 'ds_content',
-      'comment_count_spokes' => 'ds_content',
       'title' => 'ds_content',
       'group_spoke_teaser_meta' => 'ds_content',
-      'post_date' => 'ds_content',
       'field_contributors' => 'ds_content',
+      'post_date' => 'ds_content',
+      'comment_count_spokes' => 'ds_content',
     ),
     'limit' => array(
       'field_attached_images' => '1',
