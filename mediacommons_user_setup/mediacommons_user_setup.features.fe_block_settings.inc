@@ -31,7 +31,7 @@ function mediacommons_user_setup_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => -1,
+        'weight' => 0,
       ),
       'rubik' => array(
         'region' => '',
@@ -66,10 +66,10 @@ function mediacommons_user_setup_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'homepage_sidebar',
+        'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -18,
       ),
       'rubik' => array(
         'region' => '',
@@ -107,7 +107,7 @@ function mediacommons_user_setup_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'rubik' => array(
         'region' => '',

@@ -31,7 +31,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -5,
       ),
       'rubik' => array(
         'region' => '',
@@ -71,7 +71,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -4,
       ),
       'rubik' => array(
         'region' => '',
@@ -109,7 +109,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -1,
       ),
       'rubik' => array(
         'region' => '',
@@ -147,7 +147,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'rubik' => array(
         'region' => '',
@@ -185,7 +185,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'rubik' => array(
         'region' => '',
