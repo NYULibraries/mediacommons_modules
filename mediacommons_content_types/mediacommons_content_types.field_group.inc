@@ -169,11 +169,44 @@ function mediacommons_content_types_field_group_info() {
   );
   $field_groups['group_hubhead|node|hub|hub_home_vertical'] = $field_group;
 
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_spoke_teaser_meta|node|spoke|teaser';
+  $field_group->group_name = 'group_spoke_teaser_meta';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'spoke';
+  $field_group->mode = 'teaser';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Meta',
+    'weight' => '3',
+    'children' => array(
+      0 => 'field_contributors',
+      1 => 'comment_count_spokes',
+      2 => 'post_date',
+    ),
+    'format_type' => 'html-element',
+    'format_settings' => array(
+      'label' => 'Meta',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'spoke-teaser-meta',
+        'element' => 'div',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'attributes' => '',
+      ),
+    ),
+  );
+  $field_groups['group_spoke_teaser_meta|node|spoke|teaser'] = $field_group;
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Flex Group 1');
   t('Flex Group 2 ');
   t('Group Flex 2');
+  t('Meta');
   t('headerInfo');
 
   return $field_groups;

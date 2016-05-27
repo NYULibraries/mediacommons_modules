@@ -72,6 +72,7 @@ features[field_group][] = group_flex2|node|hub|full
 features[field_group][] = group_flex2|node|hub|hub_home_vertical
 features[field_group][] = group_flex2|node|hub|teaser
 features[field_group][] = group_hubhead|node|hub|hub_home_vertical
+features[field_group][] = group_spoke_teaser_meta|node|spoke|teaser
 features[field_instance][] = comment-comment_node_hub-comment_body
 features[field_instance][] = comment-comment_node_page-comment_body
 features[field_instance][] = comment-comment_node_spoke-comment_body
