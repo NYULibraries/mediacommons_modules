@@ -281,7 +281,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'comment_count_spokes' => array(
-      'weight' => '7',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -315,7 +315,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'post_date' => array(
-      'weight' => '6',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'ds_post_date_medium_mc',
       'formatter_settings' => array(
