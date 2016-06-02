@@ -128,6 +128,105 @@ function mediacommons_homepage_featured_views_default_views() {
   $export['recent_6_hubs'] = $view;
 
   $view = new view();
+  $view->name = 'recent_hubs_fieldguide';
+  $view->description = 'For use on homepage, for all child sites';
+  $view->tag = '';
+  $view->base_table = 'node';
+  $view->human_name = 'Recent hubs fieldguide';
+  $view->core = 0;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Defaults */
+  $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->display->display_options['title'] = 'Featured Content';
+  $handler->display->display_options['use_more'] = TRUE;
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '6';
+  $handler->display->display_options['pager']['options']['offset'] = '1';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'node';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
+  $handler->display->display_options['fields']['title_1']['table'] = 'node';
+  $handler->display->display_options['fields']['title_1']['field'] = 'title';
+  $handler->display->display_options['fields']['title_1']['label'] = '';
+  $handler->display->display_options['fields']['title_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
+  /* Field: Content: Type */
+  $handler->display->display_options['fields']['type']['id'] = 'type';
+  $handler->display->display_options['fields']['type']['table'] = 'node';
+  $handler->display->display_options['fields']['type']['field'] = 'type';
+  $handler->display->display_options['fields']['type']['exclude'] = TRUE;
+  /* Field: Content: Start and end dates */
+  $handler->display->display_options['fields']['field_period']['id'] = 'field_period';
+  $handler->display->display_options['fields']['field_period']['table'] = 'field_data_field_period';
+  $handler->display->display_options['fields']['field_period']['field'] = 'field_period';
+  $handler->display->display_options['fields']['field_period']['label'] = '';
+  $handler->display->display_options['fields']['field_period']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_period']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_period']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_period']['empty'] = 'No Time Range Available';
+  $handler->display->display_options['fields']['field_period']['settings'] = array(
+    'format_type' => 'medium_mc',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+    'show_remaining_days' => 0,
+  );
+  /* Field: Content: Link */
+  $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
+  $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['view_node']['field'] = 'view_node';
+  $handler->display->display_options['fields']['view_node']['label'] = '';
+  $handler->display->display_options['fields']['view_node']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['view_node']['alter']['text'] = '<time class="timerangeheader">[field_period]</time><h3>[title_1]</h3>';
+  $handler->display->display_options['fields']['view_node']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  /* Filter criterion: Content: Published or admin */
+  $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
+  $handler->display->display_options['filters']['status_extra']['table'] = 'node';
+  $handler->display->display_options['filters']['status_extra']['field'] = 'status_extra';
+  $handler->display->display_options['filters']['status_extra']['group'] = 0;
+  $handler->display->display_options['filters']['status_extra']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'hub' => 'hub',
+  );
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block');
+  $handler->display->display_options['defaults']['use_more'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_text'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $export['recent_hubs_fieldguide'] = $view;
+
+  $view = new view();
   $view->name = 'single_hub_latest';
   $view->description = 'For use on homepage';
   $view->tag = 'homepage ';
