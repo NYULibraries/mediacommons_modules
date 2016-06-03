@@ -281,7 +281,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'comment_count_spokes' => array(
-      'weight' => '6',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -315,7 +315,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'post_date' => array(
-      'weight' => '4',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'ds_post_date_medium_mc',
       'formatter_settings' => array(
@@ -336,6 +336,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'field_contributors' => array(
+      'weight' => '5',
       'formatter_settings' => array(
         'ft' => array(
           'lb' => 'By',
@@ -434,7 +435,7 @@ function mediacommons_content_types_ds_view_modes_info() {
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;
   $ds_view_mode->view_mode = 'hub_home_vertical';
-  $ds_view_mode->label = 'Hub home vertical';
+  $ds_view_mode->label = 'Hub display for homepage';
   $ds_view_mode->entities = array(
     'node' => 'node',
   );
