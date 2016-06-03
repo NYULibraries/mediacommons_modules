@@ -434,7 +434,7 @@ function mediacommons_content_types_ds_view_modes_info() {
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;
   $ds_view_mode->view_mode = 'hub_home_vertical';
-  $ds_view_mode->label = 'Hub home vertical';
+  $ds_view_mode->label = 'Hub display for homepage';
   $ds_view_mode->entities = array(
     'node' => 'node',
   );
