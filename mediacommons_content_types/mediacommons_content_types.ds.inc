@@ -319,7 +319,16 @@ function mediacommons_content_types_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'ds_post_date_medium_mc',
       'formatter_settings' => array(
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'time',
+          'fi-cl' => '',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
       ),
     ),
     'field_attached_images' => array(
@@ -336,7 +345,6 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'field_contributors' => array(
-      'weight' => '5',
       'formatter_settings' => array(
         'ft' => array(
           'lb' => 'By',
