@@ -27,12 +27,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons',
-        'weight' => 0,
-      ),
       'rubik' => array(
         'region' => '',
         'status' => 0,
@@ -67,12 +61,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons',
-        'weight' => 0,
-      ),
       'rubik' => array(
         'region' => '',
         'status' => 0,
@@ -103,12 +91,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons',
         'weight' => 0,
       ),
       'rubik' => array(
@@ -143,12 +125,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'theme' => 'bartik',
         'weight' => 0,
       ),
-      'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons',
-        'weight' => 0,
-      ),
       'rubik' => array(
         'region' => '',
         'status' => 0,
@@ -179,12 +155,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons',
         'weight' => 0,
       ),
       'rubik' => array(
