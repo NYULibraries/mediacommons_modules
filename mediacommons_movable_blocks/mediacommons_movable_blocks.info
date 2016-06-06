@@ -6,7 +6,6 @@ version = 7.x-1.02122
 dependencies[] = comment
 dependencies[] = ctools
 dependencies[] = fe_block
-dependencies[] = multiblock
 dependencies[] = strongarm
 dependencies[] = views
 features[ctools][] = strongarm:strongarm:1
