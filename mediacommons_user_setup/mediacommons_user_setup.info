@@ -40,7 +40,6 @@ features[ds_view_modes][] = hub_teaser_compact
 features[ds_view_modes][] = user_byline
 features[ds_view_modes][] = user_teaser
 features[fe_block_settings][] = views-curated_hubs-block
-features[fe_block_settings][] = views-top_organizations-block
 features[fe_block_settings][] = views-users_tagged-block
 features[features_api][] = api:2
 features[field_base][] = field_aim
