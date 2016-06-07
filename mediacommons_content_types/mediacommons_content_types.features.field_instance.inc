@@ -8,6 +8,9 @@
  * Implements hook_field_default_field_instances().
  */
 function mediacommons_content_types_field_default_field_instances() {
+
+  $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);
+
   $field_instances = array();
 
   // Exported field_instance: 'comment-comment_node_hub-comment_body'.
@@ -671,7 +674,7 @@ function mediacommons_content_types_field_default_field_instances() {
   $field_instances['node-hub-field_representative_image'] = array(
     'bundle' => 'hub',
     'deleted' => 0,
-    'description' => 'Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page. 
+    'description' => 'Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page.
 
 Please choose "Crop" to create an additional version of your image which will be visible in hub "teasers" on the homepage and in the archive list. ',
     'display' => array(
@@ -763,7 +766,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 11,
+      'default_image' => $fid,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '10 MB',
@@ -985,7 +988,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 32,
+      'default_image' => $fid,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
@@ -1343,7 +1346,7 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Spokes');
   t('Start and end dates');
   t('Tags');
-  t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page. 
+  t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page.
 
 Please choose "Crop" to create an additional version of your image which will be visible in hub "teasers" on the homepage and in the archive list. ');
 
