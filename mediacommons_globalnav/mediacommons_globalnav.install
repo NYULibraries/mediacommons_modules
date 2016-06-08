@@ -13,10 +13,8 @@ function _mediacommons_globalnav_config() {
   }
 
   $menu_name = 'menu-mcglobalnav';
-  
-  $leafs_weight = 0;
-  
-  $links_increment = 0;
+
+  $leafs_increment = 0;
   
   $leaf_myaccount_increment = 0;
   
