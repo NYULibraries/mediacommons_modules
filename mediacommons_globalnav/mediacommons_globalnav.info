@@ -12,6 +12,14 @@ scripts[] = mediacommons_globalnav.js
 
 mediacommons[environment] = development
 
+mediacommons[environments][local][fieldguide] = /fieldguide/
+mediacommons[environments][local][tne] = /tne/
+mediacommons[environments][local][imr] = /imr/
+mediacommons[environments][local][altac] = /alt-ac/
+mediacommons[environments][local][intransition] = /intransition/
+mediacommons[environments][local][mediacommons] = /mediacommons/
+mediacommons[environments][local][mcpress] = http://mcpress.media-commons.org/
+
 mediacommons[environments][development][fieldguide] = /fieldguide/
 mediacommons[environments][development][tne] = /tne/
 mediacommons[environments][development][imr] = /imr/
@@ -19,6 +27,14 @@ mediacommons[environments][development][altac] = /alt-ac/
 mediacommons[environments][development][intransition] = /intransition/
 mediacommons[environments][development][mediacommons] = /mediacommons/
 mediacommons[environments][development][mcpress] = http://mcpress.media-commons.org/
+
+mediacommons[environments][stage][fieldguide] = /fieldguide/
+mediacommons[environments][stage][tne] = /tne/
+mediacommons[environments][stage][imr] = /imr/
+mediacommons[environments][stage][altac] = /alt-ac/
+mediacommons[environments][stage][intransition] = /intransition/
+mediacommons[environments][stage][mediacommons] = /mediacommons/
+mediacommons[environments][stage][mcpress] = http://mcpress.media-commons.org/
 
 mediacommons[environments][production][fieldguide] = http://mediacommons.futureofthebook.org/fieldguide/
 mediacommons[environments][production][tne] = http://mediacommons.futureofthebook.org/tne/
