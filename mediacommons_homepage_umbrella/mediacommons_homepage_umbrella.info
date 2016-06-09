@@ -53,5 +53,4 @@ features[node_export_features][] = a00c37e8-dca5-4de1-8c00-f578f063b220
 features[variable][] = field_bundle_settings_node__front_page_post
 features[views_view][] = mc_home_lede
 features_exclude[dependencies][mediacommons_ds_settings] = mediacommons_ds_settings
-features_exclude[dependencies][node_export_features] = node_export_features
 features_exclude[field_base][field_body] = field_body

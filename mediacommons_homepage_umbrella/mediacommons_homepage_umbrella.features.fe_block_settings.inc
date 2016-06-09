@@ -28,8 +28,8 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => 'umb_homepage_sidebar',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
@@ -90,6 +90,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
 
   $export['views-mc_home_lede-block'] = array(
     'cache' => -1,
+    'custom' => 0,
     'delta' => 'mc_home_lede-block',
     'module' => 'views',
     'node_types' => array(),
@@ -121,6 +122,8 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
+    'title' => '',
+    'visibility' => 0,
   );
 
   return $export;
