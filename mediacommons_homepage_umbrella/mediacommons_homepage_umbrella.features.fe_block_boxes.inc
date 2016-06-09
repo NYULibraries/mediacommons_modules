@@ -251,7 +251,7 @@ function mediacommons_homepage_umbrella_default_fe_block_boxes() {
   $export['fieldguide_toc_html'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
-  $fe_block_boxes->info = 'Markup from Twitter';
+  $fe_block_boxes->info = 'Twitter Widget';
   $fe_block_boxes->format = 'filtered_html';
   $fe_block_boxes->machine_name = 'twitter_widget_umbrella';
   $fe_block_boxes->body = '<a class="twitter-timeline" href="https://twitter.com/lhenze/lists/mediacommons" data-widget-id="671717886218657792">Tweets from https://twitter.com/lhenze/lists/mediacommons</a>
