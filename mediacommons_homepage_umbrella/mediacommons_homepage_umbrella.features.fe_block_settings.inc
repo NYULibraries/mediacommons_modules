@@ -84,7 +84,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => 'Twitter Widget',
+    'title' => '',
     'visibility' => 0,
   );
 
