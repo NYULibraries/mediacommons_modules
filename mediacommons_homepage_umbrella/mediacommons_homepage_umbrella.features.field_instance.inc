@@ -29,7 +29,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 15,
+        'weight' => 4,
       ),
       'homepage_featured_articles' => array(
         'label' => 'hidden',
@@ -89,7 +89,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 18,
       ),
       'homepage_featured_articles' => array(
         'label' => 'hidden',
@@ -259,7 +259,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 12,
+        'weight' => 2,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -311,7 +311,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_default',
-        'weight' => 13,
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'hidden',
