@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the MediaCommons: Content type review feature.
- */
-
-include_once 'mediacommons_content_type_review.features.inc';

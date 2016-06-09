@@ -33,6 +33,18 @@ function mediacommons_content_types_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'create review content'.
+  $permissions['create review content'] = array(
+    'name' => 'create review content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: 'create spoke content'.
   $permissions['create spoke content'] = array(
     'name' => 'create spoke content',
@@ -59,6 +71,17 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'delete any page content'.
   $permissions['delete any page content'] = array(
     'name' => 'delete any page content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: 'delete any review content'.
+  $permissions['delete any review content'] = array(
+    'name' => 'delete any review content',
     'roles' => array(
       'administrator' => 'administrator',
       'cluster curator' => 'cluster curator',
@@ -95,6 +118,18 @@ function mediacommons_content_types_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: 'delete own review content'.
+  $permissions['delete own review content'] = array(
+    'name' => 'delete own review content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
       'managing editor' => 'managing editor',
     ),
     'module' => 'node',
@@ -140,6 +175,17 @@ function mediacommons_content_types_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'edit any review content'.
+  $permissions['edit any review content'] = array(
+    'name' => 'edit any review content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: 'edit any spoke content'.
   $permissions['edit any spoke content'] = array(
     'name' => 'edit any spoke content',
@@ -165,6 +211,18 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'edit own page content'.
   $permissions['edit own page content'] = array(
     'name' => 'edit own page content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: 'edit own review content'.
+  $permissions['edit own review content'] = array(
+    'name' => 'edit own review content',
     'roles' => array(
       'administrator' => 'administrator',
       'cluster curator' => 'cluster curator',

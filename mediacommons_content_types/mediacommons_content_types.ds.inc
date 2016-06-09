@@ -215,7 +215,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'hub_navigation' => array(
-      'weight' => '7',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -258,7 +258,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'comments' => array(
-      'weight' => '6',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),

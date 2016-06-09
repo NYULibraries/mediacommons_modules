@@ -79,6 +79,39 @@ function mediacommons_content_types_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'comment-comment_node_review-comment_body'.
+  $field_instances['comment-comment_node_review-comment_body'] = array(
+    'bundle' => 'comment_node_review',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'comment',
+    'field_name' => 'comment_body',
+    'label' => 'Comment',
+    'required' => TRUE,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 0,
+    ),
+  );
+
   // Exported field_instance: 'comment-comment_node_spoke-comment_body'.
   $field_instances['comment-comment_node_spoke-comment_body'] = array(
     'bundle' => 'comment_node_spoke',
@@ -946,6 +979,94 @@ Please choose "Crop" to create an additional version of your image which will be
     ),
   );
 
+  // Exported field_instance: 'node-review-body'.
+  $field_instances['node-review-body'] = array(
+    'bundle' => 'review',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(
+          'trim_length' => 600,
+        ),
+        'type' => 'text_summary_or_trimmed',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'body',
+    'label' => 'Review',
+    'required' => 0,
+    'settings' => array(
+      'display_summary' => 0,
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 20,
+        'summary_rows' => 5,
+      ),
+      'type' => 'text_textarea_with_summary',
+      'weight' => 31,
+    ),
+  );
+
+  // Exported field_instance: 'node-review-field_isreviewof'.
+  $field_instances['node-review-field_isreviewof'] = array(
+    'bundle' => 'review',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'node_reference',
+        'settings' => array(),
+        'type' => 'node_reference_default',
+        'weight' => 1,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'field_isreviewof',
+    'label' => 'Review of',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'node_reference',
+      'settings' => array(
+        'autocomplete_match' => 'contains',
+        'autocomplete_path' => 'node_reference/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'node_reference_autocomplete',
+      'weight' => 32,
+    ),
+  );
+
   // Exported field_instance: 'node-spoke-field_attached_images'.
   $field_instances['node-spoke-field_attached_images'] = array(
     'bundle' => 'spoke',
@@ -956,13 +1077,13 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 1,
+        'weight' => 14,
       ),
       'full' => array(
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 19,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1010,7 +1131,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'resolution' => '200x150',
       ),
       'type' => 'imagefield_crop_widget',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -1025,7 +1146,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 18,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -1080,13 +1201,13 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 16,
       ),
       'full' => array(
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 18,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1118,7 +1239,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'user_reference_autocomplete',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -1133,7 +1254,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 17,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -1186,13 +1307,13 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 20,
       ),
       'full' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 20,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1223,7 +1344,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'node_reference_autocomplete',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
@@ -1242,13 +1363,13 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 19,
       ),
       'full' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 21,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1275,7 +1396,7 @@ Please choose "Crop" to create an additional version of your image which will be
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 7,
+      'weight' => 8,
     ),
   );
 
@@ -1290,7 +1411,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 15,
       ),
       'full' => array(
         'label' => 'inline',
@@ -1331,6 +1452,80 @@ Please choose "Crop" to create an additional version of your image which will be
     ),
   );
 
+  // Exported field_instance: 'node-spoke-field_view'.
+  $field_instances['node-spoke-field_view'] = array(
+    'bundle' => 'spoke',
+    'default_value' => array(
+      0 => array(
+        'vname' => 'spoke_reviews|block',
+        'vargs' => '[node:nid]',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'viewfield',
+        'settings' => array(),
+        'type' => 'viewfield_default',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'field_view',
+    'label' => 'Reviews',
+    'required' => 0,
+    'settings' => array(
+      'allowed_views' => array(
+        'all_spokes_in_this_spokes_hub' => 0,
+        'all_users' => 0,
+        'comment_count_for_spoke' => 0,
+        'comments_from_user' => 0,
+        'contribs_spoke_pane' => 0,
+        'contributors_this_hub' => 0,
+        'contributors_this_spoke' => 0,
+        'curated_hubs' => 0,
+        'list_of_all_hubs' => 0,
+        'mc_recent_comments' => 0,
+        'nodequeue_1' => 0,
+        'number_of_comments_per_spoke' => 0,
+        'posts_contributed' => 0,
+        'recent_6_front_page_posts' => 0,
+        'recent_6_hubs' => 0,
+        'recent_hubs_fieldguide' => 0,
+        'single_hub_latest' => 0,
+        'spoke_reviews' => 'spoke_reviews',
+        'this_spokes_parent_hub' => 0,
+        'top_organizations' => 0,
+        'users_in_an_org' => 0,
+        'users_tagged' => 0,
+      ),
+      'force_default' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'viewfield',
+      'settings' => array(),
+      'type' => 'viewfield_select',
+      'weight' => 4,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Attached Images');
@@ -1343,6 +1538,9 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Part of hub');
   t('Publication Status');
   t('Representative Image');
+  t('Review');
+  t('Review of');
+  t('Reviews');
   t('Spokes');
   t('Start and end dates');
   t('Tags');
