@@ -10,7 +10,7 @@
 function mediacommons_homepage_umbrella_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-front_page_post-field_body'
+  // Exported field_instance: 'node-front_page_post-field_body'.
   $field_instances['node-front_page_post-field_body'] = array(
     'bundle' => 'front_page_post',
     'default_value' => NULL,
@@ -73,7 +73,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-front_page_post-field_featured_image_thumb'
+  // Exported field_instance: 'node-front_page_post-field_featured_image_thumb'.
   $field_instances['node-front_page_post-field_featured_image_thumb'] = array(
     'bundle' => 'front_page_post',
     'deleted' => 0,
@@ -142,6 +142,18 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'croparea' => '450x175',
         'enforce_minimum' => 1,
         'enforce_ratio' => 1,
+        'manualcrop_crop_info' => TRUE,
+        'manualcrop_default_crop_area' => TRUE,
+        'manualcrop_enable' => FALSE,
+        'manualcrop_inline_crop' => FALSE,
+        'manualcrop_instant_crop' => FALSE,
+        'manualcrop_instant_preview' => TRUE,
+        'manualcrop_keyboard' => TRUE,
+        'manualcrop_maximize_default_crop_area' => FALSE,
+        'manualcrop_require_cropping' => array(),
+        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => FALSE,
         'preview_image_style' => 'large',
         'progress_indicator' => 'throbber',
         'resolution' => '450x175',
@@ -151,7 +163,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-front_page_post-field_large_image'
+  // Exported field_instance: 'node-front_page_post-field_large_image'.
   $field_instances['node-front_page_post-field_large_image'] = array(
     'bundle' => 'front_page_post',
     'deleted' => 0,
@@ -204,6 +216,18 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
       'active' => 1,
       'module' => 'image',
       'settings' => array(
+        'manualcrop_crop_info' => TRUE,
+        'manualcrop_default_crop_area' => TRUE,
+        'manualcrop_enable' => FALSE,
+        'manualcrop_inline_crop' => FALSE,
+        'manualcrop_instant_crop' => FALSE,
+        'manualcrop_instant_preview' => TRUE,
+        'manualcrop_keyboard' => TRUE,
+        'manualcrop_maximize_default_crop_area' => FALSE,
+        'manualcrop_require_cropping' => array(),
+        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => FALSE,
         'preview_image_style' => '16_9_ratio',
         'progress_indicator' => 'throbber',
       ),
@@ -212,7 +236,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-front_page_post-field_project'
+  // Exported field_instance: 'node-front_page_post-field_project'.
   $field_instances['node-front_page_post-field_project'] = array(
     'bundle' => 'front_page_post',
     'default_value' => array(
@@ -268,7 +292,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-front_page_post-field_rlink'
+  // Exported field_instance: 'node-front_page_post-field_rlink'.
   $field_instances['node-front_page_post-field_rlink'] = array(
     'bundle' => 'front_page_post',
     'default_value' => NULL,
