@@ -87,6 +87,71 @@ function mediacommons_ds_settings_ds_field_settings_info() {
   );
   $export['node|hub|third_mode'] = $ds_fieldsetting;
 
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|review|full';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'review';
+  $ds_fieldsetting->view_mode = 'full';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'field_reviewer' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Review By',
+          'fis' => TRUE,
+          'fis-el' => '&amp;lt;h2&amp;gt;',
+          'fis-cl' => '',
+          'fis-at' => '',
+          'fis-def-at' => FALSE,
+        ),
+      ),
+    ),
+  );
+  $export['node|review|full'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|spoke|full_intransition';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'spoke';
+  $ds_fieldsetting->view_mode = 'full_intransition';
+  $ds_fieldsetting->settings = array(
+    'intrans_spoke_comments' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_title' => 0,
+        'title_wrapper' => '',
+        'ctools' => 'a:3:{s:4:"conf";a:6:{s:4:"mode";s:1:"1";s:17:"comments_per_page";s:2:"50";s:7:"context";s:25:"argument_entity_id:node_1";s:14:"override_title";i:0;s:19:"override_title_text";s:0:"";s:22:"override_title_heading";s:2:"h2";}s:4:"type";s:13:"node_comments";s:7:"subtype";s:13:"node_comments";}',
+        'load_terms' => 1,
+        'ft' => array(),
+      ),
+    ),
+    'contributors_to_this_spoke' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'post_date' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'ds_post_date_medium_mc',
+    ),
+  );
+  $export['node|spoke|full_intransition'] = $ds_fieldsetting;
+
   return $export;
 }
 
@@ -395,6 +460,39 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|review|full';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'review';
+  $ds_layout->view_mode = 'full';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'field_reviewer',
+        1 => 'title',
+        2 => 'body',
+      ),
+    ),
+    'fields' => array(
+      'field_reviewer' => 'ds_content',
+      'title' => 'ds_content',
+      'body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|review|full'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|spoke|default';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'spoke';
@@ -466,6 +564,54 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|spoke|full_intransition';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'spoke';
+  $ds_layout->view_mode = 'full_intransition';
+  $ds_layout->layout = 'ds_2col_stacked';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'header' => array(
+        0 => 'title',
+        1 => 'contributors_to_this_spoke',
+        2 => 'post_date',
+      ),
+      'left' => array(
+        3 => 'field_embed',
+      ),
+      'right' => array(
+        4 => 'field_body',
+      ),
+      'footer' => array(
+        5 => 'intrans_spoke_comments',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'header',
+      'contributors_to_this_spoke' => 'header',
+      'post_date' => 'header',
+      'field_embed' => 'left',
+      'field_body' => 'right',
+      'intrans_spoke_comments' => 'footer',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'header' => 'div',
+      'left' => 'div',
+      'right' => 'div',
+      'footer' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => 0,
+  );
+  $export['node|spoke|full_intransition'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|spoke|teaser';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'spoke';
@@ -514,6 +660,15 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
  */
 function mediacommons_ds_settings_ds_view_modes_info() {
   $export = array();
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'full_intransition';
+  $ds_view_mode->label = 'Full inTransition';
+  $ds_view_mode->entities = array(
+    'node' => 'node',
+  );
+  $export['full_intransition'] = $ds_view_mode;
 
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;
