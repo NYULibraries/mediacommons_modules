@@ -30,7 +30,7 @@ function mediacommons_content_types_field_default_field_bases() {
  */
 function mediacommons_content_types_field_default_field_instances() {
   // add this line as the first line inside
-  $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);```
+  $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);
 ```
 
 Also; do a search for 'default_image' inside this two files and change the interger value to $fid
