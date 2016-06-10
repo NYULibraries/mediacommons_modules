@@ -12,20 +12,20 @@ scripts[] = mediacommons_globalnav.js
 
 mediacommons[environment] = development
 
-mediacommons[environments][local][fieldguide] = /fieldguide/
-mediacommons[environments][local][tne] = /tne/
-mediacommons[environments][local][imr] = /imr/
-mediacommons[environments][local][altac] = /alt-ac/
-mediacommons[environments][local][intransition] = /intransition/
-mediacommons[environments][local][mediacommons] = /mediacommons/
+mediacommons[environments][local][fieldguide] = http://[MEDIACOMMONS_HOST]/fieldguide/
+mediacommons[environments][local][tne] = http://[MEDIACOMMONS_HOST]/tne/
+mediacommons[environments][local][imr] = http://[MEDIACOMMONS_HOST]/imr/
+mediacommons[environments][local][altac] = http://[MEDIACOMMONS_HOST]/alt-ac/
+mediacommons[environments][local][intransition] = http://[MEDIACOMMONS_HOST]/intransition/
+mediacommons[environments][local][mediacommons] = http://[MEDIACOMMONS_HOST]/mediacommons/
 mediacommons[environments][local][mcpress] = http://mcpress.media-commons.org/
 
-mediacommons[environments][development][fieldguide] = /fieldguide/
-mediacommons[environments][development][tne] = /tne/
-mediacommons[environments][development][imr] = /imr/
-mediacommons[environments][development][altac] = /alt-ac/
-mediacommons[environments][development][intransition] = /intransition/
-mediacommons[environments][development][mediacommons] = /mediacommons/
+mediacommons[environments][development][fieldguide] = http://[MEDIACOMMONS_HOST]/fieldguide/
+mediacommons[environments][development][tne] = http://[MEDIACOMMONS_HOST]/tne/
+mediacommons[environments][development][imr] = http://[MEDIACOMMONS_HOST]/imr/
+mediacommons[environments][development][altac] = http://[MEDIACOMMONS_HOST]/alt-ac/
+mediacommons[environments][development][intransition] = http://[MEDIACOMMONS_HOST]/intransition/
+mediacommons[environments][development][mediacommons] = http://[MEDIACOMMONS_HOST]/mediacommons/
 mediacommons[environments][development][mcpress] = http://mcpress.media-commons.org/
 
 mediacommons[environments][stage][fieldguide] = /fieldguide/
