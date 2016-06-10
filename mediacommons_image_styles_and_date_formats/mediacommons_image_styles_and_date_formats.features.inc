@@ -29,16 +29,10 @@ function mediacommons_image_styles_and_date_formats_fe_date_custom_date_formats(
  */
 function mediacommons_image_styles_and_date_formats_date_format_types() {
   $format_types = array();
-  // Exported date format type: long
-  $format_types['long'] = 'Long';
   // Exported date format type: long_no_time
   $format_types['long_no_time'] = 'Long no time';
-  // Exported date format type: medium
-  $format_types['medium'] = 'Medium';
   // Exported date format type: medium_mc
   $format_types['medium_mc'] = 'Medium MC';
-  // Exported date format type: short
-  $format_types['short'] = 'Short';
   // Exported date format type: short_no_time
   $format_types['short_no_time'] = 'Short no time';
   return $format_types;

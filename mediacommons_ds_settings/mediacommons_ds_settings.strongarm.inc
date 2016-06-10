@@ -179,15 +179,6 @@ function mediacommons_ds_settings_strongarm() {
       'hub_teaser_compact' => array(
         'custom_settings' => FALSE,
       ),
-      'full_content_intransition' => array(
-        'custom_settings' => TRUE,
-      ),
-      'hub_home_vertical' => array(
-        'custom_settings' => FALSE,
-      ),
-      'full_intransition' => array(
-        'custom_settings' => TRUE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(
