@@ -6,9 +6,6 @@ small change in the code inside the files:
 
 ### files
 
-mediacommons_content_types.features.field_instance.inc
-mediacommons_content_types.features.field_base.inc
-
 ```php
 /**
  * @file
@@ -21,8 +18,6 @@ function mediacommons_content_types_field_default_field_bases() {
   // add this line as the first line inside
   $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);
 
-  $field_bases = array();
-
 ```
 
 ```php
@@ -34,8 +29,6 @@ function mediacommons_content_types_field_default_field_bases() {
  * Implements hook_field_default_field_instances().
  */
 function mediacommons_content_types_field_default_field_instances() {
-
-  $field_instances = array();
   // add this line as the first line inside
   $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);```
 ```
