@@ -4,7 +4,7 @@ MediaCommons Content Types
 This module extra code to support the feature. If you need to update the feature, be aware of a
 small change in the code inside the files:
 
-### files
+### Files and changes we need to preserve 
 
 ```php
 /**
