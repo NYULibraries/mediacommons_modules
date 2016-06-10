@@ -1,10 +1,10 @@
 MediaCommons Content Types
 ====================
 
+### Files and changes we need to preserve 
+
 This module add extra code to support the feature. If you need to update the feature, be aware of a
 small change in the code inside the files:
-
-### Files and changes we need to preserve 
 
 ```php
 /**
