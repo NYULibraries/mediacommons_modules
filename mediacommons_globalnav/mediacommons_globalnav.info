@@ -12,6 +12,12 @@ scripts[] = mediacommons_globalnav.js
 
 mediacommons[environment] = development
 
+; This module stores the global nav URLs in the database at install time only.
+; To make the global nav more portable in cases where the site is copied to
+; another machine via file/database copy, we use a string "[MEDIACOMMONS_DOMAIN]"
+; placeholder for the hostname/domain plus port number (if specified).
+; This placeholder is filled in by the mediacommons theme on page load.
+
 mediacommons[environments][local][fieldguide] = http://[MEDIACOMMONS_DOMAIN]/fieldguide/
 mediacommons[environments][local][tne] = http://[MEDIACOMMONS_DOMAIN]/tne/
 mediacommons[environments][local][imr] = http://[MEDIACOMMONS_DOMAIN]/imr/
