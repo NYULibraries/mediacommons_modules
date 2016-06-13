@@ -395,6 +395,70 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|review|full';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'review';
+  $ds_layout->view_mode = 'full';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'field_reviewer',
+        1 => 'title',
+        2 => 'body',
+      ),
+    ),
+    'fields' => array(
+      'field_reviewer' => 'ds_content',
+      'title' => 'ds_content',
+      'body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|review|full'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|review|full_intransition';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'review';
+  $ds_layout->view_mode = 'full_intransition';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'body',
+        1 => 'field_isreviewof',
+        2 => 'field_reviewer',
+      ),
+    ),
+    'fields' => array(
+      'body' => 'ds_content',
+      'field_isreviewof' => 'ds_content',
+      'field_reviewer' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|review|full_intransition'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|spoke|default';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'spoke';

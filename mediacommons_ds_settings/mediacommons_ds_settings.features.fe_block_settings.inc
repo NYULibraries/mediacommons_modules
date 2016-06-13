@@ -166,6 +166,41 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'visibility' => 0,
   );
 
+  $export['views-reviews_of_this_spoke-block'] = array(
+    'cache' => -1,
+    'delta' => 'reviews_of_this_spoke-block',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'mediacommons' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons',
+        'weight' => 0,
+      ),
+      'mediacommons_admin' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+  );
+
   $export['views-this_spokes_parent_hub-block'] = array(
     'cache' => -1,
     'custom' => 0,
