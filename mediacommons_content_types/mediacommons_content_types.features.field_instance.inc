@@ -8,10 +8,7 @@
  * Implements hook_field_default_field_instances().
  */
 function mediacommons_content_types_field_default_field_instances() {
-
   $field_instances = array();
-
-  $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);
 
   // Exported field_instance: 'comment-comment_node_hub-comment_body'.
   $field_instances['comment-comment_node_hub-comment_body'] = array(
@@ -799,7 +796,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => $fid,
+      'default_image' => 1,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '10 MB',
@@ -1147,6 +1144,18 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 19,
       ),
+      'full_content_intransition' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
+      ),
+      'full_intransition' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 19,
+      ),
       'hub_for_home' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1171,7 +1180,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' =>  $fid,
+      'default_image' => 1,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
@@ -1193,7 +1202,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'resolution' => '200x150',
       ),
       'type' => 'imagefield_crop_widget',
-      'weight' => 5,
+      'weight' => 4,
     ),
   );
 
@@ -1211,6 +1220,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 18,
       ),
       'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 4,
+      ),
+      'full_content_intransition' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
+      ),
+      'full_intransition' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
@@ -1248,7 +1270,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
@@ -1266,6 +1288,18 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 16,
       ),
       'full' => array(
+        'label' => 'inline',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
+      ),
+      'full_content_intransition' => array(
+        'label' => 'inline',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
+      ),
+      'full_intransition' => array(
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
@@ -1301,7 +1335,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'user_reference_autocomplete',
-      'weight' => 7,
+      'weight' => 6,
     ),
   );
 
@@ -1319,6 +1353,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 17,
       ),
       'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
+      'full_content_intransition' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
+      ),
+      'full_intransition' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
@@ -1354,7 +1401,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 2,
+      'weight' => 1,
     ),
   );
 
@@ -1372,6 +1419,18 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 20,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
+      ),
+      'full_content_intransition' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
+      ),
+      'full_intransition' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1406,7 +1465,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'node_reference_autocomplete',
-      'weight' => 6,
+      'weight' => 5,
     ),
   );
 
@@ -1428,6 +1487,18 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 19,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
+      ),
+      'full_content_intransition' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 19,
+      ),
+      'full_intransition' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1458,7 +1529,7 @@ Please choose "Crop" to create an additional version of your image which will be
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 8,
+      'weight' => 7,
     ),
   );
 
@@ -1481,6 +1552,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 5,
+      ),
+      'full_content_intransition' => array(
+        'label' => 'inline',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
+      ),
+      'full_intransition' => array(
+        'label' => 'hidden',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 6,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1514,80 +1598,6 @@ Please choose "Crop" to create an additional version of your image which will be
     ),
   );
 
-  // Exported field_instance: 'node-spoke-field_view'.
-  $field_instances['node-spoke-field_view'] = array(
-    'bundle' => 'spoke',
-    'default_value' => array(
-      0 => array(
-        'vname' => 'spoke_reviews|block',
-        'vargs' => '[node:nid]',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'full' => array(
-        'label' => 'hidden',
-        'module' => 'viewfield',
-        'settings' => array(),
-        'type' => 'viewfield_default',
-        'weight' => 6,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'field_view',
-    'label' => 'Reviews',
-    'required' => 0,
-    'settings' => array(
-      'allowed_views' => array(
-        'all_spokes_in_this_spokes_hub' => 0,
-        'all_users' => 0,
-        'comment_count_for_spoke' => 0,
-        'comments_from_user' => 0,
-        'contribs_spoke_pane' => 0,
-        'contributors_this_hub' => 0,
-        'contributors_this_spoke' => 0,
-        'curated_hubs' => 0,
-        'list_of_all_hubs' => 0,
-        'mc_recent_comments' => 0,
-        'nodequeue_1' => 0,
-        'number_of_comments_per_spoke' => 0,
-        'posts_contributed' => 0,
-        'recent_6_front_page_posts' => 0,
-        'recent_6_hubs' => 0,
-        'recent_hubs_fieldguide' => 0,
-        'single_hub_latest' => 0,
-        'spoke_reviews' => 'spoke_reviews',
-        'this_spokes_parent_hub' => 0,
-        'top_organizations' => 0,
-        'users_in_an_org' => 0,
-        'users_tagged' => 0,
-      ),
-      'force_default' => 1,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'viewfield',
-      'settings' => array(),
-      'type' => 'viewfield_select',
-      'weight' => 4,
-    ),
-  );
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Attached Images');
@@ -1604,7 +1614,6 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Review');
   t('Review of');
   t('Reviewer');
-  t('Reviews');
   t('Spokes');
   t('Start and end dates');
   t('Tags');

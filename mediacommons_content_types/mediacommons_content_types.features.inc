@@ -30,25 +30,6 @@ function mediacommons_content_types_views_api($module = NULL, $api = NULL) {
 }
 
 /**
- * Implements hook_fe_date_custom_date_formats().
- */
-function mediacommons_content_types_fe_date_custom_date_formats() {
-  $custom_date_formats = array();
-  $custom_date_formats['F j, Y'] = 'F j, Y';
-  return $custom_date_formats;
-}
-
-/**
- * Implements hook_date_format_types().
- */
-function mediacommons_content_types_date_format_types() {
-  $format_types = array();
-  // Exported date format type: medium_mc
-  $format_types['medium_mc'] = 'Medium MC';
-  return $format_types;
-}
-
-/**
  * Implements hook_node_info().
  */
 function mediacommons_content_types_node_info() {
