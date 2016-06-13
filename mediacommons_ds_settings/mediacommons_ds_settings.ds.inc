@@ -126,6 +126,47 @@ function mediacommons_ds_settings_ds_custom_fields_info() {
   );
   $export['hub_navigation'] = $ds_field;
 
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'related_reviews';
+  $ds_field->label = 'Related Reviews';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'node' => 'node',
+  );
+  $ds_field->ui_limit = 'spoke|full_intransition';
+  $ds_field->properties = array(
+    'block' => 'views|reviews_of_this_spoke-block',
+    'block_render' => '3',
+  );
+  $export['related_reviews'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'spoke_add_comments_intransition';
+  $ds_field->label = 'Spoke Add Comments: InTransition';
+  $ds_field->field_type = 7;
+  $ds_field->entities = array(
+    'node' => 'node',
+  );
+  $ds_field->ui_limit = 'spoke|full_intransition';
+  $ds_field->properties = array(
+    'default' => array(),
+    'settings' => array(
+      'show_title' => array(
+        'type' => 'checkbox',
+      ),
+      'title_wrapper' => array(
+        'type' => 'textfield',
+        'description' => 'Eg: h1, h2, p',
+      ),
+      'ctools' => array(
+        'type' => 'ctools',
+      ),
+    ),
+  );
+  $export['spoke_add_comments_intransition'] = $ds_field;
+
   return $export;
 }
 
@@ -527,6 +568,61 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'layout_disable_css' => 0,
   );
   $export['node|spoke|full'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|spoke|full_intransition';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'spoke';
+  $ds_layout->view_mode = 'full_intransition';
+  $ds_layout->layout = 'ds_3col_stacked_fluid';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'header' => array(
+        0 => 'title',
+        1 => 'contributors_to_this_spoke',
+        2 => 'post_date',
+      ),
+      'left' => array(
+        3 => 'field_embed',
+      ),
+      'middle' => array(
+        4 => 'field_body',
+      ),
+      'right' => array(
+        5 => 'related_reviews',
+      ),
+      'footer' => array(
+        6 => 'field_taxonomy',
+        7 => 'spoke_add_comments_intransition',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'header',
+      'contributors_to_this_spoke' => 'header',
+      'post_date' => 'header',
+      'field_embed' => 'left',
+      'field_body' => 'middle',
+      'related_reviews' => 'right',
+      'field_taxonomy' => 'footer',
+      'spoke_add_comments_intransition' => 'footer',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'header' => 'div',
+      'left' => 'div',
+      'middle' => 'div',
+      'right' => 'div',
+      'footer' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => 0,
+  );
+  $export['node|spoke|full_intransition'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;

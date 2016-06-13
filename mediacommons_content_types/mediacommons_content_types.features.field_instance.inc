@@ -1154,7 +1154,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 19,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1202,7 +1202,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'resolution' => '200x150',
       ),
       'type' => 'imagefield_crop_widget',
-      'weight' => 5,
+      'weight' => 4,
     ),
   );
 
@@ -1270,7 +1270,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
@@ -1303,7 +1303,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 18,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1335,7 +1335,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'user_reference_autocomplete',
-      'weight' => 7,
+      'weight' => 6,
     ),
   );
 
@@ -1401,7 +1401,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 2,
+      'weight' => 1,
     ),
   );
 
@@ -1434,7 +1434,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 20,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1465,7 +1465,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'node_reference_autocomplete',
-      'weight' => 6,
+      'weight' => 5,
     ),
   );
 
@@ -1502,7 +1502,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 21,
       ),
       'hub_for_home' => array(
         'label' => 'above',
@@ -1529,7 +1529,7 @@ Please choose "Crop" to create an additional version of your image which will be
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 8,
+      'weight' => 7,
     ),
   );
 
@@ -1560,10 +1560,11 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 15,
       ),
       'full_intransition' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 17,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 6,
       ),
       'hub_for_home' => array(
         'label' => 'above',

@@ -168,6 +168,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
 
   $export['views-reviews_of_this_spoke-block'] = array(
     'cache' => -1,
+    'custom' => 0,
     'delta' => 'reviews_of_this_spoke-block',
     'module' => 'views',
     'node_types' => array(),
@@ -199,6 +200,8 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
+    'title' => '',
+    'visibility' => 0,
   );
 
   $export['views-this_spokes_parent_hub-block'] = array(

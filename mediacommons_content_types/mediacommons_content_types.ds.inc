@@ -187,17 +187,24 @@ function mediacommons_content_types_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '0',
+        'wrapper' => 'h4',
+        'class' => 'review-title',
+        'ft' => array(),
+      ),
     ),
     'field_reviewer' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
           'lb' => 'Review By',
-          'fis' => TRUE,
-          'fis-el' => '&amp;lt;h2&amp;gt;',
-          'fis-cl' => '',
-          'fis-at' => '',
-          'fis-def-at' => FALSE,
+          'ow' => TRUE,
+          'ow-el' => 'h2',
+          'ow-cl' => 'review-byline',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
     ),
@@ -308,15 +315,20 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'full_intransition';
   $ds_fieldsetting->settings = array(
-    'intrans_spoke_comments' => array(
+    'related_reviews' => array(
       'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'spoke_add_comments_intransition' => array(
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
         'show_title' => 0,
         'title_wrapper' => '',
-        'ctools' => 'a:3:{s:4:"conf";a:6:{s:4:"mode";s:1:"1";s:17:"comments_per_page";s:2:"50";s:7:"context";s:25:"argument_entity_id:node_1";s:14:"override_title";i:0;s:19:"override_title_text";s:0:"";s:22:"override_title_heading";s:2:"h2";}s:4:"type";s:13:"node_comments";s:7:"subtype";s:13:"node_comments";}',
-        'load_terms' => 1,
+        'ctools' => 'a:3:{s:4:"conf";a:6:{s:4:"mode";s:1:"1";s:17:"comments_per_page";s:2:"50";s:7:"context";s:25:"argument_entity_id:node_1";s:14:"override_title";i:0;s:19:"override_title_text";s:0:"";s:22:"override_title_heading";s:2:"h2";}s:4:"type";s:20:"node_comment_wrapper";s:7:"subtype";s:20:"node_comment_wrapper";}',
+        'load_terms' => 0,
         'ft' => array(),
       ),
     ),
@@ -499,7 +511,7 @@ function mediacommons_content_types_ds_custom_fields_info() {
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
   $ds_field->field = 'intrans_spoke_comments';
-  $ds_field->label = 'intrans spoke comments';
+  $ds_field->label = 'Spoke comments: InTransition';
   $ds_field->field_type = 7;
   $ds_field->entities = array(
     'node' => 'node',
