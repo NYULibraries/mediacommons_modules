@@ -10,6 +10,13 @@
 function mediacommons_content_types_user_default_permissions() {
   $permissions = array();
 
+  // Exported permission: 'administer mediacommons filters'.
+  $permissions['administer mediacommons filters'] = array(
+    'name' => 'administer mediacommons filters',
+    'roles' => array(),
+    'module' => 'mediacommons_filter',
+  );
+
   // Exported permission: 'create hub content'.
   $permissions['create hub content'] = array(
     'name' => 'create hub content',
@@ -242,6 +249,27 @@ function mediacommons_content_types_user_default_permissions() {
       'managing editor' => 'managing editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: 'use text format filtered_html'.
+  $permissions['use text format filtered_html'] = array(
+    'name' => 'use text format filtered_html',
+    'roles' => array(),
+    'module' => 'filter',
+  );
+
+  // Exported permission: 'use text format full_html'.
+  $permissions['use text format full_html'] = array(
+    'name' => 'use text format full_html',
+    'roles' => array(),
+    'module' => 'filter',
+  );
+
+  // Exported permission: 'use text format limited_html'.
+  $permissions['use text format limited_html'] = array(
+    'name' => 'use text format limited_html',
+    'roles' => array(),
+    'module' => 'filter',
   );
 
   return $permissions;
