@@ -33,7 +33,7 @@ function mediacommons_content_types_field_default_field_instances() {
   $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);
 ```
 
-Search for **'default_image'** inside this two files (**mediacommons_content_types.features.field_base.inc**, **mediacommons_content_types.features.field_instance.inc**) and replace the interger value **$fid**
+Search for **'default_image'** inside this two files **mediacommons_content_types.features.field_base.inc**, **mediacommons_content_types.features.field_instance.inc**. Replace the interger value to **$fid**
 
 ### Good example of the change manual change: 
 
