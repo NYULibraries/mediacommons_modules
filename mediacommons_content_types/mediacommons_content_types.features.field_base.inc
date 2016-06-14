@@ -8,6 +8,9 @@
  * Implements hook_field_default_field_bases().
  */
 function mediacommons_content_types_field_default_field_bases() {
+  
+  $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);
+
   $field_bases = array();
 
   // Exported field_base: 'body'.
@@ -67,7 +70,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'locked' => 0,
     'module' => 'image',
     'settings' => array(
-      'default_image' => 1,
+      'default_image' => $fid,
       'uri_scheme' => 'public',
     ),
     'translatable' => 0,
@@ -390,7 +393,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'locked' => 0,
     'module' => 'image',
     'settings' => array(
-      'default_image' => 1,
+      'default_image' => $fid,
       'uri_scheme' => 'public',
     ),
     'translatable' => 0,
