@@ -191,20 +191,24 @@ function mediacommons_content_types_ds_field_settings_info() {
         'link' => '0',
         'wrapper' => 'h4',
         'class' => 'review-title',
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'body' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_minimal',
+        ),
       ),
     ),
     'field_reviewer' => array(
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Review By',
-          'ow' => TRUE,
-          'ow-el' => 'h2',
-          'ow-cl' => 'review-byline',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
+          'func' => 'theme_ds_field_minimal',
+          'lb' => 'Review by',
+          'lb-col' => TRUE,
         ),
       ),
     ),
@@ -315,10 +319,20 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'full_intransition';
   $ds_fieldsetting->settings = array(
+    'contributors_to_this_spoke' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'related_reviews' => array(
       'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'spoke_add_comments_intransition' => array(
       'weight' => '7',
@@ -331,11 +345,6 @@ function mediacommons_content_types_ds_field_settings_info() {
         'load_terms' => 0,
         'ft' => array(),
       ),
-    ),
-    'contributors_to_this_spoke' => array(
-      'weight' => '1',
-      'label' => 'hidden',
-      'format' => 'default',
     ),
     'title' => array(
       'weight' => '0',

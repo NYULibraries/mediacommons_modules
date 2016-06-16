@@ -8,8 +8,6 @@
  * Implements hook_field_default_field_instances().
  */
 function mediacommons_content_types_field_default_field_instances() {
-  $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);
-
   $field_instances = array();
 
   // Exported field_instance: 'comment-comment_node_hub-comment_body'.
@@ -800,7 +798,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => $fid,
+      'default_image' => 1,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '10 MB',
@@ -1070,10 +1068,10 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(
-          'trim_length' => 600,
+          'trim_length' => 500,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 0,
+        'weight' => 1,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -1116,13 +1114,13 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 15,
       ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 2,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -1169,8 +1167,9 @@ Please choose "Crop" to create an additional version of your image which will be
       ),
       'teaser' => array(
         'label' => 'above',
+        'module' => 'user_reference',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'user_reference_default',
         'weight' => 0,
       ),
     ),
@@ -1249,7 +1248,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => $fid,
+      'default_image' => 1,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
@@ -1644,7 +1643,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
-      'default_image' => $fid,
+      'default_image' => 1,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
