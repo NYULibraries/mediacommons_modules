@@ -241,7 +241,7 @@ function mediacommons_ds_settings_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '15',
+            'weight' => '16',
             'visible' => FALSE,
           ),
           'user_teaser' => array(
