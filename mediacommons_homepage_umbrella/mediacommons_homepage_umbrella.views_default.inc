@@ -22,7 +22,7 @@ function mediacommons_homepage_umbrella_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'MC Homepage top featured';
+  $handler->display->display_options['title'] = '<none>';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -32,6 +32,8 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'node';
   $handler->display->display_options['row_options']['view_mode'] = 'full';
   $handler->display->display_options['row_options']['links'] = FALSE;
@@ -67,8 +69,10 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['filters']['sticky']['field'] = 'sticky';
   $handler->display->display_options['filters']['sticky']['value'] = '1';
 
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block');
+  /* Display: Block: Umbrella Top Featured */
+  $handler = $view->new_display('block', 'Block: Umbrella Top Featured', 'block');
+  $handler->display->display_options['display_description'] = 'Umbrella homepage: large image at top left';
+  $handler->display->display_options['block_caching'] = '-1';
   $export['mc_home_lede'] = $view;
 
   return $export;
