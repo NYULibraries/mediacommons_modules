@@ -46,6 +46,7 @@ function mediacommons_text_formats_filter_default_formats() {
         'status' => 1,
         'settings' => array(
           'filter_iframe' => 'mediacommons.futureofthebook.org',
+          'filter_iframe' => 'player.vimeo.com',
         ),
       ),
       'filter_html' => array(
