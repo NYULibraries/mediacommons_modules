@@ -179,12 +179,6 @@ function mediacommons_ds_settings_strongarm() {
       'hub_teaser_compact' => array(
         'custom_settings' => FALSE,
       ),
-      'full_intransition' => array(
-        'custom_settings' => TRUE,
-      ),
-      'hub_home_vertical' => array(
-        'custom_settings' => FALSE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -192,7 +186,7 @@ function mediacommons_ds_settings_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '8',
+          'weight' => '30',
         ),
       ),
       'display' => array(),
@@ -241,7 +235,7 @@ function mediacommons_ds_settings_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '16',
+            'weight' => '15',
             'visible' => FALSE,
           ),
           'user_teaser' => array(
