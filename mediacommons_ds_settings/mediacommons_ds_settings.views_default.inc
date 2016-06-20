@@ -490,7 +490,7 @@ Post date Asc|Oldest first
 
   $view = new view();
   $view->name = 'reviews_of_this_spoke';
-  $view->description = '';
+  $view->description = 'Show review nodes which reference a given spoke node';
   $view->tag = 'default';
   $view->base_table = 'node';
   $view->human_name = 'Reviews of this spoke';
@@ -512,13 +512,6 @@ Post date Asc|Oldest first
   $handler->display->display_options['row_plugin'] = 'node';
   $handler->display->display_options['row_options']['view_mode'] = 'full';
   $handler->display->display_options['row_options']['links'] = FALSE;
-  /* No results behavior: Global: Text area */
-  $handler->display->display_options['empty']['area']['id'] = 'area';
-  $handler->display->display_options['empty']['area']['table'] = 'views';
-  $handler->display->display_options['empty']['area']['field'] = 'area';
-  $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'No Results Found';
-  $handler->display->display_options['empty']['area']['format'] = 'limited_html';
   /* Relationship: Content: Review of (field_isreviewof) */
   $handler->display->display_options['relationships']['field_isreviewof_nid']['id'] = 'field_isreviewof_nid';
   $handler->display->display_options['relationships']['field_isreviewof_nid']['table'] = 'field_data_field_isreviewof';
