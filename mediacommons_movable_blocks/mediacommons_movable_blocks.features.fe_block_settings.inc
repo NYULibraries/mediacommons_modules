@@ -66,7 +66,7 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'region' => 'sidebar_first',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => -18,
+        'weight' => -20,
       ),
       'mediacommons_admin' => array(
         'region' => '',
