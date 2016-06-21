@@ -246,11 +246,6 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['sorts']['nid']['relationship'] = 'nid';
   $handler->display->display_options['sorts']['nid']['group_type'] = 'count_distinct';
   $handler->display->display_options['sorts']['nid']['order'] = 'DESC';
-  /* Sort criterion: Field: Tags (field_taxonomy) */
-  $handler->display->display_options['sorts']['field_taxonomy_tid']['id'] = 'field_taxonomy_tid';
-  $handler->display->display_options['sorts']['field_taxonomy_tid']['table'] = 'field_data_field_taxonomy';
-  $handler->display->display_options['sorts']['field_taxonomy_tid']['field'] = 'field_taxonomy_tid';
-  $handler->display->display_options['sorts']['field_taxonomy_tid']['relationship'] = 'nid';
   /* Filter criterion: Taxonomy vocabulary: Machine name */
   $handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
   $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
