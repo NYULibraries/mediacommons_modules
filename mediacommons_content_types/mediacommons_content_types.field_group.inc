@@ -92,7 +92,7 @@ function mediacommons_content_types_field_group_info() {
       'label' => 'Group Flex 2',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-flex2',
+        'classes' => 'group-flex2 homehub-spokes',
         'element' => 'div',
         'show_label' => '0',
         'label_element' => 'div',

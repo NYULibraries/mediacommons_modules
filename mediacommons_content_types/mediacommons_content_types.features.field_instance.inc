@@ -181,7 +181,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 6,
+        'weight' => 7,
       ),
       'hub_teaser_compact' => array(
         'label' => 'hidden',
@@ -264,7 +264,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'hub_teaser_compact' => array(
         'label' => 'inline',
@@ -344,7 +344,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 15,
       ),
       'hub_teaser_compact' => array(
         'label' => 'inline',
@@ -425,7 +425,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'hub_teaser_compact' => array(
         'label' => 'inline',
@@ -536,7 +536,7 @@ function mediacommons_content_types_field_default_field_instances() {
           'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'hub_teaser_compact' => array(
         'label' => 'hidden',
@@ -657,7 +657,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 2,
       ),
       'hub_teaser_compact' => array(
         'label' => 'above',
@@ -952,7 +952,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 14,
       ),
       'hub_teaser_compact' => array(
         'label' => 'above',
