@@ -29,15 +29,15 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => 'homepage_sidebar',
+        'region' => 'umb_homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -16,
       ),
-      'rubik' => array(
+      'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'rubik',
+        'theme' => 'mediacommons_admin',
         'weight' => 0,
       ),
       'zen' => array(
@@ -51,10 +51,10 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
     'visibility' => 0,
   );
 
-  $export['block-twitter_widget'] = array(
+  $export['block-twitter_widget_umbrella'] = array(
     'cache' => -1,
     'custom' => 0,
-    'machine_name' => 'twitter_widget',
+    'machine_name' => 'twitter_widget_umbrella',
     'module' => 'block',
     'node_types' => array(),
     'options' => 'a:1:{s:10:"attributes";a:1:{s:5:"class";a:1:{i:0;s:14:"twitter_widget";}}}',
@@ -68,15 +68,15 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => 'homepage_sidebar',
+        'region' => 'umb_homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => -21,
+        'weight' => -17,
       ),
-      'rubik' => array(
+      'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'rubik',
+        'theme' => 'mediacommons_admin',
         'weight' => 0,
       ),
       'zen' => array(
@@ -96,7 +96,6 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
     'delta' => 'mc_home_lede-block',
     'module' => 'views',
     'node_types' => array(),
-    'options' => NULL,
     'pages' => '',
     'roles' => array(),
     'themes' => array(
@@ -107,15 +106,53 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => 'homepage_top',
+        'region' => 'umb_homepage_top',
         'status' => 1,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
-      'rubik' => array(
+      'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
-        'theme' => 'rubik',
+        'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['views-recent_6_front_page_posts-block'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'recent_6_front_page_posts-block',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'mediacommons' => array(
+        'region' => 'umb_homepage_bottom',
+        'status' => 1,
+        'theme' => 'mediacommons',
+        'weight' => 0,
+      ),
+      'mediacommons_admin' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons_admin',
         'weight' => 0,
       ),
       'zen' => array(
