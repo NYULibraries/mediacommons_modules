@@ -18,7 +18,6 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
     'machine_name' => 'fieldguide_toc_html',
     'module' => 'block',
     'node_types' => array(),
-    'options' => 'a:1:{s:10:"attributes";a:1:{s:5:"class";a:1:{i:0;s:14:"fieldguide_toc";}}}',
     'pages' => '',
     'roles' => array(),
     'themes' => array(
@@ -57,7 +56,6 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
     'machine_name' => 'twitter_widget_umbrella',
     'module' => 'block',
     'node_types' => array(),
-    'options' => 'a:1:{s:10:"attributes";a:1:{s:5:"class";a:1:{i:0;s:14:"twitter_widget";}}}',
     'pages' => '',
     'roles' => array(),
     'themes' => array(
