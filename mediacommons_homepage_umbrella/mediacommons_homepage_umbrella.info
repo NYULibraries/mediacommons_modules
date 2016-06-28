@@ -36,6 +36,7 @@ features[field_base][] = field_large_image
 features[field_base][] = field_project
 features[field_base][] = field_rlink
 features[field_group][] = group_meta|node|front_page_post|full
+features[field_group][] = group_meta|node|front_page_post|teaser
 features[field_instance][] = node-front_page_post-field_body
 features[field_instance][] = node-front_page_post-field_featured_image_thumb
 features[field_instance][] = node-front_page_post-field_large_image
