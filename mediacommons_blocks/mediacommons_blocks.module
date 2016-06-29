@@ -15,7 +15,7 @@ function mediacommons_blocks_block_info() {
   );
   $blocks['mc_fieldguide'] = array(
   	'info' => t('MediaCommons: Field Guide Survey Question'),
-
+    'region' => 'umb_homepage_sidebar',
   );
   return $blocks;
 }
