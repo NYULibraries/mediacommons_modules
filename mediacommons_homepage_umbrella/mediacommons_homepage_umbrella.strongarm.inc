@@ -57,7 +57,14 @@ function mediacommons_homepage_umbrella_strongarm() {
       ),
     ),
     'extra_fields' => array(
-      'form' => array(),
+      'form' => array(
+        'title' => array(
+          'weight' => '-5',
+        ),
+        'path' => array(
+          'weight' => '30',
+        ),
+      ),
       'display' => array(),
     ),
   );
