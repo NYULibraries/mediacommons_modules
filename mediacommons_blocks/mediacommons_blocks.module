@@ -15,7 +15,7 @@ function mediacommons_blocks_block_info() {
   );
   $blocks['mc_fieldguide'] = array(
   	'info' => t('MediaCommons: Field Guide Survey Question'),
- 
+
   );
   return $blocks;
 }
@@ -62,7 +62,7 @@ function mediacommons_blocks_mc_fieldguide() {
 	} else {
     $placeholderHTML = '';
     $placeholderHTML .= '<h1 class="hub-title"><a href="#">Placeholder: What opportunities are available to influence the way algorithms are programmed, written, executed, and trusted?</a></h1>';
-    $placeholderHTML .= '<div class="field spokes">';
+    $placeholderHTML .= '<div class="spokes">';
     $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Curator Introduction: Organisms in a World of Algorithms</a></h2> ';
     $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
     //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
