@@ -12,7 +12,7 @@ function mediacommons_homepage_umbrella_views_default_views() {
 
   $view = new view();
   $view->name = 'mc_home_lede';
-  $view->description = 'Grabs the item that will be huge at the top left of the MC home page';
+  $view->description = 'Grabs the item that will be huge at the top left of the MC home page.  Chooses most recent sticky; if no sticky, most recent. ';
   $view->tag = 'MC umbrella home';
   $view->base_table = 'node';
   $view->human_name = 'MC Homepage top featured';
@@ -44,6 +44,11 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Sort criterion: Content: Sticky */
+  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
+  $handler->display->display_options['sorts']['sticky']['table'] = 'node';
+  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
+  $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -63,11 +68,6 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'front_page_post' => 'front_page_post',
   );
-  /* Filter criterion: Content: Sticky */
-  $handler->display->display_options['filters']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['filters']['sticky']['table'] = 'node';
-  $handler->display->display_options['filters']['sticky']['field'] = 'sticky';
-  $handler->display->display_options['filters']['sticky']['value'] = '1';
 
   /* Display: Block: Umbrella Top Featured */
   $handler = $view->new_display('block', 'Block: Umbrella Top Featured', 'block');
