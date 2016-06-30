@@ -12,10 +12,10 @@ function mediacommons_user_setup_views_default_views() {
 
   $view = new view();
   $view->name = 'comments_from_user';
-  $view->description = '';
-  $view->tag = 'default';
+  $view->description = 'For user profile pages: that user\'s comments throughout this site';
+  $view->tag = 'Profiles';
   $view->base_table = 'comment';
-  $view->human_name = 'Comments from User';
+  $view->human_name = 'Profile page: Comments from User';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -133,7 +133,7 @@ function mediacommons_user_setup_views_default_views() {
   $view = new view();
   $view->name = 'curated_hubs';
   $view->description = 'For user profile pages: hubs for which the user is listed as curator';
-  $view->tag = 'default';
+  $view->tag = 'Profiles';
   $view->base_table = 'node';
   $view->human_name = 'Curated hubs';
   $view->core = 7;
@@ -205,9 +205,9 @@ function mediacommons_user_setup_views_default_views() {
   $view = new view();
   $view->name = 'posts_contributed';
   $view->description = 'For user profile pages: that user\'s posts throughout this site';
-  $view->tag = 'default';
+  $view->tag = 'Profiles';
   $view->base_table = 'users';
-  $view->human_name = 'Posts contributed';
+  $view->human_name = 'Profile page: Posts contributed';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -281,6 +281,83 @@ function mediacommons_user_setup_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $export['posts_contributed'] = $view;
+
+  $view = new view();
+  $view->name = 'reviews_by';
+  $view->description = 'For user profile pages: that user\'s posts throughout this site';
+  $view->tag = 'Profiles';
+  $view->base_table = 'node';
+  $view->human_name = 'Profile page: reviews by';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'As Reviewer';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  /* Relationship: Content: Reviewer (field_reviewer) */
+  $handler->display->display_options['relationships']['field_reviewer_uid']['id'] = 'field_reviewer_uid';
+  $handler->display->display_options['relationships']['field_reviewer_uid']['table'] = 'field_data_field_reviewer';
+  $handler->display->display_options['relationships']['field_reviewer_uid']['field'] = 'field_reviewer_uid';
+  $handler->display->display_options['relationships']['field_reviewer_uid']['required'] = TRUE;
+  $handler->display->display_options['relationships']['field_reviewer_uid']['delta'] = '-1';
+  /* Field: Content: Rendered Node */
+  $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['rendered_entity']['field'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['label'] = '';
+  $handler->display->display_options['fields']['rendered_entity']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['rendered_entity']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['rendered_entity']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['rendered_entity']['display'] = 'view';
+  $handler->display->display_options['fields']['rendered_entity']['view_mode'] = 'teaser';
+  $handler->display->display_options['fields']['rendered_entity']['bypass_access'] = 0;
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: User: Uid */
+  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['table'] = 'users';
+  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['relationship'] = 'field_reviewer_uid';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'user';
+  $handler->display->display_options['arguments']['uid']['default_argument_options']['user'] = FALSE;
+  $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'review' => 'review',
+  );
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block');
+  $export['reviews_by'] = $view;
 
   $view = new view();
   $view->name = 'users_tagged';
