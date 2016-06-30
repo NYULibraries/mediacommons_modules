@@ -12,7 +12,7 @@ function mediacommons_homepage_featured_views_default_views() {
 
   $view = new view();
   $view->name = 'recent_6_hubs';
-  $view->description = 'For use on homepage, for all child sites';
+  $view->description = 'For use on homepage, for all channels';
   $view->tag = '';
   $view->base_table = 'node';
   $view->human_name = 'Recent 6 hubs';
@@ -92,11 +92,11 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_curators_editors']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_curators_editors']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_curators_editors']['delta_offset'] = '0';
-  /* Sort criterion: Content: Updated date */
-  $handler->display->display_options['sorts']['changed']['id'] = 'changed';
-  $handler->display->display_options['sorts']['changed']['table'] = 'node';
-  $handler->display->display_options['sorts']['changed']['field'] = 'changed';
-  $handler->display->display_options['sorts']['changed']['order'] = 'DESC';
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
   /* Filter criterion: Content: Published or admin */
   $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
   $handler->display->display_options['filters']['status_extra']['table'] = 'node';
