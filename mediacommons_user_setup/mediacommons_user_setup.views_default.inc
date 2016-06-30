@@ -308,7 +308,7 @@ function mediacommons_user_setup_views_default_views() {
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'user';
   $handler->display->display_options['row_options']['view_mode'] = 'user_teaser';
-  /* Relationship: Field: Research Interests (field_taxonomy) */
+  /* Relationship: Field: Tags (field_taxonomy) */
   $handler->display->display_options['relationships']['field_taxonomy_tid']['id'] = 'field_taxonomy_tid';
   $handler->display->display_options['relationships']['field_taxonomy_tid']['table'] = 'field_data_field_taxonomy';
   $handler->display->display_options['relationships']['field_taxonomy_tid']['field'] = 'field_taxonomy_tid';
