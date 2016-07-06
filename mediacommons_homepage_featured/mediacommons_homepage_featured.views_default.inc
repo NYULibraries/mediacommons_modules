@@ -53,20 +53,35 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['fieldset']['alter']['trim_whitespace'] = TRUE;
   $handler->display->display_options['fields']['fieldset']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['fieldset']['children'] = array(
-    0 => 'field_period',
-    1 => 'title',
-    2 => 'field_curators_editors',
+    0 => 'created',
+    1 => 'field_period',
+    2 => 'title',
+    3 => 'field_curators_editors',
   );
   $handler->display->display_options['fields']['fieldset']['fieldset']['type'] = 'div';
   $handler->display->display_options['fields']['fieldset']['fieldset']['classes'] = 'featuredhub-info';
+  /* Field: Content: Post date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'node';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = '';
+  $handler->display->display_options['fields']['created']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['created']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['created']['empty'] = 'no post date';
+  $handler->display->display_options['fields']['created']['date_format'] = 'medium_mc';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'long_no_time';
   /* Field: Content: Start and end dates */
   $handler->display->display_options['fields']['field_period']['id'] = 'field_period';
   $handler->display->display_options['fields']['field_period']['table'] = 'field_data_field_period';
   $handler->display->display_options['fields']['field_period']['field'] = 'field_period';
   $handler->display->display_options['fields']['field_period']['label'] = '';
+  $handler->display->display_options['fields']['field_period']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_period']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_period']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_period']['empty'] = 'No time range data available';
+  $handler->display->display_options['fields']['field_period']['empty'] = '[created] ';
+  $handler->display->display_options['fields']['field_period']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['field_period']['settings'] = array(
     'format_type' => 'short_no_time',
     'fromto' => 'both',
