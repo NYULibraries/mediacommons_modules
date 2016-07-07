@@ -1062,7 +1062,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -1114,7 +1114,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 16,
       ),
       'teaser' => array(
         'label' => 'inline',
@@ -1160,10 +1160,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 2,
       ),
       'full' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
         'module' => 'user_reference',
-        'settings' => array(),
-        'type' => 'user_reference_default',
+        'settings' => array(
+          'user_reference_view_mode' => 'user_byline',
+        ),
+        'type' => 'user_reference_user',
         'weight' => 0,
       ),
       'teaser' => array(

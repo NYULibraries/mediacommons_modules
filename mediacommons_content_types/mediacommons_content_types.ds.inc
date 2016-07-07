@@ -183,19 +183,6 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'review';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'title' => array(
-      'weight' => '1',
-      'label' => 'hidden',
-      'format' => 'default',
-      'formatter_settings' => array(
-        'link' => '0',
-        'wrapper' => 'h4',
-        'class' => 'review-title',
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
-        ),
-      ),
-    ),
     'body' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -206,9 +193,15 @@ function mediacommons_content_types_ds_field_settings_info() {
     'field_reviewer' => array(
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-          'lb' => 'Review by',
+          'func' => 'theme_ds_field_expert',
           'lb-col' => TRUE,
+          'prefix' => '<span class="label">Review By</span>',
+          'ow' => TRUE,
+          'ow-el' => 'h3',
+          'ow-cl' => 'review-byline',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
     ),
