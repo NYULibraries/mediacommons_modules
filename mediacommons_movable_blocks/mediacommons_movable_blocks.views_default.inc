@@ -247,10 +247,6 @@ Name Desc|Z -> A',
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['hide_empty'] = TRUE;
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
-  /* Header: Global: Result summary */
-  $handler->display->display_options['header']['result']['id'] = 'result';
-  $handler->display->display_options['header']['result']['table'] = 'views';
-  $handler->display->display_options['header']['result']['field'] = 'result';
   /* Relationship: Taxonomy term: Content with term */
   $handler->display->display_options['relationships']['nid']['id'] = 'nid';
   $handler->display->display_options['relationships']['nid']['table'] = 'taxonomy_index';
@@ -285,11 +281,6 @@ Name Desc|Z -> A',
   $handler->display->display_options['sorts']['nid']['group_type'] = 'count_distinct';
   $handler->display->display_options['sorts']['nid']['order'] = 'DESC';
   $handler->display->display_options['sorts']['nid']['expose']['label'] = 'Frequency';
-  /* Sort criterion: Taxonomy term: Name */
-  $handler->display->display_options['sorts']['name']['id'] = 'name';
-  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
-  $handler->display->display_options['sorts']['name']['field'] = 'name';
-  $handler->display->display_options['sorts']['name']['expose']['label'] = 'Name';
   /* Filter criterion: Taxonomy vocabulary: Machine name */
   $handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
   $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
@@ -315,13 +306,7 @@ Name Desc|Z -> A',
   $handler->display->display_options['sorts']['nid']['relationship'] = 'nid';
   $handler->display->display_options['sorts']['nid']['group_type'] = 'count_distinct';
   $handler->display->display_options['sorts']['nid']['order'] = 'DESC';
-  $handler->display->display_options['sorts']['nid']['exposed'] = TRUE;
   $handler->display->display_options['sorts']['nid']['expose']['label'] = 'Nid';
-  /* Sort criterion: Taxonomy term: Name */
-  $handler->display->display_options['sorts']['name']['id'] = 'name';
-  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
-  $handler->display->display_options['sorts']['name']['field'] = 'name';
-  $handler->display->display_options['sorts']['name']['expose']['label'] = 'Name';
   $handler->display->display_options['block_description'] = 'View: Tags, simple';
 
   /* Display: Page */
@@ -409,7 +394,7 @@ Name Desc|Z -> A',
   /* Display: Sidebar- Tags, more */
   $handler = $view->new_display('block', 'Sidebar- Tags, more', 'block_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Frequent Tags';
+  $handler->display->display_options['title'] = 'Tags';
   $handler->display->display_options['defaults']['use_ajax'] = FALSE;
   $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
