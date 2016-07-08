@@ -69,7 +69,7 @@ function mediacommons_homepage_featured_default_fe_block_settings() {
         'region' => 'homepage_bottom',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -21,
       ),
       'mediacommons_admin' => array(
         'region' => '',

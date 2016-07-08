@@ -50,10 +50,10 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
     'visibility' => 0,
   );
 
-  $export['views--exp-tags-tag_page'] = array(
+  $export['views-641a3efdcac935ebfa7e53c18d7e1751'] = array(
     'cache' => -1,
     'custom' => 0,
-    'delta' => '-exp-tags-tag_page',
+    'delta' => '641a3efdcac935ebfa7e53c18d7e1751',
     'module' => 'views',
     'node_types' => array(),
     'pages' => '',
@@ -66,8 +66,8 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'sidebar_organization',
+        'status' => 1,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
@@ -183,7 +183,45 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'region' => 'homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 2,
+        'weight' => -20,
+      ),
+      'mediacommons_admin' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['views-tags-block_1'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'tags-block_1',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'mediacommons' => array(
+        'region' => 'sidebar_tagpages',
+        'status' => 1,
+        'theme' => 'mediacommons',
+        'weight' => 0,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -221,7 +259,7 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'region' => 'homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 3,
+        'weight' => -19,
       ),
       'mediacommons_admin' => array(
         'region' => '',

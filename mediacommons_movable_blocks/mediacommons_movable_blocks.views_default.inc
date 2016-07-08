@@ -186,16 +186,58 @@ function mediacommons_movable_blocks_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Tags Most Used';
+  $handler->display->display_options['title'] = 'Tags';
   $handler->display->display_options['css_class'] = 'taxonomy-group';
+  $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'See all ';
   $handler->display->display_options['group_by'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'time';
+  $handler->display->display_options['cache']['results_lifespan'] = '-1';
+  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['output_lifespan'] = '-1';
+  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'general' => array(
+      'allow_secondary' => 0,
+      'secondary_label' => 'Advanced options',
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+    ),
+    'sort' => array(
+      'bef_format' => 'default',
+      'advanced' => array(
+        'collapsible' => 0,
+        'collapsible_label' => 'Sort options',
+        'combine' => 1,
+        'combine_param' => 'sort_bef_combine',
+        'combine_rewrite' => 'Frequency Asc|
+Frequency Desc|Most frequently used
+Name Asc|A -> Z
+Name Desc|Z -> A',
+        'reset' => 0,
+        'reset_label' => '',
+        'is_secondary' => 0,
+        'secondary_label' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+    ),
+    'secondary_label' => NULL,
+    'collapsible_label' => NULL,
+    'combine_rewrite' => NULL,
+    'reset_label' => NULL,
+  );
+  $handler->display->display_options['exposed_form']['options']['input_required'] = 0;
+  $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'limited_html';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -209,10 +251,6 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
   $handler->display->display_options['header']['result']['field'] = 'result';
-  /* Footer: Global: Unfiltered text */
-  $handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
-  $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
   /* Relationship: Taxonomy term: Content with term */
   $handler->display->display_options['relationships']['nid']['id'] = 'nid';
   $handler->display->display_options['relationships']['nid']['table'] = 'taxonomy_index';
@@ -246,6 +284,12 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['sorts']['nid']['relationship'] = 'nid';
   $handler->display->display_options['sorts']['nid']['group_type'] = 'count_distinct';
   $handler->display->display_options['sorts']['nid']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['nid']['expose']['label'] = 'Frequency';
+  /* Sort criterion: Taxonomy term: Name */
+  $handler->display->display_options['sorts']['name']['id'] = 'name';
+  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['sorts']['name']['field'] = 'name';
+  $handler->display->display_options['sorts']['name']['expose']['label'] = 'Name';
   /* Filter criterion: Taxonomy vocabulary: Machine name */
   $handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
   $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
@@ -263,27 +307,117 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['header']['result']['table'] = 'views';
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['content'] = '';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: COUNT(DISTINCT Content: Nid) */
+  $handler->display->display_options['sorts']['nid']['id'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['table'] = 'node';
+  $handler->display->display_options['sorts']['nid']['field'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['relationship'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['group_type'] = 'count_distinct';
+  $handler->display->display_options['sorts']['nid']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['nid']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['nid']['expose']['label'] = 'Nid';
+  /* Sort criterion: Taxonomy term: Name */
+  $handler->display->display_options['sorts']['name']['id'] = 'name';
+  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['sorts']['name']['field'] = 'name';
+  $handler->display->display_options['sorts']['name']['expose']['label'] = 'Name';
+  $handler->display->display_options['block_description'] = 'View: Tags, simple';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'tag_page');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'taxonomy-group';
+  $handler->display->display_options['defaults']['use_ajax'] = FALSE;
+  $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['defaults']['use_more_always'] = FALSE;
   $handler->display->display_options['defaults']['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['defaults']['use_more_text'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'See all ';
+  $handler->display->display_options['defaults']['exposed_form'] = FALSE;
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'general' => array(
+      'allow_secondary' => 0,
+      'secondary_label' => 'Advanced options',
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+    ),
+    'sort' => array(
+      'bef_format' => 'default',
+      'advanced' => array(
+        'collapsible' => 0,
+        'collapsible_label' => 'Sort options',
+        'combine' => 1,
+        'combine_param' => 'sort_bef_combine',
+        'combine_rewrite' => 'Frequency Asc|
+Frequency Desc|Frequency
+Name Asc|A -> Z
+Name Desc|Z -> A',
+        'reset' => 0,
+        'reset_label' => '',
+        'is_secondary' => 0,
+        'secondary_label' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+    ),
+    'secondary_label' => NULL,
+    'collapsible_label' => NULL,
+    'combine_rewrite' => NULL,
+    'reset_label' => NULL,
+  );
+  $handler->display->display_options['exposed_form']['options']['input_required'] = 0;
+  $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'limited_html';
   $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'mini';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '200';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '400';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '50, 100, 200, 500';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all'] = TRUE;
-  $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['path'] = 'tags';
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Result summary */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  $handler->display->display_options['header']['result']['content'] = '<h1 class="page-view-title">Tags</h1><span>Displaying @start - @end of @total</span>';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: COUNT(DISTINCT Content: Nid) */
+  $handler->display->display_options['sorts']['nid']['id'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['table'] = 'node';
+  $handler->display->display_options['sorts']['nid']['field'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['relationship'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['group_type'] = 'count_distinct';
+  $handler->display->display_options['sorts']['nid']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['nid']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['nid']['expose']['label'] = 'Frequency';
+  /* Sort criterion: Taxonomy term: Name */
+  $handler->display->display_options['sorts']['name']['id'] = 'name';
+  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['sorts']['name']['field'] = 'name';
+  $handler->display->display_options['sorts']['name']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['name']['expose']['label'] = 'Name';
+  $handler->display->display_options['path'] = 'all_tags';
+
+  /* Display: Sidebar- Tags, more */
+  $handler = $view->new_display('block', 'Sidebar- Tags, more', 'block_1');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Frequent Tags';
+  $handler->display->display_options['defaults']['use_ajax'] = FALSE;
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '100';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  $handler->display->display_options['block_description'] = 'View: Tags, More';
   $export['tags'] = $view;
 
   $view = new view();
@@ -298,7 +432,7 @@ function mediacommons_movable_blocks_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Organizations Most Represented';
+  $handler->display->display_options['title'] = 'Organizations and Institutions';
   $handler->display->display_options['css_class'] = 'taxonomy-group';
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
@@ -307,7 +441,52 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'general' => array(
+      'allow_secondary' => 0,
+      'secondary_label' => 'Advanced options',
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+    ),
+    'sort' => array(
+      'bef_format' => 'default',
+      'advanced' => array(
+        'collapsible' => 0,
+        'collapsible_label' => 'Sort options',
+        'combine' => 1,
+        'combine_param' => 'sort_bef_combine',
+        'combine_rewrite' => 'Frequency Desc|Most Represented
+Frequency Asc|
+Name Asc|A -> Z
+Name Desc|Z -> A',
+        'reset' => 0,
+        'reset_label' => '',
+        'is_secondary' => 0,
+        'secondary_label' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+    ),
+    'pager' => array(
+      'bef_format' => 'default',
+      'is_secondary' => 0,
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+    ),
+    'secondary_label' => NULL,
+    'collapsible_label' => NULL,
+    'combine_rewrite' => NULL,
+    'reset_label' => NULL,
+  );
+  $handler->display->display_options['exposed_form']['options']['input_required'] = 0;
+  $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'limited_html';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -360,6 +539,14 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['sorts']['uuid']['relationship'] = 'reverse_field_organization_user';
   $handler->display->display_options['sorts']['uuid']['group_type'] = 'count';
   $handler->display->display_options['sorts']['uuid']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['uuid']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['uuid']['expose']['label'] = 'Frequency';
+  /* Sort criterion: Taxonomy term: Name */
+  $handler->display->display_options['sorts']['name']['id'] = 'name';
+  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['sorts']['name']['field'] = 'name';
+  $handler->display->display_options['sorts']['name']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['name']['expose']['label'] = 'Name';
   /* Filter criterion: Taxonomy vocabulary: Machine name */
   $handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
   $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
@@ -408,7 +595,74 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '50, 100, 200, 500';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all'] = TRUE;
-  $handler->display->display_options['path'] = 'toporganizations';
+  $handler->display->display_options['path'] = 'all-organizations';
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_orgs_sortable');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Organizations and Institutions';
+  $handler->display->display_options['defaults']['use_ajax'] = FALSE;
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['defaults']['exposed_form'] = FALSE;
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'general' => array(
+      'allow_secondary' => 0,
+      'secondary_label' => 'Advanced options',
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+    ),
+    'sort' => array(
+      'bef_format' => 'default',
+      'advanced' => array(
+        'collapsible' => 0,
+        'collapsible_label' => 'Sort options',
+        'combine' => 1,
+        'combine_param' => 'sort_bef_combine',
+        'combine_rewrite' => 'Frequency Asc|
+Frequency Desc|Most Represented
+Name Asc|A -> Z
+Name Desc|Z -> A',
+        'reset' => 0,
+        'reset_label' => '',
+        'is_secondary' => 0,
+        'secondary_label' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+    ),
+    'secondary_label' => NULL,
+    'collapsible_label' => NULL,
+    'combine_rewrite' => NULL,
+    'reset_label' => NULL,
+  );
+  $handler->display->display_options['exposed_form']['options']['input_required'] = 0;
+  $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'limited_html';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '75';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: COUNT(User: User UUID) */
+  $handler->display->display_options['sorts']['uuid']['id'] = 'uuid';
+  $handler->display->display_options['sorts']['uuid']['table'] = 'users';
+  $handler->display->display_options['sorts']['uuid']['field'] = 'uuid';
+  $handler->display->display_options['sorts']['uuid']['relationship'] = 'reverse_field_organization_user';
+  $handler->display->display_options['sorts']['uuid']['group_type'] = 'count';
+  $handler->display->display_options['sorts']['uuid']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['uuid']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['uuid']['expose']['label'] = 'Frequency';
+  /* Sort criterion: Taxonomy term: Name */
+  $handler->display->display_options['sorts']['name']['id'] = 'name';
+  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['sorts']['name']['field'] = 'name';
+  $handler->display->display_options['sorts']['name']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['name']['expose']['label'] = 'Name';
+  $handler->display->display_options['block_description'] = 'Orgs for an Org Page';
   $export['top_organizations'] = $view;
 
   return $export;
