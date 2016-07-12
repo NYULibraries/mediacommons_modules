@@ -50,46 +50,6 @@ function mediacommons_ds_settings_default_fe_block_settings() {
     'visibility' => 0,
   );
 
-  $export['views-82d8a75bde4ff36a1c89b3fb77664e68'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'delta' => '82d8a75bde4ff36a1c89b3fb77664e68',
-    'module' => 'views',
-    'node_types' => array(
-      0 => 'spoke',
-    ),
-    'pages' => '',
-    'roles' => array(),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons',
-        'weight' => 0,
-      ),
-      'mediacommons_admin' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
   $export['views-contributors_this_spoke-block'] = array(
     'cache' => -1,
     'custom' => 0,

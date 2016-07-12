@@ -30,15 +30,16 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'list';
+  $handler->display->display_options['style_options']['row_class'] = 'rowclass';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['style_options']['class'] = 'listclass';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Header: Global: View area */
   $handler->display->display_options['header']['view']['id'] = 'view';
   $handler->display->display_options['header']['view']['table'] = 'views';
   $handler->display->display_options['header']['view']['field'] = 'view';
-  $handler->display->display_options['header']['view']['label'] = 'Title of this spoke\'s parent hub';
   $handler->display->display_options['header']['view']['view_to_insert'] = 'this_spokes_parent_hub:default';
   $handler->display->display_options['header']['view']['inherit_arguments'] = TRUE;
   /* Relationship: Content: Part of hub (field_part_of) */
@@ -47,24 +48,20 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['relationships']['field_part_of_nid']['field'] = 'field_part_of_nid';
   $handler->display->display_options['relationships']['field_part_of_nid']['required'] = TRUE;
   $handler->display->display_options['relationships']['field_part_of_nid']['delta'] = '-1';
-  /* Relationship: Content: Spokes (field_spokes) */
-  $handler->display->display_options['relationships']['field_spokes_nid']['id'] = 'field_spokes_nid';
-  $handler->display->display_options['relationships']['field_spokes_nid']['table'] = 'field_data_field_spokes';
-  $handler->display->display_options['relationships']['field_spokes_nid']['field'] = 'field_spokes_nid';
-  $handler->display->display_options['relationships']['field_spokes_nid']['relationship'] = 'field_part_of_nid';
-  $handler->display->display_options['relationships']['field_spokes_nid']['delta'] = '-1';
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['relationship'] = 'field_spokes_nid';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['trim_whitespace'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['title']['hide_empty'] = TRUE;
+  /* Field: Content: Spokes */
+  $handler->display->display_options['fields']['field_spokes']['id'] = 'field_spokes';
+  $handler->display->display_options['fields']['field_spokes']['table'] = 'field_data_field_spokes';
+  $handler->display->display_options['fields']['field_spokes']['field'] = 'field_spokes';
+  $handler->display->display_options['fields']['field_spokes']['relationship'] = 'field_part_of_nid';
+  $handler->display->display_options['fields']['field_spokes']['label'] = '';
+  $handler->display->display_options['fields']['field_spokes']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_spokes']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_spokes']['type'] = 'node_reference_node';
+  $handler->display->display_options['fields']['field_spokes']['settings'] = array(
+    'node_reference_view_mode' => 'teaser',
+  );
+  $handler->display->display_options['fields']['field_spokes']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_spokes']['multi_type'] = 'ul';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -86,9 +83,6 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-
-  /* Display: All spokes in this spokes hub */
-  $handler = $view->new_display('block', 'All spokes in this spokes hub', 'block');
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
@@ -380,8 +374,6 @@ Post date Asc|Oldest first
   );
   $export['number_of_comments_per_spoke'] = $view;
 
- 
-
   $view = new view();
   $view->name = 'reviews_of_this_spoke';
   $view->description = 'Show review nodes which reference a given spoke node';
@@ -477,9 +469,8 @@ Post date Asc|Oldest first
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['inline'] = array(
-    'title_1' => 'title_1',
-  );
+  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Relationship: Content: Part of hub (field_part_of) */
   $handler->display->display_options['relationships']['field_part_of_nid']['id'] = 'field_part_of_nid';
   $handler->display->display_options['relationships']['field_part_of_nid']['table'] = 'field_data_field_part_of';
@@ -487,21 +478,22 @@ Post date Asc|Oldest first
   $handler->display->display_options['relationships']['field_part_of_nid']['required'] = TRUE;
   $handler->display->display_options['relationships']['field_part_of_nid']['delta'] = '-1';
   /* Field: Content: Title */
-  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
-  $handler->display->display_options['fields']['title_1']['table'] = 'node';
-  $handler->display->display_options['fields']['title_1']['field'] = 'title';
-  $handler->display->display_options['fields']['title_1']['relationship'] = 'field_part_of_nid';
-  $handler->display->display_options['fields']['title_1']['label'] = 'From: ';
-  $handler->display->display_options['fields']['title_1']['alter']['trim_whitespace'] = TRUE;
-  $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title_1']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['title_1']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['relationship'] = 'field_part_of_nid';
+  $handler->display->display_options['fields']['title']['label'] = 'From';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_wrapper_type'] = 'h1';
+  $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'hub-title';
+  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['default_argument_options']['argument'] = '1824';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
