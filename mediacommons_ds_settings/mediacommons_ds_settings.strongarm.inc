@@ -125,18 +125,6 @@ function mediacommons_ds_settings_strongarm() {
       'hub_home_vertical' => array(
         'custom_settings' => TRUE,
       ),
-      'hub_for_sidebar' => array(
-        'custom_settings' => TRUE,
-      ),
-      'full_intransition' => array(
-        'custom_settings' => FALSE,
-      ),
-      'siblings_sidebar' => array(
-        'custom_settings' => FALSE,
-      ),
-      'spoke_teaser_simplest' => array(
-        'custom_settings' => FALSE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -183,7 +171,7 @@ function mediacommons_ds_settings_strongarm() {
         'custom_settings' => FALSE,
       ),
       'spoke_teaser_simplest' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'hub_teaser_for_archive_page' => array(
         'custom_settings' => FALSE,
@@ -195,9 +183,6 @@ function mediacommons_ds_settings_strongarm() {
         'custom_settings' => TRUE,
       ),
       'hub_home_vertical' => array(
-        'custom_settings' => FALSE,
-      ),
-      'siblings_sidebar' => array(
         'custom_settings' => FALSE,
       ),
     ),

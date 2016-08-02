@@ -72,6 +72,7 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['nid']['exception']['value'] = '';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -482,7 +483,8 @@ Post date Asc|Oldest first
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['relationship'] = 'field_part_of_nid';
-  $handler->display->display_options['fields']['title']['label'] = 'From';
+  $handler->display->display_options['fields']['title']['label'] = 'From:';
+  $handler->display->display_options['fields']['title']['element_label_type'] = 'span';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = 'h1';
   $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'hub-title';

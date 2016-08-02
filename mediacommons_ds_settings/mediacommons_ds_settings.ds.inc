@@ -457,9 +457,6 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
         5 => 'field_taxonomy',
         6 => 'comments',
       ),
-      'right' => array(
-        7 => 'hub_navigation',
-      ),
     ),
     'fields' => array(
       'post_date' => 'header',
@@ -469,7 +466,6 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'field_body' => 'left',
       'field_taxonomy' => 'left',
       'comments' => 'left',
-      'hub_navigation' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
