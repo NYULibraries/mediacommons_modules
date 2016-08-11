@@ -102,7 +102,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     'label' => 'Bio',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
+      'text_processing' => 1,
       'user_register_form' => 1,
     ),
     'widget' => array(
@@ -526,7 +526,7 @@ function mediacommons_user_setup_field_default_field_instances() {
     'label' => 'Plan',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
+      'text_processing' => 1,
       'user_register_form' => 1,
     ),
     'widget' => array(

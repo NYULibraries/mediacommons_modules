@@ -34,34 +34,38 @@ function mediacommons_text_formats_filter_default_formats() {
     'status' => 1,
     'weight' => 0,
     'filters' => array(
+      'filter_iframe' => array(
+        'weight' => -49,
+        'status' => 1,
+        'settings' => array(
+          'filter_iframe' => 'mediacommons.futureofthebook.org',
+        ),
+      ),
       'filter_url' => array(
-        'weight' => 0,
+        'weight' => -48,
         'status' => 1,
         'settings' => array(
           'filter_url_length' => 72,
         ),
       ),
-      'filter_iframe' => array(
-        'weight' => 0,
+      'filter_autop' => array(
+        'weight' => -46,
         'status' => 1,
-        'settings' => array(
-          'filter_iframe' => 'mediacommons.futureofthebook.org',
-          'filter_iframe' => 'player.vimeo.com',
-        ),
+        'settings' => array(),
+      ),
+      'filter_htmlcorrector' => array(
+        'weight' => -45,
+        'status' => 1,
+        'settings' => array(),
       ),
       'filter_html' => array(
-        'weight' => 1,
+        'weight' => -44,
         'status' => 1,
         'settings' => array(
           'allowed_html' => '<a> <abbr> <acronym> <address> <b> <blockquote> <br> <caption> <cite> <code> <dd> <del> <div> <dl> <dt> <em> <h1> <h2> <h3> <h4> <h5> <h6> <hr> <i> <img> <ins> <li> <ol> <p> <pre> <quote> <small> <span> <strike> <strong> <sub> <sup> <table> <tbody> <td> <th> <thead> <tr> <u> <ul> <iframe><script>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 0,
         ),
-      ),
-      'filter_htmlcorrector' => array(
-        'weight' => 10,
-        'status' => 1,
-        'settings' => array(),
       ),
     ),
   );

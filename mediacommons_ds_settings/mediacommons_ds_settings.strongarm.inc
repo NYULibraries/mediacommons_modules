@@ -253,6 +253,12 @@ function mediacommons_ds_settings_strongarm() {
             'visible' => FALSE,
           ),
         ),
+        'realname' => array(
+          'full' => array(
+            'weight' => '-1',
+            'visible' => FALSE,
+          ),
+        ),
       ),
     ),
   );

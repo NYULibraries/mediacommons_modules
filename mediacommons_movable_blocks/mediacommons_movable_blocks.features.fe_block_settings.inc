@@ -66,8 +66,8 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => 'sidebar_organization',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
@@ -183,7 +183,7 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'region' => 'homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => -20,
+        'weight' => 2,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -259,7 +259,7 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'region' => 'homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => -19,
+        'weight' => 3,
       ),
       'mediacommons_admin' => array(
         'region' => '',

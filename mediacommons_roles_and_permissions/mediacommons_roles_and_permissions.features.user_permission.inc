@@ -749,10 +749,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'use text format ds_code',
     'roles' => array(
       'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
-      'cluster curator' => 'cluster curator',
-      'contributor' => 'contributor',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'filter',
   );

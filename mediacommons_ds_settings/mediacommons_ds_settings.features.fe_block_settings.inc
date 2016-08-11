@@ -46,7 +46,7 @@ function mediacommons_ds_settings_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => 'Hubnav',
+    'title' => '',
     'visibility' => 0,
   );
 
