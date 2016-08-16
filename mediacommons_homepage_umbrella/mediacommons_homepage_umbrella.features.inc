@@ -27,6 +27,52 @@ function mediacommons_homepage_umbrella_views_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_image_default_styles().
+ */
+function mediacommons_homepage_umbrella_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: manual_crop_16_9.
+  $styles['manual_crop_16_9'] = array(
+    'label' => 'Manual Crop 16:9',
+    'effects' => array(
+      2 => array(
+        'name' => 'manualcrop_crop_and_scale',
+        'data' => array(
+          'width' => 800,
+          'height' => 450,
+          'upscale' => 1,
+          'respectminimum' => 0,
+          'onlyscaleifcrop' => 0,
+          'style_name' => 'manual_crop_16_9',
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  // Exported image style: manual_crop_user-defined.
+  $styles['manual_crop_user-defined'] = array(
+    'label' => 'Manual Crop User-defined',
+    'effects' => array(
+      1 => array(
+        'name' => 'manualcrop_crop',
+        'data' => array(
+          'width' => 150,
+          'height' => 150,
+          'keepproportions' => 0,
+          'reuse_crop_style' => '',
+          'style_name' => 'manual_crop_user-defined',
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
  * Implements hook_node_info().
  */
 function mediacommons_homepage_umbrella_node_info() {
