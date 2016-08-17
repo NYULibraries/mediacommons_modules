@@ -14,6 +14,13 @@ function mediacommons_image_styles_and_date_formats_ctools_plugin_api($module = 
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function mediacommons_image_styles_and_date_formats_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_fe_date_custom_date_formats().
  */
 function mediacommons_image_styles_and_date_formats_fe_date_custom_date_formats() {
