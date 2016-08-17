@@ -12,7 +12,7 @@ function mediacommons_homepage_umbrella_views_default_views() {
 
   $view = new view();
   $view->name = 'mc_home_lede';
-  $view->description = 'Grabs the item that will be huge at the top left of the MC home page.  Chooses most recent sticky; if no sticky, most recent. ';
+  $view->description = 'Displays the item that will be prominent at the top left of the home page.  Chooses #1 in nodequeue.';
   $view->tag = 'MC umbrella home';
   $view->base_table = 'node';
   $view->human_name = 'MC Homepage top featured';
@@ -41,7 +41,6 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['required'] = TRUE;
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
     'umbrella_homepage' => 'umbrella_homepage',
@@ -88,12 +87,10 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler = $view->new_display('block', 'Block: Umbrella Top Featured', 'block');
   $handler->display->display_options['display_description'] = 'Umbrella homepage: large image at top left';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Nodequeue: Position */
-  $handler->display->display_options['sorts']['position']['id'] = 'position';
-  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
-  $handler->display->display_options['sorts']['position']['field'] = 'position';
-  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
-  $handler->display->display_options['sorts']['position']['order'] = 'DESC';
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['block_caching'] = '-1';
   $export['mc_home_lede'] = $view;
 
@@ -124,7 +121,6 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['required'] = TRUE;
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
     'umbrella_homepage' => 'umbrella_homepage',
@@ -180,6 +176,10 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['sorts']['position']['field'] = 'position';
   $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
   $handler->display->display_options['sorts']['position']['order'] = 'DESC';
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
   /* Filter criterion: Content: Published or admin */
   $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
   $handler->display->display_options['filters']['status_extra']['table'] = 'node';

@@ -17,7 +17,7 @@ function mediacommons_homepage_umbrella_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'front_page_post';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'field_large_image' => array(
+    'field_featured_image_thumb' => array(
       'formatter_settings' => array(
         'ft' => array(),
       ),
@@ -90,7 +90,7 @@ function mediacommons_homepage_umbrella_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'group_meta',
-        1 => 'field_large_image',
+        1 => 'field_featured_image_thumb',
         2 => 'field_project',
         3 => 'field_rlink',
         4 => 'field_body',
@@ -98,7 +98,7 @@ function mediacommons_homepage_umbrella_ds_layout_settings_info() {
     ),
     'fields' => array(
       'group_meta' => 'ds_content',
-      'field_large_image' => 'ds_content',
+      'field_featured_image_thumb' => 'ds_content',
       'field_project' => 'ds_content',
       'field_rlink' => 'ds_content',
       'field_body' => 'ds_content',
