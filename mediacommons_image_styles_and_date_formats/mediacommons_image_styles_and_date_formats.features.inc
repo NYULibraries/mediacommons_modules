@@ -134,11 +134,11 @@ function mediacommons_image_styles_and_date_formats_image_default_styles() {
   $styles['manual_crop_480_320'] = array(
     'label' => 'Manual Crop 480 320',
     'effects' => array(
-      1 => array(
+      3 => array(
         'name' => 'manualcrop_crop',
         'data' => array(
-          'width' => 480,
-          'height' => 320,
+          'width' => 240,
+          'height' => 160,
           'keepproportions' => 1,
           'reuse_crop_style' => '',
           'style_name' => 'manual_crop_480_320',
