@@ -46,9 +46,12 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 16,
+        'module' => 'text',
+        'settings' => array(
+          'trim_length' => 85,
+        ),
+        'type' => 'text_trimmed',
+        'weight' => 3,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -69,7 +72,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -112,11 +115,11 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'manual_crop_480_320',
+          'image_style' => 'manual_crop_16_9',
         ),
         'type' => 'image',
         'weight' => 1,

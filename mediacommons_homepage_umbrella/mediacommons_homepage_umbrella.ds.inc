@@ -17,11 +17,6 @@ function mediacommons_homepage_umbrella_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'front_page_post';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'field_featured_image_thumb' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
-    ),
     'field_rlink' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -46,6 +41,13 @@ function mediacommons_homepage_umbrella_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'front_page_post';
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
+    'field_body' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_minimal',
+        ),
+      ),
+    ),
     'field_project' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -110,8 +112,8 @@ function mediacommons_homepage_umbrella_ds_layout_settings_info() {
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
     'layout_attributes_merge' => 1,
-    'layout_link_attribute' => '',
-    'layout_link_custom' => '',
+    'layout_link_attribute' => 'tokens',
+    'layout_link_custom' => '[node:field-rlink:url]',
     'layout_disable_css' => FALSE,
   );
   $export['node|front_page_post|full'] = $ds_layout;
@@ -129,12 +131,14 @@ function mediacommons_homepage_umbrella_ds_layout_settings_info() {
         0 => 'field_project',
         1 => 'field_featured_image_thumb',
         2 => 'field_rlink',
+        3 => 'field_body',
       ),
     ),
     'fields' => array(
       'field_project' => 'ds_content',
       'field_featured_image_thumb' => 'ds_content',
       'field_rlink' => 'ds_content',
+      'field_body' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(

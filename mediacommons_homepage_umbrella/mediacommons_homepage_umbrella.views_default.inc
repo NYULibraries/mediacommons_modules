@@ -87,10 +87,12 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler = $view->new_display('block', 'Block: Umbrella Top Featured', 'block');
   $handler->display->display_options['display_description'] = 'Umbrella homepage: large image at top left';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  /* Sort criterion: Nodequeue: Position in nodequeue and other parameter */
+  $handler->display->display_options['sorts']['position_and_other']['id'] = 'position_and_other';
+  $handler->display->display_options['sorts']['position_and_other']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['position_and_other']['field'] = 'position_and_other';
+  $handler->display->display_options['sorts']['position_and_other']['relationship'] = 'nodequeue_rel';
+  $handler->display->display_options['sorts']['position_and_other']['order'] = 'DESC';
   $handler->display->display_options['block_caching'] = '-1';
   $export['mc_home_lede'] = $view;
 

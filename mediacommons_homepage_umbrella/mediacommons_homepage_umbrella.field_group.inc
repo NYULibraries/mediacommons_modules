@@ -54,7 +54,7 @@ function mediacommons_homepage_umbrella_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Meta',
-    'weight' => '15',
+    'weight' => '16',
     'children' => array(),
     'format_type' => 'html-element',
     'format_settings' => array(
