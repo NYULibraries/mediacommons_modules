@@ -1,8 +1,7 @@
-name = MediaCommons Image Styles, date formats, admin views
+name = MediaCommons Image Styles, date formats
 core = 7.x
 package = MediaCommons
 version = 7.x-1.06
-dependencies[] = admin_views
 dependencies[] = ctools
 dependencies[] = fe_date
 dependencies[] = image
@@ -10,7 +9,6 @@ dependencies[] = manualcrop
 dependencies[] = mediacommons_content_types
 dependencies[] = strongarm
 dependencies[] = views
-dependencies[] = views_bulk_operations
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[fe_date_custom_date_formats][] = F j, Y
