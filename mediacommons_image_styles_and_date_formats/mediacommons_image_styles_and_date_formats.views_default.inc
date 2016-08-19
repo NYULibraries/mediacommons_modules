@@ -256,6 +256,15 @@ function mediacommons_image_styles_and_date_formats_views_default_views() {
   $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['delete_node']['field'] = 'delete_node';
   $handler->display->display_options['fields']['delete_node']['label'] = '';
+  /* Field: Nodequeue: All queues */
+  $handler->display->display_options['fields']['nodequeue_all_queues']['id'] = 'nodequeue_all_queues';
+  $handler->display->display_options['fields']['nodequeue_all_queues']['table'] = 'node';
+  $handler->display->display_options['fields']['nodequeue_all_queues']['field'] = 'nodequeue_all_queues';
+  $handler->display->display_options['fields']['nodequeue_all_queues']['link_to_queue'] = 1;
+  $handler->display->display_options['fields']['nodequeue_all_queues']['limit'] = 0;
+  $handler->display->display_options['fields']['nodequeue_all_queues']['qids'] = array(
+    1 => 0,
+  );
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
