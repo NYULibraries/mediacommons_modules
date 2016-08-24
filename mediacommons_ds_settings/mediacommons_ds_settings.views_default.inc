@@ -29,12 +29,11 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['row_class'] = 'rowclass';
+  $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
-  $handler->display->display_options['style_options']['class'] = 'listclass';
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Header: Global: View area */
   $handler->display->display_options['header']['view']['id'] = 'view';
@@ -55,6 +54,7 @@ function mediacommons_ds_settings_views_default_views() {
   $handler->display->display_options['fields']['field_spokes']['relationship'] = 'field_part_of_nid';
   $handler->display->display_options['fields']['field_spokes']['label'] = '';
   $handler->display->display_options['fields']['field_spokes']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_spokes']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_spokes']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_spokes']['type'] = 'node_reference_node';
   $handler->display->display_options['fields']['field_spokes']['settings'] = array(
