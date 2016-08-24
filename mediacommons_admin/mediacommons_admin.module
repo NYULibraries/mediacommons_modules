@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Mediacommons Admin feature.
+ */
+
+include_once 'mediacommons_admin.features.inc';

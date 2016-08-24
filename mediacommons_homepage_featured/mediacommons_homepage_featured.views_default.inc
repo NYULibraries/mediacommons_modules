@@ -15,7 +15,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $view->description = 'For use on homepage, for all channels';
   $view->tag = '';
   $view->base_table = 'node';
-  $view->human_name = 'Recent 6 hubs';
+  $view->human_name = 'Featured 6 hubs';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -31,9 +31,17 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '6';
-  $handler->display->display_options['pager']['options']['offset'] = '1';
+  $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
+  /* Relationship: Nodequeue: Queue */
+  $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
+  $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
+    'featured_content_for_homepage' => 'featured_content_for_homepage',
+  );
   /* Field: Content: Representative Image */
   $handler->display->display_options['fields']['field_representative_image']['id'] = 'field_representative_image';
   $handler->display->display_options['fields']['field_representative_image']['table'] = 'field_data_field_representative_image';
@@ -107,6 +115,12 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_curators_editors']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_curators_editors']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_curators_editors']['delta_offset'] = '0';
+  /* Sort criterion: Nodequeue: Position */
+  $handler->display->display_options['sorts']['position']['id'] = 'position';
+  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['position']['field'] = 'position';
+  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
+  $handler->display->display_options['sorts']['position']['order'] = 'DESC';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -144,10 +158,10 @@ function mediacommons_homepage_featured_views_default_views() {
 
   $view = new view();
   $view->name = 'recent_hubs_fieldguide';
-  $view->description = 'For use on homepage, for all child sites';
+  $view->description = 'For use on homepage, for FieldGuide ';
   $view->tag = '';
   $view->base_table = 'node';
-  $view->human_name = 'Recent hubs fieldguide';
+  $view->human_name = 'Featured hubs fieldguide ';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -166,6 +180,14 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '1';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
+  /* Relationship: Nodequeue: Queue */
+  $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
+  $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
+    'featured_content_for_homepage' => 'featured_content_for_homepage',
+  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
@@ -205,6 +227,12 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['view_node']['alter']['text'] = '<time class="timerangeheader">[field_period]</time><h3>[title_1]</h3>';
   $handler->display->display_options['fields']['view_node']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
+  /* Sort criterion: Nodequeue: Position */
+  $handler->display->display_options['sorts']['position']['id'] = 'position';
+  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['position']['field'] = 'position';
+  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
+  $handler->display->display_options['sorts']['position']['order'] = 'DESC';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';

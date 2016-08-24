@@ -12,7 +12,7 @@ function mediacommons_homepage_umbrella_views_default_views() {
 
   $view = new view();
   $view->name = 'mc_home_lede';
-  $view->description = 'Grabs the item that will be huge at the top left of the MC home page.  Chooses most recent sticky; if no sticky, most recent. ';
+  $view->description = 'Displays the item that will be prominent at the top left of the home page.  Chooses #1 in nodequeue.';
   $view->tag = 'MC umbrella home';
   $view->base_table = 'node';
   $view->human_name = 'MC Homepage top featured';
@@ -37,6 +37,14 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'node';
   $handler->display->display_options['row_options']['view_mode'] = 'full';
   $handler->display->display_options['row_options']['links'] = FALSE;
+  /* Relationship: Nodequeue: Queue */
+  $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
+  $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
+    'homepage' => 'homepage',
+  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -44,16 +52,22 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Sort criterion: Content: Sticky */
-  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['table'] = 'node';
-  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
+  /* Sort criterion: Nodequeue: In queue */
+  $handler->display->display_options['sorts']['in_queue']['id'] = 'in_queue';
+  $handler->display->display_options['sorts']['in_queue']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['in_queue']['field'] = 'in_queue';
+  $handler->display->display_options['sorts']['in_queue']['relationship'] = 'nodequeue_rel';
+  $handler->display->display_options['sorts']['in_queue']['order'] = 'DESC';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Sort criterion: Nodequeue: Position */
+  $handler->display->display_options['sorts']['position']['id'] = 'position';
+  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['position']['field'] = 'position';
+  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -72,15 +86,22 @@ function mediacommons_homepage_umbrella_views_default_views() {
   /* Display: Block: Umbrella Top Featured */
   $handler = $view->new_display('block', 'Block: Umbrella Top Featured', 'block');
   $handler->display->display_options['display_description'] = 'Umbrella homepage: large image at top left';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Nodequeue: Position in nodequeue and other parameter */
+  $handler->display->display_options['sorts']['position_and_other']['id'] = 'position_and_other';
+  $handler->display->display_options['sorts']['position_and_other']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['position_and_other']['field'] = 'position_and_other';
+  $handler->display->display_options['sorts']['position_and_other']['relationship'] = 'nodequeue_rel';
+  $handler->display->display_options['sorts']['position_and_other']['order'] = 'DESC';
   $handler->display->display_options['block_caching'] = '-1';
   $export['mc_home_lede'] = $view;
 
   $view = new view();
   $view->name = 'recent_6_front_page_posts';
-  $view->description = 'Umbrella site';
+  $view->description = 'Umbrella site: from nodequeue';
   $view->tag = 'MC umbrella home';
   $view->base_table = 'node';
-  $view->human_name = 'Umbrella: Recent 6 FPP';
+  $view->human_name = 'Umbrella: Featured front page posts';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -98,6 +119,14 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '1';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
+  /* Relationship: Nodequeue: Queue */
+  $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
+  $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
+    'homepage' => 'homepage',
+  );
   /* Field: Content: Representative Image */
   $handler->display->display_options['fields']['field_representative_image']['id'] = 'field_representative_image';
   $handler->display->display_options['fields']['field_representative_image']['table'] = 'field_data_field_representative_image';
@@ -143,16 +172,16 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['fields']['field_curators_editors']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_curators_editors']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_curators_editors']['delta_offset'] = '0';
-  /* Sort criterion: Content: Sticky */
-  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['table'] = 'node';
-  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
+  /* Sort criterion: Nodequeue: Position */
+  $handler->display->display_options['sorts']['position']['id'] = 'position';
+  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['position']['field'] = 'position';
+  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
+  $handler->display->display_options['sorts']['position']['order'] = 'DESC';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
   /* Filter criterion: Content: Published or admin */
   $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
   $handler->display->display_options['filters']['status_extra']['table'] = 'node';
@@ -167,8 +196,8 @@ function mediacommons_homepage_umbrella_views_default_views() {
     'front_page_post' => 'front_page_post',
   );
 
-  /* Display: Umbrella 6 FPPS */
-  $handler = $view->new_display('block', 'Umbrella 6 FPPS', 'block');
+  /* Display: Umbrella 12 Front Page Posts */
+  $handler = $view->new_display('block', 'Umbrella 12 Front Page Posts', 'block');
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['row_class'] = '.featured-item';

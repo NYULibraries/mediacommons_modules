@@ -29,7 +29,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 15,
+        'weight' => 14,
       ),
       'homepage_featured_articles' => array(
         'label' => 'hidden',
@@ -47,9 +47,11 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 4,
+        'settings' => array(
+          'trim_length' => 85,
+        ),
+        'type' => 'text_trimmed',
+        'weight' => 3,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -70,7 +72,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -87,10 +89,14 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'weight' => 12,
       ),
       'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 15,
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'manual_crop_16_9',
+        ),
+        'type' => 'image',
+        'weight' => 1,
       ),
       'homepage_featured_articles' => array(
         'label' => 'hidden',
@@ -109,11 +115,11 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'manual_crop_480_320',
+          'image_style' => 'manual_crop_16_9',
         ),
         'type' => 'image',
         'weight' => 1,
@@ -131,7 +137,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '5MB',
       'max_resolution' => '1200x1000',
-      'min_resolution' => '250x175',
+      'min_resolution' => '150x100',
       'title_field' => 0,
       'user_register_form' => FALSE,
     ),
@@ -151,10 +157,12 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
           'manual_crop_480_320' => 'manual_crop_480_320',
         ),
         'manualcrop_styles_list' => array(
+          'manual_crop_16_9' => 'manual_crop_16_9',
           'manual_crop_480_320' => 'manual_crop_480_320',
+          'manual_crop_user-defined' => 'manual_crop_user-defined',
         ),
         'manualcrop_styles_mode' => 'include',
-        'manualcrop_thumblist' => 0,
+        'manualcrop_thumblist' => 1,
         'preview_image_style' => 'manual_crop_480_320',
         'progress_indicator' => 'throbber',
       ),
@@ -181,19 +189,15 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '21_9_ratio',
-        ),
-        'type' => 'image',
-        'weight' => 1,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 17,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -203,7 +207,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
-      'default_image' => 73,
+      'default_image' => 0,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
@@ -216,18 +220,22 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
       'active' => 1,
       'module' => 'image',
       'settings' => array(
-        'manualcrop_crop_info' => TRUE,
-        'manualcrop_default_crop_area' => TRUE,
-        'manualcrop_enable' => FALSE,
-        'manualcrop_inline_crop' => FALSE,
-        'manualcrop_instant_crop' => FALSE,
-        'manualcrop_instant_preview' => TRUE,
-        'manualcrop_keyboard' => TRUE,
-        'manualcrop_maximize_default_crop_area' => FALSE,
+        'manualcrop_crop_info' => 1,
+        'manualcrop_default_crop_area' => 1,
+        'manualcrop_enable' => 1,
+        'manualcrop_inline_crop' => 0,
+        'manualcrop_instant_crop' => 0,
+        'manualcrop_instant_preview' => 1,
+        'manualcrop_keyboard' => 1,
+        'manualcrop_maximize_default_crop_area' => 1,
         'manualcrop_require_cropping' => array(),
-        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_list' => array(
+          'manual_crop_16_9' => 'manual_crop_16_9',
+          'manual_crop_480_320' => 'manual_crop_480_320',
+          'manual_crop_user-defined' => 'manual_crop_user-defined',
+        ),
         'manualcrop_styles_mode' => 'include',
-        'manualcrop_thumblist' => FALSE,
+        'manualcrop_thumblist' => 0,
         'preview_image_style' => '16_9_ratio',
         'progress_indicator' => 'throbber',
       ),
@@ -272,7 +280,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 2,
+        'weight' => 0,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -297,7 +305,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
     'bundle' => 'front_page_post',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'The headline of the front page post as it will appear to the user. ',
+    'description' => 'The destination link of the front page post.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -318,10 +326,10 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_default',
-        'weight' => 3,
+        'weight' => 2,
       ),
     ),
-    'ds_extras_field_template' => '',
+    'ds_extras_field_template' => 'theme_ds_field_reset',
     'entity_type' => 'node',
     'field_name' => 'field_rlink',
     'label' => 'Link to Resource',
@@ -365,7 +373,7 @@ function mediacommons_homepage_umbrella_field_default_field_instances() {
   t('Large image');
   t('Link to Resource');
   t('Project');
-  t('The headline of the front page post as it will appear to the user. ');
+  t('The destination link of the front page post.');
   t('The image that will be displayed on the umbrella home page top left most featured spot.  Should be a big beautiful image. ');
 
   return $field_instances;
