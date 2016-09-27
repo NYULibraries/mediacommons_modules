@@ -82,7 +82,7 @@ function mediacommons_user_setup_views_default_views() {
   $handler->display->display_options['fields']['created']['label'] = '';
   $handler->display->display_options['fields']['created']['alter']['trim_whitespace'] = TRUE;
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['created']['date_format'] = 'long';
+  $handler->display->display_options['fields']['created']['date_format'] = 'medium_mc';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
   /* Field: Comment: Comment */
   $handler->display->display_options['fields']['comment_body']['id'] = 'comment_body';
