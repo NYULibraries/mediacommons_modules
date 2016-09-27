@@ -91,12 +91,12 @@
     console.log("inside mc_global_nav setUpProjectNavMobile ");
 
     // SEARCH
-    $('header[role=banner] form[role=search] label').unbind('click').click(function() {
+    $('header[role=banner] [role=search] label').unbind('click').click(function() {
       $theSearchButton = $(this);
       // If search is open
-      if ($("header[role=banner] form[role=search] fieldset").is(":visible")) {
+      if ($("header[role=banner] [role=search] fieldset").is(":visible")) {
         //$(this).parent('form').removeClass("open");
-        $("header[role=banner] form[role=search] fieldset").slideUp(300, 'easeInQuad',
+        $("header[role=banner] [role=search] fieldset").slideUp(300, 'easeInQuad',
           function() {
             // closeUpShop();
             $(this).parent('form').removeClass("open");
@@ -107,16 +107,16 @@
         // if main is already open, first close it 
         if ($('nav.main ul').is(":visible")) {
           $('nav.main ul').slideUp(300, 'easeInQuad', function() {
-            $('header[role=banner] form[role=search]').addClass("open");
-            $('header[role=banner] form[role=search] fieldset').slideDown(300, 'easeInQuad',
+            $('header[role=banner] [role=search] form').addClass("open");
+            $('header[role=banner] [role=search] fieldset').slideDown(300, 'easeInQuad',
               function() {
                 $(this).parent('form').addClass("open");
               });
           });
         } else {
           // if main is closed
-          $('header[role=banner] form[role=search]').addClass("open");
-          $('header[role=banner] form[role=search] fieldset').slideDown(300, 'easeOutQuad',
+          $('header[role=banner] [role=search] form').addClass("open");
+          $('header[role=banner] [role=search]  fieldset').slideDown(300, 'easeOutQuad',
             function() {
              //console.log("search fieldset should be nicely open");
               
