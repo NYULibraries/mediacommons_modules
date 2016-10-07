@@ -1,5 +1,0 @@
-name = MediaCommons Slate
-description = Dummy content for Slate project
-core = 7.x
-package = MediaCommons
-dependencies[] = entity
