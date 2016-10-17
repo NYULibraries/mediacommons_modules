@@ -1,6 +1,0 @@
-name = MediaCommons Admin Setup
-description = Define tools and utilities for MediaCommons admin.
-core = 7.x
-package = MediaCommons
-dependencies[] = admin_views
-dependencies[] = views_bulk_operations
