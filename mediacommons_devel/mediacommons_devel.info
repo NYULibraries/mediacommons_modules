@@ -4,6 +4,4 @@ package = MediaCommons
 version = 7.x-1.0
 project = mediacommons_devel
 dependencies[] = devel
-dependencies[] = devel_generate
-dependencies[] = nodequeue_generate
-features[features_api][] = api:2
+dependencies[] = reroute_email
