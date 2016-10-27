@@ -12,13 +12,55 @@ function mediacommons_ds_settings_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|hub|hub_home_for_imr';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'hub';
+  $ds_fieldsetting->view_mode = 'hub_home_for_imr';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => '',
+        'class' => '',
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'h1',
+          'fi-cl' => 'hub-title',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+    'field_spokes' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fis' => TRUE,
+          'fis-el' => 'div',
+          'fis-cl' => 'spokes',
+          'fis-at' => '',
+          'fis-def-at' => FALSE,
+        ),
+      ),
+    ),
+  );
+  $export['node|hub|hub_home_for_imr'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|hub|hub_home_vertical';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'hub';
   $ds_fieldsetting->view_mode = 'hub_home_vertical';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -41,11 +83,27 @@ function mediacommons_ds_settings_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_minimal',
+          'lb-col' => TRUE,
         ),
       ),
     ),
   );
   $export['node|hub|hub_home_vertical'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|hub|hub_teaser_for_archive_page';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'hub';
+  $ds_fieldsetting->view_mode = 'hub_teaser_for_archive_page';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['node|hub|hub_teaser_for_archive_page'] = $ds_fieldsetting;
 
   return $export;
 }
@@ -193,24 +251,26 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
         0 => 'hubhead',
         1 => 'group_flex2',
         2 => 'field_representative_image',
-        3 => 'title',
-        4 => 'field_spokes',
+        3 => 'field_spokes',
+        4 => 'title',
         5 => 'field_period',
         6 => 'field_curators_editors',
         7 => 'field_co_editor',
         8 => 'field_body',
+        9 => 'field_taxonomy',
       ),
     ),
     'fields' => array(
       'hubhead' => 'ds_content',
       'group_flex2' => 'ds_content',
       'field_representative_image' => 'ds_content',
-      'title' => 'ds_content',
       'field_spokes' => 'ds_content',
+      'title' => 'ds_content',
       'field_period' => 'ds_content',
       'field_curators_editors' => 'ds_content',
       'field_co_editor' => 'ds_content',
       'field_body' => 'ds_content',
+      'field_taxonomy' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -227,32 +287,32 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
-  $ds_layout->id = 'node|hub|hub_home_vertical';
+  $ds_layout->id = 'node|hub|hub_home_for_imr';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'hub';
-  $ds_layout->view_mode = 'hub_home_vertical';
+  $ds_layout->view_mode = 'hub_home_for_imr';
   $ds_layout->layout = 'ds_1col';
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'group_hubhead',
-        1 => 'field_representative_image',
-        2 => 'group_flex2',
-        3 => 'field_spokes',
+        0 => 'field_representative_image',
+        1 => 'group_hubhead',
+        2 => 'field_period',
+        3 => 'group_flex2',
         4 => 'title',
-        5 => 'field_period',
+        5 => 'field_spokes',
         6 => 'field_curators_editors',
         7 => 'field_co_editor',
         8 => 'field_body',
       ),
     ),
     'fields' => array(
-      'group_hubhead' => 'ds_content',
       'field_representative_image' => 'ds_content',
-      'group_flex2' => 'ds_content',
-      'field_spokes' => 'ds_content',
-      'title' => 'ds_content',
+      'group_hubhead' => 'ds_content',
       'field_period' => 'ds_content',
+      'group_flex2' => 'ds_content',
+      'title' => 'ds_content',
+      'field_spokes' => 'ds_content',
       'field_curators_editors' => 'ds_content',
       'field_co_editor' => 'ds_content',
       'field_body' => 'ds_content',
@@ -262,7 +322,52 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'ds_content' => 'div',
     ),
     'layout_wrapper' => 'div',
-    'layout_attributes' => 'class="view-mode-full node node-hub ds-1col"',
+    'layout_attributes' => 'class="view-mode-full node node-hub view-mode-hub-home-imr"',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|hub|hub_home_for_imr'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|hub|hub_home_vertical';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'hub';
+  $ds_layout->view_mode = 'hub_home_vertical';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'group_hubhead',
+        1 => 'group_flex2',
+        2 => 'field_representative_image',
+        3 => 'title',
+        4 => 'field_period',
+        5 => 'field_spokes',
+        6 => 'field_curators_editors',
+        7 => 'field_co_editor',
+        8 => 'field_body',
+      ),
+    ),
+    'fields' => array(
+      'group_hubhead' => 'ds_content',
+      'group_flex2' => 'ds_content',
+      'field_representative_image' => 'ds_content',
+      'title' => 'ds_content',
+      'field_period' => 'ds_content',
+      'field_spokes' => 'ds_content',
+      'field_curators_editors' => 'ds_content',
+      'field_co_editor' => 'ds_content',
+      'field_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => 'class="view-mode-full node node-hub ds-1col view-mode-hub-home"',
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
@@ -280,30 +385,28 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'field_representative_image',
-        1 => 'title',
+        0 => 'title',
+        1 => 'field_representative_image',
         2 => 'field_period',
         3 => 'field_curators_editors',
         4 => 'field_co_editor',
         5 => 'field_spokes',
-        6 => 'group_rightside',
       ),
     ),
     'fields' => array(
-      'field_representative_image' => 'ds_content',
       'title' => 'ds_content',
+      'field_representative_image' => 'ds_content',
       'field_period' => 'ds_content',
       'field_curators_editors' => 'ds_content',
       'field_co_editor' => 'ds_content',
       'field_spokes' => 'ds_content',
-      'group_rightside' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
     'layout_wrapper' => 'div',
-    'layout_attributes' => '',
+    'layout_attributes' => 'class="hub-teaser-archive"',
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
@@ -588,6 +691,15 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
  */
 function mediacommons_ds_settings_ds_view_modes_info() {
   $export = array();
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'hub_home_for_imr';
+  $ds_view_mode->label = 'Hub home for IMR';
+  $ds_view_mode->entities = array(
+    'node' => 'node',
+  );
+  $export['hub_home_for_imr'] = $ds_view_mode;
 
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;
