@@ -892,7 +892,7 @@ function mediacommons_user_setup_field_default_field_instances() {
         'weight' => 9,
       ),
     ),
-    'ds_extras_field_template' => 'theme_ds_field_minimal',
+    'ds_extras_field_template' => 'theme_field',
     'entity_type' => 'user',
     'field_name' => 'field_url',
     'label' => 'URL',

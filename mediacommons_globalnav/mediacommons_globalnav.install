@@ -51,6 +51,17 @@ function _mediacommons_globalnav_config() {
       'module' => 'menu',        
     ),
     array(
+      'link_path' => 'user/register',
+      'router_path' => 'user/register',      
+      'link_title' => 'Register',
+      'menu_name' => $menu_name,
+      'expanded' => 1,
+      'external' => 0,
+      'weight' => ++$leafs_increment,
+      'customized' => 1,      
+      'module' => 'menu',      
+    ),
+    array(
       'link_path' => 'user/login',
       'router_path' => 'user/login',      
       'link_title' => 'Log in',
