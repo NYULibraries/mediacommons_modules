@@ -67,7 +67,7 @@ function mediacommons_filter_filter_info() {
  * @return
  *   An array of domains.
  */
-function mediacommons_filter_get_allowed_domains($) {
+function mediacommons_filter_get_allowed_domains() {
 
 	$cache = cache_get('domains', 'cache_mediacommons_filter');
 
