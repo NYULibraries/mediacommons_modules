@@ -18,7 +18,7 @@ function mediacommons_ds_settings_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'hub_home_for_imr';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -295,27 +295,27 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'field_representative_image',
-        1 => 'group_hubhead',
-        2 => 'field_period',
+        0 => 'group_hubhead',
+        1 => 'field_period',
+        2 => 'field_spokes',
         3 => 'group_flex2',
-        4 => 'title',
-        5 => 'field_spokes',
-        6 => 'field_curators_editors',
-        7 => 'field_co_editor',
-        8 => 'field_body',
+        4 => 'field_representative_image',
+        5 => 'title',
+        6 => 'field_body',
+        7 => 'field_curators_editors',
+        8 => 'field_co_editor',
       ),
     ),
     'fields' => array(
-      'field_representative_image' => 'ds_content',
       'group_hubhead' => 'ds_content',
       'field_period' => 'ds_content',
-      'group_flex2' => 'ds_content',
-      'title' => 'ds_content',
       'field_spokes' => 'ds_content',
+      'group_flex2' => 'ds_content',
+      'field_representative_image' => 'ds_content',
+      'title' => 'ds_content',
+      'field_body' => 'ds_content',
       'field_curators_editors' => 'ds_content',
       'field_co_editor' => 'ds_content',
-      'field_body' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(

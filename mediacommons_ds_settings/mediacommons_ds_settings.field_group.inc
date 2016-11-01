@@ -31,7 +31,7 @@ function mediacommons_ds_settings_field_group_info() {
       'label' => 'Spokes Group',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-flex2 homehub-spokes spokes',
+        'classes' => 'group-flex2 homehub-spokes',
         'element' => 'div',
         'show_label' => '0',
         'label_element' => 'div',
