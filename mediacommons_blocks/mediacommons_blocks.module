@@ -158,10 +158,7 @@ function mediacommons_blocks_preprocess_block(&$variables) {
 function mediacommons_blocks_contents($which_block) {
   switch ($which_block) {
     case 'mc_footer':
-      $block_content = '
-        <div>' . variable_get('mc_footer_project_name',  t('A MediaCommons Project')) . '</div>
-        <div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>
-      ';
+      $block_content = '<div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>';
       return array('#markup' => $block_content);
       break;
   }
