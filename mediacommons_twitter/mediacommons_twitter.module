@@ -46,13 +46,21 @@ function mediacommons_twitter_block_info() {
 function mediacommons_twitter_block_configure($delta = '') {
   $form = array();
   if ($delta == 'mediacommons_twitter') {
+    $form['mediacommons_twitter_label'] = array(
+      '#type' => 'textfield',
+      '#title' => t('MediaCommons: Link label'),
+      '#size' => 60,
+      '#description' => t('Link label'),
+      '#default_value' => variable_get('mediacommons_twitter_label', ''),
+    );
+
     $form['mediacommons_twitter_user'] = array(
       '#type' => 'textfield',
       '#title' => t('MediaCommons: Twitter block'),
       '#size' => 60,
-      '#description' => t('Twitter username.'),
+      '#description' => t('Twitter username'),
       '#default_value' => variable_get('mediacommons_twitter_user', ''),
-    );
+    );    
   }
   return $form;
 }
@@ -94,28 +102,26 @@ function mediacommons_twitter_content() {
 
   $output = '';
 
-  $attibutes_string = '';
+  $username = variable_get('mediacommons_twitter_user', null);
+  
+  if (!is_null($username)) {
+    $attibutes_string = '';
 
-  $script = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+    $script = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
 
-  $label = variable_get('mediacommons_twitter_label', '&nbsp;');
+    $label = variable_get('mediacommons_twitter_label', '&nbsp;');
 
-  $username = variable_get('mediacommons_twitter_user', 'inTransitionCMS');
-
-  $attibutes = array(
-    'data-height' => '600',
-    'data-theme' => 'dark',
-    'href' => 'https://twitter.com/' . $username,
-  );
-
-  foreach ($attibutes as $key => $attibute) {
-    $attibutes_string .= ' ' . $key . '="' . $attibute . '"';
+    $attibutes = array(
+      'data-height' => '600',
+      'data-theme' => 'dark',
+      'href' => 'https://twitter.com/' . $username,
+    );
+    foreach ($attibutes as $key => $attibute) {
+      $attibutes_string .= ' ' . $key . '="' . $attibute . '"';
+    }
+    $output = '<a class="twitter-timeline"' . $attibutes_string . '>' . $label . '</a>' . $script;
   }
 
-  $output = '<a class="twitter-timeline"' . $attibutes_string . '>' . $label . '</a>' . $script;
-
-  $result = array('#markup' => $output);
-
-  return $result;
+  return array('#markup' => $output);
 
 }
