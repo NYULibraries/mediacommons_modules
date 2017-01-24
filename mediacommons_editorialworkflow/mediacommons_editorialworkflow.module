@@ -31,7 +31,7 @@ function _mediacommons_editorialworkflow_load_account($account) {
   if ($account->uid > 0) {
     $result = db_select('mediacommons_base_import_user_map', 'u')->fields('u', array('filename'))->condition('uid', $account->uid)->execute()->fetchField();
     if ($result && $result !== '0') {
-      $umbrella_url = variable_get('mediacommons_umbrella_url', 'http://localhost:8000/mediacommons');
+      $umbrella_url = variable_get('mediacommons_umbrella_url', '');
       $account->picture = (object) array();
       $account->picture->uri = $umbrella_url . '/sites/default/files/styles/profile_page_pic/public/pictures/' . $result;
     }
@@ -77,13 +77,13 @@ function mediacommons_editorialworkflow_user_picture(&$variables) {
         );
         $variables['user_picture'] = l($variables['user_picture'], $account->homepage, array('attributes' => $attributes, 'html' => TRUE));
       }
-      
+
     }
   }
 }
 
 function mediacommons_editorialworkflow_init () {
-	global $user;
+  global $user;
   $path_is_admin = path_is_admin(current_path());
   if ($path_is_admin) {
     $menu_object = menu_get_object();
@@ -243,7 +243,6 @@ function mediacommons_editorialworkflow_mail_send($form_values) {
     watchdog($module, t('There was a problem sending message.'), WATCHDOG_ERROR);
     drupal_set_message(t('There was a problem sending your message and it was not sent.'), 'error');
   }
-
 }
 
 /**
@@ -253,41 +252,40 @@ function mediacommons_editorialworkflow_permission() {
   return array(
     'access mediacommons content' => array(
       'title' => t('Access mediacommons content'),
-      'description' => t(''),
+      'description' => t('Access mediacommons content'),
     ),
     'contribute content spoke' => array(
       'title' => t('Contribute spoke'),
-      'description' => t(''),
+      'description' => t('Contribute spoke'),
     ),
     'contribute content hub' => array(
       'title' => t('Contribute hubs'),
-      'description' => t(''),
+      'description' => t('Contribute hubs'),
     ),
     'promote hub content' => array(
       'title' => t('Promote hubs'),
-      'description' => t(''),
+      'description' => t('Promote hubs'),
     ),
     'set current hub' => array(
       'title' => t('Set current hub'),
-      'description' => t(''),
+      'description' => t('Set current hub'),
     ),
     'set upcoming hub' => array(
       'title' => t('Set upcoming hub'),
-      'description' => t(''),
+      'description' => t('Set upcoming hub'),
     ),
     'admin contributors content' => array(
       'title' => t('Admin contributors content'),
-      'description' => t(''),
+      'description' => t('Admin contributors content'),
     ),
     'access mediacommons dashboard' => array(
       'title' => t('Access mediacommons dashboard'),
-      'description' => t(''),
+      'description' => t('Access mediacommons dashboard'),
     ),
     'promote users role' => array(
       'title' => t('Promote authenticaded user'),
       'description' => t('User is allow to promote authenticaded users to contributor role'),
     ),
-
   );
 }
 
@@ -675,15 +673,13 @@ function mediacommons_editorialworkflow_user_update(&$edit, $account, $category)
   //dpm(__FUNCTION__);
   //dpm($edit);
   //dpm($account);
-  //dpm($category);  
-  /**
-  db_insert('user_changes')
-    ->fields(array(
-      'uid' => $account->uid,
-      'changed' => time(),
-    ))
-    ->execute();
-  */
+  //dpm($category);
+  //db_insert('user_changes')
+  //  ->fields(array(
+  //    'uid' => $account->uid,
+  //    'changed' => time(),
+  //  ))
+  //  ->execute();
 }
 
 /**
@@ -719,7 +715,7 @@ function mediacommons_editorialworkflow_menu_alter(&$items) {
       switch ($path) {
         case 'user' :
         case 'user/login' :
-        case 'user/register' :                        
+        case 'user/register' :
         case 'user/password' :
         case 'user/reset/%/%/%' :
         case 'user/logout' :
@@ -733,10 +729,10 @@ function mediacommons_editorialworkflow_menu_alter(&$items) {
         case 'user/%user/devel/load' :
         case 'user/%user/devel/render' :
         case 'admin/people/permissions/roles/edit/%user_role' :
-        case 'admin/people/permissions/roles/delete/%user_role' :        
+        case 'admin/people/permissions/roles/delete/%user_role' :
           $items[$path]['options']['alter'] = TRUE;
           $items[$path]['page callback'] = 'mediacommons_editorialworkflow_userpath';
-          break;      
+          break;
       }
     }
     unset($matches);

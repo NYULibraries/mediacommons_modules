@@ -1,5 +1,3 @@
 <?php
 
-function mediacommons_editorialworkflow_install() {
-  
-}
+//function mediacommons_editorialworkflow_install() {}
