@@ -4,7 +4,7 @@ function mediacommons_editorialworkflow_theme_registry_alter(&$theme_registry) {
   $project = variable_get('mediacommons_project', 'mediacommons');
   if ($project === 'mediacommons') return;
   $theme_registry['link']['function'] = 'mediacommons_editorialworkflow_link';
-  // do we want to unset gravatar_preprocess_user_picture, we are taking over that function ...
+  // do we want to unset gravatar_preprocess_user_picture, we are taking over that function ... 
   $theme_registry['user_picture']['preprocess functions'][] = 'mediacommons_editorialworkflow_user_picture';
 }
 
@@ -710,9 +710,10 @@ function mediacommons_editorialworkflow_menu_alter(&$items) {
   $project = variable_get('mediacommons_project', 'mediacommons');
   if ($project === 'mediacommons') return;
   foreach ($items as $path => $item) {
-    preg_match('/(user)/', $path, $matches, PREG_OFFSET_CAPTURE);
+    preg_match('/(user)|(users)/', $path, $matches, PREG_OFFSET_CAPTURE);
     if ($matches) {
       switch ($path) {
+        case 'users' :
         case 'user' :
         case 'user/login' :
         case 'user/register' :
@@ -757,3 +758,16 @@ function mediacommons_editorialworkflow_views_data_alter(&$data) {
   if ($project === 'mediacommons') return;
   $data['users']['picture']['field']['handler'] = 'mediacommons_user_picture_handler';
 }
+
+/**
+ * Make sure we are the last one running hook_menu_alter
+ * If we don't do this; other modules (e.g., Views /users)
+ * can alter our routes
+ */
+function mediacommons_editorialworkflow_module_implements_alter(&$module_list, $context){
+  if ($context === 'menu_alter') {
+    unset($module_list['mediacommons_editorialworkflow']);
+    $module_list['mediacommons_editorialworkflow'] = '';
+  } 
+}
+
