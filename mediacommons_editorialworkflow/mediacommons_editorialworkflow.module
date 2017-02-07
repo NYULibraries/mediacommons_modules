@@ -31,7 +31,7 @@ function _mediacommons_editorialworkflow_load_account($account) {
   if ($account->uid > 0) {
     $result = db_select('mediacommons_base_import_user_map', 'u')->fields('u', array('filename'))->condition('uid', $account->uid)->execute()->fetchField();
     if ($result && $result !== '0') {
-      $umbrella_url = variable_get('mediacommons_umbrella_url', '');
+      $umbrella_url = mediacommons_homepage_umbrella_url();
       $account->picture = (object) array();
       $account->picture->uri = $umbrella_url . '/sites/default/files/styles/profile_page_pic/public/pictures/' . $result;
     }
@@ -698,7 +698,7 @@ function mediacommons_editorialworkflow_userpath() {
   $project = variable_get('mediacommons_project', 'mediacommons');
   if ($project === 'mediacommons') return;
   $item = menu_get_item();
-  $umbrella_url = variable_get('mediacommons_umbrella_url', 'http://localhost:8000/mediacommons');
+  $umbrella_url = mediacommons_homepage_umbrella_url();
   $umbrella =  $umbrella_url . '/' . implode('/', $item['original_map']);
   $http_response_code = 302;
   $url = url($umbrella, array('query' => array('project' => $project, 'destination' => implode('/', $item['original_map']))));
@@ -743,7 +743,7 @@ function mediacommons_editorialworkflow_menu_alter(&$items) {
 function mediacommons_editorialworkflow_link($item) {
   $project = variable_get('mediacommons_project', 'mediacommons');
   if ($project === 'mediacommons') return;
-  $umbrella_url = variable_get('mediacommons_umbrella_url', 'http://localhost:8000/mediacommons');
+  $umbrella_url = mediacommons_homepage_umbrella_url();
   preg_match('/(user)/', $item['path'], $matches, PREG_OFFSET_CAPTURE);
   if (!empty($matches)) {
     return '<a href="' . check_plain(url($umbrella_url . '/' . $item['path'], $item['options'])) . '"' . drupal_attributes($item['options']['attributes']) . '>' . ($item['options']['html'] ? $item['text'] : check_plain($item['text'])) . '</a>';
