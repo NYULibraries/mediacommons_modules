@@ -336,8 +336,22 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
-    'reviewed_by' => array(
+    'comment_count_spokes' => array(
       'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_title' => 0,
+        'title_wrapper' => '',
+        'ctools' => 'a:3:{s:4:"conf";a:1:{s:7:"context";a:1:{i:0;s:25:"argument_entity_id:node_1";}}s:4:"type";s:11:"views_panes";s:7:"subtype";s:36:"comment_count_for_spoke-panel_pane_1";}',
+        'load_terms' => 0,
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'reviewed_by' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -355,20 +369,6 @@ function mediacommons_content_types_ds_field_settings_info() {
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
-    'comment_count_spokes' => array(
-      'weight' => '8',
-      'label' => 'hidden',
-      'format' => 'default',
-      'formatter_settings' => array(
-        'show_title' => 0,
-        'title_wrapper' => '',
-        'ctools' => 'a:3:{s:4:"conf";a:1:{s:7:"context";a:1:{i:0;s:25:"argument_entity_id:node_1";}}s:4:"type";s:11:"views_panes";s:7:"subtype";s:36:"comment_count_for_spoke-panel_pane_1";}',
-        'load_terms' => 0,
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
@@ -393,7 +393,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'post_date' => array(
-      'weight' => '7',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'ds_post_date_medium_mc',
       'formatter_settings' => array(

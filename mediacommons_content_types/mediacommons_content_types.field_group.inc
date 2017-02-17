@@ -183,9 +183,10 @@ function mediacommons_content_types_field_group_info() {
     'weight' => '3',
     'children' => array(
       0 => 'field_contributors',
-      1 => 'reviewed_by',
-      2 => 'comment_count_spokes',
-      3 => 'post_date',
+      1 => 'comment_count_spokes',
+      2 => 'reviewed_by',
+      3 => 'title',
+      4 => 'post_date',
     ),
     'format_type' => 'html-element',
     'format_settings' => array(
