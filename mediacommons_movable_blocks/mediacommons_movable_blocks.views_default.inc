@@ -172,6 +172,18 @@ function mediacommons_movable_blocks_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['block_description'] = 'MC Recent Comments';
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_1');
+  $handler->display->display_options['block_description'] = 'MC Recent Comments';
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_2');
+  $handler->display->display_options['block_description'] = 'MC Recent Comments';
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_3');
+  $handler->display->display_options['block_description'] = 'MC Recent Comments';
   $export['mc_recent_comments'] = $view;
 
   $view = new view();
