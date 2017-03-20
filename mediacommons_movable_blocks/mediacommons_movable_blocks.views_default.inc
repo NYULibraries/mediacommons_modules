@@ -83,7 +83,7 @@ function mediacommons_movable_blocks_views_default_views() {
 
   $view = new view();
   $view->name = 'mc_recent_comments';
-  $view->description = 'Contains a block and a page to list recent comments; the block will automatically link to the page, which displays the comment body as well as a link to the node.';
+  $view->description = 'Displays the comment body as well as a link to the node.';
   $view->tag = 'default';
   $view->base_table = 'comment';
   $view->human_name = 'MC Recent Comments';
@@ -128,14 +128,6 @@ function mediacommons_movable_blocks_views_default_views() {
   $handler->display->display_options['fields']['subject']['table'] = 'comment';
   $handler->display->display_options['fields']['subject']['field'] = 'subject';
   $handler->display->display_options['fields']['subject']['label'] = '';
-  /* Field: User: Picture */
-  $handler->display->display_options['fields']['picture']['id'] = 'picture';
-  $handler->display->display_options['fields']['picture']['table'] = 'users';
-  $handler->display->display_options['fields']['picture']['field'] = 'picture';
-  $handler->display->display_options['fields']['picture']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['picture']['label'] = '';
-  $handler->display->display_options['fields']['picture']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['picture']['image_style'] = 'profile_pic_small';
   /* Field: Comment: Author */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'comment';
