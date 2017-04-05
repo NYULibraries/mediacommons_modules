@@ -500,47 +500,44 @@ function mediacommons_editorialworkflow_node_presave($node) {
 function mediacommons_editorialworkflow_add_assets() {
 	$module_path = drupal_get_path('module', 'mediacommons_editorialworkflow');
   drupal_add_css($module_path . '/mediacommons_editorialworkflow.css', 'module');
-  drupal_add_js($module_path . '/js/mediacommons_editorialworkflow.js', array('type' => 'file', 'group' => JS_DEFAULT,));
+  drupal_add_js($module_path . '/js/mediacommons_editorialworkflow.js', array('type' => 'file', 'group' => JS_DEFAULT));
 }
 
 function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_state, $form_id) {
-
   global $user;
-
-  $node_exist = false;
-
-  // node exist
-  if (isset($form['#node']->nid)) {
-    $node_exist = true;
-  }
-
-  if (isset($user->contribute['contributor'])) {
-
+  $entity_owner = $form['#node']->name;
+  $username = $user->name;
+  if (isset($user->contribute['contributor']) || $entity_owner == $username) { // add entity_owner to "contributor"
     /** Add CSS and JS files */
 	  mediacommons_editorialworkflow_add_assets();
-
-		drupal_set_message(t('Contributing as @contributor.', array('@contributor' => $user->contribute['role'])), 'status');
-
     $field = field_get_items('node', $form['#node'], 'field_type');
-
     if (isset($field[0])) {
       switch ($field[0]['value']) {
         case 0 :
           $form['#attributes']['class'][] = 'node-hub-type-video';
           break;
-
         case 1 :
           $form['#attributes']['class'][] = 'node-hub-type-image';
           break;
       }
 	  }
-    else {
-      if ($node_exist) {
-        drupal_set_message(t('You are not allow to edit @title. If you are the editor of this hub ask the managing editor to add you as an editor.', array('@title' => $user->contribute['current_title'])), 'warning');
-      }
-    }
   }
-
+  // if the user is not the owner and not listed as a contributor in the node
+  else {
+      // node exist?
+      if (isset($form['#node']->nid)) {
+        if ($user->uid != 1) {
+          // https://jira.nyu.edu/jira/browse/MC-249
+          drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes.', array('@title' => $form['#node']->title)), 'warning');
+          // 403 Forbidden
+          // The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+          $url = url('user/' . $user->uid, array(), TRUE, 403);
+          // Do we really want to do this? I need to clarify the story
+          header('Location: ' . $url);
+          drupal_exit($url);
+        }
+      }
+  }  
 }
 
 function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {
@@ -556,14 +553,19 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
   /** node exist */
   if (isset($form['#node']->nid)) {
     /** contributor is allow to edit node */
+    
     if (isset($user->contribute['contributor'])) {
       $form['#attributes']['class'][] = $user->contribute['role'];
       $message = t('Contributing as @contributor.', array('@contributor' => $user->contribute['role']));
     }
+    
     /** user is not allow to edit node */
     else {
+    
       $message = t('You are not allow to edit @title. If you are a contributor to this piece ask the primary author to add you as an additional author.', array('@title' => $user->contribute['current_title']));
+      
     }
+    
     /** set message */
     drupal_set_message($message, 'warning');
   }
