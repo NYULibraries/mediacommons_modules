@@ -21,23 +21,23 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
       'mediacommons' => array(
         'region' => 'homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => -1,
+        'weight' => -25,
       ),
       'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
         'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => 'content',
+        'status' => 1,
+        'theme' => 'rubik',
+        'weight' => -1,
       ),
       'zen' => array(
         'region' => '',
@@ -59,23 +59,23 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -16,
       ),
       'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
         'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'rubik',
+        'weight' => -16,
       ),
       'zen' => array(
         'region' => '',
@@ -97,12 +97,6 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
       'mediacommons' => array(
         'region' => 'sidebar_first',
         'status' => 1,
@@ -113,6 +107,12 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => 'content',
+        'status' => 1,
+        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -135,12 +135,6 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
       'mediacommons' => array(
         'region' => 'sidebar_first',
         'status' => 1,
@@ -151,6 +145,126 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => 'content',
+        'status' => 1,
+        'theme' => 'rubik',
+        'weight' => 2,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['views-mc_recent_comments-block_1'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'mc_recent_comments-block_1',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'mediacommons' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons',
+        'weight' => 0,
+      ),
+      'mediacommons_admin' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['views-mc_recent_comments-block_2'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'mc_recent_comments-block_2',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'mediacommons' => array(
+        'region' => 'homepage_sidebar',
+        'status' => 1,
+        'theme' => 'mediacommons',
+        'weight' => -22,
+      ),
+      'mediacommons_admin' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'rubik',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['views-mc_recent_comments-block_3'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'mc_recent_comments-block_3',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'mediacommons' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons',
+        'weight' => 0,
+      ),
+      'mediacommons_admin' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -173,23 +287,23 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
       'mediacommons' => array(
         'region' => 'homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 2,
+        'weight' => -24,
       ),
       'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
         'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => 'content',
+        'status' => 1,
+        'theme' => 'rubik',
+        'weight' => 2,
       ),
       'zen' => array(
         'region' => '',
@@ -211,12 +325,6 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
       'mediacommons' => array(
         'region' => 'sidebar_tagpages',
         'status' => 1,
@@ -227,6 +335,12 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => 'content',
+        'status' => 1,
+        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -249,23 +363,23 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
       'mediacommons' => array(
         'region' => 'homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 3,
+        'weight' => -23,
       ),
       'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
         'weight' => 0,
+      ),
+      'rubik' => array(
+        'region' => 'content',
+        'status' => 1,
+        'theme' => 'rubik',
+        'weight' => 3,
       ),
       'zen' => array(
         'region' => '',

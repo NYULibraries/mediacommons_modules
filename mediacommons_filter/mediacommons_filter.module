@@ -4,13 +4,12 @@
  * @file
  * Module file for mediacommons_filter.
  */
-
 function mediacommons_filter_permission ( ) {
 	return array (
-			'administer mediacommons filters' => array(
-					'title' => t('Administer allowed external sources widget'),
-					'description' => t('Allow external sources in iframes'),
-			),
+	  'administer mediacommons filters' => array(
+			'title' => t('Administer allowed external sources widget'),
+			'description' => t('Allow external sources in iframes'),
+		),
 	);
 }
 
@@ -18,9 +17,7 @@ function mediacommons_filter_permission ( ) {
  * Implements hook_menu().
  */
 function mediacommons_filter_menu ( ) {
-
-  $items = array () ;
-
+  $items = array ();
   $items['admin/people/external-sources'] = array (
     'title' => 'Filter iframe',
     'description' => t('Provides an extended Image Field for displaying.'),
@@ -29,9 +26,7 @@ function mediacommons_filter_menu ( ) {
     'access arguments' => array ( 'administer mediacommons filters' ),
     'file' => 'mediacommons_filter.admin.inc',
   );
-
   return $items;
-
 }
 
 /**
@@ -72,34 +67,27 @@ function mediacommons_filter_filter_info() {
  * @return
  *   An array of domains.
  */
-function mediacommons_filter_get_allowed_domains ( ) {
+function mediacommons_filter_get_allowed_domains() {
 
-	$cache = cache_get('domains', 'cache_mediacommons_filter') ;
+	$cache = cache_get('domains', 'cache_mediacommons_filter');
 
-	$domains = array ( ) ;
+	$domains = array();
 
-	if ( $cache && ! empty ( $cache->data ) ) {
-    $domains = $cache->data ;
+	if ($cache && ! empty($cache->data)) {
+    $domains = $cache->data;
   }
-
   else {
-
     $result = db_query("SELECT * FROM {mediacommons_filter} ORDER BY domain");
-
     while ( $domain = $result->fetchAssoc() ) {
       $domains[] = $domain['domain'] ;
     }
-
-    cache_set('domains', $domains, 'cache_mediacommons_filter' , CACHE_TEMPORARY ) ;
-
+    cache_set('domains', $domains, 'cache_mediacommons_filter' , CACHE_TEMPORARY);
   }
-
   return $domains;
-
 }
 
-function mediacommons_filter_flush_caches (  ) {
-	return array ( 'cache_mediacommons_filter' ) ;
+function mediacommons_filter_flush_caches() {
+	return array('cache_mediacommons_filter');
 }
 
 /**
@@ -165,26 +153,24 @@ function _filter_iframe_tips($filter, $format, $long = FALSE) {
 }
 
 function mediacommons_filter_form_alter(&$form, &$form_state, $form_id) {
-
-	if ( isset ( $form_state['node'] ) ) {
+	if (isset($form_state['node'])) {
 		$form['actions']['submit']['#validate'][] = 'mediacommons_filter_node_validate_handler';
 	}
-
 }
 
 function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
 
-  if ( ! isset ( $form_state['node'] ) ) return TRUE ;
+  if (!isset($form_state['node'])) return TRUE;
 
-  include_once ( libraries_get_path('simplehtmldom') . '/simple_html_dom.php' );
+  include_once(libraries_get_path('simplehtmldom') . '/simple_html_dom.php');
 
   $node = $form_state['values'];
 
-  $allowed_domains = mediacommons_filter_get_allowed_domains ( ) ;
+  $allowed_domains = mediacommons_filter_get_allowed_domains();
 
   $fields = field_info_instances('node', $node['type'] );
 
-  foreach ( $fields as $key => $field ) {
+  foreach ($fields as $key => $field) {
     $field_info_instance = field_info_instance($field['entity_type'], $field['field_name'], $field['bundle']) ;
     if ( $field_info_instance['widget']['module'] === 'text') {
       $this_field = $node[$key];

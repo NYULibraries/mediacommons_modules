@@ -4,18 +4,38 @@
  * Module file for mediacommons_block.
  */
 
+function mediacommons_blocks_menu() {
+  $items = array();
+  $items['admin/structure/mcblock/add'] = array(
+    'title' => 'Add block',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('block_add_block_form'),
+    'access arguments' => array('access content'), // array('administer blocks'),
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'block.admin.inc',
+  );
+  return $items;
+}
+
 /**
  * Implements hook_block_info().
  *
  * This hook declares what blocks are provided by the module.
  */
 function mediacommons_blocks_block_info() {
+  $blocks = array();
+  foreach (mediacommons_blocks_blocks() as $block) {
+    $blocks['mbid' . $block->mbid] = array(
+      'info' => 'Mediacommons Bocks: ' . $block->label,
+      'cache' => DRUPAL_NO_CACHE,
+    );
+  }
   $blocks['mc_footer'] = array(
     'info' => t('MediaCommons default footer'),
   );
   $blocks['mc_fieldguide'] = array(
   	'info' => t('MediaCommons: Field Guide Survey Question'),
-    'region' => 'umb_homepage_sidebar',
+    'cache' => DRUPAL_NO_CACHE
   );
   return $blocks;
 }
@@ -26,7 +46,8 @@ function mediacommons_blocks_block_info() {
  * This hook generates the contents of the blocks themselves.
  */
 function mediacommons_blocks_block_view($delta = '') {
-  //The $delta parameter tells us which block is being requested.
+  $block = array();
+  // The $delta parameter tells us which block is being requested.
   switch ($delta) {
     case 'mc_footer' :
       $block['subject'] = t('MediaCommons default footer');
@@ -34,97 +55,24 @@ function mediacommons_blocks_block_view($delta = '') {
       break;
     case 'mc_fieldguide' :
       $block['subject'] = t('Field Guide Survey Question');
-      $block['content'] = mediacommons_blocks_mc_fieldguide();
+      $block['content'] ='';
       break;
   }
-  return $block;
-}
 
-function mediacommons_blocks_mc_fieldguide() {
-	// @TODO: this might be a BAD idea. Look into a way to do this using Views module (aof1)
-	global $databases;
-	if (isset($databases['fieldguide'])) {
-		$items = array();
-	  /** Create a database connection to the source (fieldguide) database */
-	  $db = Database::getConnection('default','fieldguide');
-	  $hubs = $db->query("SELECT nid, title FROM {node} WHERE status = :status AND type = :type ORDER BY nid DESC LIMIT 1", array(':status' => 1, ':type' => 'hub'))->fetchAll();
-	  $spokes = $db->query("SELECT r.title, n.uid, n.nid, MAX(n.vid) AS vid FROM node n LEFT JOIN node_revision r ON r.vid = n.vid LEFT JOIN field_revision_field_part_of s ON s.revision_id = n.vid WHERE s.field_part_of_nid = :nid GROUP BY r.nid ORDER BY s.delta ASC", array(':nid' => $hubs[0]->nid))->fetchAll();
-	  foreach($spokes as $key => $spoke) {
-		  $alias = $db->query("SELECT alias FROM {url_alias} WHERE source = :source ORDER BY pid DESC", array(':source' => 'node/' . $spoke->nid))->fetchField();
-		  $spokes[$key]->user = user_load($spoke->uid);
-		  $items[$key] = array(
-		  	'data' => t('<a href="@url">@title</a>', array('@url' => url('/fieldguide/' . $alias, array('external'=> true)), '@title' => $spoke->title)),
-		  	'class' => array('item'),
-		  );
-	  }
-    //  . 
-	  return theme_item_list(array('items' => $items, 'title' => $hubs[0]->title, 'type' => 'ul', 'attributes' => array('class' => 'fieldguide_toc')));
-	} else {
-    $placeholderHTML = '';
-    $placeholderHTML .= '<h1 class="hub-title"><a href="#">Placeholder: What opportunities are available to influence the way algorithms are programmed, written, executed, and trusted?</a></h1>';
-    $placeholderHTML .= '<div class="spokes">';
-    $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Curator Introduction: Organisms in a World of Algorithms</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-      $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Another Spoke Title</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-    ///
-     $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Another Spoke Title</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-    ///
-     $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Another Spoke Title</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-    //
-     $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Another Spoke Title</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-    //
-         $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Another Spoke Title</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-    //
-         $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Another Spoke Title</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-    //
-         $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Another Spoke Title</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-    //
-         $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Another Spoke Title</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-    //
-         $placeholderHTML .= '<div class="ds-1col node node-spoke node-teaser view-mode-teaser clearfix"> <h2 class="spoke-title"><a href="#">Another Spoke Title</a></h2> ';
-    $placeholderHTML .= '<div class="spoke-teaser-meta"><div class="peoplelist">By <span><a href="/fieldguide/users/daniel-hocutt">Daniel Hocutt</a></span> </div><time>November 16, 2015</time>';
-    //$placeholderHTML .= '<div class="comment-count"><a href="http://localhost/fieldguide/question/what-opportunities-are-available-influence-way-algorithms-are-programmed-written-executed-2#comments" title="1 comment">1 comment</a></div>';
-    $placeholderHTML .='</div>';
-    $placeholderHTML .= '</div>';
-    //
-    $placeholderHTML .= '</div>';
-    return $placeholderHTML;
- }
+  if ($delta) {
+    preg_match('/(mbid)([0-1])/', $delta, $matches);
+    if (isset($matches) && isset($matches[2])) {
+      $mbid = $matches[2];
+      $data = mediacommons_blocks_block_load($mbid);
+      if ($data) {
+        $block['subject'] = $data->label;
+        $block['content'] = $data->content;
+      }
+    }
+  }
+
+  return $block;
+
 }
 
 /**
@@ -146,23 +94,287 @@ function mediacommons_blocks_block_configure($delta = '') {
   return $form;
 }
 
-function mediacommons_blocks_preprocess_block(&$variables) {
-  if ($variables['block_html_id'] == 'block-mediacommons-blocks-mc-fieldguide') {
-  	$variables['classes_array'][] = 'fieldguide_toc';
-  }
-}
-
 /**
  * A module-defined block content function.
  */
 function mediacommons_blocks_contents($which_block) {
   switch ($which_block) {
     case 'mc_footer':
-      $block_content = '
-        <div>' . variable_get('mc_footer_project_name',  t('A MediaCommons Project')) . '</div>
-        <div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>
-      ';
+      $block_content = '<div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>';
       return array('#markup' => $block_content);
       break;
   }
+}
+
+function mediacommons_blocks_update_block($mbid = null) {
+
+  if ($mbid) {
+    $blocks = mediacommons_blocks_block($mbid);
+  }
+  else {
+    $blocks = mediacommons_blocks_blocks();
+  }
+
+  foreach ($blocks as $block) {
+    $data = unserialize($block->config);
+    switch ($data['type']) {
+      case 'source' :
+        // if source we need URL
+        if (isset($data['url'])) {
+          $url = check_url($data['url']);
+          $request = drupal_http_request($url);
+          if ($request->status_message) {
+            $status_message = strtolower(check_plain($request->status_message));
+            if ($status_message == 'ok') {
+              $text = check_markup($request->data, 'full_html');
+              $updated = db_update('mediacommons_blocks_blocks')
+                ->fields(array(
+                  'content' => $text,
+                  'proceed' => REQUEST_TIME,
+                ))
+                ->condition('mbid', $block->mbid, '=')
+                ->execute();
+              if ($updated) {
+                drupal_set_message('Update');
+              }
+            }
+          }
+        }
+        break;
+    }
+  }
+}
+
+function mediacommons_blocks_blocks() {
+  $query = db_query('SELECT * FROM {mediacommons_blocks_blocks}');
+  $result = $query->fetchAll();
+  $blocks = array();
+  foreach ($result as $record) {
+    $blocks[] = $record;
+  }
+  return $blocks;
+}
+
+function mediacommons_blocks_block_load($mbid) {
+  $query = db_query('SELECT * FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid', array(':mbid' => $mbid));
+  return $query->fetchObject();
+}
+
+ // block_admin_configure($form, $form_state, 'block', NULL);
+
+/**
+ * Form constructor for the block configuration form.
+ *
+ * Also used by block_add_block_form() for adding a new custom block.
+ *
+ * @param $module
+ *   Name of the module that implements the block to be configured.
+ * @param $delta
+ *   Unique ID of the block within the context of $module.
+ *
+ * @see block_admin_configure_validate()
+ * @see block_admin_configure_submit()
+ * @ingroup forms
+ */
+function mediacommons_blocks_admin_configure($form, &$form_state, $delta) {
+
+  $block = mediacommons_blocks_block($delta);
+
+  $form['module'] = array(
+    '#type' => 'value',
+    '#value' => $block->module,
+  );
+
+  $form['delta'] = array(
+    '#type' => 'value',
+    '#value' => $block->delta,
+  );
+
+  // Get the block subject for the page title.
+  $info = module_invoke($block->module, 'block_info');
+
+  if (isset($info[$block->delta])) {
+    drupal_set_title(t("'%name' block", array('%name' => $info[$block->delta]['info'])), PASS_THROUGH);
+  }
+
+  $form['settings']['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Block title'),
+    '#maxlength' => 255,
+    '#description' => $block->module == 'block' ? t('The title of the block as shown to the user.') : t('Override the default title for the block. Use <em>!placeholder</em> to display no title, or leave blank to use the default block title.', array('!placeholder' => '&lt;none&gt;')),
+    '#default_value' => isset($block->title) ? $block->title : '',
+    '#weight' => -19,
+  );
+
+  // Module-specific block configuration.
+  if ($settings = module_invoke($block->module, 'block_configure', $block->delta)) {
+    foreach ($settings as $k => $v) {
+      $form['settings'][$k] = $v;
+    }
+  }
+
+  // Region settings.
+  $form['regions'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Region settings'),
+    '#collapsible' => FALSE,
+    '#description' => t('Specify in which themes and regions this block is displayed.'),
+    '#tree' => TRUE,
+  );
+
+  $theme_default = variable_get('theme_default', 'bartik');
+  $admin_theme = variable_get('admin_theme');
+  foreach (list_themes() as $key => $theme) {
+    // Only display enabled themes
+    if ($theme->status) {
+      $region = db_query("SELECT region FROM {block} WHERE module = :module AND delta = :delta AND theme = :theme", array(
+        ':module' => $block->module,
+        ':delta' => $block->delta,
+        ':theme' => $key,
+      ))->fetchField();
+
+      // Use a meaningful title for the main site theme and administrative
+      // theme.
+      $theme_title = $theme->info['name'];
+      if ($key == $theme_default) {
+        $theme_title = t('!theme (default theme)', array('!theme' => $theme_title));
+      }
+      elseif ($admin_theme && $key == $admin_theme) {
+        $theme_title = t('!theme (administration theme)', array('!theme' => $theme_title));
+      }
+      $form['regions'][$key] = array(
+        '#type' => 'select',
+        '#title' => $theme_title,
+        '#default_value' => !empty($region) && $region != -1 ? $region : NULL,
+        '#empty_value' => BLOCK_REGION_NONE,
+        '#options' => system_region_list($key, REGIONS_VISIBLE),
+        '#weight' => ($key == $theme_default ? 9 : 10),
+      );
+    }
+  }
+
+  // Visibility settings.
+  $form['visibility_title'] = array(
+    '#type' => 'item',
+    '#title' => t('Visibility settings'),
+  );
+  $form['visibility'] = array(
+    '#type' => 'vertical_tabs',
+    '#attached' => array(
+      'js' => array(drupal_get_path('module', 'block') . '/block.js'),
+    ),
+  );
+
+  // Per-path visibility.
+  $form['visibility']['path'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Pages'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#group' => 'visibility',
+    '#weight' => 0,
+  );
+
+  $access = user_access('use PHP for settings');
+  if (isset($block->visibility) && $block->visibility == BLOCK_VISIBILITY_PHP && !$access) {
+    $form['visibility']['path']['visibility'] = array(
+      '#type' => 'value',
+      '#value' => BLOCK_VISIBILITY_PHP,
+    );
+    $form['visibility']['path']['pages'] = array(
+      '#type' => 'value',
+      '#value' => isset($block->pages) ? $block->pages : '',
+    );
+  }
+  else {
+    $options = array(
+      BLOCK_VISIBILITY_NOTLISTED => t('All pages except those listed'),
+      BLOCK_VISIBILITY_LISTED => t('Only the listed pages'),
+    );
+    $description = t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>'));
+
+    if (module_exists('php') && $access) {
+      $options += array(BLOCK_VISIBILITY_PHP => t('Pages on which this PHP code returns <code>TRUE</code> (experts only)'));
+      $title = t('Pages or PHP code');
+      $description .= ' ' . t('If the PHP option is chosen, enter PHP code between %php. Note that executing incorrect PHP code can break your Drupal site.', array('%php' => '<?php ?>'));
+    }
+    else {
+      $title = t('Pages');
+    }
+    $form['visibility']['path']['visibility'] = array(
+      '#type' => 'radios',
+      '#title' => t('Show block on specific pages'),
+      '#options' => $options,
+      '#default_value' => isset($block->visibility) ? $block->visibility : BLOCK_VISIBILITY_NOTLISTED,
+    );
+    $form['visibility']['path']['pages'] = array(
+      '#type' => 'textarea',
+      '#title' => '<span class="element-invisible">' . $title . '</span>',
+      '#default_value' => isset($block->pages) ? $block->pages : '',
+      '#description' => $description,
+    );
+  }
+
+  // Per-role visibility.
+  $default_role_options = db_query("SELECT rid FROM {block_role} WHERE module = :module AND delta = :delta", array(
+    ':module' => $block->module,
+    ':delta' => $block->delta,
+  ))->fetchCol();
+
+  $role_options = array_map('check_plain', user_roles());
+
+  $form['visibility']['role'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Roles'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#group' => 'visibility',
+    '#weight' => 10,
+  );
+
+  $form['visibility']['role']['roles'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Show block for specific roles'),
+    '#default_value' => $default_role_options,
+    '#options' => $role_options,
+    '#description' => t('Show this block only for the selected role(s). If you select no roles, the block will be visible to all users.'),
+  );
+
+  // Per-user visibility.
+  $form['visibility']['user'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Users'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#group' => 'visibility',
+    '#weight' => 20,
+  );
+  $form['visibility']['user']['custom'] = array(
+    '#type' => 'radios',
+    '#title' => t('Customizable per user'),
+    '#options' => array(
+      BLOCK_CUSTOM_FIXED => t('Not customizable'),
+      BLOCK_CUSTOM_ENABLED => t('Customizable, visible by default'),
+      BLOCK_CUSTOM_DISABLED => t('Customizable, hidden by default'),
+    ),
+    '#description' => t('Allow individual users to customize the visibility of this block in their account settings.'),
+    '#default_value' => isset($block->custom) ? $block->custom : BLOCK_CUSTOM_FIXED,
+  );
+
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save block'),
+  );
+
+  return $form;
+}
+
+function mediacommons_blocks_list_types() {
+  return array(
+    0 => 'plaintext', // plaint text
+    1 => 'fulltext', // HTML
+    2 => 'source', // URL
+    3 => 'callback', // function to call
+  );
 }

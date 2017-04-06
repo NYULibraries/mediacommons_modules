@@ -1,0 +1,127 @@
+<?php
+
+/**
+ * @file
+ * Module file for mediacommons_twitter.
+ */
+
+/**
+ * Implements hook_menu().
+ *
+ * Provides a default page to explain what this module does.
+ */
+function mediacommons_twitter_menu() {
+  $items['tweets'] = array(
+    'page callback' => 'mediacommons_twitter_page',
+    'access callback' => TRUE,
+    'title' => 'Tweets',
+  );
+  return $items;
+}
+
+/**
+ * Simple page function to explain what the block example is about.
+ */
+function mediacommons_twitter_page() {
+  return mediacommons_twitter_content();
+}
+/**
+ * Implements hook_block_info().
+ *
+ * This hook declares what blocks are provided by the module.
+ */
+function mediacommons_twitter_block_info() {
+  $blocks['mediacommons_twitter'] = array(
+    'info' => t('MediaCommons: Twitter block'),
+    'cache' => DRUPAL_CACHE_PER_ROLE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ *
+ * This hook declares configuration options for blocks provided by this module.
+ */
+function mediacommons_twitter_block_configure($delta = '') {
+  $form = array();
+  if ($delta == 'mediacommons_twitter') {
+    $form['mediacommons_twitter_label'] = array(
+      '#type' => 'textfield',
+      '#title' => t('MediaCommons: Link label'),
+      '#size' => 60,
+      '#description' => t('Link label'),
+      '#default_value' => variable_get('mediacommons_twitter_label', ''),
+    );
+
+    $form['mediacommons_twitter_user'] = array(
+      '#type' => 'textfield',
+      '#title' => t('MediaCommons: Twitter block'),
+      '#size' => 60,
+      '#description' => t('Twitter username'),
+      '#default_value' => variable_get('mediacommons_twitter_user', ''),
+    );    
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ *
+ * This hook declares how the configured options for a block
+ * provided by this module are saved.
+ */
+function mediacommons_twitter_block_save($delta = '', $edit = array()) {
+  if ($delta == 'mediacommons_twitter') {
+    variable_set('mediacommons_twitter_user', $edit['mediacommons_twitter_user']);
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function mediacommons_twitter_block_view($delta = '') {
+  // The $delta parameter tells us which block is being requested.
+  switch ($delta) {
+    case 'mediacommons_twitter':
+      $block['subject'] = t('MediaCommons: Twitter block');
+      $block['content'] = mediacommons_twitter_content();
+      break;
+  }
+  return $block;
+}
+
+/**
+ * A module-defined block content function.
+ */
+function mediacommons_twitter_content() {
+
+  // https://dev.twitter.com/web/embedded-timelines/parameters
+
+  $output = '';
+
+  $username = variable_get('mediacommons_twitter_user', null);
+  
+  if (!is_null($username)) {
+    $attibutes_string = '';
+
+    $script = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+
+    $label = variable_get('mediacommons_twitter_label', '&nbsp;');
+
+    $attibutes = array(
+      'data-height' => '600',
+      'data-theme' => 'dark',
+      'href' => 'https://twitter.com/' . $username,
+    );
+    foreach ($attibutes as $key => $attibute) {
+      $attibutes_string .= ' ' . $key . '="' . $attibute . '"';
+    }
+    $output = '<a class="twitter-timeline"' . $attibutes_string . '>' . $label . '</a>' . $script;
+  }
+
+  return array('#markup' => $output);
+
+}

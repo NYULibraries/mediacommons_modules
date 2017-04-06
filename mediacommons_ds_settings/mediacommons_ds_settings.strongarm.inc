@@ -125,6 +125,12 @@ function mediacommons_ds_settings_strongarm() {
       'hub_home_vertical' => array(
         'custom_settings' => TRUE,
       ),
+      'hub_home_for_imr' => array(
+        'custom_settings' => TRUE,
+      ),
+      'full_intransition' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
