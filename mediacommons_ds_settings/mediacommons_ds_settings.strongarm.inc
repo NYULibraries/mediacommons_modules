@@ -138,7 +138,7 @@ function mediacommons_ds_settings_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '1',
+          'weight' => '4',
         ),
       ),
       'display' => array(),
