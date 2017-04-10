@@ -62,6 +62,7 @@ function mediacommons_content_types_views_default_views() {
   $handler->display->display_options['fields']['comment_count']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['comment_count']['alter']['path'] = '[path]#comments';
   $handler->display->display_options['fields']['comment_count']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['comment_count']['alter']['trim_whitespace'] = TRUE;
   $handler->display->display_options['fields']['comment_count']['alter']['alt'] = '[comment_count] comments';
   $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['comment_count']['element_default_classes'] = FALSE;

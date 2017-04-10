@@ -60,7 +60,8 @@ function mediacommons_ds_settings_field_group_info() {
       3 => 'field_period',
       4 => 'field_representative_image',
       5 => 'field_taxonomy',
-      6 => 'title',
+      6 => 'field_image_rights',
+      7 => 'title',
     ),
     'format_type' => 'html5',
     'format_settings' => array(

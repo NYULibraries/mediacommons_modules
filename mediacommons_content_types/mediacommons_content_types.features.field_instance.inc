@@ -167,7 +167,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 6,
+        'weight' => 7,
       ),
       'hub_for_home' => array(
         'label' => 'hidden',
@@ -270,7 +270,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'hub_for_home' => array(
         'label' => 'inline',
@@ -350,7 +350,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'user_reference_autocomplete',
-      'weight' => 9,
+      'weight' => 11,
     ),
   );
 
@@ -447,7 +447,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'user_reference_autocomplete',
-      'weight' => 4,
+      'weight' => 7,
     ),
   );
 
@@ -470,7 +470,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'module' => 'user_reference',
         'settings' => array(),
         'type' => 'user_reference_default',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'hub_for_home' => array(
         'label' => 'inline',
@@ -551,7 +551,80 @@ function mediacommons_content_types_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'user_reference_autocomplete',
-      'weight' => 7,
+      'weight' => 10,
+    ),
+  );
+
+  // Exported field_instance: 'node-hub-field_image_rights'.
+  $field_instances['node-hub-field_image_rights'] = array(
+    'bundle' => 'hub',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'This will appear wherever the image is seen full-sized.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 18,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
+      ),
+      'hub_home_for_imr' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'hub_home_vertical' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
+      ),
+      'hub_teaser_compact' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'hub_teaser_for_archive_page' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => 'theme_ds_field_minimal',
+    'entity_type' => 'node',
+    'field_name' => 'field_image_rights',
+    'label' => 'Representative image: Rights and Attribution',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 3,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 3,
     ),
   );
 
@@ -587,7 +660,7 @@ function mediacommons_content_types_field_default_field_instances() {
           'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'hub_for_home' => array(
         'label' => 'hidden',
@@ -732,7 +805,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_select',
-      'weight' => 6,
+      'weight' => 9,
     ),
   );
 
@@ -828,7 +901,7 @@ function mediacommons_content_types_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 5,
+      'weight' => 8,
     ),
   );
 
@@ -987,7 +1060,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => 8,
+      'weight' => 2,
     ),
   );
 
@@ -1107,7 +1180,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'node_reference_autocomplete',
-      'weight' => 3,
+      'weight' => 6,
     ),
   );
 
@@ -1125,10 +1198,11 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 17,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 8,
       ),
       'hub_for_sidebar' => array(
         'label' => 'above',
@@ -1189,7 +1263,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 2,
+      'weight' => 5,
     ),
   );
 
@@ -2049,12 +2123,14 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Part of hub');
   t('Publication Status');
   t('Representative Image');
+  t('Representative image: Rights and Attribution');
   t('Review');
   t('Review of');
   t('Reviewer');
   t('Spokes');
   t('Start and end dates');
   t('Tags');
+  t('This will appear wherever the image is seen full-sized.');
   t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page.
 
 

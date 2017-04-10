@@ -35,7 +35,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -80,6 +80,11 @@ function mediacommons_content_types_ds_field_settings_info() {
         'ft' => array(
           'func' => 'theme_ds_field_minimal',
         ),
+      ),
+    ),
+    'field_taxonomy' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
       ),
     ),
   );
