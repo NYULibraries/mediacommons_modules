@@ -155,7 +155,8 @@ function mediacommons_content_types_field_group_info() {
       2 => 'field_curators_editors',
       3 => 'field_period',
       4 => 'field_representative_image',
-      5 => 'title',
+      5 => 'field_image_rights',
+      6 => 'title',
     ),
     'format_type' => 'html5',
     'format_settings' => array(

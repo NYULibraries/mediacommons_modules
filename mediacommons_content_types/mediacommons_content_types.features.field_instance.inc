@@ -583,10 +583,11 @@ function mediacommons_content_types_field_default_field_instances() {
         'weight' => 0,
       ),
       'hub_home_vertical' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'text_default',
+        'weight' => 2,
       ),
       'hub_teaser_compact' => array(
         'label' => 'above',
@@ -1197,11 +1198,11 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 17,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 0,
+        'weight' => 8,
       ),
       'hub_for_sidebar' => array(
         'label' => 'above',
