@@ -51,7 +51,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
   );
 
   $export['mediacommons_blocks-mc_fieldguide'] = array(
-    'cache' => 1,
+    'cache' => -1,
     'custom' => 0,
     'delta' => 'mc_fieldguide',
     'module' => 'mediacommons_blocks',
@@ -106,6 +106,44 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
       'mediacommons' => array(
         'region' => 'umb_homepage_top',
         'status' => 1,
+        'theme' => 'mediacommons',
+        'weight' => 0,
+      ),
+      'mediacommons_admin' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'mediacommons_admin',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['views-nodequeue_2-block'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'nodequeue_2-block',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'mediacommons' => array(
+        'region' => '',
+        'status' => 0,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
