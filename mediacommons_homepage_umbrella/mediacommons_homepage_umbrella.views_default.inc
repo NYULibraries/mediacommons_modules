@@ -125,7 +125,7 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
-    'homepage' => 'homepage',
+    'featured_content_for_homepage' => 'featured_content_for_homepage',
   );
   /* Field: Content: Representative Image */
   $handler->display->display_options['fields']['field_representative_image']['id'] = 'field_representative_image';
