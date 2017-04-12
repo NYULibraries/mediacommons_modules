@@ -15,7 +15,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $view->description = 'For use on homepage, for all channels';
   $view->tag = '';
   $view->base_table = 'node';
-  $view->human_name = 'Featured 6 hubs';
+  $view->human_name = 'Homepage featured hubs: for all channels';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -41,6 +41,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
     'featured_content_for_homepage' => 'featured_content_for_homepage',
+    'featured_umbrella' => 0,
   );
   /* Field: Content: Representative Image */
   $handler->display->display_options['fields']['field_representative_image']['id'] = 'field_representative_image';
@@ -159,9 +160,9 @@ function mediacommons_homepage_featured_views_default_views() {
   $view = new view();
   $view->name = 'recent_hubs_fieldguide';
   $view->description = 'For use on homepage, for FieldGuide ';
-  $view->tag = '';
+  $view->tag = 'channels, fieldguide';
   $view->base_table = 'node';
-  $view->human_name = 'Featured hubs fieldguide ';
+  $view->human_name = 'Homepage Featured hubs: fieldguide ';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -274,7 +275,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $view->description = 'For use on homepage';
   $view->tag = 'homepage ';
   $view->base_table = 'node';
-  $view->human_name = 'Single Hub Latest';
+  $view->human_name = 'Channels: Single Hub Latest';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
