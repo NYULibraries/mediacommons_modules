@@ -29,3 +29,30 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
   $document->addField('ss_project', variable_set('mediacommons_project', 'project');
   $document->addField('ss_baseurl', base_path());
 }
+
+/**
+ * This is invoked by apachesolr_search.module for each document returned in a
+ * search. This has been introduced in 6.x-beta7 as a replacement for the call
+ * to HOOK_nodeapi().
+ *
+ * @param ApacheSolrDocument $document
+ *   The ApacheSolrDocument instance.
+ * @param array $extra
+ * @param DrupalSolrQueryInterface $query
+ */
+//function mediacommons_solr_apachesolr_search_result_alter(ApacheSolrDocument $document, array &$extra, DrupalSolrQueryInterface $query) {}
+
+/**
+ * This is invoked by apachesolr_search.module for the whole resultset returned
+ * in a search.
+ *
+ * @param array $results
+ *   The returned search results.
+ * @param DrupalSolrQueryInterface $query
+ *   The query for which we want to process the results from
+ */
+//function hook_apachesolr_process_results(array &$results, DrupalSolrQueryInterface $query) {
+//  foreach ($results as $id => $result) {
+//    $results[$id]['title'] = t('[Result] !title', array('!title' => $result['title']));
+//  }
+//}
