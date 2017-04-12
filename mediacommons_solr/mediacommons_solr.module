@@ -26,7 +26,7 @@ function mediacommons_solr_apachesolr_delete_index_alter($query) {
 function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
   /** wrap node with Entity API */
   //$ewrapper = entity_metadata_wrapper('node', $entity);
-  $document->addField('ss_project', variable_set('mediacommons_project', 'project');
+  $document->addField('ss_project', variable_set('mediacommons_project', 'project'));
   $document->addField('ss_baseurl', base_path());
 }
 
