@@ -10,19 +10,27 @@
  * Set DEV Discovery as default search enviorment
  */
 function mediacommons_solr_enable() {
+
+  // environment data
+  $conf = array(
+    'env_id' => 'solr',
+    'name' => 'MediaCommons Apache Solr server',
+    'url' => 'http://localhost:8983/solr/mediacommons' // for now my local set-up
+  );
+
   // set the environment
-  // for now my local set-up
-  db_update('apachesolr_environment')->fields(array('env_id' => 'solr', 'name' => 'MediaCommons Apache Solr server', 'url' => 'http://localhost:8989/solr'))->execute();
+  db_update('apachesolr_environment')->fields($conf)->execute();
+
   // set a Apache Solr hash
-  $hash = variable_set('mediacommons_project', NULL);
-  if ($hash) {
+  if ($hash = variable_set('mediacommons_project', NULL)) {
     variable_set('apachesolr_site_hash', $hash);
   }
+
 }
 
 /**
  * Implements hook_uninstall().
  */
 function mediacommons_solr_uninstall() {
-  variable_del('apachesolr_site_hash');  
+  variable_del('apachesolr_site_hash');
 }
