@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
+ */
+// function mediacommons_solr_cron() {}
+
+/**
+ * Allows a module to modify the delete query. Only delete this site nodes from index
+ *
+ * @param string $query
+ *   Defaults to *:*
+ */
+function mediacommons_solr_apachesolr_delete_index_alter($query) {
+  $query = 'hash:' . apachesolr_site_hash();
+}
+
+/**
+ * Build the documents before sending them to Solr.
+ * The function is the follow-up for apachesolr_update_index
+ *
+ * @param integer $document_id
+ * @param array $entity
+ * @param string $entity_type
+ */
+function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
+  /** wrap node with Entity API */
+  //$ewrapper = entity_metadata_wrapper('node', $entity);
+  $document->addField('ss_project', variable_set('mediacommons_project', 'project');
+  $document->addField('ss_baseurl', base_path());
+}
