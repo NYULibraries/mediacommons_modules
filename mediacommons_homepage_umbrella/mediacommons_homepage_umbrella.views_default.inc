@@ -15,7 +15,7 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $view->description = 'Displays the item that will be prominent at the top left of the home page.  Chooses #1 in nodequeue.';
   $view->tag = 'MC umbrella home';
   $view->base_table = 'node';
-  $view->human_name = 'MC Homepage top featured';
+  $view->human_name = 'Umbrella: MC Homepage top featured';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -43,7 +43,8 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
-    'homepage' => 'homepage',
+    'featured_umbrella' => 'featured_umbrella',
+    'featured_content_for_homepage' => 0,
   );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -125,7 +126,8 @@ function mediacommons_homepage_umbrella_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
-    'featured_content_for_homepage' => 'featured_content_for_homepage',
+    'featured_umbrella' => 'featured_umbrella',
+    'featured_content_for_homepage' => 0,
   );
   /* Field: Content: Representative Image */
   $handler->display->display_options['fields']['field_representative_image']['id'] = 'field_representative_image';

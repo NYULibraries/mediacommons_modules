@@ -32,14 +32,14 @@ function mediacommons_homepage_umbrella_views_api($module = NULL, $api = NULL) {
 function mediacommons_homepage_umbrella_fe_nodequeue_export_fields() {
   $nodequeues = array();
 
-  // Exported nodequeues: featured_content_for_homepage
-  $nodequeues['featured_content_for_homepage'] = array(
-    'name' => 'featured_content_for_homepage',
-    'title' => 'Featured Content for Homepage',
+  // Exported nodequeues: featured_umbrella
+  $nodequeues['featured_umbrella'] = array(
+    'name' => 'featured_umbrella',
+    'title' => 'Featured Content for Homepage: Umbrella',
     'subqueue_title' => '',
-    'size' => 6,
-    'link' => 'Add to Featured Content for Homepage',
-    'link_remove' => 'Remove from Homepage',
+    'size' => 12,
+    'link' => 'Add to homepage queue',
+    'link_remove' => 'Remove from homepage queue ',
     'owner' => 'nodequeue',
     'show_in_ui' => 1,
     'show_in_tab' => 1,
@@ -50,7 +50,7 @@ function mediacommons_homepage_umbrella_fe_nodequeue_export_fields() {
     'i18n' => 0,
     'subqueues' => 1,
     'types' => array(
-      0 => 'hub',
+      0 => 'front_page_post',
     ),
     'roles' => array(),
     'count' => 0,
