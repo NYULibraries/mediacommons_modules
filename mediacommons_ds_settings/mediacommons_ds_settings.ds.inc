@@ -586,6 +586,50 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|spoke|search_result';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'spoke';
+  $ds_layout->view_mode = 'search_result';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'field_attached_images',
+        1 => 'group_meta',
+        2 => 'title',
+        3 => 'field_contributors',
+        4 => 'post_date',
+        5 => 'comment_count_spokes',
+        6 => 'search_snippet',
+      ),
+    ),
+    'fields' => array(
+      'field_attached_images' => 'ds_content',
+      'group_meta' => 'ds_content',
+      'title' => 'ds_content',
+      'field_contributors' => 'ds_content',
+      'post_date' => 'ds_content',
+      'comment_count_spokes' => 'ds_content',
+      'search_snippet' => 'ds_content',
+    ),
+    'limit' => array(
+      'field_attached_images' => '1',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|spoke|search_result'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|spoke|teaser';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'spoke';

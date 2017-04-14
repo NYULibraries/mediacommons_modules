@@ -173,6 +173,40 @@ function mediacommons_content_types_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_meta|node|spoke|search_result';
+  $field_group->group_name = 'group_meta';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'spoke';
+  $field_group->mode = 'search_result';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'meta',
+    'weight' => '1',
+    'children' => array(
+      0 => 'field_contributors',
+      1 => 'comment_count_spokes',
+      2 => 'title',
+      3 => 'post_date',
+      4 => 'search_snippet',
+    ),
+    'format_type' => 'html-element',
+    'format_settings' => array(
+      'label' => 'meta',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'spoke-teaser-meta',
+        'element' => 'div',
+        'show_label' => '0',
+        'label_element' => 'div',
+        'attributes' => '',
+      ),
+    ),
+  );
+  $field_groups['group_meta|node|spoke|search_result'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_spoke_teaser_meta|node|spoke|teaser';
   $field_group->group_name = 'group_spoke_teaser_meta';
   $field_group->entity_type = 'node';
@@ -211,6 +245,7 @@ function mediacommons_content_types_field_group_info() {
   t('Group Flex 2');
   t('Meta');
   t('headerInfo');
+  t('meta');
 
   return $field_groups;
 }

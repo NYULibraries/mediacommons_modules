@@ -1507,6 +1507,16 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'thumbnail__120x80_',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'siblings_sidebar' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -1602,6 +1612,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
+      ),
       'siblings_sidebar' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -1679,6 +1695,13 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'inline',
+        'module' => 'user_reference',
+        'settings' => array(),
+        'type' => 'user_reference_default',
+        'weight' => 4,
       ),
       'siblings_sidebar' => array(
         'label' => 'inline',
@@ -1759,6 +1782,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
+      ),
       'siblings_sidebar' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -1834,6 +1863,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
       ),
       'siblings_sidebar' => array(
         'label' => 'above',
@@ -1915,6 +1950,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
+      ),
       'siblings_sidebar' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1973,6 +2014,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
       ),
       'siblings_sidebar' => array(
         'label' => 'above',
@@ -2071,6 +2118,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
       ),
       'siblings_sidebar' => array(
         'label' => 'inline',
