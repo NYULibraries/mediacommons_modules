@@ -1,5 +1,22 @@
 <?php
 
+function mediacommons_solr_init() {
+  $conditions = apachesolr_search_conditions();
+  $conditions['fq']['is_uid'] = 2;
+  // $args = func_get_args();
+  // $keys = implode(' ', $args);
+  // foreach (apachesolr_search_search_execute($keys) as $result) {
+  //   $output = $result['fields']['path'];
+  //   if(isset($result['user']) && isset($result['node']->is_uid)) {
+  //     $output .= ' ' . dt('by @name (user/@uid)', array('@name' => strip_tags($result['user']), '@uid' => $result['node']->is_uid));
+  //   }
+  //  $output .= "\n";
+  //  $output .= dt('title: ') . $result['title'] . "\n";
+  //  $output .= trim(preg_replace('/\s+/', ' ', strip_tags($result['snippet']))) . "\n\n";
+  //  drush_print($output);
+  //}
+}
+
 /**
  * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
  */
@@ -24,10 +41,11 @@ function mediacommons_solr_apachesolr_delete_index_alter($query) {
  * @param string $entity_type
  */
 function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
+  global $base_url;
   /** wrap node with Entity API */
   //$ewrapper = entity_metadata_wrapper('node', $entity);
-  $document->addField('ss_project', variable_set('mediacommons_project', 'project'));
-  $document->addField('ss_baseurl', base_path());
+  $document->addField('ss_project', variable_get('mediacommons_project', 'project'));
+  $document->addField('ss_baseurl', $base_url);
 }
 
 /**
@@ -56,3 +74,43 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
 //    $results[$id]['title'] = t('[Result] !title', array('!title' => $result['title']));
 //  }
 //}
+
+/**
+ * Implements hook_block_info().
+ *
+ * This hook declares what blocks are provided by the module.
+ */
+function mediacommons_solr_block_info () {
+  $blocks['mediacommons_solr_usercontent'] = array(
+    'info' => t('User content'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function mediacommons_solr_block_view ($delta = '') {
+	switch ($delta) {
+    case 'mediacommons_solr_usercontent' :
+    	$block['subject'] = t('User content');
+      $block['content'] = mediacommons_solr_usercontent();
+      break ;
+  }
+  return $block ;
+}
+
+/**
+ * A module-defined block content function.
+ */
+function mediacommons_solr_usercontent () {
+
+  $content = '<p>' . __FUNCTION__ . '</p>';
+
+  dpm(__FUNCTION__);
+
+  return array('#markup' => $content);
+
+}
