@@ -683,15 +683,6 @@ function mediacommons_ds_settings_ds_view_modes_info() {
 
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;
-  $ds_view_mode->view_mode = 'hub_home_for_imr';
-  $ds_view_mode->label = 'Hub home for IMR';
-  $ds_view_mode->entities = array(
-    'node' => 'node',
-  );
-  $export['hub_home_for_imr'] = $ds_view_mode;
-
-  $ds_view_mode = new stdClass();
-  $ds_view_mode->api_version = 1;
   $ds_view_mode->view_mode = 'hub_teaser_for_archive_page';
   $ds_view_mode->label = 'Hub teaser for archive page';
   $ds_view_mode->entities = array(
