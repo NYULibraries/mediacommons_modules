@@ -135,8 +135,41 @@ function mediacommons_solr_apachesolr_delete_index_alter($query) {
  */
 function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
   global $base_url;
-  /** wrap node with Entity API */
-  //$ewrapper = entity_metadata_wrapper('node', $entity);
+  $wrapper = entity_metadata_wrapper('node', $entity);
+  $document->addField('im_contributors', $entity->uid);
+	switch ($entity->type) {
+    case 'review' :
+      foreach ($wrapper->field_reviewer->value() as $delta => $item) {
+        if ($item->uid !== $entity->uid) {
+          $document->addField('im_contributors', $item->uid);
+        }
+      }
+      break;	
+    case 'spoke' :
+      foreach ($wrapper->field_contributors->value() as $delta => $item) {
+        if ($item->uid !== $entity->uid) {
+          $document->addField('im_contributors', $item->uid);
+        }
+      }
+      break;
+    case 'hub' :
+      foreach ($wrapper->field_contributors->value() as $delta => $item) {
+        if ($item->uid !== $entity->uid) {
+          $document->addField('im_contributors', $item->uid);
+        }
+      }
+      foreach ($wrapper->field_curators_editors->value() as $delta => $item) {
+        if ($item->uid !== $entity->uid) {
+          $document->addField('im_contributors', $item->uid);
+        }
+      }
+      foreach ($wrapper->field_co_editor->value() as $delta => $item) {
+        if ($item->uid !== $entity->uid) {
+          $document->addField('im_contributors', $item->uid);
+        }
+      }
+      break;
+  }
   $document->addField('ss_project', variable_get('mediacommons_project', 'project'));
   $document->addField('ss_baseurl', $base_url);
 }
@@ -187,7 +220,7 @@ function mediacommons_solr_user_content_by_uid($uid) {
 
     $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
 
-    $conditions = array('fq' => array('is_uid:' . $uid));
+    $conditions = array('fq' => array('im_contributors:' . $uid));
     
     $keys ='*:*';
 
