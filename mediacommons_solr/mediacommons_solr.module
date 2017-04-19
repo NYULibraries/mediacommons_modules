@@ -1,20 +1,113 @@
 <?php
 
-function mediacommons_solr_init() {
-  $conditions = apachesolr_search_conditions();
-  $conditions['fq']['is_uid'] = 2;
-  // $args = func_get_args();
-  // $keys = implode(' ', $args);
-  // foreach (apachesolr_search_search_execute($keys) as $result) {
-  //   $output = $result['fields']['path'];
-  //   if(isset($result['user']) && isset($result['node']->is_uid)) {
-  //     $output .= ' ' . dt('by @name (user/@uid)', array('@name' => strip_tags($result['user']), '@uid' => $result['node']->is_uid));
-  //   }
-  //  $output .= "\n";
-  //  $output .= dt('title: ') . $result['title'] . "\n";
-  //  $output .= trim(preg_replace('/\s+/', ' ', strip_tags($result['snippet']))) . "\n\n";
-  //  drush_print($output);
-  //}
+/**
+ * @file
+ * MediaCommons Integration with the Apache Solr module.
+ */
+
+function mediacommons_solr_init() {}
+
+function mediacommons_solr_theme_registry_alter(&$theme_registry) {
+  $theme_registry['search_result']['template'] = join('/', array(drupal_get_path('module', 'mediacommons_solr'), 'templates', 'search-result'));
+  $theme_registry['search_results']['template'] = join('/', array(drupal_get_path('module', 'mediacommons_solr'), 'templates', 'search-results'));
+}
+
+/**
+ * Implements hook_user_view().
+ */
+function mediacommons_solr_user_view($account, $view_mode) {
+  $is_account = mediacommons_solr_is_account($account);
+}
+
+/**
+ * Implementation of hook_menu
+ * http://api.drupal.org/api/drupal/developer--hooks--core.php/function/hook_menu/7
+ */
+function mediacommons_solr_menu() {
+  return array(
+    'services/search' => array(
+      'title' => 'List user content',
+      'load arguments' => array('%map', '%index'),
+      'page callback' => 'mediacommons_solr_usercontent_json',
+      'page arguments' => array(1),
+      'delivery callback' => 'drupal_json_output',
+      'access arguments' => array('search content'),
+      'type' => MENU_CALLBACK,
+    ),
+  );
+}
+
+/**
+ * Helper function returning common facet definitions.
+ */
+function mediacommons_solr_common_node_facets() {
+  $facets = array();
+  $facets['project'] = array(
+    'label' => t('Project'),
+    'description' => t('Filter by network project.'),
+    'field api bundles' => array('node'),
+    'map callback' => 'mediacommons_solr_project',
+    'values callback' => 'facetapi_callback_type_values',
+    'facet mincount allowed' => TRUE,
+    'dependency plugins' => array('role'),
+  );
+  return $facets;
+}
+
+/**
+ * Implements hook_facetapi_facet_info().
+ * Currently it only supports the node entity type
+ */
+function mediacommons_solr_facetapi_facet_info($searcher_info) {
+  $facets = array();
+  if ('apachesolr' == $searcher_info['adapter']) {
+    $environment = apachesolr_environment_load($searcher_info['instance']);
+    if (!empty($environment['conf']['facet callbacks'])) {
+      foreach ($environment['conf']['facet callbacks'] as $callback) {
+        if (is_callable($callback)) {
+          $facets = array_merge($facets, call_user_func($callback, $searcher_info));
+        }
+      }
+    }
+    elseif (isset($searcher_info['types']['node'])) {
+      $facets = mediacommons_solr_common_node_facets();
+    }
+  }
+  return $facets;
+}
+
+/**
+ * Implements hook_facetapi_widgets().
+ */
+function mediacommons_solr_facetapi_widgets() {
+  return array(
+    'mediacommons_solr_widget' => array(
+      'handler' => array(
+        'label' => t('MediaCommons Solr Widget'),
+        'class' => 'MediaCommonsSolrWidget',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_apachesolr_query_alter().
+ */
+function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $query) {
+  // I sure this is not the best place to do this but will keep here for a while.
+  $context = $query->getContext();
+  if (isset($context['page_id']) && $context['page_id'] === 'core_search') {
+    $currentFq = $query->getParam('fq');
+    $currentParams = $query->getParam('fq');
+    $fq = array_pop($currentParams);
+    if (strpos($fq, 'hash') !== false) {
+      unset($currentFq[count($currentFq) - 1]);
+      $query->replaceParam('fq', $currentFq);
+    }
+  }
+  // ask for our fls
+  $currentFl = $query->getParam('fl');
+  $query->replaceParam('fl', array_merge($currentFl, array('ss_project', 'ss_baseurl')));
 }
 
 /**
@@ -49,40 +142,14 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
 }
 
 /**
- * This is invoked by apachesolr_search.module for each document returned in a
- * search. This has been introduced in 6.x-beta7 as a replacement for the call
- * to HOOK_nodeapi().
- *
- * @param ApacheSolrDocument $document
- *   The ApacheSolrDocument instance.
- * @param array $extra
- * @param DrupalSolrQueryInterface $query
- */
-//function mediacommons_solr_apachesolr_search_result_alter(ApacheSolrDocument $document, array &$extra, DrupalSolrQueryInterface $query) {}
-
-/**
- * This is invoked by apachesolr_search.module for the whole resultset returned
- * in a search.
- *
- * @param array $results
- *   The returned search results.
- * @param DrupalSolrQueryInterface $query
- *   The query for which we want to process the results from
- */
-//function hook_apachesolr_process_results(array &$results, DrupalSolrQueryInterface $query) {
-//  foreach ($results as $id => $result) {
-//    $results[$id]['title'] = t('[Result] !title', array('!title' => $result['title']));
-//  }
-//}
-
-/**
  * Implements hook_block_info().
  *
  * This hook declares what blocks are provided by the module.
  */
 function mediacommons_solr_block_info () {
   $blocks['mediacommons_solr_usercontent'] = array(
-    'info' => t('User content'),
+    'info' => t('MediaCommons: User content'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
   );
   return $blocks;
 }
@@ -93,24 +160,112 @@ function mediacommons_solr_block_info () {
  * This hook generates the contents of the blocks themselves.
  */
 function mediacommons_solr_block_view ($delta = '') {
+  $block = array();
 	switch ($delta) {
     case 'mediacommons_solr_usercontent' :
-    	$block['subject'] = t('User content');
-      $block['content'] = mediacommons_solr_usercontent();
-      break ;
+      $is_account = mediacommons_solr_is_account();
+      if ($is_account) {
+        $block['subject'] = t('MediaCommons: User content');
+        $block['content'] = mediacommons_solr_user_content_by_uid($is_account);
+      }
+      break;
   }
-  return $block ;
+  return $block;
 }
 
 /**
  * A module-defined block content function.
  */
-function mediacommons_solr_usercontent () {
+function mediacommons_solr_user_content_by_uid($uid) {
+  try {
+    /**
+     * Include apachesolr_search forms
+     */
+    module_load_include('inc', 'apachesolr_search', 'apachesolr_search.pages');
 
-  $content = '<p>' . __FUNCTION__ . '</p>';
+    $query_params = drupal_get_query_parameters();
 
-  dpm(__FUNCTION__);
+    $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
 
-  return array('#markup' => $content);
+    $conditions = array('fq' => array('is_uid:' . $uid));
+    
+    $keys ='*:*';
 
+    $search_page = apachesolr_search_page_load(apachesolr_search_default_search_page());
+    
+    // http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr_search.module/function/apachesolr_search_search_results/7
+    $results = apachesolr_search_search_results($keys, $conditions, $search_page);
+
+    /**
+     * Adds search results to the render array.
+     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results 
+     * can pick a title for the search page.
+     * Not sure if this is the best way to do this; if you know "the right way"
+     * please change
+     */
+    $render_array = array('#theme' => 'search_results', '#results' => $results, '#module' => 'mediacommons_solr', '#search_page' => 'user_content_by_uid',);
+    
+    $content = render($render_array);
+
+    return $content;
+
+  }
+  catch (Exception $e) {
+    watchdog('MediaCommons Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+    apachesolr_failure('MediaCommons Apache Solr search', $keys);
+  }
+}
+
+/**
+ * This is invoked by apachesolr_search.module for the whole resultset returned
+ * in a search.
+ *
+ * @param array $results
+ *   The returned search results.
+ * @param DrupalSolrQueryInterface $query
+ *   The query for which we want to process the results from
+ */
+function mediacommons_solr_apachesolr_process_results(array &$results, DrupalSolrQueryInterface $query) {
+  foreach ($results as $id => $result) {
+    $results[$id]['link'] = $results[$id]['fields']['url'];
+    $results[$id]['project'] = $results[$id]['fields']['ss_project'];
+    $results[$id]['project_url'] = $results[$id]['fields']['ss_baseurl'];
+  }
+}
+
+function mediacommons_solr_preprocess_search_result(&$variables) {
+  $variables['link'] = $variables['result']['link'];
+  $variables['project'] = $variables['result']['project'];
+  $variables['project_url'] = $variables['result']['project_url'];
+}
+
+function mediacommons_solr_is_account($account = NULL) {
+  $is_account = &drupal_static('is_account');
+  if (!isset($is_account)) {
+    if (isset($account->uid)) {
+      $is_account = $account->uid;
+    }
+  }
+  return $is_account;
+}
+
+/**
+ * Process variables for search-results.tpl.php.
+ *
+ * The $variables array contains the following arguments:
+ * - $results: Search results array.
+ * - $module: Module the search results came from (module implementing
+ *   hook_search_info()).
+ *
+ * @see search-results.tpl.php
+ */
+function mediacommons_solr_preprocess_search_results(&$variables) {
+  switch ($variables['search_page']) {
+    case 'user_content_by_uid':
+      $title = t('As author');
+      break;
+    default:
+      $title = t('Search results');
+  }
+  $variables['title'] = $title;
 }
