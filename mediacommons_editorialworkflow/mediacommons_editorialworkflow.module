@@ -468,10 +468,17 @@ function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
   }
 }
 
-function mediacommons_editorialworkflow_node_presave($node) {
+function mediacommons_editorialworkflow_node_presave ($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+  // https://jira.nyu.edu/jira/browse/MC-250
+  if ($node->type == 'hub' || $node->type == 'spoke') {
+    // do I need to check if user have permissions?
+    // what type of permissions?
+    $wrapper->status->set($wrapper->field_pubstat->value());
+  }
   // Inserting a new node @TODO: test work, add validation
   if ($node->type == 'spoke') {
-    if ( !isset( $node->nid ) ) { // aof December 4, 2014
+    if (!isset($node->nid)) { // aof December 4, 2014
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
         foreach($node->field_contributors[$node->language] as $struct) {
@@ -772,4 +779,3 @@ function mediacommons_editorialworkflow_module_implements_alter(&$module_list, $
     $module_list['mediacommons_editorialworkflow'] = '';
   } 
 }
-
