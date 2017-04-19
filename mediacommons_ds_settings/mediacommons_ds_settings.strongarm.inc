@@ -106,7 +106,7 @@ function mediacommons_ds_settings_strongarm() {
         'custom_settings' => FALSE,
       ),
       'search_result' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,
@@ -136,6 +136,9 @@ function mediacommons_ds_settings_strongarm() {
         'custom_settings' => TRUE,
       ),
       'full_intransition' => array(
+        'custom_settings' => FALSE,
+      ),
+      'front_page_post_super_featured' => array(
         'custom_settings' => FALSE,
       ),
     ),
@@ -310,25 +313,6 @@ function mediacommons_ds_settings_strongarm() {
   $strongarm->name = 'jquery_update_jquery_version';
   $strongarm->value = '1.10';
   $export['jquery_update_jquery_version'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'search_active_modules';
-  $strongarm->value = array(
-    'ds_search' => 'ds_search',
-    'user' => 'user',
-    'apachesolr_search' => 0,
-    'node' => 0,
-  );
-  $export['search_active_modules'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'search_default_module';
-  $strongarm->value = 'ds_search';
-  $export['search_default_module'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
