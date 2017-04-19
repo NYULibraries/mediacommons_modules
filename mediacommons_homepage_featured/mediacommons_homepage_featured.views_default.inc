@@ -111,11 +111,15 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_curators_editors']['id'] = 'field_curators_editors';
   $handler->display->display_options['fields']['field_curators_editors']['table'] = 'field_data_field_curators_editors';
   $handler->display->display_options['fields']['field_curators_editors']['field'] = 'field_curators_editors';
-  $handler->display->display_options['fields']['field_curators_editors']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['field_curators_editors']['element_wrapper_class'] = 'peoplelist';
+  $handler->display->display_options['fields']['field_curators_editors']['label'] = '';
+  $handler->display->display_options['fields']['field_curators_editors']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_curators_editors']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_curators_editors']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_curators_editors']['settings'] = array(
+    'user_reference_view_mode' => 'full',
+  );
   $handler->display->display_options['fields']['field_curators_editors']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_curators_editors']['field_api_classes'] = TRUE;
   /* Sort criterion: Nodequeue: Position */
   $handler->display->display_options['sorts']['position']['id'] = 'position';
   $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
