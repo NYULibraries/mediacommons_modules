@@ -185,10 +185,9 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'hub_home_for_imr' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 4,
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'hub_home_vertical' => array(
         'label' => 'hidden',
@@ -288,9 +287,8 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'hub_home_for_imr' => array(
         'label' => 'hidden',
-        'module' => 'user_reference',
         'settings' => array(),
-        'type' => 'user_reference_default',
+        'type' => 'hidden',
         'weight' => 6,
       ),
       'hub_home_vertical' => array(
@@ -391,7 +389,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 9,
       ),
       'hub_home_vertical' => array(
         'label' => 'above',
@@ -488,9 +486,8 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'hub_home_for_imr' => array(
         'label' => 'hidden',
-        'module' => 'user_reference',
         'settings' => array(),
-        'type' => 'user_reference_default',
+        'type' => 'hidden',
         'weight' => 5,
       ),
       'hub_home_vertical' => array(
@@ -580,7 +577,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 4,
       ),
       'hub_home_vertical' => array(
         'label' => 'hidden',
@@ -692,16 +689,8 @@ function mediacommons_content_types_field_default_field_instances() {
       ),
       'hub_home_for_imr' => array(
         'label' => 'hidden',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-          'show_remaining_days' => FALSE,
-        ),
-        'type' => 'date_default',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'hub_home_vertical' => array(
@@ -850,7 +839,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 8,
       ),
       'hub_home_vertical' => array(
         'label' => 'above',
@@ -957,13 +946,9 @@ Please choose "Crop" to create an additional version of your image which will be
       ),
       'hub_home_for_imr' => array(
         'label' => 'hidden',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
-        'weight' => 2,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
       ),
       'hub_home_vertical' => array(
         'label' => 'hidden',
@@ -1105,11 +1090,8 @@ Please choose "Crop" to create an additional version of your image which will be
       ),
       'hub_home_for_imr' => array(
         'label' => 'hidden',
-        'module' => 'node_reference',
-        'settings' => array(
-          'node_reference_view_mode' => 'teaser',
-        ),
-        'type' => 'node_reference_node',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 1,
       ),
       'hub_home_vertical' => array(
@@ -1214,7 +1196,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 7,
       ),
       'hub_home_vertical' => array(
         'label' => 'above',
@@ -1507,6 +1489,16 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'thumbnail__120x80_',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'siblings_sidebar' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -1602,6 +1594,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
+      ),
       'siblings_sidebar' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -1679,6 +1677,13 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'inline',
+        'module' => 'user_reference',
+        'settings' => array(),
+        'type' => 'user_reference_default',
+        'weight' => 4,
       ),
       'siblings_sidebar' => array(
         'label' => 'inline',
@@ -1759,6 +1764,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
+      ),
       'siblings_sidebar' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -1834,6 +1845,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
       ),
       'siblings_sidebar' => array(
         'label' => 'above',
@@ -1915,6 +1932,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
+      ),
       'siblings_sidebar' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1973,6 +1996,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
       ),
       'siblings_sidebar' => array(
         'label' => 'above',
@@ -2071,6 +2100,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
       ),
       'siblings_sidebar' => array(
         'label' => 'inline',
