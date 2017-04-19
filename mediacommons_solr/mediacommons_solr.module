@@ -20,24 +20,6 @@ function mediacommons_solr_user_view($account, $view_mode) {
 }
 
 /**
- * Implementation of hook_menu
- * http://api.drupal.org/api/drupal/developer--hooks--core.php/function/hook_menu/7
- */
-function mediacommons_solr_menu() {
-  return array(
-    'services/search' => array(
-      'title' => 'List user content',
-      'load arguments' => array('%map', '%index'),
-      'page callback' => 'mediacommons_solr_usercontent_json',
-      'page arguments' => array(1),
-      'delivery callback' => 'drupal_json_output',
-      'access arguments' => array('search content'),
-      'type' => MENU_CALLBACK,
-    ),
-  );
-}
-
-/**
  * Helper function returning common facet definitions.
  */
 function mediacommons_solr_common_node_facets() {
@@ -209,7 +191,7 @@ function mediacommons_solr_block_view ($delta = '') {
 /**
  * A module-defined block content function.
  */
-function mediacommons_solr_user_content_by_uid($uid) {
+function mediacommons_solr_user_content_by_uid ($uid) {
   try {
     /**
      * Include apachesolr_search forms
@@ -266,20 +248,14 @@ function mediacommons_solr_apachesolr_process_results(array &$results, DrupalSol
   }
 }
 
+/**
+ * Process variables for search-result.tpl.php.
+ * https://api.drupal.org/api/drupal/modules%21search%21search.pages.inc/function/template_preprocess_search_result/7.x
+ */
 function mediacommons_solr_preprocess_search_result(&$variables) {
   $variables['link'] = $variables['result']['link'];
   $variables['project'] = $variables['result']['project'];
   $variables['project_url'] = $variables['result']['project_url'];
-}
-
-function mediacommons_solr_is_account($account = NULL) {
-  $is_account = &drupal_static('is_account');
-  if (!isset($is_account)) {
-    if (isset($account->uid)) {
-      $is_account = $account->uid;
-    }
-  }
-  return $is_account;
 }
 
 /**
@@ -301,4 +277,14 @@ function mediacommons_solr_preprocess_search_results(&$variables) {
       $title = t('Search results');
   }
   $variables['title'] = $title;
+}
+
+function mediacommons_solr_is_account($account = NULL) {
+  $is_account = &drupal_static('is_account');
+  if (!isset($is_account)) {
+    if (isset($account->uid)) {
+      $is_account = $account->uid;
+    }
+  }
+  return $is_account;
 }
