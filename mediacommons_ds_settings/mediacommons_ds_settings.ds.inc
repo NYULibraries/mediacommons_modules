@@ -12,6 +12,35 @@ function mediacommons_ds_settings_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|front_page_post|search_result';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'front_page_post';
+  $ds_fieldsetting->view_mode = 'search_result';
+  $ds_fieldsetting->settings = array(
+    'search_info' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'field_rlink' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'h2',
+          'fi-cl' => '',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+  );
+  $export['node|front_page_post|search_result'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|hub|hub_home_vertical';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'hub';
@@ -62,6 +91,56 @@ function mediacommons_ds_settings_ds_field_settings_info() {
     ),
   );
   $export['node|hub|hub_teaser_for_archive_page'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|hub|search_result';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'hub';
+  $ds_fieldsetting->view_mode = 'search_result';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => 'h2',
+        'class' => 'spoke-title node-teaser-title ',
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'prefix' => '<span class="label">Hub: </span>',
+        ),
+      ),
+    ),
+    'search_snippet' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'field_contributors' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'lb' => 'Contributors:',
+          'prefix' => 'Contributors:',
+        ),
+      ),
+    ),
+    'field_representative_image' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'thumb',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+  );
+  $export['node|hub|search_result'] = $ds_fieldsetting;
 
   return $export;
 }
@@ -177,6 +256,41 @@ function mediacommons_ds_settings_ds_custom_fields_info() {
  */
 function mediacommons_ds_settings_ds_layout_settings_info() {
   $export = array();
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|front_page_post|search_result';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'front_page_post';
+  $ds_layout->view_mode = 'search_result';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'field_project',
+        1 => 'field_rlink',
+        2 => 'field_body',
+        3 => 'search_info',
+      ),
+    ),
+    'fields' => array(
+      'field_project' => 'ds_content',
+      'field_rlink' => 'ds_content',
+      'field_body' => 'ds_content',
+      'search_info' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|front_page_post|search_result'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
@@ -356,6 +470,47 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'layout_disable_css' => FALSE,
   );
   $export['node|hub|hub_teaser_for_archive_page'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|hub|search_result';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'hub';
+  $ds_layout->view_mode = 'search_result';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'field_representative_image',
+        1 => 'title',
+        2 => 'field_period',
+        3 => 'field_curators_editors',
+        4 => 'field_co_editor',
+        5 => 'field_contributors',
+        6 => 'search_snippet',
+      ),
+    ),
+    'fields' => array(
+      'field_representative_image' => 'ds_content',
+      'title' => 'ds_content',
+      'field_period' => 'ds_content',
+      'field_curators_editors' => 'ds_content',
+      'field_co_editor' => 'ds_content',
+      'field_contributors' => 'ds_content',
+      'search_snippet' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|hub|search_result'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
