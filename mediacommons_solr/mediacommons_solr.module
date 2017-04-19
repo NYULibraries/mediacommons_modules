@@ -89,13 +89,8 @@ function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $quer
   }
   // ask for our fls
   $currentFl = $query->getParam('fl');
-  $query->replaceParam('fl', array_merge($currentFl, array('ss_project', 'ss_baseurl')));
+  $query->replaceParam('fl', array_merge($currentFl, array('ss_project', 'ss_baseurl', 'ss_searchtype')));
 }
-
-/**
- * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
- */
-// function mediacommons_solr_cron() {}
 
 /**
  * Allows a module to modify the delete query. Only delete this site nodes from index
@@ -119,6 +114,7 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
   global $base_url;
   $wrapper = entity_metadata_wrapper('node', $entity);
   $document->addField('im_contributors', $entity->uid);
+  $document->addField('ss_searchtype', $entity_type);  
 	switch ($entity->type) {
     case 'review' :
       foreach ($wrapper->field_reviewer->value() as $delta => $item) {
@@ -152,8 +148,11 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
       }
       break;
   }
+  
   $document->addField('ss_project', variable_get('mediacommons_project', 'project'));
+  
   $document->addField('ss_baseurl', $base_url);
+
 }
 
 /**
@@ -166,6 +165,10 @@ function mediacommons_solr_block_info () {
     'info' => t('MediaCommons: User content'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+  $blocks['mediacommons_solr_comments'] = array(
+    'info' => t('MediaCommons: User comments'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );  
   return $blocks;
 }
 
@@ -184,8 +187,63 @@ function mediacommons_solr_block_view ($delta = '') {
         $block['content'] = mediacommons_solr_user_content_by_uid($is_account);
       }
       break;
+    case 'mediacommons_solr_comments' :
+      $is_account = mediacommons_solr_is_account();
+      if ($is_account) {
+        $block['subject'] = t('MediaCommons: User comments');
+        $block['content'] = mediacommons_solr_user_comments_by_uid($is_account);
+      }
+      break;
+      
   }
   return $block;
+}
+
+/**
+ * A module-defined block content function.
+ */
+function mediacommons_solr_user_comments_by_uid ($uid) {
+  try {
+    /**
+     * Include apachesolr_search forms
+     */
+    module_load_include('inc', 'apachesolr_search', 'apachesolr_search.pages');
+
+    $query_params = drupal_get_query_parameters();
+
+    $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
+
+    // $conditions = array('fq' => array('im_contributors:' . $uid));
+    
+    $conditions = array('fq' => array('im_contributors:' . $uid, 'ss_searchtype:' . 'comment'));
+    
+    //ss_searchtype (comment||node)
+    
+    $keys ='*:*';
+
+    $search_page = apachesolr_search_page_load(apachesolr_search_default_search_page());
+    
+    // http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr_search.module/function/apachesolr_search_search_results/7
+    $results = apachesolr_search_search_results($keys, $conditions, $search_page);
+
+    /**
+     * Adds search results to the render array.
+     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results 
+     * can pick a title for the search page.
+     * Not sure if this is the best way to do this; if you know "the right way"
+     * please change
+     */
+    $render_array = array('#theme' => 'search_results', '#results' => $results, '#module' => 'mediacommons_solr', '#search_page' => 'user_comments_by_uid',);
+    
+    $content = render($render_array);
+
+    return $content;
+
+  }
+  catch (Exception $e) {
+    watchdog('MediaCommons Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+    apachesolr_failure('MediaCommons Apache Solr search', $keys);
+  }
 }
 
 /**
@@ -202,7 +260,7 @@ function mediacommons_solr_user_content_by_uid ($uid) {
 
     $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
 
-    $conditions = array('fq' => array('im_contributors:' . $uid));
+    $conditions = array('fq' => array('im_contributors:' . $uid, 'ss_searchtype:' . 'node'));
     
     $keys ='*:*';
 
@@ -245,6 +303,7 @@ function mediacommons_solr_apachesolr_process_results(array &$results, DrupalSol
     $results[$id]['link'] = $results[$id]['fields']['url'];
     $results[$id]['project'] = $results[$id]['fields']['ss_project'];
     $results[$id]['project_url'] = $results[$id]['fields']['ss_baseurl'];
+    $results[$id]['searchtype'] = $results[$id]['fields']['ss_searchtype'];    
   }
 }
 
@@ -256,6 +315,7 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
   $variables['link'] = $variables['result']['link'];
   $variables['project'] = $variables['result']['project'];
   $variables['project_url'] = $variables['result']['project_url'];
+  $variables['searchtype'] = $variables['result']['searchtype']; 
 }
 
 /**
@@ -272,6 +332,9 @@ function mediacommons_solr_preprocess_search_results(&$variables) {
   switch ($variables['search_page']) {
     case 'user_content_by_uid':
       $title = t('As author');
+      break;
+    case 'user_comments_by_uid':
+      $title = t('As a commenter');
       break;
     default:
       $title = t('Search results');
