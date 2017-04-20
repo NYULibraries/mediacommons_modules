@@ -3,5 +3,10 @@ core = 7.x
 package = MediaCommons
 version = 7.x-1.0-beta5
 project = mediacommons_editorialworkflow
-dependencies[] = gravatar
-files[] = user_picture_formatter.inc
+dependencies[] = gravatar:gravatar
+dependencies[] = drupal:system (>= 7.40)
+files[] = inc/user_picture_formatter.inc
+
+stylesheets[all][] = mediacommons_editorialworkflow.css
+scripts[] = mediacommons_editorialworkflow.js
+

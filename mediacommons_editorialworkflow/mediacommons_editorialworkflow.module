@@ -1,91 +1,12 @@
 <?php
 
-function mediacommons_editorialworkflow_theme_registry_alter(&$theme_registry) {
-  $project = variable_get('mediacommons_project', 'mediacommons');
-  if ($project === 'mediacommons') return;
-  $theme_registry['link']['function'] = 'mediacommons_editorialworkflow_link';
-  // do we want to unset gravatar_preprocess_user_picture, we are taking over that function ... 
-  $theme_registry['user_picture']['preprocess functions'][] = 'mediacommons_editorialworkflow_user_picture';
-}
-
-function _mediacommons_editorialworkflow_load_account($account) {
-  // If this is a node or comment object, load the user object.
-  if (!empty($account->nid) || !empty($account->cid) || empty($account->roles)) {
-    $original_values = $account;
-    // If a comment is being edited and previewed, the $account->uid is NULL.
-    // @todo Remove when http://drupal.org/node/334826 is fixed in 6.x.
-    if (!isset($account->uid)) {
-      $account->uid = 0;
-    }
-    $account = $account->uid ? user_load($account->uid) : drupal_anonymous_user();
-    // Load mail/homepage variable from an anonymous comment.
-    if (!$account->uid) {
-      $values = array_fill_keys(array('name', 'mail', 'homepage', 'hostname'), '');
-      foreach ($values as $value => $default_value) {
-        if (empty($account->$value)) {
-          $account->$value = !empty($original_values->$value) ? $original_values->$value : $default_value;
-        }
-      }
-    }
-  }
-  if ($account->uid > 0) {
-    $result = db_select('mediacommons_base_import_user_map', 'u')->fields('u', array('filename'))->condition('uid', $account->uid)->execute()->fetchField();
-    if ($result && $result !== '0') {
-      $umbrella_url = mediacommons_homepage_umbrella_url();
-      $account->picture = (object) array();
-      $account->picture->uri = $umbrella_url . '/sites/default/files/styles/profile_page_pic/public/pictures/' . $result;
-    }
-  }
-  if (isset($account->picture) && is_numeric($account->picture)) {
-    $account->picture = file_load($account->picture);
-  }
-  return $account;
-}
-
-/**
- * Override template_preprocess_user_picture() to display user pictures with
- * Gravatar integration.
- *
- * @see template_preprocess_user_picture()
- * @see _gravatar_load_account()
- * @see _gravatar_get_account_user_picture()
- */
-function mediacommons_editorialworkflow_user_picture(&$variables) {
-  $variables['user_picture'] = '';
-  if (variable_get('user_pictures', 0)) {
-    // Load the full user object since it is not provided with nodes, comments, or views displays.
-    $account = _mediacommons_editorialworkflow_load_account($variables['account']);
-    $filepath = _gravatar_get_account_user_picture($account);
-    if (!empty($filepath)) {
-      $alt = t("@user's picture", array('@user' => format_username($account)));
-      //if (module_exists('image') && file_valid_uri($filepath) && $style = variable_get('user_picture_style', '')) {
-        //$variables['user_picture'] = theme('image_style', array('style_name' => $style, 'path' => $filepath, 'alt' => $alt, 'title' => $alt));
-      //}
-      //else {
-      $variables['user_picture'] = theme('image', array('path' => $filepath, 'alt' => $alt, 'title' => $alt));
-      //}
-      if ($account->uid && user_access('access user profiles')) {
-        // Create link to the user's profile.
-        $attributes = array('title' => t('View user profile.'));
-        $variables['user_picture'] = l($variables['user_picture'], 'user/' . $account->uid, array('attributes' => $attributes, 'html' => TRUE));
-      }
-      elseif (!empty($account->homepage)) {
-        // If user is anonymous, create link to the commenter's homepage.
-        $attributes = array(
-          'title' => t('View user website.'),
-          'rel' => 'external nofollow',
-        );
-        $variables['user_picture'] = l($variables['user_picture'], $account->homepage, array('attributes' => $attributes, 'html' => TRUE));
-      }
-
-    }
-  }
-}
+module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.theme');
+module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.datasource');
 
 function mediacommons_editorialworkflow_init () {
   global $user;
   $path_is_admin = path_is_admin(current_path());
-  if ($path_is_admin) {
+  if ($path_is_admin) {    
     $menu_object = menu_get_object();
     $user->contribute = array(
       'hubs_can_contribute' => mediacommons_editorialworkflow_hubs_user_can_contribute(),
@@ -133,116 +54,36 @@ function mediacommons_editorialworkflow_init () {
   }
 }
 
-/**
- * All things email
- */
-
-/**
- * Implement hook_mail().
- *
- * This hook defines a list of possible e-mail templates that this module can
- * send. Each e-mail is given a unique identifier, or 'key'.
- *
- * $message comes in with some standard properties already set: 'to' address,
- * 'from' address, and a set of default 'headers' from drupal_mail(). The goal
- * of hook_mail() is to set the message's 'subject' and 'body' properties, as
- * well as make any adjustments to the headers that are necessary.
- *
- * The $params argument is an array which can hold any additional data required
- * to build the mail subject and body; for example, user-entered form data, or
- * some context information as to where the mail request came from.
- *
- * Note that hook_mail() is not actually a hook. It is only called for a single
- * module, the module named in the first argument of drupal_mail(). So it's
- * a callback of a type, but not a hook.
- *
- * taken from: http://drupalcode.org/project/examples.git/blob_plain/refs/heads/7.x-1.x:/email_example/email_example.module
- */
-function mediacommons_editorialworkflow_mail($key, &$message, $params) {
-  global $user;
-  // Each message is associated with a language, which may or may not be the
-  // current user's selected language, depending on the type of e-mail being
-  // sent. This $options array is used later in the t() calls for subject
-  // and body to ensure the proper translation takes effect.
-  $options = array(
-    'langcode' => $message['language']->language,
+function mediacommons_editorialworkflow_menu() {
+  $items['admin/contribute'] = array(
+    'title' => t('Contribute'),
+    'page callback' => 'mediacommons_editorialworkflow_contribute_page',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'weight' => 1,
+    'file' => 'includes/mediacommons_editorialworkflow.pages.inc',
+    'type' => MENU_LOCAL_TASK,
   );
-  switch ($key) {
-    // Send a simple message from the contact form.
-    case 'contributor':
-      $message['subject'] = t('E-mail sent from @site-name', array('@site-name' => variable_get('site_name', 'MediaCommons Project')), $options);
-      // Note that the message body is an array, not a string.
-      $message['body'][] = t('@name sent you the following message:', array('@name' => $user->name), $options);
-      // Because this is just user-entered text, we do not need to translate it.
-      // Since user-entered text may have unintentional HTML entities in it like
-      // '<' or '>', we need to make sure these entities are properly escaped,
-      // as the body will later be transformed from HTML to text, meaning
-      // that a normal use of '<' will result in truncation of the message.
-      $message['body'][] = check_plain($params['message']);
-      break;
-  }
-}
-
-/**
- * Sends an e-mail.
- *
- * @param $form_values
- *   An array of values from the contact form fields that were submitted.
- *   There are just two relevant items: $form_values['email'] and
- *   $form_values['message'].
- */
-function mediacommons_editorialworkflow_mail_send($form_values) {
-
-  // All system mails need to specify the module and template key (mirrored from
-  // hook_mail()) that the message they want to send comes from.
-  $module = 'mediacommons_editorialworkflow';
-
-  // what action to takes
-  $key = $form_values['key'];
-
-  // Specify 'to' addresses.
-  $to = $form_values['email'];
-
-  // Specify 'from' addresses
-  $from = $form_values['from'];
-
-  // "params" loads in additional context for email content completion in
-  // hook_mail(). In this case, we want to pass in the values the user entered
-  // into the form, which include the message body in $form_values['message'].
-  $params = $form_values;
-
-  // The language of the e-mail. This will one of three values:
-  // * user_preferred_language(): Used for sending mail to a particular website
-  //   user, so that the mail appears in their preferred language.
-  // * global $language: Used when sending a mail back to the user currently
-  //   viewing the site. This will send it in the language they're currently
-  //   using.
-  // * language_default(): Used when sending mail to a pre-existing, 'neutral'
-  //   address, such as the system e-mail address, or when you're unsure of the
-  //   language preferences of the intended recipient.
-  //
-  // Since in our case, we are sending a message to a random e-mail address that
-  // is not necessarily tied to a user account, we will use the site's default
-  // language.
-  $language = language_default();
-
-  // Whether or not to automatically send the mail when drupal_mail() is
-  // called. This defaults to TRUE, and is normally what you want unless you
-  // need to do additional processing before drupal_mail_send() is called.
-  $send = TRUE;
-  // Send the mail, and check for success. Note that this does not guarantee
-  // message delivery; only that there were no PHP-related issues encountered
-  // while sending.
-  $result = drupal_mail($module, $key, $to, $language, $params, $from, $send);
-
-  if ($result['result'] == TRUE) {
-    // watchdog($module, t('Email message has been sent to @contributor. Sender @sender', array('@contributor' => $to, '@sender' => $from)), WATCHDOG_INFO);
-    drupal_set_message(t('Your message has been sent.'));
-  }
-  else {
-    watchdog($module, t('There was a problem sending message.'), WATCHDOG_ERROR);
-    drupal_set_message(t('There was a problem sending your message and it was not sent.'), 'error');
-  }
+  $items['admin/contribute/dashboard'] = array(
+    'title' => t('Administrate site'),
+    'description' => 'Manage users, set current hub and upcoming hubs.',
+    'page callback' => 'mediacommons_editorialworkflow_admin_page',
+    'page arguments' => array(1),
+    'access arguments' => array('access dashboard'),
+    'weight' => 3,
+    'file' => 'includes/mediacommons_editorialworkflow.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/contribute/dashboard/set-current-hub'] = array(
+    'title' => 'Set current cluster',
+    'description' => 'Set current hub, selected item will be displayed in the frontpage.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('mediacommons_editorialworkflow_set_current_hub'),
+    'access arguments' => array('set current hub'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/mediacommons_editorialworkflow.pages.inc',
+  );
+  return $items;
 }
 
 /**
@@ -286,186 +127,11 @@ function mediacommons_editorialworkflow_permission() {
       'title' => t('Promote authenticaded user'),
       'description' => t('User is allow to promote authenticaded users to contributor role'),
     ),
+    'publish content' => array(
+      'title' => t('Publish content'),
+      'description' => t('User is allow to publish content'),
+    ),    
   );
-}
-
-function mediacommons_editorialworkflow_menu() {
-  $items['admin/contribute'] = array(
-    'title' => t('Contribute'),
-    'page callback' => 'mediacommons_editorialworkflow_contribute_page',
-    'page arguments' => array(1),
-    'access callback' => TRUE,
-    'weight' => 1,
-    'file' => 'includes/mediacommons_editorialworkflow.pages.inc',
-    'type' => MENU_LOCAL_TASK,
-  );
-  $items['admin/contribute/dashboard'] = array(
-    'title' => t('Administrate site'),
-    'description' => 'Manage users, set current hub and upcoming hubs.',
-    'page callback' => 'mediacommons_editorialworkflow_admin_page',
-    'page arguments' => array(1),
-    'access arguments' => array('access dashboard'),
-    'weight' => 3,
-    'file' => 'includes/mediacommons_editorialworkflow.pages.inc',
-    'type' => MENU_LOCAL_TASK,
-  );
-  $items['admin/contribute/dashboard/set-current-hub'] = array(
-    'title' => 'Set current cluster',
-    'description' => 'Set current hub, selected item will be displayed in the frontpage.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('mediacommons_editorialworkflow_set_current_hub'),
-    'access arguments' => array('set current hub'),
-    'type' => MENU_NORMAL_ITEM,
-    'file' => 'includes/mediacommons_editorialworkflow.pages.inc',
-  );
-  return $items;
-}
-
-function mediacommons_editorialworkflow_contributor() {
-	global $user;
-	$field = field_info_instances('node');
-	$mediacommons_editorialworkflow_contributor = &drupal_static(__FUNCTION__, array());
-	/** If content-type HUB or SPOKE exist and field_contributors exist in any of the 2 types continue */
-	if ((isset($field['hub']) && isset($field['hub']['field_contributors'])) || (isset($field['spoke']) && isset($field['spoke']['field_contributors']))) {
-    $query = new EntityFieldQuery;
-    $result = $query
-              ->entityCondition('entity_type', 'node')
-              ->fieldCondition('field_contributors', 'uid', $user->uid, '=')
-              ->execute();
-    if (isset($result['node'])) {
-      $mediacommons_editorialworkflow_contributor = array_keys($result['node']);
-    }
-	}
-  return $mediacommons_editorialworkflow_contributor;
-}
-
-function mediacommons_editorialworkflow_hubs_user_can_contribute() {
-  global $user;
-	$field = field_info_instances('node');
-  $hubs_user_can_contribute = &drupal_static(__FUNCTION__, array());
-	/** If content-type HUB or SPOKE exist and field_contributors exist in any of the 2 types continue */
-	if ((isset($field['hub']) && isset($field['hub']['field_contributors']))) {
-    $query = new EntityFieldQuery;
-    $result = $query
-                ->entityCondition('entity_type', 'node')
-                ->entityCondition('bundle', 'hub')
-                ->fieldCondition('field_contributors', 'uid', $user->uid, '=')
-                ->execute();
-    if (isset($result['node'])) {
-      $hubs_user_can_contribute = array_keys($result['node']);
-    }
-  }
-  return $hubs_user_can_contribute;
-}
-
-function mediacommons_editorialworkflow_preprocess_button(&$variables) {
-  global $user;
-  if (isset($user->contribute)) {
-    $element = &$variables['element'];
-    // disable submit button
-    if (
-    		1 == 2 &&
-        $element['#type'] == 'submit' /** submit buttons */
-        &&
-        isset( $user->contribute['current_nid'] ) /** is a node */
-        &&
-        $user->uid != $user->contribute['current_uid'] /** not the primary contributor */
-    		&& ! in_array('administrator', $user->roles) /** not an administrator */
-    ) {
-    	if ( ! in_array ( $user->contribute['current_nid'], $user->contribute['spokes_can_contribute'] ) /** not a additional contributor */ ) {
-       $element['#attributes'] = array(
-          'disabled' => 'disabled',
-          'class' => array('no-contributor-permission element-invisible')
-       );
-      }
-    }
-    if (isset($element['#value']) && isset($element['#name'])) {
-      switch ($element['#name']) {
-        case 'field_contributed_piece_add_more' :
-          $element['#value'] = t('Add another spoke');
-          break;
-        case 'field_contributors_add_more' :
-          $element['#value'] = t('Add another contributor');
-          break;
-        case 'field_clusters_add_more' :
-          $element['#value'] = t('Add another hub');
-          break;
-      }
-    }
-  }
-}
-
-function mediacommons_editorialworkflow_preprocess_container(&$variables) {
-  global $user;
-  if (isset($user->contribute)) {
-    $element = &$variables['element'];
-    if (isset($element['#id'])) {
-      switch ($element['#id']) {
-        case 'edit-field-mbed' :
-        case 'edit-field-representative-image' :
-          $element['#attributes']['class'][] = 'invisible-element';
-          break;
-      }
-    }
-  }
-}
-
-function mediacommons_editorialworkflow_preprocess_textfield(&$variables) {
-  $element = &$variables['element'];
-  if ($element['#name'] == 'title') {
-    $element['#attributes']['placeholder'] = t('Untitled');
-  }
-}
-
-function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
-
-  global $user;
-
-  /**
-   * User is coming with a is_contributor flag; the flag is the nid (int)
-   * of a known hub.
-   */
-  $is_contributor_flag = isset($_GET['is_contributor']) ? (int)$_GET['is_contributor'] : 0;
-
-  if (
-    isset($user->contribute)
-    && !in_array('administrator', $user->roles)
-  ) {
-
-    $element = &$variables['element'];
-
-    if (
-      isset($element['#parents']) // check if is set
-      && isset($element['#parents'][0]) // has parent
-      && $element['#parents'][0] == 'field_part_of' // is a reference to a hub
-    ) {
-      /** user have permission to add piece to this cluster */
-      if (isset($element['#return_value']) ) {
-
-        if (!in_array($element['#return_value'], $user->contribute['hubs_can_contribute'])) {
-          $element['#attributes'] = array(
-            'disabled' => 'disabled',
-            'class' => array('no-contributor-permission')
-          );
-        }
-        elseif ($element['#return_value'] == $is_contributor_flag) {
-          $element['#attributes'] = array(
-            'checked' => 'checked',
-            'class' => array('set-as-contribute-pieces')
-          );
-        }
-      }
-
-
-      /** if is already checked and user is not the cluster manager; disable the field and mark as read-only */
-      if ($element['#checked']) {
-        $element['#attributes'] = array(
-          'disabled' => 'disabled',
-          'class' => array('disabled')
-        );
-      }
-    }
-  }
 }
 
 function mediacommons_editorialworkflow_node_presave ($node) {
@@ -476,6 +142,7 @@ function mediacommons_editorialworkflow_node_presave ($node) {
     // what type of permissions?
     $wrapper->status->set($wrapper->field_pubstat->value());
   }
+  
   // Inserting a new node @TODO: test work, add validation
   if ($node->type == 'spoke') {
     if (!isset($node->nid)) { // aof December 4, 2014
@@ -504,19 +171,13 @@ function mediacommons_editorialworkflow_node_presave ($node) {
   }
 }
 
-function mediacommons_editorialworkflow_add_assets() {
-	$module_path = drupal_get_path('module', 'mediacommons_editorialworkflow');
-  drupal_add_css($module_path . '/mediacommons_editorialworkflow.css', 'module');
-  drupal_add_js($module_path . '/js/mediacommons_editorialworkflow.js', array('type' => 'file', 'group' => JS_DEFAULT));
-}
-
 function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_state, $form_id) {
   global $user;
   $entity_owner = $form['#node']->name;
   $username = $user->name;
   if (isset($user->contribute['contributor']) || $entity_owner == $username) { // add entity_owner to "contributor"
     /** Add CSS and JS files */
-	  mediacommons_editorialworkflow_add_assets();
+	  //mediacommons_editorialworkflow_add_assets();
     $field = field_get_items('node', $form['#node'], 'field_type');
     if (isset($field[0])) {
       switch ($field[0]['value']) {
@@ -548,37 +209,35 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
 }
 
 function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {
-
   global $user;
-
-  /** add editorial workflow assest */
-  mediacommons_editorialworkflow_add_assets();
-
   /** indication of that this form was process by the editorial workflow module */
   $form['#attributes']['class'][] = 'editorial-workflow';
-
   /** node exist */
   if (isset($form['#node']->nid)) {
     /** contributor is allow to edit node */
-    
     if (isset($user->contribute['contributor'])) {
       $form['#attributes']['class'][] = $user->contribute['role'];
-      $message = t('Contributing as @contributor.', array('@contributor' => $user->contribute['role']));
+      // $message = t('Contributing as @contributor.', array('@contributor' => $user->contribute['role']));
     }
-    
     /** user is not allow to edit node */
     else {
-    
-      $message = t('You are not allow to edit @title. If you are a contributor to this piece ask the primary author to add you as an additional author.', array('@title' => $user->contribute['current_title']));
-      
+      $message = t('You are not allow to edit @title.', array('@title' => $user->contribute['current_title']));
     }
     
-    /** set message */
-    drupal_set_message($message, 'warning');
+    if (isset($message)) {
+      drupal_set_message($message, 'warning');
+    }
   }
-
-  /** New spoke */
-  else {}
+  
+  // Hide "Publishing options" if user does not have access
+  // if (!user_access('publish content', $user)) {
+    $form['options']['#type'] = 'container';
+    $form['options']['#title'] = '';  
+    $form['options']['status'] = array(
+      '#type' => 'value',
+      '#value' => 1
+    );
+  //}
 
 }
 
@@ -650,13 +309,13 @@ function mediacommons_editorialworkflow_promote_user($data) {
 				  watchdog('mediacommons_editorialworkflow', 'User @user was promoted to contributor by @sponsor.', array('@user' => $account->name, '@sponsor' => $sponsor->name), WATCHDOG_NOTICE);
 
 				  // send notifications
-          mediacommons_editorialworkflow_mail_send(
-            array(
-              'email' => $account->mail,
-              'from' => $sponsor->mail,
-              'key' => 'contributor_promoted',
-            )
-          );
+          //mediacommons_editorialworkflow_mail_send(
+          //  array(
+          //    'email' => $account->mail,
+          //    'from' => $sponsor->mail,
+          //    'key' => 'contributor_promoted',
+          //  )
+          //);
         }
       }
     }
@@ -778,4 +437,83 @@ function mediacommons_editorialworkflow_module_implements_alter(&$module_list, $
     unset($module_list['mediacommons_editorialworkflow']);
     $module_list['mediacommons_editorialworkflow'] = '';
   } 
+}
+
+
+function mediacommons_editorialworkflow_load($nodes) {
+  dpm(__FUNCTION__);
+  dpm($nodes);
+}
+
+function _mediacommons_editorialworkflow_load_account($account) {
+  // If this is a node or comment object, load the user object.
+  if (!empty($account->nid) || !empty($account->cid) || empty($account->roles)) {
+    $original_values = $account;
+    // If a comment is being edited and previewed, the $account->uid is NULL.
+    // @todo Remove when http://drupal.org/node/334826 is fixed in 6.x.
+    if (!isset($account->uid)) {
+      $account->uid = 0;
+    }
+    $account = $account->uid ? user_load($account->uid) : drupal_anonymous_user();
+    // Load mail/homepage variable from an anonymous comment.
+    if (!$account->uid) {
+      $values = array_fill_keys(array('name', 'mail', 'homepage', 'hostname'), '');
+      foreach ($values as $value => $default_value) {
+        if (empty($account->$value)) {
+          $account->$value = !empty($original_values->$value) ? $original_values->$value : $default_value;
+        }
+      }
+    }
+  }
+  if ($account->uid > 0) {
+    $result = db_select('mediacommons_base_import_user_map', 'u')->fields('u', array('filename'))->condition('uid', $account->uid)->execute()->fetchField();
+    if ($result && $result !== '0') {
+      $umbrella_url = mediacommons_homepage_umbrella_url();
+      $account->picture = (object) array();
+      $account->picture->uri = $umbrella_url . '/sites/default/files/styles/profile_page_pic/public/pictures/' . $result;
+    }
+  }
+  if (isset($account->picture) && is_numeric($account->picture)) {
+    $account->picture = file_load($account->picture);
+  }
+  return $account;
+}
+
+/**
+ * Override template_preprocess_user_picture() to display user pictures with
+ * Gravatar integration.
+ *
+ * @see template_preprocess_user_picture()
+ * @see _gravatar_load_account()
+ * @see _gravatar_get_account_user_picture()
+ */
+function mediacommons_editorialworkflow_user_picture(&$variables) {
+  $variables['user_picture'] = '';
+  if (variable_get('user_pictures', 0)) {
+    // Load the full user object since it is not provided with nodes, comments, or views displays.
+    $account = _mediacommons_editorialworkflow_load_account($variables['account']);
+    $filepath = _gravatar_get_account_user_picture($account);
+    if (!empty($filepath)) {
+      $alt = t("@user's picture", array('@user' => format_username($account)));
+      //if (module_exists('image') && file_valid_uri($filepath) && $style = variable_get('user_picture_style', '')) {
+        //$variables['user_picture'] = theme('image_style', array('style_name' => $style, 'path' => $filepath, 'alt' => $alt, 'title' => $alt));
+      //}
+      //else {
+      $variables['user_picture'] = theme('image', array('path' => $filepath, 'alt' => $alt, 'title' => $alt));
+      //}
+      if ($account->uid && user_access('access user profiles')) {
+        // Create link to the user's profile.
+        $attributes = array('title' => t('View user profile.'));
+        $variables['user_picture'] = l($variables['user_picture'], 'user/' . $account->uid, array('attributes' => $attributes, 'html' => TRUE));
+      }
+      elseif (!empty($account->homepage)) {
+        // If user is anonymous, create link to the commenter's homepage.
+        $attributes = array(
+          'title' => t('View user website.'),
+          'rel' => 'external nofollow',
+        );
+        $variables['user_picture'] = l($variables['user_picture'], $account->homepage, array('attributes' => $attributes, 'html' => TRUE));
+      }
+    }
+  }
 }
