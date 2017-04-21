@@ -1,12 +1,13 @@
 <?php
 
 module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.theme');
+
 module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.datasource');
 
 function mediacommons_editorialworkflow_init () {
   global $user;
   $path_is_admin = path_is_admin(current_path());
-  if ($path_is_admin) {    
+  if ($path_is_admin) {
     $menu_object = menu_get_object();
     $user->contribute = array(
       'hubs_can_contribute' => mediacommons_editorialworkflow_hubs_user_can_contribute(),
@@ -130,7 +131,7 @@ function mediacommons_editorialworkflow_permission() {
     'publish content' => array(
       'title' => t('Publish content'),
       'description' => t('User is allow to publish content'),
-    ),    
+    ),
   );
 }
 
@@ -142,7 +143,7 @@ function mediacommons_editorialworkflow_node_presave ($node) {
     // what type of permissions?
     $wrapper->status->set($wrapper->field_pubstat->value());
   }
-  
+
   // Inserting a new node @TODO: test work, add validation
   if ($node->type == 'spoke') {
     if (!isset($node->nid)) { // aof December 4, 2014
@@ -192,20 +193,32 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
   }
   // if the user is not the owner and not listed as a contributor in the node
   else {
-      // node exist?
-      if (isset($form['#node']->nid)) {
-        if ($user->uid != 1) {
-          // https://jira.nyu.edu/jira/browse/MC-249
-          drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes.', array('@title' => $form['#node']->title)), 'warning');
-          // 403 Forbidden
-          // The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
-          $url = url('user/' . $user->uid, array(), TRUE, 403);
-          // Do we really want to do this? I need to clarify the story
-          header('Location: ' . $url);
-          drupal_exit($url);
-        }
+    // node exist?
+    if (isset($form['#node']->nid)) {
+      if ($user->uid != 1) {
+        // https://jira.nyu.edu/jira/browse/MC-249
+        drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes.', array('@title' => $form['#node']->title)), 'warning');
+        // 403 Forbidden
+        // The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+        $url = url('user/' . $user->uid, array(), TRUE, 403);
+        // Do we really want to do this? I need to clarify the story
+        header('Location: ' . $url);
+        drupal_exit($url);
       }
-  }  
+    }
+  }
+}
+
+function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Hide "Publishing options" if user does not have access
+  // if (!user_access('publish content', $user)) {
+    $form['options']['#type'] = 'container';
+    $form['options']['#title'] = '';
+    $form['options']['status'] = array(
+      '#type' => 'value',
+      '#value' => 1
+    );
+  //}
 }
 
 function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {
@@ -223,22 +236,10 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
     else {
       $message = t('You are not allow to edit @title.', array('@title' => $user->contribute['current_title']));
     }
-    
     if (isset($message)) {
       drupal_set_message($message, 'warning');
     }
   }
-  
-  // Hide "Publishing options" if user does not have access
-  // if (!user_access('publish content', $user)) {
-    $form['options']['#type'] = 'container';
-    $form['options']['#title'] = '';  
-    $form['options']['status'] = array(
-      '#type' => 'value',
-      '#value' => 1
-    );
-  //}
-
 }
 
 /*
@@ -436,7 +437,7 @@ function mediacommons_editorialworkflow_module_implements_alter(&$module_list, $
   if ($context === 'menu_alter') {
     unset($module_list['mediacommons_editorialworkflow']);
     $module_list['mediacommons_editorialworkflow'] = '';
-  } 
+  }
 }
 
 
