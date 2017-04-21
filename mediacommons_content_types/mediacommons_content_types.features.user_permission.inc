@@ -251,6 +251,13 @@ function mediacommons_content_types_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'publish content'.
+  $permissions['publish content'] = array(
+    'name' => 'publish content',
+    'roles' => array(),
+    'module' => 'mediacommons_editorialworkflow',
+  );
+
   // Exported permission: 'use text format filtered_html'.
   $permissions['use text format filtered_html'] = array(
     'name' => 'use text format filtered_html',
