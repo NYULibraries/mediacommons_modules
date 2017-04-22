@@ -109,7 +109,7 @@ function mediacommons_ds_settings_ds_field_settings_info() {
         'class' => 'spoke-title node-teaser-title ',
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'prefix' => '<span class="label">Hub: </span>',
+          'lb-col' => TRUE,
         ),
       ),
     ),
@@ -322,7 +322,11 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'field_period' => 'left',
       'field_pubstat' => 'left',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        'node-teaser' => 'node-teaser',
+      ),
+    ),
     'wrappers' => array(
       'left' => 'div',
       'right' => 'div',
@@ -499,7 +503,11 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'field_contributors' => 'ds_content',
       'search_snippet' => 'ds_content',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        '' => '',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -751,16 +759,18 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
       'ds_content' => array(
         0 => 'field_attached_images',
         1 => 'group_meta',
-        2 => 'title',
-        3 => 'field_contributors',
-        4 => 'post_date',
-        5 => 'comment_count_spokes',
-        6 => 'search_snippet',
+        2 => 'field_part_of',
+        3 => 'title',
+        4 => 'field_contributors',
+        5 => 'post_date',
+        6 => 'comment_count_spokes',
+        7 => 'search_snippet',
       ),
     ),
     'fields' => array(
       'field_attached_images' => 'ds_content',
       'group_meta' => 'ds_content',
+      'field_part_of' => 'ds_content',
       'title' => 'ds_content',
       'field_contributors' => 'ds_content',
       'post_date' => 'ds_content',
@@ -770,7 +780,11 @@ function mediacommons_ds_settings_ds_layout_settings_info() {
     'limit' => array(
       'field_attached_images' => '1',
     ),
-    'classes' => array(),
+    'classes' => array(
+      'layout_class' => array(
+        'node-teaser' => 'node-teaser',
+      ),
+    ),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
