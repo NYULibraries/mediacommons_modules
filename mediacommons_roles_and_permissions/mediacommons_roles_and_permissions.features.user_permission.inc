@@ -546,6 +546,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'create front_page_post content',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -574,6 +575,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'delete any front_page_post content',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -583,6 +585,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'delete own front_page_post content',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -665,6 +668,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'edit any front_page_post content',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -684,6 +688,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'edit own front_page_post content',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
