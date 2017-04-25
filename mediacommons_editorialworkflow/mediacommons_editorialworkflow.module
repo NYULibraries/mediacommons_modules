@@ -209,15 +209,12 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
 }
 
 function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_state, $form_id) {
-  // Hide "Publishing options" if user does not have access
-  // if (!user_access('publish content', $user)) {
-    $form['options']['#type'] = 'container';
-    $form['options']['#title'] = '';
-    $form['options']['status'] = array(
-      '#type' => 'value',
-      '#value' => 1
-    );
-  //}
+  $form['options']['#type'] = 'container';
+  $form['options']['#title'] = '';
+  $form['options']['status'] = array(
+    '#type' => 'value',
+    '#value' => 1
+  );
 }
 
 function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {

@@ -88,7 +88,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete any review content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
       'managing editor' => 'managing editor',
     ),
     'module' => 'node',
@@ -182,7 +181,7 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit any review content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -280,6 +279,76 @@ function mediacommons_content_types_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'filter',
+  );
+
+  // Exported permission: 'view any unpublished content'.
+  $permissions['view any unpublished content'] = array(
+    'name' => 'view any unpublished content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'view_unpublished',
+  );
+
+  // Exported permission: 'view any unpublished front_page_post content'.
+  $permissions['view any unpublished front_page_post content'] = array(
+    'name' => 'view any unpublished front_page_post content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'view_unpublished',
+  );
+
+  // Exported permission: 'view any unpublished hub content'.
+  $permissions['view any unpublished hub content'] = array(
+    'name' => 'view any unpublished hub content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'view_unpublished',
+  );
+
+  // Exported permission: 'view any unpublished page content'.
+  $permissions['view any unpublished page content'] = array(
+    'name' => 'view any unpublished page content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'view_unpublished',
+  );
+
+  // Exported permission: 'view any unpublished review content'.
+  $permissions['view any unpublished review content'] = array(
+    'name' => 'view any unpublished review content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'view_unpublished',
+  );
+
+  // Exported permission: 'view any unpublished spoke content'.
+  $permissions['view any unpublished spoke content'] = array(
+    'name' => 'view any unpublished spoke content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'view_unpublished',
   );
 
   return $permissions;
