@@ -13,7 +13,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'administer mediacommons filters'.
   $permissions['administer mediacommons filters'] = array(
     'name' => 'administer mediacommons filters',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'mediacommons_filter',
   );
 
@@ -33,9 +35,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'create page content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
-      'contributor' => 'contributor',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -80,8 +79,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete any page content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -124,8 +121,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete own page content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -156,7 +151,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'delete revisions'.
   $permissions['delete revisions'] = array(
     'name' => 'delete revisions',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'node',
   );
 
@@ -176,8 +173,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit any page content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -188,7 +183,6 @@ function mediacommons_content_types_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'cluster curator' => 'cluster curator',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -220,9 +214,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit own page content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
-      'contributor' => 'contributor',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -254,7 +245,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'publish content'.
   $permissions['publish content'] = array(
     'name' => 'publish content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'mediacommons_editorialworkflow',
   );
 
@@ -274,14 +267,18 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'use text format full_html'.
   $permissions['use text format full_html'] = array(
     'name' => 'use text format full_html',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'filter',
   );
 
   // Exported permission: 'use text format limited_html'.
   $permissions['use text format limited_html'] = array(
     'name' => 'use text format limited_html',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'filter',
   );
 
