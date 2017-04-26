@@ -15,7 +15,7 @@
 .tao .links.secondary-menu,
 .tao .toolbar-drawer {
   display: none;
-  visibility: hidden;  
+  visibility: hidden;
 }
 
 .contributor.no-privilege #edit-actions {
@@ -46,4 +46,9 @@
 .image-preview .crop, .image-preview .	delete {
 	text-decoration: underline;
 	font-size: small;
+}
+
+.user-cant-contribute #edit-actions {
+  display: none;
+  visibility: hidden;
 }

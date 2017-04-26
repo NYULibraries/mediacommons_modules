@@ -142,7 +142,6 @@ function mediacommons_editorialworkflow_node_presave ($node) {
     // what type of permissions?
     $wrapper->status->set($wrapper->field_pubstat->value());
   }
-
   // Inserting a new node @TODO: test work, add validation
   if ($node->type == 'spoke') {
     if (!isset($node->nid)) { // aof December 4, 2014
@@ -171,41 +170,76 @@ function mediacommons_editorialworkflow_node_presave ($node) {
   }
 }
 
-function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_state, $form_id) {
+function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form_state, $form_id) {
+  
+  // if (!isset($form['#node']->nid)) return;
+  
   global $user;
+  
+  $user_can_edit = FALSE;
+
   $entity_owner = $form['#node']->name;
+
   $username = $user->name;
-  if (isset($user->contribute['contributor']) || $entity_owner == $username) { // add entity_owner to "contributor"
-    /** Add CSS and JS files */
-	  //mediacommons_editorialworkflow_add_assets();
-    $field = field_get_items('node', $form['#node'], 'field_type');
-    if (isset($field[0])) {
-      switch ($field[0]['value']) {
-        case 0 :
-          $form['#attributes']['class'][] = 'node-hub-type-video';
-          break;
-        case 1 :
-          $form['#attributes']['class'][] = 'node-hub-type-image';
-          break;
-      }
-	  }
+
+  $entity_owner = $form['#node']->name;  
+
+  $hubs_can_contribute = $user->contribute['hubs_can_contribute'];
+  
+  $role_administrator = user_role_load_by_name('administrator');
+  
+  $role_managing_editor = user_role_load_by_name('managing editor');
+  
+  if ($user->uid == 1 || user_has_role($role_managing_editor->rid) || user_has_role($role_administrator->rid)) {
+    $user_can_edit = TRUE;
   }
-  // if the user is not the owner and not listed as a contributor in the node
-  else {
-    // node exist?
-    if (isset($form['#node']->nid)) {
-      if ($user->uid != 1) {
-        // https://jira.nyu.edu/jira/browse/MC-249
-        drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes.', array('@title' => $form['#node']->title)), 'warning');
-        // 403 Forbidden
-        // The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
-        $url = url('user/' . $user->uid, array(), TRUE, 403);
-        // Do we really want to do this? I need to clarify the story
-        header('Location: ' . $url);
-        drupal_exit($url);
-      }
+  
+  // logged user is the same as the author of the entity?
+  if ($entity_owner == $username) {
+    $user_can_edit = TRUE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $form['#node']);  
+  
+  $contributors = array();
+  
+  foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
+    if ($contributor->name == $username) {
+      $user_can_edit = TRUE;
+    }
+    if ($user_can_edit) {
+      continue;
     }
   }
+  
+  foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
+    if ($curators_editors->name == $username) {
+      $user_can_edit = TRUE;
+    }
+    if ($user_can_edit) {
+      continue;
+    }
+  }
+  
+  foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
+    if ($field_co_editor->name == $username) {
+      $user_can_edit = TRUE;
+    }
+    if ($user_can_edit) {
+      continue;
+    }
+  }
+
+  if (!$user_can_edit) {
+    // add a class so that we can style the form
+    $form['#attributes']['class'][] = 'user-cant-contribute';
+    // if the user is not the owner and not listed as a contributor in the node
+    drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes. Redirecting in <em><span class="redirect">5</span></em> seconds.', array('@title' => $form['#node']->title)), 'warning');  
+    $form['actions']['submit']['#access'] = FALSE;
+    $form['actions']['preview']['#access'] = FALSE;
+    $form['actions']['preview_changes']['#access'] = FALSE;
+  }
+
 }
 
 function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_state, $form_id) {
