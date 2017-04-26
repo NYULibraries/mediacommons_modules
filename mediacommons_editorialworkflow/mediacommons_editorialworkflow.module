@@ -176,6 +176,15 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form
   
   global $user;
   
+  $settings = array(
+    'mediacommons_editorialworkflow' => array(
+      'isAdminPage' => TRUE,
+      'redirect' => array(
+        'path' => base_path(), 'trigger' => FALSE,
+      ),
+    ),
+  );
+  
   $user_can_edit = FALSE;
 
   $entity_owner = $form['#node']->name;
@@ -238,7 +247,10 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form
     $form['actions']['submit']['#access'] = FALSE;
     $form['actions']['preview']['#access'] = FALSE;
     $form['actions']['preview_changes']['#access'] = FALSE;
+    $settings['mediacommons_editorialworkflow']['redirect']['trigger'] = TRUE;
   }
+
+  drupal_add_js($settings, 'setting');
 
 }
 
