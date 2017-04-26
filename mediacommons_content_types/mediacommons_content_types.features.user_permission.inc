@@ -24,7 +24,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'create hub content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
       'managing editor' => 'managing editor',
     ),
     'module' => 'node',
@@ -68,7 +67,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete any hub content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
       'managing editor' => 'managing editor',
     ),
     'module' => 'node',
@@ -109,7 +107,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'delete own hub content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
       'managing editor' => 'managing editor',
     ),
     'module' => 'node',
@@ -202,7 +199,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'edit own hub content',
     'roles' => array(
       'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
       'managing editor' => 'managing editor',
     ),
     'module' => 'node',
@@ -294,12 +290,7 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'view any unpublished front_page_post content'.
   $permissions['view any unpublished front_page_post content'] = array(
     'name' => 'view any unpublished front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'cluster curator' => 'cluster curator',
-      'contributor' => 'contributor',
-      'managing editor' => 'managing editor',
-    ),
+    'roles' => array(),
     'module' => 'view_unpublished',
   );
 
