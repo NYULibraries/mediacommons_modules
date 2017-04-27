@@ -176,11 +176,13 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form
   
   global $user;
   
+  $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
+  
   $settings = array(
     'mediacommons_editorialworkflow' => array(
       'isAdminPage' => TRUE,
       'redirect' => array(
-        'path' => base_path(), 'trigger' => FALSE,
+        'path' => $path, 'trigger' => FALSE,
       ),
     ),
   );
