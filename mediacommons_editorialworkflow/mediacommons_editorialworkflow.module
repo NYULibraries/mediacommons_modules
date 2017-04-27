@@ -171,13 +171,7 @@ function mediacommons_editorialworkflow_node_presave ($node) {
 }
 
 function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form_state, $form_id) {
-  
-  // if (!isset($form['#node']->nid)) return;
-  
-  global $user;
-  
   $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
-  
   $settings = array(
     'mediacommons_editorialworkflow' => array(
       'isAdminPage' => TRUE,
@@ -186,73 +180,87 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form
       ),
     ),
   );
-  
-  $user_can_edit = FALSE;
-
-  $entity_owner = $form['#node']->name;
-
-  $username = $user->name;
-
-  $entity_owner = $form['#node']->name;  
-
-  $hubs_can_contribute = $user->contribute['hubs_can_contribute'];
-  
-  $role_administrator = user_role_load_by_name('administrator');
-  
-  $role_managing_editor = user_role_load_by_name('managing editor');
-  
-  if ($user->uid == 1 || user_has_role($role_managing_editor->rid) || user_has_role($role_administrator->rid)) {
-    $user_can_edit = TRUE;
-  }
-  
-  // logged user is the same as the author of the entity?
-  if ($entity_owner == $username) {
-    $user_can_edit = TRUE;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $form['#node']);  
-  
-  $contributors = array();
-  
-  foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
-    if ($contributor->name == $username) {
-      $user_can_edit = TRUE;
-    }
-    if ($user_can_edit) {
-      continue;
-    }
-  }
-  
-  foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
-    if ($curators_editors->name == $username) {
-      $user_can_edit = TRUE;
-    }
-    if ($user_can_edit) {
-      continue;
-    }
-  }
-  
-  foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
-    if ($field_co_editor->name == $username) {
-      $user_can_edit = TRUE;
-    }
-    if ($user_can_edit) {
-      continue;
-    }
-  }
-
+  $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
   if (!$user_can_edit) {
     // add a class so that we can style the form
     $form['#attributes']['class'][] = 'user-cant-contribute';
     // if the user is not the owner and not listed as a contributor in the node
-    drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes. Redirecting in <em><span class="redirect">5</span></em> seconds.', array('@title' => $form['#node']->title)), 'warning');  
+    drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes. Redirecting in <em><span class="redirect">5</span></em> seconds.', array('@title' => $form['#node']->title)), 'warning');
     $form['actions']['submit']['#access'] = FALSE;
     $form['actions']['preview']['#access'] = FALSE;
     $form['actions']['preview_changes']['#access'] = FALSE;
     $settings['mediacommons_editorialworkflow']['redirect']['trigger'] = TRUE;
   }
-
   drupal_add_js($settings, 'setting');
+}
+
+function mediacommons_editorialworkflow_node_view($node, $view_mode, $langcode) {}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function mediacommons_editorialworkflow_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  $user_can_edit = false;
+  $type = null;
+	foreach ($router_item["map"] as $map) {
+		if (!isset($map->type)) continue;
+		if ($map->type == 'hub' || $map->type == 'spoke') {
+			$type = $map->type;
+			break;
+		}
+	}
+	if ($type == null) return;
+  $page_arguments = $router_item['page_arguments'];
+  if (count($page_arguments) === 1) {
+    $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($page_arguments[0]);
+  }
+  if (!$user_can_edit) {
+	  foreach ($data['tabs'][0]['output'] as $key => $value) {
+      if ($value['#link']['path'] == 'node/%/edit') {
+			  unset($data['tabs'][0]['output'][$key]);
+		  }
+    }
+	}
+}
+
+function mediacommons_editorialworkflow_user_can_edit_node ($node) {
+
+  global $user;
+
+  $user_can_edit = FALSE;
+
+  $entity_owner = $node->name;
+
+  $username = $user->name;
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  $contributors = array();
+
+  $role_administrator = user_role_load_by_name('administrator');
+
+  $role_managing_editor = user_role_load_by_name('managing editor');
+
+  if ($user->uid == 1 || user_has_role($role_managing_editor->rid) || user_has_role($role_administrator->rid)) {
+    return TRUE;
+  }
+
+  // logged user is the same as the author of the entity?
+  if ($entity_owner == $username) return TRUE;
+
+  foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
+    if ($contributor->name == $username) return TRUE;
+  }
+
+  foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
+    if ($curators_editors->name == $username) return TRUE;
+  }
+
+  foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
+    if ($field_co_editor->name == $username) return TRUE;
+  }
+
+  return $user_can_edit;
 
 }
 
