@@ -261,6 +261,12 @@ function mediacommons_editorialworkflow_user_can_edit_node ($node) {
 }
 
 function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  /** indication of that this form was process by the editorial workflow module */
+  $form['#attributes']['class'][] = 'editorial-workflow';
+  foreach ($user->roles as $role) {
+    $form['#attributes']['class'][] = 'editorial-workflow-' . str_replace(' ', '-', $role);
+  }
   $form['options']['#type'] = 'container';
   $form['options']['#title'] = '';
   $form['options']['status'] = array(
@@ -270,24 +276,29 @@ function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_stat
 }
 
 function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-  /** indication of that this form was process by the editorial workflow module */
-  $form['#attributes']['class'][] = 'editorial-workflow';
   /** node exist */
-  if (isset($form['#node']->nid)) {
-    /** contributor is allow to edit node */
-    if (isset($user->contribute['contributor'])) {
-      $form['#attributes']['class'][] = $user->contribute['role'];
-      // $message = t('Contributing as @contributor.', array('@contributor' => $user->contribute['role']));
-    }
-    /** user is not allow to edit node */
-    else {
-      $message = t('You are not allow to edit @title.', array('@title' => $user->contribute['current_title']));
-    }
-    if (isset($message)) {
-      drupal_set_message($message, 'warning');
-    }
+  if (!isset($form['#node']->nid)) return;
+  $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
+  $settings = array(
+    'mediacommons_editorialworkflow' => array(
+      'isAdminPage' => TRUE,
+      'redirect' => array(
+        'path' => $path, 'trigger' => FALSE,
+      ),
+    ),
+  );
+  $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
+  if (!$user_can_edit) {
+    // add a class so that we can style the form
+    $form['#attributes']['class'][] = 'user-cant-contribute';
+    // if the user is not the owner and not listed as a contributor in the node
+    drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes. Redirecting in <em><span class="redirect">5</span></em> seconds.', array('@title' => $form['#node']->title)), 'warning');
+    $form['actions']['submit']['#access'] = FALSE;
+    $form['actions']['preview']['#access'] = FALSE;
+    $form['actions']['preview_changes']['#access'] = FALSE;
+    $settings['mediacommons_editorialworkflow']['redirect']['trigger'] = TRUE;
   }
+  drupal_add_js($settings, 'setting');
 }
 
 /**
