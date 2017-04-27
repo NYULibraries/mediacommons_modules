@@ -227,26 +227,22 @@ function mediacommons_editorialworkflow_user_can_edit_node ($node) {
 
   global $user;
 
-  $user_can_edit = FALSE;
-
-  $entity_owner = $node->name;
+  if ($user->uid == 1) return TRUE;
 
   $username = $user->name;
 
-  $wrapper = entity_metadata_wrapper('node', $node);
+  // logged user is the same as the author of the entity?
+  if ($node->name == $username) return TRUE;
 
-  $contributors = array();
+  $wrapper = entity_metadata_wrapper('node', $node);
 
   $role_administrator = user_role_load_by_name('administrator');
 
   $role_managing_editor = user_role_load_by_name('managing editor');
 
-  if ($user->uid == 1 || user_has_role($role_managing_editor->rid) || user_has_role($role_administrator->rid)) {
-    return TRUE;
-  }
+  if (user_has_role($role_managing_editor->rid)) return TRUE;
 
-  // logged user is the same as the author of the entity?
-  if ($entity_owner == $username) return TRUE;
+  if (user_has_role($role_administrator->rid)) return TRUE;
 
   foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
     if ($contributor->name == $username) return TRUE;
@@ -260,7 +256,7 @@ function mediacommons_editorialworkflow_user_can_edit_node ($node) {
     if ($field_co_editor->name == $username) return TRUE;
   }
 
-  return $user_can_edit;
+  return FALSE;
 
 }
 
