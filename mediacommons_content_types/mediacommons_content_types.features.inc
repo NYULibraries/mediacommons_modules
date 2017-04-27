@@ -37,7 +37,7 @@ function mediacommons_content_types_node_info() {
     'hub' => array(
       'name' => t('Hub'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('A collection of spokes. Also called a Theme Week (IMR), Issue (inTransition), Cluster (#Alt-Ac, TNE), or Survey Question (Field Guide).'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
@@ -53,7 +53,7 @@ function mediacommons_content_types_node_info() {
     'review' => array(
       'name' => t('Review'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('Invited commentary (as opposed to Comments). Currently used by inTransition.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
@@ -61,7 +61,7 @@ function mediacommons_content_types_node_info() {
     'spoke' => array(
       'name' => t('Spoke'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('The basic building block of a MediaCommons channel. Also called a Post (IMR), Video (inTransition), or Article (TNE), Essay (#Alt-Ac).'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
