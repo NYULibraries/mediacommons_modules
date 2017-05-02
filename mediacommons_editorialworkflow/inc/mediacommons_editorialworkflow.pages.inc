@@ -1,112 +1,214 @@
 <?php
 
+function mediacommons_editorialworkflow_contributor_title () {
+  global $user;
+  $name = realname_load($user);
+  if (empty($name)) {
+    $name = $user->name;
+  }
+  return t('My dashboard', array());
+}
 
-function mediacommons_editorialworkflow_contribute_page() {
+function mediacommons_editorialworkflow_contributor_dashboard_create_content () {
 
   global $user;
 
-  $output = NULL;
-   
-  $pattern = $replacement = $items = array(); 
-  
+  $output = '';
+
   $types = node_type_get_types();
-  
+
+  $items = array();
+
+  $br = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'br',
+    ),
+  ));
+
+  $hr = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'hr',
+    ),
+  ));
+
   $output .= theme('html_tag', array(
     'element' => array(
       '#tag' => 'h2',
       '#attributes' => array(
         'class' => 'title',
         ),
-      '#value' => t('Create New Content'),
+      '#value' => t('Create new content'),
     ),
   ));
 
-  foreach( (array)$types as $type ) {   
+  $output .= $br;
+
+  foreach ($types as $type) {
     if (user_access('create ' . $type->type . ' content')) {
-      
       $type_url_str = str_replace('_', '-', $type->type);
-      
       switch ($type->type) {
-      
         case 'cluster' :
           $type->name = t('Create a New Cluster');
-          break;      
-
+          break;
         case 'contributed_pieces' :
           $type->name = t('Contribute a New Piece');
           break;
-
-        case 'response' :
-          $type->name = t("Respond to Cluster or Pieces, or to items you've bookmarked");
-          break;
-          
       }
-
-      $items[] = t(l( $type->name, 'node/add/' . $type_url_str, array('query' => array('destination' => 'contribute'))) . '<div class="description">'. $type->description .   '</div>');
-
+      $items[] = t(l( $type->name, 'node/add/' . $type_url_str, array('query' => array('destination' => 'contributor'))) . '<div class="description">'. $type->description .   '</div>');
     }
   }
-  
+
   $output .= theme('item_list', array('items' => $items));
 
+  $output .= $br;
 
-  if (user_access('contribute content cluster')) {
+  $container  = '';
+  $container .= '<div id="dashboard" class="clearfix jquery-once-2-processed">';
+  $container .= '<div id="dashboard_main" class="dashboard-region">';
+  $container .= '<div class="region clearfix">';
+  $container .= $output;
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '<div id="dashboard_sidebar" class="dashboard-region">';
+  $container .= '<div class="region clearfix">';
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '</div>';
 
-    /**
-    $query = "SELECT
-                  node.nid AS nid,
-                  node.language AS node_language,
-                  node.title AS node_title,
-                  node.created AS node_created
-                FROM {node} node
-                LEFT JOIN {content_field_contributors} node_data_field_contributors ON node.vid = node_data_field_contributors.vid
-                INNER JOIN {users} users_node_data_field_contributors ON node_data_field_contributors.field_contributors_uid = users_node_data_field_contributors.uid
-                WHERE (node.type in ('cluster'))
-                AND (users_node_data_field_contributors.uid = %s)
-                ORDER BY node_created ASC";
-
-    $result = db_query($query, $user->uid);
-
-    while ($data = db_fetch_object($result)) {
-      $items[] = l($data->node_title, 'node/add/contributed-pieces/cluster/' . $data->nid);
-    }
-    $output .= theme('item_list', $items);
-    **/
-
-  }
-
-  return $output;
+  return $container;
 
 }
 
-function mediacommons_editorialworkflow_page_set_upcoming_hub() {
-  return;
-}
+function mediacommons_editorialworkflow_contributor_dashboard () {
 
-function mediacommons_editorialworkflow_set_current_hub() {
-  return;
-}
+  global $user;
 
-function mediacommons_editorialworkflow_admin_page() {
-  
+  drupal_set_breadcrumb(array(l('Home', '<front>'), l('My dashboard', 'contributor'),));
+
+  // we need something more elegant. deal with this using access callback?
+  if (!user_access('create spoke content')) return '';
+
   $output = '';
-  
-  $output .= '<h2 class="title">' . t('Administer site' . '</h2>');
 
-  if (user_access('administer users')) {
-    $items[] = l('Administer users', 'admin/people');
+  $br = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'br',
+    ),
+  ));
+
+  $hr = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'hr',
+    ),
+  ));
+
+  $super = ($user->uid == 1) ? true : false;
+
+  $role_contributor = user_role_load_by_name('contributor');
+
+  $contributor = user_has_role($role_contributor->rid);
+
+  $role_clustercurator = user_role_load_by_name('cluster curator');
+
+  $clustercurator = user_has_role($role_clustercurator->rid);
+
+  $role_managingeditor = user_role_load_by_name('managing editor');
+
+  $managingeditor = user_has_role($role_managingeditor->rid);
+
+  $output .= theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'h2',
+      '#attributes' => array(
+        'class' => 'title',
+        ),
+      '#value' => t('Recent content'),
+    ),
+  ));
+  $output .= $br;
+  $output .= views_embed_view('recent_content', 'default', $user->uid);
+  $output .= $hr;
+  if ($super|| $contributor || $clustercurator || $managingeditor) {
+    $view = views_embed_view('contributorsspokes', 'default', $user->uid);
+    $output .= $br;
+    $output .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title',
+          ),
+        '#value' => t('Content I can contribute to'),
+      ),
+    ));
+    $output .= $br;
+    $output .= $view;
+    $output .= $hr;
   }
-  
-  if (user_access('set current hub')) {
-    $items[] = l('Set current hub', 'user/admin/set-current-cluster', array('query' => array('destination' => 'contribute/dashboard')));
+  if ($super|| $clustercurator || $managingeditor) {
+    $view_contributorsspokes_block_1 = views_embed_view('contributorsspokes', 'block_1', $user->uid);
+    $view_contributorsspokes_block_2 = views_embed_view('contributorsspokes', 'block_2', $user->uid);
+    $output .= $br;
+    $output .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title',
+          ),
+        '#value' => t('Content I can curate'),
+      ),
+    ));
+    $output .= $br;
+    $output .= $view_contributorsspokes_block_1;
+    $output .= $hr;
+    $output .= $br;
+    $output .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title',
+          ),
+        '#value' => t('Content I am a co-editor'),
+      ),
+    ));
+    $output .= $br;
+    $output .= $view_contributorsspokes_block_2;
+    $output .= $hr;
+    $output .= $br;
   }
 
-  if (user_access('set upcoming hub')) {
-    $items[] = l('Set upcoming hub', 'user/admin/set-upcoming-hub', array('query' => array('destination' => 'contribute/dashboard')));
-  }
+  $block = module_invoke('search', 'block_view', 'search');
 
-  $output .= theme('item_list', array('items' => $items));
-  
-  return $output;
-  
+  $search = '';
+
+  $search .= theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'h2',
+      '#attributes' => array(
+        'class' => 'title',
+        ),
+      '#value' => t('Search'),
+    ),
+  ));
+
+  $search .= $br;
+  $search .= render($block);
+
+  $container  = '';
+  $container .= '<div id="dashboard" class="clearfix jquery-once-2-processed">';
+  $container .= '<div id="dashboard_main" class="dashboard-region">';
+  $container .= '<div class="region clearfix">';
+  $container .= $output;
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '<div id="dashboard_sidebar" class="dashboard-region">';
+  $container .= '<div class="region clearfix">';
+  $container .= $search;
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '</div>';
+
+  drupal_add_css(drupal_get_path('module', 'dashboard') . '/dashboard.css');
+
+  return $container;
+
 }

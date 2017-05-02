@@ -4,6 +4,39 @@ module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_e
 module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.datasource');
 module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.queue');
 
+/**
+ * Implements hook_views_api().
+ */
+function mediacommons_editorialworkflow_views_api() {
+  return array(
+    'api' => '3.0',
+  );
+}
+
+/**
+ * Implements hook_views_default_views().
+ */
+function mediacommons_editorialworkflow_default_views() {
+  $views = array();
+  $path = drupal_get_path('module', 'mediacommons_editorialworkflow') . '/views/';
+  $files = array(
+    'mediacommons_editorialworkflow.contributorscontent.inc',
+    'mediacommons_editorialworkflow.recent_content.inc',
+  );
+  foreach ($files as $file) {
+    require_once $path . $file;
+    $views[$view->name] = $view;
+    unset($view);
+  }
+  return $views;
+}
+
+function mediacommons_editorialworkflow_custom_theme() {
+  if (arg(0) == 'contributor') {
+    return 'mediacommons_admin';
+  }
+}
+
 function mediacommons_editorialworkflow_init () {
   global $user;
   $path_is_admin = path_is_admin(current_path());
@@ -54,42 +87,83 @@ function mediacommons_editorialworkflow_init () {
   }
 }
 
-function mediacommons_editorialworkflow_menu() {
-  $items['admin/contribute'] = array(
-    'title' => t('Contribute'),
-    'page callback' => 'mediacommons_editorialworkflow_contribute_page',
-    'page arguments' => array(1),
-    'access callback' => TRUE,
-    'weight' => 1,
-    'file' => 'includes/mediacommons_editorialworkflow.pages.inc',
+function mediacommons_editorialworkflow_menu () {
+
+  $items = array();
+
+  $items['contributor'] = array(
+    'title callback' => 'mediacommons_editorialworkflow_contributor_title',
+    'description' => 'User dashboard',
+    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
+    'access arguments' => array('access mediacommons dashboard'),
+    'file' => 'inc/mediacommons_editorialworkflow.pages.inc',
+    'type' =>  MENU_NORMAL_ITEM,
+  );
+
+  $items['contributor/dashboard'] = array(
+    'title' => 'Dashboard',
+    'description' => 'User dashboard',
+    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
+    'access arguments' => array('access mediacommons dashboard'),
+    'weight' => 7,
+    'file' => 'inc/mediacommons_editorialworkflow.pages.inc',
+    'type' =>  MENU_DEFAULT_LOCAL_TASK,
+  );
+
+  // Make "Foo settings" appear on the admin Config page
+  $items['contributor/add'] = array(
+    'title' => 'Create content',
+    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_create_content',
+    'description' => 'Create content',
+    'access arguments' => array('access mediacommons dashboard'),
+    'weight' => 8,
+    'file' => 'inc/mediacommons_editorialworkflow.pages.inc',
     'type' => MENU_LOCAL_TASK,
   );
-  $items['admin/contribute/dashboard'] = array(
-    'title' => t('Administrate site'),
-    'description' => 'Manage users, set current hub and upcoming hubs.',
-    'page callback' => 'mediacommons_editorialworkflow_admin_page',
-    'page arguments' => array(1),
-    'access arguments' => array('access dashboard'),
-    'weight' => 3,
-    'file' => 'includes/mediacommons_editorialworkflow.pages.inc',
+
+  $items['contributor/profile'] = array(
+    'title' => 'Profile',
+    'page callback' => '_mediacommons_editorialworkflow_redirect_url_profile',
+    'access callback' => 'user_is_logged_in',
+    'access arguments' => array('access mediacommons dashboard'),
+    'weight' => 9,
     'type' => MENU_LOCAL_TASK,
   );
-  $items['admin/contribute/dashboard/set-current-hub'] = array(
-    'title' => 'Set current cluster',
-    'description' => 'Set current hub, selected item will be displayed in the frontpage.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('mediacommons_editorialworkflow_set_current_hub'),
-    'access arguments' => array('set current hub'),
-    'type' => MENU_NORMAL_ITEM,
-    'file' => 'includes/mediacommons_editorialworkflow.pages.inc',
-  );
+
+  /**
+   * $items['contributor/logout'] = array(
+   *  'title' => 'Log out',
+   *  'page callback' => '_mediacommons_editorialworkflow_redirect_url',
+   *  'access callback' => 'user_is_logged_in',
+   *  'access arguments' => array('access mediacommons dashboard'),
+   *  'weight' => 10,
+   *  'type' => MENU_LOCAL_TASK,
+   * );
+   */
+
   return $items;
+
+}
+
+/**
+ * Redirects user to defined page.
+ */
+function _mediacommons_editorialworkflow_redirect_url () {
+  drupal_goto('user/logout');
+}
+
+function _mediacommons_editorialworkflow_redirect_url_profile () {
+  $project = variable_get('mediacommons_project', 'mediacommons');
+  if ($project === 'mediacommons') return;
+  $item = menu_get_item();
+  $url = url(mediacommons_homepage_umbrella_url() . '/user', array('query' => array('project' => $project, 'destination' => implode('/', $item['original_map']))));
+  header('Location: ' . $url, TRUE, 302);
 }
 
 /**
  * Implementation of hook_perm().
  */
-function mediacommons_editorialworkflow_permission() {
+function mediacommons_editorialworkflow_permission () {
   return array(
     'access mediacommons content' => array(
       'title' => t('Access mediacommons content'),
@@ -309,30 +383,12 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
 /**
  * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_update/7.x
  */
-function mediacommons_editorialworkflow_user_update(&$edit, $account, $category) {
-  //dpm(__FUNCTION__);
-  //dpm($edit);
-  //dpm($account);
-  //dpm($category);
-  //db_insert('user_changes')
-  //  ->fields(array(
-  //    'uid' => $account->uid,
-  //    'changed' => time(),
-  //  ))
-  //  ->execute();
-}
+//function mediacommons_editorialworkflow_user_update(&$edit, $account, $category) {}
 
 /**
  * https://api.drupal.org/api/drupal/modules!user!user.api.php/function/hook_user_presave/7.x
  */
-function mediacommons_editorialworkflow_user_presave(&$edit, $account, $category) {
-  // if ($account->is_new) { //Do things }
-  // Make sure that our form value 'mymodule_foo' is stored as
-  // 'mymodule_bar' in the 'data' (serialized) column.
-  //if (isset($edit['mymodule_foo'])) {
-    //$edit['data']['mymodule_bar'] = $edit['mymodule_foo'];
-  //}
-}
+//function mediacommons_editorialworkflow_user_presave(&$edit, $account, $category) {}
 
 function mediacommons_editorialworkflow_userpath () {
   $project = variable_get('mediacommons_project', 'mediacommons');
@@ -410,7 +466,6 @@ function mediacommons_editorialworkflow_module_implements_alter(&$module_list, $
     $module_list['mediacommons_editorialworkflow'] = '';
   }
 }
-
 
 function _mediacommons_editorialworkflow_load_account($account) {
   // If this is a node or comment object, load the user object.

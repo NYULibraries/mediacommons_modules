@@ -4,7 +4,7 @@ function mediacommons_editorialworkflow_theme_registry_alter(&$theme_registry) {
   $project = variable_get('mediacommons_project', 'mediacommons');
   if ($project === 'mediacommons') return;
   $theme_registry['link']['function'] = 'mediacommons_editorialworkflow_link';
-  // do we want to unset gravatar_preprocess_user_picture, we are taking over that function ... 
+  // do we want to unset gravatar_preprocess_user_picture, we are taking over that function ...
   $theme_registry['user_picture']['preprocess functions'][] = 'mediacommons_editorialworkflow_user_picture';
 }
 
@@ -62,7 +62,7 @@ function mediacommons_editorialworkflow_preprocess_container(&$variables) {
 
 function mediacommons_editorialworkflow_preprocess_textfield(&$variables) {
   $element = &$variables['element'];
-  if ($element['#name'] == 'title') {
+  if (isset($element['#name']) && $element['#name'] == 'title') {
     $element['#attributes']['placeholder'] = t('Untitled');
   }
 }
