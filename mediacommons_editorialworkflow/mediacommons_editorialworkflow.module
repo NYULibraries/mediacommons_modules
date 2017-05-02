@@ -7,7 +7,7 @@ module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_e
 /**
  * Implements hook_views_api().
  */
-function mediacommons_editorialworkflow_views_api() {
+function mediacommons_editorialworkflow_views_api () {
   return array(
     'api' => '3.0',
   );
@@ -16,17 +16,15 @@ function mediacommons_editorialworkflow_views_api() {
 /**
  * Implements hook_views_default_views().
  */
-function mediacommons_editorialworkflow_default_views() {
+function mediacommons_editorialworkflow_views_default_views () {
   $views = array();
-  $path = drupal_get_path('module', 'mediacommons_editorialworkflow') . '/views/';
-  $files = array(
-    'mediacommons_editorialworkflow.contributorscontent.inc',
-    'mediacommons_editorialworkflow.recent_content.inc',
-  );
-  foreach ($files as $file) {
-    require_once $path . $file;
-    $views[$view->name] = $view;
-    unset($view);
+  $files = file_scan_directory(drupal_get_path('module', 'mediacommons_editorialworkflow') . '/views', '/\.inc/');
+  foreach ($files as $absolute => $file) {
+    require $absolute;
+    if (isset($view)) {
+      $views[$file->name] = $view;
+      unset($view);
+    }
   }
   return $views;
 }
