@@ -126,11 +126,8 @@ function mediacommons_apis_block_view ( $delta = '' ) {
  * A module-defined block content function.
  */
 function mediacommons_apis_contents ( ) {
-
   $block_content = '<div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>';
-
   return array('#markup' => $block_content);
-
 }
 
 /**
@@ -211,7 +208,6 @@ function mediacommons_apis_deliver_json ($page_callback_result) {
  * Implements hook_menu().
  */
 function mediacommons_apis_menu ( ) {
-
 	$menu = array (
     'apis/status' => array (
       'title' => 'Site status',
@@ -220,16 +216,10 @@ function mediacommons_apis_menu ( ) {
     	'delivery callback' => 'mediacommons_apis_deliver_json',
       'type' => MENU_CALLBACK,
     ) ,
-  ) ;
-
+  );
   return $menu ;
-
 }
 
 function mediacommons_apis_status_report ( ) {
-
-	$status = variable_get('mediacommons_migration_status', '{}' ) ;
-
-  return json_decode ( $status ) ;
-
+  return json_decode(variable_get('mediacommons_migration_status', '{}'));
 }
