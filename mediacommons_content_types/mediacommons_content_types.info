@@ -159,7 +159,6 @@ features[user_permission][] = use text format filtered_html
 features[user_permission][] = use text format full_html
 features[user_permission][] = use text format limited_html
 features[user_permission][] = view any unpublished content
-features[user_permission][] = view any unpublished front_page_post content
 features[user_permission][] = view any unpublished hub content
 features[user_permission][] = view any unpublished page content
 features[user_permission][] = view any unpublished review content

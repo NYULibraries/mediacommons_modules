@@ -15,6 +15,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'administer mediacommons filters',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'mediacommons_filter',
   );
@@ -189,6 +191,7 @@ function mediacommons_content_types_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
       'managing editor' => 'managing editor',
     ),
     'module' => 'node',
@@ -242,6 +245,8 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'publish content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'mediacommons_editorialworkflow',
   );
@@ -273,6 +278,7 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'use text format limited_html',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'filter',
   );
@@ -282,15 +288,9 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'view any unpublished content',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
       'managing editor' => 'managing editor',
     ),
-    'module' => 'view_unpublished',
-  );
-
-  // Exported permission: 'view any unpublished front_page_post content'.
-  $permissions['view any unpublished front_page_post content'] = array(
-    'name' => 'view any unpublished front_page_post content',
-    'roles' => array(),
     'module' => 'view_unpublished',
   );
 
