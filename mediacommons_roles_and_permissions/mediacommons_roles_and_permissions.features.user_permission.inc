@@ -131,6 +131,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'access site in maintenance mode',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'system',
   );
@@ -433,6 +434,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'administer taxonomy',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'taxonomy',
   );
@@ -460,6 +462,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'administer users',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'user',
   );
@@ -541,16 +544,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'mediacommons_editorialworkflow',
   );
 
-  // Exported permission: 'create front_page_post content'.
-  $permissions['create front_page_post content'] = array(
-    'name' => 'create front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'managing editor' => 'managing editor',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: 'create url aliases'.
   $permissions['create url aliases'] = array(
     'name' => 'create url aliases',
@@ -570,41 +563,17 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'shortcut',
   );
 
-  // Exported permission: 'delete any front_page_post content'.
-  $permissions['delete any front_page_post content'] = array(
-    'name' => 'delete any front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'managing editor' => 'managing editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: 'delete own front_page_post content'.
-  $permissions['delete own front_page_post content'] = array(
-    'name' => 'delete own front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'managing editor' => 'managing editor',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: 'delete terms in city'.
   $permissions['delete terms in city'] = array(
     'name' => 'delete terms in city',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'delete terms in country'.
   $permissions['delete terms in country'] = array(
     'name' => 'delete terms in country',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'taxonomy',
   );
 
@@ -612,7 +581,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   $permissions['delete terms in organizations'] = array(
     'name' => 'delete terms in organizations',
     'roles' => array(
-      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'taxonomy',
   );
@@ -620,9 +589,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   // Exported permission: 'delete terms in state'.
   $permissions['delete terms in state'] = array(
     'name' => 'delete terms in state',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'taxonomy',
   );
 
@@ -630,7 +597,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   $permissions['delete terms in tags'] = array(
     'name' => 'delete terms in tags',
     'roles' => array(
-      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'taxonomy',
   );
@@ -663,16 +630,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'admin_menu',
   );
 
-  // Exported permission: 'edit any front_page_post content'.
-  $permissions['edit any front_page_post content'] = array(
-    'name' => 'edit any front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'managing editor' => 'managing editor',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: 'edit own comments'.
   $permissions['edit own comments'] = array(
     'name' => 'edit own comments',
@@ -683,31 +640,17 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'module' => 'comment',
   );
 
-  // Exported permission: 'edit own front_page_post content'.
-  $permissions['edit own front_page_post content'] = array(
-    'name' => 'edit own front_page_post content',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'managing editor' => 'managing editor',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: 'edit terms in city'.
   $permissions['edit terms in city'] = array(
     'name' => 'edit terms in city',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'edit terms in country'.
   $permissions['edit terms in country'] = array(
     'name' => 'edit terms in country',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'taxonomy',
   );
 
@@ -715,7 +658,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   $permissions['edit terms in organizations'] = array(
     'name' => 'edit terms in organizations',
     'roles' => array(
-      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'taxonomy',
   );
@@ -723,9 +666,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   // Exported permission: 'edit terms in state'.
   $permissions['edit terms in state'] = array(
     'name' => 'edit terms in state',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'taxonomy',
   );
 
@@ -733,7 +674,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   $permissions['edit terms in tags'] = array(
     'name' => 'edit terms in tags',
     'roles' => array(
-      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'taxonomy',
   );
@@ -973,7 +914,9 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'use text format ds_code',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
       'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
       'managing editor' => 'managing editor',
     ),
     'module' => 'filter',
