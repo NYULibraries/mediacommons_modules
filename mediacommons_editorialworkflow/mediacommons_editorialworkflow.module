@@ -13,6 +13,42 @@ function mediacommons_editorialworkflow_views_api () {
   );
 }
 
+function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_login') {
+    $attributes = array(
+      'project=' . variable_get('mediacommons_project', 'mediacommons'),
+      'source=' . url(current_path(), array('absolute' => true)),
+      'redirect=contributor',
+    );
+    $form['name']['#attributes'] = $attributes;
+    $form['#action'] = $form['#action'] . '?' . implode('&', $attributes);
+  }
+}
+
+/**
+ * Implements hook_user_login().
+ * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_login/7.x
+ */
+function mediacommons_editorialworkflow_user_login(&$edit, $account) {
+  $redirection = null;
+  $parameters = drupal_get_query_parameters();
+  // I need to check from where the user "hail from" e.g., if user is trying to write 
+  // a comment redirect to the original post after login.  
+  if (isset($parameters['redirect'])) {
+    $redirection = $parameters['redirect'];
+  }
+  // if $redirection is set and the user is not trying to reset his password, 
+  // we redirect to $redirection.
+  if (
+    !is_null($redirection) 
+    && 
+    (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset'))
+  {
+    $_GET['destination'] = $redirection;
+    $edit['redirect'] = $redirection;
+  }
+}
+
 /**
  * Implements hook_views_default_views().
  */
@@ -151,11 +187,35 @@ function _mediacommons_editorialworkflow_redirect_url () {
 }
 
 function _mediacommons_editorialworkflow_redirect_url_profile () {
+  
   $project = variable_get('mediacommons_project', 'mediacommons');
+  
   if ($project === 'mediacommons') return;
+  
   $item = menu_get_item();
-  $url = url(mediacommons_homepage_umbrella_url() . '/user', array('query' => array('project' => $project, 'destination' => implode('/', $item['original_map']))));
+
+  $params = implode(',', drupal_get_query_parameters());
+
+  $original = implode('/', $item['original_map']);
+  
+  $args = implode(',', arg());
+  
+  $destination = url(current_path(), array('absolute' => true));
+  
+  $query = array(
+    'query' => array(
+      'project' => $project, 
+      'destination' => $destination,
+      'args' => $args,
+      'original' => $original,
+      'params' => $params,
+    ),
+  );
+  
+  $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
+  
   header('Location: ' . $url, TRUE, 302);
+
 }
 
 /**
@@ -391,15 +451,39 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
 //function mediacommons_editorialworkflow_user_presave(&$edit, $account, $category) {}
 
 function mediacommons_editorialworkflow_userpath () {
+
   $project = variable_get('mediacommons_project', 'mediacommons');
+  
   if ($project === 'mediacommons') return;
+  
   $item = menu_get_item();
+  
   $umbrella_url = mediacommons_homepage_umbrella_url();
+  
   $umbrella =  $umbrella_url . '/' . implode('/', $item['original_map']);
+  
   $http_response_code = 302;
-  $url = url($umbrella, array('query' => array('project' => $project, 'destination' => implode('/', $item['original_map']))));
+
+  $original = implode('/', $item['original_map']);
+  
+  $destination = url(current_path(), array('absolute' => true));
+
+  $dashboard = url(base_path() . 'contributor', array('absolute' => true));
+
+  $query = array(
+    'query' => array(
+      'project' => $project, 
+      'destination' => $destination,
+      'dashboard' => $dashboard,
+      'original' => $original,
+    ),
+    'absolute' => true,
+  );
+  
+  $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
+
   header('Location: ' . $url, TRUE, $http_response_code);
-  drupal_exit($url);
+
 }
 
 function mediacommons_editorialworkflow_menu_alter(&$items) {
