@@ -15,6 +15,9 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'access administration menu',
     'roles' => array(
       'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'admin_menu',
   );
@@ -24,7 +27,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'access administration pages',
     'roles' => array(
       'administrator' => 'administrator',
-      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'system',
   );
@@ -65,8 +68,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'access content overview',
     'roles' => array(
       'administrator' => 'administrator',
-      'contributor' => 'contributor',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -79,16 +80,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
       'contributor' => 'contributor',
     ),
     'module' => 'contextual',
-  );
-
-  // Exported permission: 'access dashboard'.
-  $permissions['access dashboard'] = array(
-    'name' => 'access dashboard',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'contributor' => 'contributor',
-    ),
-    'module' => 'dashboard',
   );
 
   // Exported permission: 'access devel information'.
@@ -343,6 +334,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'administer nodequeue',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'nodequeue',
   );
@@ -606,8 +598,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   $permissions['diff view changes'] = array(
     'name' => 'diff view changes',
     'roles' => array(
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
+      'administrator' => 'administrator',
     ),
     'module' => 'diff',
   );
@@ -720,6 +711,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'manipulate all queues',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'nodequeue',
   );
@@ -729,6 +721,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'manipulate queues',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'nodequeue',
   );
@@ -855,9 +848,7 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   // Exported permission: 'switch users'.
   $permissions['switch users'] = array(
     'name' => 'switch users',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
+    'roles' => array(),
     'module' => 'devel',
   );
 
@@ -866,8 +857,6 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'use advanced search',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'search',
   );
@@ -894,8 +883,10 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
   $permissions['use manualcrop'] = array(
     'name' => 'use manualcrop',
     'roles' => array(
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
+      'administrator' => 'administrator',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'manualcrop',
   );
@@ -937,7 +928,9 @@ function mediacommons_roles_and_permissions_user_default_permissions() {
     'name' => 'view revisions',
     'roles' => array(
       'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
