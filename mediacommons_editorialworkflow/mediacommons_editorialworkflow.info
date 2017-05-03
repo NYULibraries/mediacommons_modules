@@ -5,6 +5,7 @@ version = 7.x-1.0-beta5
 project = mediacommons_editorialworkflow
 dependencies[] = gravatar:gravatar
 dependencies[] = vertical_tabs_config
+dependencies[] = mediacommons_content_types
 dependencies[] = views
 dependencies[] = drupal:system (>= 7.40)
 files[] = inc/user_picture_formatter.inc
