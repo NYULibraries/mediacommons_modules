@@ -129,7 +129,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
   $output .= views_embed_view('recent_content', 'default', $user->uid);
   $output .= $hr;
   if ($super|| $contributor || $clustercurator || $managingeditor) {
-    $view = views_embed_view('contributorsspokes', 'default', $user->uid);
+    $view = views_embed_view('contributorscontent', 'default', $user->uid);
     $output .= $br;
     $output .= theme('html_tag', array(
       'element' => array(
@@ -145,8 +145,8 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= $hr;
   }
   if ($super|| $clustercurator || $managingeditor) {
-    $view_contributorsspokes_block_1 = views_embed_view('contributorsspokes', 'block_1', $user->uid);
-    $view_contributorsspokes_block_2 = views_embed_view('contributorsspokes', 'block_2', $user->uid);
+    $view_contributorsspokes_block_1 = views_embed_view('contributorscontent', 'block_1', $user->uid);
+    $view_contributorsspokes_block_2 = views_embed_view('contributorscontent', 'block_2', $user->uid);
     $output .= $br;
     $output .= theme('html_tag', array(
       'element' => array(
