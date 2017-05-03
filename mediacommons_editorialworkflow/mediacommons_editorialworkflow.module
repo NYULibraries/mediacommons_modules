@@ -298,8 +298,10 @@ function mediacommons_editorialworkflow_menu_local_tasks_alter(&$data, $router_i
 function mediacommons_editorialworkflow_user_can_edit_node ($node) {
 
   global $user;
+  
+  if (!user_is_logged_in()) return false;
 
-  if ($user->uid == 1) return TRUE;
+  if ($user->uid == 1) return true;
 
   $username = $user->name;
 
@@ -328,7 +330,7 @@ function mediacommons_editorialworkflow_user_can_edit_node ($node) {
     if ($field_co_editor->name == $username) return TRUE;
   }
 
-  return FALSE;
+  return false;
 
 }
 
