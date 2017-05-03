@@ -90,7 +90,7 @@ function mediacommons_editorialworkflow_menu () {
   $items = array();
 
   $items['contributor'] = array(
-    'title callback' => 'mediacommons_editorialworkflow_contributor_title',
+    'title' => 'Dashboard',
     'description' => 'User dashboard',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
     'access arguments' => array('access mediacommons dashboard'),
@@ -537,3 +537,98 @@ function mediacommons_editorialworkflow_user_picture(&$variables) {
     }
   }
 }
+
+/**
+ * Add to the administration menu content before it is rendered.
+ *
+ * Only use this hook to add new data to the menu structure. Use
+ * hook_admin_menu_output_alter() to *alter* existing data.
+ *
+ * @param array $content
+ *   A structured array suitable for drupal_render(), potentially containing:
+ *   - menu: The administrative menu of links below the path 'admin/*'.
+ *   - icon: The icon menu.
+ *   - account: The user account name and log out link.
+ *   - users: The user counter.
+ *   Additionally, these special properties:
+ *   - #components: The actual components contained in $content are configurable
+ *     and depend on the 'admin_menu_components' configuration value. #components
+ *     holds a copy of that for convenience.
+ *   - #complete: A Boolean indicating whether the complete menu should be built,
+ *     ignoring the current configuration in #components.
+ *   Passed by reference.
+ *
+ * @see hook_admin_menu_output_alter()
+ * @see admin_menu_links_menu()
+ * @see admin_menu_links_icon()
+ * @see admin_menu_links_user()
+ * @see theme_admin_menu_links()
+ */
+function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
+  // In case your implementation provides a configurable component, check
+  // whether the component should be displayed:
+  //if (empty($content['#components']['shortcut.links']) && !$content['#complete']) {
+    //return;
+  //}
+  // Add new top-level item to the menu.
+  if (isset($content['menu'])) {
+    $content['menu']['home'] = array(
+      '#title' => t('Home'),
+      // #attributes are used for list items (LI).
+      '#attributes' => array('class' => array('mediacommons-editorialworkflow-front')),
+      '#href' => '<front>',
+      // #options are passed to l().
+      '#options' => array(
+        // Apply a class on the link (anchor).
+        'attributes' => array('class' => array('mediacommons-editorialworkflow-front-link-anchor')),
+      ),
+      // #weight controls the order of links in the resulting item list.
+      '#weight' => -200,
+    );
+    $content['menu']['dashboard'] = array(
+      '#title' => t('Dashboard'),
+      // #attributes are used for list items (LI).
+      '#attributes' => array('class' => array('mediacommons-editorialworkflow-dashboard')),
+      '#href' => 'contributor',
+      // #options are passed to l().
+      '#options' => array(
+        'query' => drupal_get_destination(),
+        // Apply a class on the link (anchor).
+        'attributes' => array('class' => array('mediacommons-editorialworkflow-dashboard-link-anchor')),
+      ),
+      // #weight controls the order of links in the resulting item list.
+      '#weight' => -199,
+    );
+    $content['menu']['dashboard']['create'] = array(
+      '#title' => t('Add content'),
+      // #attributes are used for list items (LI).
+      '#attributes' => array('class' => array('mediacommons-editorialworkflow-create')),
+      '#href' => 'contributor/add',
+      // #options are passed to l().
+      '#options' => array(
+        'query' => drupal_get_destination(),
+        '#access' => user_access('access mediacommons dashboard'),
+        // Apply a class on the link (anchor).
+        'attributes' => array('class' => array('mediacommons-editorialworkflow-create-link-anchor')),
+      ),
+      // #weight controls the order of links in the resulting item list.
+      '#weight' => 1,
+    );
+    $content['menu']['dashboard']['profile'] = array(
+      '#title' => t('Profile'),
+      // #attributes are used for list items (LI).
+      '#attributes' => array('class' => array('mediacommons-editorialworkflow-profile')),
+      '#href' => 'contributor/add',
+      // #options are passed to l().
+      '#options' => array(
+        'query' => drupal_get_destination(),
+        '#access' => user_access('access mediacommons dashboard'),
+        // Apply a class on the link (anchor).
+        'attributes' => array('class' => array('mediacommons-editorialworkflow-profile-link-anchor')),
+      ),
+      // #weight controls the order of links in the resulting item list.
+      '#weight' => 1,
+    );
+  }
+}
+

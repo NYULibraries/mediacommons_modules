@@ -6,7 +6,7 @@ function mediacommons_editorialworkflow_contributor_title () {
   if (empty($name)) {
     $name = $user->name;
   }
-  return t('My dashboard', array());
+  return t('Dashboard', array());
 }
 
 function mediacommons_editorialworkflow_contributor_dashboard_create_content () {
@@ -83,7 +83,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
 
   global $user;
 
-  drupal_set_breadcrumb(array(l('Home', '<front>'), l('My dashboard', 'contributor'),));
+  drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'contributor'),));
 
   // we need something more elegant. deal with this using access callback?
   if (!user_access('create spoke content')) return '';
