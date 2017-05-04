@@ -300,6 +300,34 @@ function mediacommons_editorialworkflow_node_presave ($node) {
       }
     }
   }
+
+  // Inserting a new node @TODO: test work, add validation
+  if ($node->type == 'hub') {
+    if (!isset($node->nid)) { // aof December 4, 2014
+      $author_is_listed = FALSE;
+      if (count($node->field_contributors[$node->language])) {
+        foreach($node->field_contributors[$node->language] as $struct) {
+          // author is already part of the list of contributors
+          if ($node->uid == $struct['uid']) {
+            $author_is_listed = TRUE;
+            break;
+          }
+        }
+      }
+      if (!$author_is_listed) {
+        if (!empty($node->field_contributors)) {
+          array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
+        }
+      }
+    }
+    if (!empty($node->field_contributors)) {
+      foreach ($node->field_contributors[$node->language] as $contributor) {
+        $queue = DrupalQueue::get('mediacommons_editorialworkflow_promote_user_worker');
+        $queue->createItem($contributor += array('sponsor' => $node->uid));
+      }
+    }
+  }
+
 }
 
 function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form_state, $form_id) {
