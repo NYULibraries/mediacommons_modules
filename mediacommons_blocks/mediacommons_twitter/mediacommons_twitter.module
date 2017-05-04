@@ -25,6 +25,7 @@ function mediacommons_twitter_menu() {
 function mediacommons_twitter_page() {
   return mediacommons_twitter_content();
 }
+
 /**
  * Implements hook_block_info().
  *
@@ -74,6 +75,7 @@ function mediacommons_twitter_block_configure($delta = '') {
 function mediacommons_twitter_block_save($delta = '', $edit = array()) {
   if ($delta == 'mediacommons_twitter') {
     variable_set('mediacommons_twitter_user', $edit['mediacommons_twitter_user']);
+    variable_set('mediacommons_twitter_label', $edit['mediacommons_twitter_label']);
   }
 }
 
@@ -97,20 +99,13 @@ function mediacommons_twitter_block_view($delta = '') {
  * A module-defined block content function.
  */
 function mediacommons_twitter_content() {
-
   // https://dev.twitter.com/web/embedded-timelines/parameters
-
   $output = '';
-
   $username = variable_get('mediacommons_twitter_user', null);
-  
   if (!is_null($username)) {
     $attibutes_string = '';
-
     $script = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
-
     $label = variable_get('mediacommons_twitter_label', '&nbsp;');
-
     $attibutes = array(
       'data-height' => '600',
       'data-theme' => 'dark',
@@ -121,7 +116,5 @@ function mediacommons_twitter_content() {
     }
     $output = '<a class="twitter-timeline"' . $attibutes_string . '>' . $label . '</a>' . $script;
   }
-
   return array('#markup' => $output);
-
 }

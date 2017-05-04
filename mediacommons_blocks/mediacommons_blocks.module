@@ -1,20 +1,45 @@
 <?php
+
 /**
  * @file
  * Module file for mediacommons_block.
  */
 
-function mediacommons_blocks_menu() {
+function mediacommons_blocks_init () {
+  // dpm(__FUNCTION__);
+  // mc_fieldguide_content();
+}
+
+/**
+ * Implements hook_menu().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7.x
+ *
+ * Define menu items and page callbacks.
+ */
+function mediacommons_blocks_menu () {
+
   $items = array();
+
+  $items['admin/structure/mcblock'] = array(
+    'title' => 'Add block',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('block_add_block_form'),
+    'access arguments' => array('administer blocks'),
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'block.admin.inc',
+  );
+
   $items['admin/structure/mcblock/add'] = array(
     'title' => 'Add block',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('block_add_block_form'),
-    'access arguments' => array('access content'), // array('administer blocks'),
+    'access arguments' => array('administer blocks'),
     'type' => MENU_LOCAL_ACTION,
     'file' => 'block.admin.inc',
   );
+
   return $items;
+
 }
 
 /**
@@ -22,22 +47,28 @@ function mediacommons_blocks_menu() {
  *
  * This hook declares what blocks are provided by the module.
  */
-function mediacommons_blocks_block_info() {
+function mediacommons_blocks_block_info () {
+  
   $blocks = array();
+  
   foreach (mediacommons_blocks_blocks() as $block) {
     $blocks['mbid' . $block->mbid] = array(
       'info' => 'Mediacommons Bocks: ' . $block->label,
       'cache' => DRUPAL_NO_CACHE,
     );
   }
+  
   $blocks['mc_footer'] = array(
     'info' => t('MediaCommons default footer'),
   );
+  
   $blocks['mc_fieldguide'] = array(
   	'info' => t('MediaCommons: Field Guide Survey Question'),
     'cache' => DRUPAL_NO_CACHE
   );
+  
   return $blocks;
+
 }
 
 /**
@@ -46,7 +77,9 @@ function mediacommons_blocks_block_info() {
  * This hook generates the contents of the blocks themselves.
  */
 function mediacommons_blocks_block_view($delta = '') {
+  
   $block = array();
+  
   // The $delta parameter tells us which block is being requested.
   switch ($delta) {
     case 'mc_footer' :
@@ -55,7 +88,7 @@ function mediacommons_blocks_block_view($delta = '') {
       break;
     case 'mc_fieldguide' :
       $block['subject'] = t('Field Guide Survey Question');
-      $block['content'] ='';
+      $block['content'] = mc_fieldguide_content();
       break;
   }
 
@@ -73,6 +106,18 @@ function mediacommons_blocks_block_view($delta = '') {
 
   return $block;
 
+}
+
+function mc_fieldguide_content () {
+  $output = '';
+  $url = 'http://devmc2.dlib.nyu.edu/fieldguide?pjax=1'; // setting up the header is not working at the moment; pass the argument in the query string
+  $url = 'http://localhost:8000/fieldguide?pjax=1';
+  $options = array('headers' => array('pjax' => 1));
+  $request = drupal_http_request($url, $options);
+  if ($request && $request->code == 200) {
+    $output .= $request->data;
+  }
+  return array('#markup' => $output);
 }
 
 /**
@@ -107,7 +152,6 @@ function mediacommons_blocks_contents($which_block) {
 }
 
 function mediacommons_blocks_update_block($mbid = null) {
-
   if ($mbid) {
     $blocks = mediacommons_blocks_block($mbid);
   }
@@ -370,7 +414,7 @@ function mediacommons_blocks_admin_configure($form, &$form_state, $delta) {
   return $form;
 }
 
-function mediacommons_blocks_list_types() {
+function mediacommons_blocks_list_types () {
   return array(
     0 => 'plaintext', // plaint text
     1 => 'fulltext', // HTML
