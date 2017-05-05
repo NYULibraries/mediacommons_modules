@@ -53,5 +53,3 @@ $handler->display->display_options['filters']['type']['value'] = array(
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
 $handler->display->display_options['path'] = 'latest-hub';
-
-

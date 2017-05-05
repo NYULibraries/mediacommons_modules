@@ -110,8 +110,9 @@ function mediacommons_blocks_block_view($delta = '') {
 
 function mc_fieldguide_content () {
   $output = '';
-  $url = 'http://devmc2.dlib.nyu.edu/fieldguide?pjax=1'; // setting up the header is not working at the moment; pass the argument in the query string
-  $url = 'http://localhost:8000/fieldguide?pjax=1';
+  // for now
+  $url = 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub?pjax=1'; // setting up the header is not working at the moment; pass the argument in the query string
+  // $url = 'http://localhost:8000/fieldguide/latest-hub?pjax=1'; // setting up the header is not working at the moment; pass the argument in the query string
   $options = array('headers' => array('pjax' => 1));
   $request = drupal_http_request($url, $options);
   if ($request && $request->code == 200) {
