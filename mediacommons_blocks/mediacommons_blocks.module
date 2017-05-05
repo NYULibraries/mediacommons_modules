@@ -5,10 +5,7 @@
  * Module file for mediacommons_block.
  */
 
-function mediacommons_blocks_init () {
-  // dpm(__FUNCTION__);
-  // mc_fieldguide_content();
-}
+//function mediacommons_blocks_init () {}
 
 /**
  * Implements hook_menu().
@@ -20,26 +17,66 @@ function mediacommons_blocks_menu () {
 
   $items = array();
 
+  // @TODO: Not working
   $items['admin/structure/mcblock'] = array(
     'title' => 'Add block',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('block_add_block_form'),
     'access arguments' => array('administer blocks'),
-    'type' => MENU_LOCAL_ACTION,
-    'file' => 'block.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'mediacommons_blocks.admin.inc',
   );
 
+  // @TODO: Not working
   $items['admin/structure/mcblock/add'] = array(
     'title' => 'Add block',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('block_add_block_form'),
+    'page arguments' => array('mediacommons_blocks_add_block'),
     'access arguments' => array('administer blocks'),
-    'type' => MENU_LOCAL_ACTION,
-    'file' => 'block.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
   );
 
   return $items;
+  
+}
 
+function mediacommons_blocks_add_block ($form, &$form_state) {
+  
+  module_load_include('inc', 'block', 'block.admin');
+  
+  $copy = block_admin_configure($form, $form_state, 'mediacommons_blocks', NULL);
+  
+  $types = mediacommons_blocks_list_types();
+
+  $types_options = array();
+    
+  foreach ($types as $type => $key) {
+    $types_options[$key] = $type;
+  }
+
+  $default_value = 0;
+
+  $label = '';
+
+  $copy['settings']['mediacommons_blocks_label'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Block label'),
+      '#size' => 60,
+      '#description' => t('Label'),
+      '#default_value' => $label,
+  );
+
+  $copy['settings']['mediacommons_blocks_type'] = array(
+    '#type' => 'select',
+    '#title' => t('Type of source'),
+    '#default_value' => $default_value,
+    '#options' => $types_options,
+    '#description' => t('At the moment we do not allow to change the type of the source.'),
+  );
+
+  dpm($copy);
+
+  return $copy;
 }
 
 /**
@@ -48,27 +85,17 @@ function mediacommons_blocks_menu () {
  * This hook declares what blocks are provided by the module.
  */
 function mediacommons_blocks_block_info () {
-  
   $blocks = array();
-  
   foreach (mediacommons_blocks_blocks() as $block) {
-    $blocks['mbid' . $block->mbid] = array(
-      'info' => 'Mediacommons Bocks: ' . $block->label,
-      'cache' => DRUPAL_NO_CACHE,
+    $label = unserialize($block->label);
+    if (empty($label)) {
+      $label = 'Untitled';
+    }
+    $blocks[$block->mbid] = array(
+      'info' => format_string('Mediacommons Blocks: @label', array('@label' => $label))
     );
   }
-  
-  $blocks['mc_footer'] = array(
-    'info' => t('MediaCommons default footer'),
-  );
-  
-  $blocks['mc_fieldguide'] = array(
-  	'info' => t('MediaCommons: Field Guide Survey Question'),
-    'cache' => DRUPAL_NO_CACHE
-  );
-  
   return $blocks;
-
 }
 
 /**
@@ -76,121 +103,350 @@ function mediacommons_blocks_block_info () {
  *
  * This hook generates the contents of the blocks themselves.
  */
-function mediacommons_blocks_block_view($delta = '') {
-  
+function mediacommons_blocks_block_view ($delta = '') {
   $block = array();
-  
   // The $delta parameter tells us which block is being requested.
-  switch ($delta) {
-    case 'mc_footer' :
-      $block['subject'] = t('MediaCommons default footer');
-      $block['content'] = mediacommons_blocks_contents($delta);
-      break;
-    case 'mc_fieldguide' :
-      $block['subject'] = t('Field Guide Survey Question');
-      $block['content'] = mc_fieldguide_content();
-      break;
-  }
-
-  if ($delta) {
-    preg_match('/(mbid)([0-1])/', $delta, $matches);
-    if (isset($matches) && isset($matches[2])) {
-      $mbid = $matches[2];
-      $data = mediacommons_blocks_block_load($mbid);
-      if ($data) {
-        $block['subject'] = $data->label;
-        $block['content'] = $data->content;
+  if ($delta && preg_match('/^mc_/', $delta)) {
+    $data = mediacommons_blocks_block_load($delta);
+    if ($data) {
+      $subject = unserialize($data->label);
+      // for types see mediacommons_blocks_list_types()
+      switch ($data->type) {
+        case 0 : // plaintext
+        case 1 : // fulltext
+        case 2 : // source
+          $content = unserialize($data->content);
+          break;
+        case 3 : // callback
+          $content = '';
+          $callback = unserialize($data->callback);
+          if (function_exists($callback)) {
+            $content = check_markup($callback(), 'full_html');
+          }
+          break;
       }
+      $block['subject'] = $subject;
+      $block['content'] = array('#markup' => $content);
+
     }
   }
-
   return $block;
-
-}
-
-function mc_fieldguide_content () {
-  $output = '';
-  // for now
-  $url = 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub?pjax=1'; // setting up the header is not working at the moment; pass the argument in the query string
-  // $url = 'http://localhost:8000/fieldguide/latest-hub?pjax=1'; // setting up the header is not working at the moment; pass the argument in the query string
-  $options = array('headers' => array('pjax' => 1));
-  $request = drupal_http_request($url, $options);
-  if ($request && $request->code == 200) {
-    $output .= $request->data;
-  }
-  return array('#markup' => $output);
 }
 
 /**
  * Implements hook_block_configure().
+ * https://api.drupal.org/api/drupal/modules%21block%21block.api.php/function/hook_block_configure/7.x
  *
  * This hook declares configuration options for blocks provided by this module.
  */
-function mediacommons_blocks_block_configure($delta = '') {
+function mediacommons_blocks_block_configure ($delta = '') {
+  
   $form = array();
-  if ($delta == 'mc_footer') {
-    $form['mc_footer_project_name'] = array(
-      '#type' => 'textarea',
-      '#title' => t('Project name'),
-      '#size' => 20,
-      '#description' => t('Add the name of the project here.'),
-      '#default_value' => variable_get('mc_footer_project_name',  t('A MediaCommons Project')),
+
+  if ($delta && preg_match('/^mc_/', $delta)) {
+
+    $block = mediacommons_blocks_block_load($delta);
+
+    $label = unserialize($block->label);
+
+    $types = mediacommons_blocks_list_types();
+
+    $types_options = array();
+    
+    foreach ($types as $type => $key) {
+      $types_options[$key] = $type;
+    }
+
+    $block_type = $types_options[$block->type];
+
+    $default_value = isset($block->type) ? $block->type : 0;
+
+    $form['mediacommons_blocks_label'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Block label'),
+      '#size' => 60,
+      '#description' => t('Label'),
+      '#default_value' => $label,
     );
+
+    $form['mediacommons_blocks_type'] = array(
+      '#type' => 'select',
+      '#title' => t('Type of source'),
+      '#default_value' => $default_value,
+      '#options' => $types_options,
+      '#description' => t('At the moment we do not allow to change the type of the source.'),
+      '#disabled' => TRUE,
+    );
+
+    // we must set type before we allow to configure the block
+    if (isset($block->type)) {
+      switch ($block_type) {
+        case 'source' :
+          $url = $block->url;
+          $form['mediacommons_blocks_url'] = array(
+            '#title' => t('Source URL'),
+            '#type' => 'textfield',
+            '#description' => t('The URL of the datasource you want to use'),
+            '#default_value' => $url,      
+          );
+          break;
+        case 'callback' :
+          $callback = $block->callback;
+          $form['mediacommons_blocks_callback'] = array(
+            '#title' => t('Function callback'),
+            '#type' => 'textfield',
+            '#description' => t('The name of the function to call. The function must exist.'),
+            '#default_value' => $callback,      
+          );
+          break;
+        case 'fulltext' :
+          $content = unserialize($block->content);
+          $form['mediacommons_blocks_content'] = array(
+            '#title' => t('Content'),
+            '#type' => 'textarea',
+            '#description' => t('Full HTML'),
+            '#default_value' => $content,      
+          );
+          break;
+        case 'plaintext' :
+          $content = unserialize($block->content);
+          $form['mediacommons_blocks_plaintext'] = array(
+            '#title' => t('Content'),
+            '#type' => 'textarea',
+            '#description' => t('Plain text'),
+            '#default_value' => $content,
+          );
+          break;
+      }
+    }
   }
   return $form;
 }
 
 /**
- * A module-defined block content function.
+ * Implements hook_block_save().
+ *
+ * This hook declares how the configured options for a block
+ * provided by this module are saved.
  */
-function mediacommons_blocks_contents($which_block) {
-  switch ($which_block) {
-    case 'mc_footer':
-      $block_content = '<div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>';
-      return array('#markup' => $block_content);
-      break;
-  }
-}
-
-function mediacommons_blocks_update_block($mbid = null) {
-  if ($mbid) {
-    $blocks = mediacommons_blocks_block($mbid);
-  }
-  else {
-    $blocks = mediacommons_blocks_blocks();
-  }
-
-  foreach ($blocks as $block) {
-    $data = unserialize($block->config);
-    switch ($data['type']) {
+function mediacommons_blocks_block_save($delta = '', $edit = array()) {
+  if ($delta && preg_match('/^mc_/', $delta)) {
+    $block = mediacommons_blocks_block_load($delta);
+    $types = mediacommons_blocks_list_types();
+    $types_options = array();
+    foreach ($types as $type => $key) {
+      $types_options[$key] = $type;
+    }
+    $type = $types_options[$edit['mediacommons_blocks_type']];
+    $label = $edit['mediacommons_blocks_label'];
+    switch ($type) {
       case 'source' :
-        // if source we need URL
-        if (isset($data['url'])) {
-          $url = check_url($data['url']);
-          $request = drupal_http_request($url);
-          if ($request->status_message) {
-            $status_message = strtolower(check_plain($request->status_message));
-            if ($status_message == 'ok') {
-              $text = check_markup($request->data, 'full_html');
-              $updated = db_update('mediacommons_blocks_blocks')
-                ->fields(array(
-                  'content' => $text,
-                  'proceed' => REQUEST_TIME,
-                ))
-                ->condition('mbid', $block->mbid, '=')
-                ->execute();
-              if ($updated) {
-                drupal_set_message('Update');
-              }
-            }
-          }
-        }
+        $options = array(
+          'url' => $edit['mediacommons_blocks_url'],
+          'mbid' => $delta,
+        );      
+        _mediacommons_blocks_save_source($type, $label, $delta, $options);
+        break;
+      case 'callback' :
+        $options = array(
+          'url' => $edit['mediacommons_blocks_callback'],
+          'mbid' => $delta,
+        );
+        _mediacommons_blocks_save_callback($type, $label, $delta, $options);
+        break;
+      case 'fulltext' :
+        $options = array(
+          'content' => $edit['mediacommons_blocks_content'],
+          'mbid' => $delta,
+        );
+        _mediacommons_blocks_save_fulltext($type, $label, $delta, $options);
+        break;
+      case 'plaintext' :
+        $options = array(
+          'content' => $edit['mediacommons_blocks_content'],
+          'mbid' => $delta,
+        );
+        _mediacommons_blocks_save_plaintext($type, $label, $delta, $options);
         break;
     }
   }
 }
 
-function mediacommons_blocks_blocks() {
+function _mediacommons_blocks_save_fulltext ($type, $label, $mbid, $options) {
+  if (isset($options['content'])) {
+    $text = check_markup($options['content'], 'full_html');
+    $block = mediacommons_blocks_block_load($mbid);
+    if (!$block) {
+      $record = db_insert('mediacommons_blocks_blocks')
+        ->fields(array(
+          'mbid' => $mbid,
+          'type' => mediacommons_blocks_list_types($type),
+          'label' => serialize($label),
+          'content' => serialize($text),
+          'created' => REQUEST_TIME,
+          'proceed' => REQUEST_TIME,
+        ))
+        ->execute();
+    }
+    else {
+      $record = db_update('mediacommons_blocks_blocks')
+        ->fields(array(
+          'content' => serialize($text),
+          'label' => serialize($label),                  
+          'proceed' => REQUEST_TIME,
+        ))
+        ->condition('mbid', $options['mbid'], '=')
+        ->execute();
+    }
+    if ($record) {
+      // drupal_set_message('Record saved');
+      // create a wathchdog record
+    }
+    return $record;
+  }
+  else {
+    // We have a problem. Drupal was unable to get data from source
+  }
+}
+
+function _mediacommons_blocks_save_plaintext ($type, $label, $mbid, $options) {
+  if (isset($options['content'])) {
+    $text = check_markup($options['content'], 'plain_text');
+    $block = mediacommons_blocks_block_load($mbid);
+    if (!$block) {
+      $record = db_insert('mediacommons_blocks_blocks')
+        ->fields(array(
+          'mbid' => $mbid,
+          'type' => mediacommons_blocks_list_types($type),
+          'label' => serialize($label),
+          'content' => serialize($text),
+          'created' => REQUEST_TIME,
+          'proceed' => REQUEST_TIME,
+        ))
+        ->execute();
+    }
+    else {
+      $record = db_update('mediacommons_blocks_blocks')
+        ->fields(array(
+          'content' => serialize($text),
+          'label' => serialize($label),                  
+          'proceed' => REQUEST_TIME,
+        ))
+        ->condition('mbid', $options['mbid'], '=')
+        ->execute();
+    }
+    if ($record) {
+      // drupal_set_message('Record saved');
+      // create a wathchdog record
+    }
+    return $record;
+  }
+  else {
+    // We have a problem. Drupal was unable to get data from source
+  }
+}
+
+function _mediacommons_blocks_save_callback ($type, $label, $mbid, $options) {
+  if (isset($options['callback'])) {
+    if (function_exists($options['callback'])) {
+      $callback = $options['callback'];
+      $block = mediacommons_blocks_block_load($mbid);
+      if (!$block) {
+        $record = db_insert('mediacommons_blocks_blocks')
+          ->fields(array(
+            'mbid' => $mbid,
+            'type' => mediacommons_blocks_list_types($type),
+            'label' => serialize($label),
+            'callback' => serialize($callback),
+            'created' => REQUEST_TIME,
+            'proceed' => REQUEST_TIME,
+          ))
+          ->execute();
+      }
+      else {
+        $record = db_update('mediacommons_blocks_blocks')
+          ->fields(array(
+            'callback' => serialize($callback),
+            'label' => serialize($label),                  
+            'proceed' => REQUEST_TIME,
+          ))
+          ->condition('mbid', $options['mbid'], '=')
+          ->execute();
+      }
+    }
+  }
+}
+
+function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
+  if (isset($options['url'])) {
+    $url = check_url($options['url']);
+    $request = drupal_http_request($url);
+    if ($request->status_message) {
+      $status_message = strtolower(check_plain($request->status_message));
+      if ($status_message == 'ok') {
+        $text = check_markup($request->data, 'full_html');
+        $block = mediacommons_blocks_block_load($mbid);
+        if (!$block) {
+          $record = db_insert('mediacommons_blocks_blocks')
+            ->fields(array(
+              'mbid' => $mbid,
+              'type' => mediacommons_blocks_list_types($type),
+              'label' => serialize($label),
+              'url' => $url,
+              'content' => serialize($text),
+              'created' => REQUEST_TIME,
+              'proceed' => REQUEST_TIME,
+            ))
+            ->execute();
+        }
+        else {
+          $record = db_update('mediacommons_blocks_blocks')
+            ->fields(array(
+              'content' => serialize($text),
+              'url' => $url,
+              'label' => serialize($label),                  
+              'proceed' => REQUEST_TIME,
+            ))
+            ->condition('mbid', $options['mbid'], '=')
+            ->execute();
+        }
+        if ($record) {
+          // drupal_set_message('Record saved');
+          // create a wathchdog record
+        }
+        return $record;
+      }
+      else {
+        // We have a problem. Drupal was unable to get data from source
+      }
+    }
+  }
+}
+
+function mediacommons_blocks_save_block ($options) {
+  if (isset($options['type'])) {
+    $type = $options['type'];
+    $label = (isset($options['label'])) ? check_plain($options['label']) : '';
+    $mbid = (isset($options['mbid'])) ? check_plain($options['mbid']) : 'mc_' . REQUEST_TIME;    
+    switch ($type) {
+      case 'source' :
+        _mediacommons_blocks_save_source($type, $label, $mbid, $options);
+        break;
+      case 'fulltext' :
+        _mediacommons_blocks_save_fulltext($type, $label, $mbid, $options);
+        break;
+      case 'plaintext' :
+        _mediacommons_blocks_save_plaintext($type, $label, $mbid, $options);
+        break;
+
+      case 'callback' :
+        _mediacommons_blocks_save_callback($type, $label, $mbid, $options);
+        break;
+    }
+  }
+}
+
+function mediacommons_blocks_blocks () {
   $query = db_query('SELECT * FROM {mediacommons_blocks_blocks}');
   $result = $query->fetchAll();
   $blocks = array();
@@ -200,226 +456,27 @@ function mediacommons_blocks_blocks() {
   return $blocks;
 }
 
-function mediacommons_blocks_block_load($mbid) {
+function mediacommons_blocks_block_load ($mbid) {
   $query = db_query('SELECT * FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid', array(':mbid' => $mbid));
   return $query->fetchObject();
 }
 
- // block_admin_configure($form, $form_state, 'block', NULL);
-
-/**
- * Form constructor for the block configuration form.
- *
- * Also used by block_add_block_form() for adding a new custom block.
- *
- * @param $module
- *   Name of the module that implements the block to be configured.
- * @param $delta
- *   Unique ID of the block within the context of $module.
- *
- * @see block_admin_configure_validate()
- * @see block_admin_configure_submit()
- * @ingroup forms
- */
-function mediacommons_blocks_admin_configure($form, &$form_state, $delta) {
-
-  $block = mediacommons_blocks_block($delta);
-
-  $form['module'] = array(
-    '#type' => 'value',
-    '#value' => $block->module,
+function mediacommons_blocks_list_types ($label = null) {
+  $types = array(
+    'plaintext' => 0, // plaint text
+    'fulltext' => 1, // HTML
+    'source' => 2, // URL
+    'callback' => 3, // function to call
   );
-
-  $form['delta'] = array(
-    '#type' => 'value',
-    '#value' => $block->delta,
-  );
-
-  // Get the block subject for the page title.
-  $info = module_invoke($block->module, 'block_info');
-
-  if (isset($info[$block->delta])) {
-    drupal_set_title(t("'%name' block", array('%name' => $info[$block->delta]['info'])), PASS_THROUGH);
-  }
-
-  $form['settings']['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Block title'),
-    '#maxlength' => 255,
-    '#description' => $block->module == 'block' ? t('The title of the block as shown to the user.') : t('Override the default title for the block. Use <em>!placeholder</em> to display no title, or leave blank to use the default block title.', array('!placeholder' => '&lt;none&gt;')),
-    '#default_value' => isset($block->title) ? $block->title : '',
-    '#weight' => -19,
-  );
-
-  // Module-specific block configuration.
-  if ($settings = module_invoke($block->module, 'block_configure', $block->delta)) {
-    foreach ($settings as $k => $v) {
-      $form['settings'][$k] = $v;
-    }
-  }
-
-  // Region settings.
-  $form['regions'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Region settings'),
-    '#collapsible' => FALSE,
-    '#description' => t('Specify in which themes and regions this block is displayed.'),
-    '#tree' => TRUE,
-  );
-
-  $theme_default = variable_get('theme_default', 'bartik');
-  $admin_theme = variable_get('admin_theme');
-  foreach (list_themes() as $key => $theme) {
-    // Only display enabled themes
-    if ($theme->status) {
-      $region = db_query("SELECT region FROM {block} WHERE module = :module AND delta = :delta AND theme = :theme", array(
-        ':module' => $block->module,
-        ':delta' => $block->delta,
-        ':theme' => $key,
-      ))->fetchField();
-
-      // Use a meaningful title for the main site theme and administrative
-      // theme.
-      $theme_title = $theme->info['name'];
-      if ($key == $theme_default) {
-        $theme_title = t('!theme (default theme)', array('!theme' => $theme_title));
-      }
-      elseif ($admin_theme && $key == $admin_theme) {
-        $theme_title = t('!theme (administration theme)', array('!theme' => $theme_title));
-      }
-      $form['regions'][$key] = array(
-        '#type' => 'select',
-        '#title' => $theme_title,
-        '#default_value' => !empty($region) && $region != -1 ? $region : NULL,
-        '#empty_value' => BLOCK_REGION_NONE,
-        '#options' => system_region_list($key, REGIONS_VISIBLE),
-        '#weight' => ($key == $theme_default ? 9 : 10),
-      );
-    }
-  }
-
-  // Visibility settings.
-  $form['visibility_title'] = array(
-    '#type' => 'item',
-    '#title' => t('Visibility settings'),
-  );
-  $form['visibility'] = array(
-    '#type' => 'vertical_tabs',
-    '#attached' => array(
-      'js' => array(drupal_get_path('module', 'block') . '/block.js'),
-    ),
-  );
-
-  // Per-path visibility.
-  $form['visibility']['path'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Pages'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#group' => 'visibility',
-    '#weight' => 0,
-  );
-
-  $access = user_access('use PHP for settings');
-  if (isset($block->visibility) && $block->visibility == BLOCK_VISIBILITY_PHP && !$access) {
-    $form['visibility']['path']['visibility'] = array(
-      '#type' => 'value',
-      '#value' => BLOCK_VISIBILITY_PHP,
-    );
-    $form['visibility']['path']['pages'] = array(
-      '#type' => 'value',
-      '#value' => isset($block->pages) ? $block->pages : '',
-    );
-  }
-  else {
-    $options = array(
-      BLOCK_VISIBILITY_NOTLISTED => t('All pages except those listed'),
-      BLOCK_VISIBILITY_LISTED => t('Only the listed pages'),
-    );
-    $description = t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>'));
-
-    if (module_exists('php') && $access) {
-      $options += array(BLOCK_VISIBILITY_PHP => t('Pages on which this PHP code returns <code>TRUE</code> (experts only)'));
-      $title = t('Pages or PHP code');
-      $description .= ' ' . t('If the PHP option is chosen, enter PHP code between %php. Note that executing incorrect PHP code can break your Drupal site.', array('%php' => '<?php ?>'));
-    }
-    else {
-      $title = t('Pages');
-    }
-    $form['visibility']['path']['visibility'] = array(
-      '#type' => 'radios',
-      '#title' => t('Show block on specific pages'),
-      '#options' => $options,
-      '#default_value' => isset($block->visibility) ? $block->visibility : BLOCK_VISIBILITY_NOTLISTED,
-    );
-    $form['visibility']['path']['pages'] = array(
-      '#type' => 'textarea',
-      '#title' => '<span class="element-invisible">' . $title . '</span>',
-      '#default_value' => isset($block->pages) ? $block->pages : '',
-      '#description' => $description,
-    );
-  }
-
-  // Per-role visibility.
-  $default_role_options = db_query("SELECT rid FROM {block_role} WHERE module = :module AND delta = :delta", array(
-    ':module' => $block->module,
-    ':delta' => $block->delta,
-  ))->fetchCol();
-
-  $role_options = array_map('check_plain', user_roles());
-
-  $form['visibility']['role'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Roles'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#group' => 'visibility',
-    '#weight' => 10,
-  );
-
-  $form['visibility']['role']['roles'] = array(
-    '#type' => 'checkboxes',
-    '#title' => t('Show block for specific roles'),
-    '#default_value' => $default_role_options,
-    '#options' => $role_options,
-    '#description' => t('Show this block only for the selected role(s). If you select no roles, the block will be visible to all users.'),
-  );
-
-  // Per-user visibility.
-  $form['visibility']['user'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Users'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#group' => 'visibility',
-    '#weight' => 20,
-  );
-  $form['visibility']['user']['custom'] = array(
-    '#type' => 'radios',
-    '#title' => t('Customizable per user'),
-    '#options' => array(
-      BLOCK_CUSTOM_FIXED => t('Not customizable'),
-      BLOCK_CUSTOM_ENABLED => t('Customizable, visible by default'),
-      BLOCK_CUSTOM_DISABLED => t('Customizable, hidden by default'),
-    ),
-    '#description' => t('Allow individual users to customize the visibility of this block in their account settings.'),
-    '#default_value' => isset($block->custom) ? $block->custom : BLOCK_CUSTOM_FIXED,
-  );
-
-  $form['actions'] = array('#type' => 'actions');
-  $form['actions']['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save block'),
-  );
-
-  return $form;
+  if (isset($types[$label])) {
+    return $types[$label];
+  } 
+  return $types;
 }
 
-function mediacommons_blocks_list_types () {
-  return array(
-    0 => 'plaintext', // plaint text
-    1 => 'fulltext', // HTML
-    2 => 'source', // URL
-    3 => 'callback', // function to call
-  );
+/**
+ * This is here to show how can someone provide a callback as a block
+ */
+function mediacommons_blocks_callback_example () {
+  return '<p>At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>';
 }
