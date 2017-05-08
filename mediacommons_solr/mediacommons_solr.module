@@ -16,7 +16,6 @@ function mediacommons_solr_theme_registry_alter(&$theme_registry) {
  * Implements hook_user_view().
  */
 function mediacommons_solr_user_view($account, $view_mode) {
-  dpm(__FUNCTION__);
   $is_account = mediacommons_solr_is_account($account);
 }
 
@@ -179,13 +178,10 @@ function mediacommons_solr_block_info () {
  * This hook generates the contents of the blocks themselves.
  */
 function mediacommons_solr_block_view ($delta = '') {
-  dpm(__FUNCTION__);
-  dpm($delta);
   $block = array();
 	switch ($delta) {
     case 'mediacommons_solr_usercontent' :
       $is_account = mediacommons_solr_is_account();
-      dpm($is_account ? 'Yes' : 'No');
       if ($is_account) {
         $block['subject'] = t('MediaCommons: User content');
         $block['content'] = mediacommons_solr_user_content_by_uid($is_account);
@@ -207,14 +203,7 @@ function mediacommons_solr_block_view ($delta = '') {
  * A module-defined block content function.
  */
 function mediacommons_solr_user_comments_by_uid ($uid) {
-  dpm(__FUNCTION__);
-  dpm('Estamos bien');
-
-
   try {
-
-    //dpm('try');
-
     /**
      * Include apachesolr_search forms
      */
@@ -224,11 +213,7 @@ function mediacommons_solr_user_comments_by_uid ($uid) {
 
     $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
 
-    // $conditions = array('fq' => array('im_contributors:' . $uid));
-    
     $conditions = array('fq' => array('im_contributors:' . $uid, 'ss_searchtype:' . 'comment'));
-    
-    //ss_searchtype (comment||node)
     
     $keys ='*:*';
 
@@ -237,8 +222,6 @@ function mediacommons_solr_user_comments_by_uid ($uid) {
     // http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr_search.module/function/apachesolr_search_search_results/7
     $results = apachesolr_search_search_results($keys, $conditions, $search_page);
 
-    //dpm($results);
-
     /**
      * Adds search results to the render array.
      * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results 
@@ -246,15 +229,14 @@ function mediacommons_solr_user_comments_by_uid ($uid) {
      * Not sure if this is the best way to do this; if you know "the right way"
      * please change
      */
-    //$render_array = array('#theme' => 'search_results', '#results' => $results, '#module' => 'mediacommons_solr', '#search_page' => 'user_comments_by_uid',);
+    $render_array = array('#theme' => 'search_results', '#results' => $results, '#module' => 'mediacommons_solr', '#search_page' => 'user_comments_by_uid',);
     
-    //$content = render($render_array);
+    $content = render($render_array);
 
-    //return $content;
+    return $content;
 
   }
   catch (Exception $e) {
-    dpm($e);
     watchdog('MediaCommons Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
     apachesolr_failure('MediaCommons Apache Solr search', $keys);
   }
