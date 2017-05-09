@@ -5,8 +5,6 @@
  * Module file for mediacommons_block.
  */
 
-//function mediacommons_blocks_init () {}
-
 /**
  * Implements hook_menu().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7.x
@@ -27,9 +25,8 @@ function mediacommons_blocks_menu () {
     'file' => 'mediacommons_blocks.admin.inc',
   );
 
-  // @TODO: Not working
   $items['admin/structure/mcblock/add'] = array(
-    'title' => 'Add block',
+    'title' => 'MediaCommons: Add block',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('mediacommons_blocks_add_block'),
     'access arguments' => array('administer blocks'),
@@ -37,14 +34,14 @@ function mediacommons_blocks_menu () {
   );
 
   return $items;
-  
+
 }
 
 function mediacommons_blocks_add_block ($form, &$form_state) {
   
   module_load_include('inc', 'block', 'block.admin');
   
-  $copy = block_admin_configure($form, $form_state, 'mediacommons_blocks', NULL);
+  $form = block_admin_configure($form, $form_state, 'mediacommons_blocks', NULL);
   
   $types = mediacommons_blocks_list_types();
 
@@ -58,7 +55,7 @@ function mediacommons_blocks_add_block ($form, &$form_state) {
 
   $label = '';
 
-  $copy['settings']['mediacommons_blocks_label'] = array(
+  $form['settings']['mediacommons_blocks_label'] = array(
       '#type' => 'textfield',
       '#title' => t('Block label'),
       '#size' => 60,
@@ -66,7 +63,7 @@ function mediacommons_blocks_add_block ($form, &$form_state) {
       '#default_value' => $label,
   );
 
-  $copy['settings']['mediacommons_blocks_type'] = array(
+  $form['settings']['mediacommons_blocks_type'] = array(
     '#type' => 'select',
     '#title' => t('Type of source'),
     '#default_value' => $default_value,
@@ -74,9 +71,66 @@ function mediacommons_blocks_add_block ($form, &$form_state) {
     '#description' => t('At the moment we do not allow to change the type of the source.'),
   );
 
-  dpm($copy);
+  $form['#validate'][] = 'mediacommons_blocks_add_block_validate';
 
-  return $copy;
+  $form['#submit'][] = 'mediacommons_blocks_add_block_submit';
+
+  return $form;
+
+}
+
+/**
+ * https://api.drupal.org/api/drupal/modules%21block%21block.admin.inc/function/block_add_block_form_validate/7.x
+ */
+function mediacommons_blocks_add_block_validate ($form, &$form_state) {
+  return TRUE;
+}
+
+/**
+ * https://api.drupal.org/api/drupal/modules%21block%21block.admin.inc/function/block_add_block_form_submit/7.x
+ */
+function mediacommons_blocks_add_block_submit ($form, &$form_state) {
+  
+  $label = (isset($form['settings']['mediacommons_blocks_label']['#value']) ? $form['settings']['mediacommons_blocks_label']['#value'] : '');
+  
+  $type = $form['settings']['mediacommons_blocks_type']['#value'];  
+
+  // for types see mediacommons_blocks_list_types()
+  switch ($type) {
+    case 0 : // plaintext
+      $options = array(
+        'type' => 'plaintext',
+        'label' => $label,
+      );
+      break;
+    case 1 : // fulltext
+      $options = array(
+        'type' => 'fulltext',
+        'label' => $label,
+      );
+      break;
+    case 2 : // source
+      $options = array(
+        'type' => 'source',
+        'label' => $label,
+      );
+      break;
+    case 3 : // callback
+      $options = array(
+        'type' => 'callback',
+        'label' => $label,
+      );
+      break;
+  }
+
+  $options['new'] = TRUE;
+
+  $block = mediacommons_blocks_save_block($options);
+
+  cache_clear_all();
+
+  $form_state['redirect'] = format_string('admin/structure/block/manage/mediacommons_blocks/@mbid/configure', array('@mbid' => $block->mbid));
+
 }
 
 /**
@@ -191,7 +245,7 @@ function mediacommons_blocks_block_configure ($delta = '') {
           );
           break;
         case 'callback' :
-          $callback = $block->callback;
+          $callback = unserialize($block->callback);
           $form['mediacommons_blocks_callback'] = array(
             '#title' => t('Function callback'),
             '#type' => 'textfield',
@@ -229,7 +283,7 @@ function mediacommons_blocks_block_configure ($delta = '') {
  * This hook declares how the configured options for a block
  * provided by this module are saved.
  */
-function mediacommons_blocks_block_save($delta = '', $edit = array()) {
+function mediacommons_blocks_block_save ($delta = '', $edit = array()) {
   if ($delta && preg_match('/^mc_/', $delta)) {
     $block = mediacommons_blocks_block_load($delta);
     $types = mediacommons_blocks_list_types();
@@ -245,182 +299,160 @@ function mediacommons_blocks_block_save($delta = '', $edit = array()) {
           'url' => $edit['mediacommons_blocks_url'],
           'mbid' => $delta,
         );      
-        _mediacommons_blocks_save_source($type, $label, $delta, $options);
-        break;
+        return _mediacommons_blocks_save_source($type, $label, $delta, $options);
       case 'callback' :
         $options = array(
           'url' => $edit['mediacommons_blocks_callback'],
           'mbid' => $delta,
         );
-        _mediacommons_blocks_save_callback($type, $label, $delta, $options);
-        break;
+        return _mediacommons_blocks_save_callback($type, $label, $delta, $options);
       case 'fulltext' :
         $options = array(
           'content' => $edit['mediacommons_blocks_content'],
           'mbid' => $delta,
         );
-        _mediacommons_blocks_save_fulltext($type, $label, $delta, $options);
-        break;
+        return _mediacommons_blocks_save_fulltext($type, $label, $delta, $options);
       case 'plaintext' :
         $options = array(
-          'content' => $edit['mediacommons_blocks_content'],
+          'content' => $edit['mediacommons_blocks_plaintext'],
           'mbid' => $delta,
         );
-        _mediacommons_blocks_save_plaintext($type, $label, $delta, $options);
-        break;
+        return _mediacommons_blocks_save_plaintext($type, $label, $delta, $options);
     }
   }
 }
 
 function _mediacommons_blocks_save_fulltext ($type, $label, $mbid, $options) {
-  if (isset($options['content'])) {
-    $text = check_markup($options['content'], 'full_html');
-    $block = mediacommons_blocks_block_load($mbid);
-    if (!$block) {
-      $record = db_insert('mediacommons_blocks_blocks')
-        ->fields(array(
-          'mbid' => $mbid,
-          'type' => mediacommons_blocks_list_types($type),
-          'label' => serialize($label),
-          'content' => serialize($text),
-          'created' => REQUEST_TIME,
-          'proceed' => REQUEST_TIME,
-        ))
-        ->execute();
-    }
-    else {
-      $record = db_update('mediacommons_blocks_blocks')
-        ->fields(array(
-          'content' => serialize($text),
-          'label' => serialize($label),                  
-          'proceed' => REQUEST_TIME,
-        ))
-        ->condition('mbid', $options['mbid'], '=')
-        ->execute();
-    }
-    if ($record) {
-      // drupal_set_message('Record saved');
-      // create a wathchdog record
-    }
-    return $record;
+  $content = (isset($options['content'])) ? $options['content'] : '';
+  $text = check_markup($content, 'full_html');
+  $block = mediacommons_blocks_block_load($mbid);
+  if (!$block) {
+    db_insert('mediacommons_blocks_blocks')
+      ->fields(array(
+        'mbid' => $mbid,
+        'type' => mediacommons_blocks_list_types($type),
+        'label' => serialize($label),
+        'content' => serialize($text),
+        'created' => REQUEST_TIME,
+        'proceed' => REQUEST_TIME,
+      ))
+      ->execute();
   }
   else {
-    // We have a problem. Drupal was unable to get data from source
+    db_update('mediacommons_blocks_blocks')
+      ->fields(array(
+        'content' => serialize($text),
+        'label' => serialize($label),                  
+        'proceed' => REQUEST_TIME,
+       ))
+      ->condition('mbid', $options['mbid'], '=')
+      ->execute();
   }
+  
+  // create a wathchdog record
+  return mediacommons_blocks_block_load($mbid);
+
 }
 
 function _mediacommons_blocks_save_plaintext ($type, $label, $mbid, $options) {
-  if (isset($options['content'])) {
-    $text = check_markup($options['content'], 'plain_text');
-    $block = mediacommons_blocks_block_load($mbid);
-    if (!$block) {
-      $record = db_insert('mediacommons_blocks_blocks')
-        ->fields(array(
-          'mbid' => $mbid,
-          'type' => mediacommons_blocks_list_types($type),
-          'label' => serialize($label),
-          'content' => serialize($text),
-          'created' => REQUEST_TIME,
-          'proceed' => REQUEST_TIME,
-        ))
-        ->execute();
-    }
-    else {
-      $record = db_update('mediacommons_blocks_blocks')
-        ->fields(array(
-          'content' => serialize($text),
-          'label' => serialize($label),                  
-          'proceed' => REQUEST_TIME,
-        ))
-        ->condition('mbid', $options['mbid'], '=')
-        ->execute();
-    }
-    if ($record) {
-      // drupal_set_message('Record saved');
-      // create a wathchdog record
-    }
-    return $record;
+  $content = (isset($options['content'])) ? $options['content'] : '';
+  $text = check_markup($content, 'plain_text');
+  $block = mediacommons_blocks_block_load($mbid);
+  if (!$block) {
+    db_insert('mediacommons_blocks_blocks')
+      ->fields(array(
+        'mbid' => $mbid,
+        'type' => mediacommons_blocks_list_types($type),
+        'label' => serialize($label),
+        'content' => serialize($text),
+        'created' => REQUEST_TIME,
+        'proceed' => REQUEST_TIME,
+      ))
+      ->execute();
   }
   else {
-    // We have a problem. Drupal was unable to get data from source
+    db_update('mediacommons_blocks_blocks')
+      ->fields(array(
+        'content' => serialize($text),
+        'label' => serialize($label),                  
+        'proceed' => REQUEST_TIME,
+      ))
+      ->condition('mbid', $options['mbid'], '=')
+      ->execute();
   }
+  // create a wathchdog record
+  return mediacommons_blocks_block_load($mbid);
 }
 
 function _mediacommons_blocks_save_callback ($type, $label, $mbid, $options) {
-  if (isset($options['callback'])) {
-    if (function_exists($options['callback'])) {
-      $callback = $options['callback'];
-      $block = mediacommons_blocks_block_load($mbid);
-      if (!$block) {
-        $record = db_insert('mediacommons_blocks_blocks')
-          ->fields(array(
-            'mbid' => $mbid,
-            'type' => mediacommons_blocks_list_types($type),
-            'label' => serialize($label),
-            'callback' => serialize($callback),
-            'created' => REQUEST_TIME,
-            'proceed' => REQUEST_TIME,
-          ))
-          ->execute();
-      }
-      else {
-        $record = db_update('mediacommons_blocks_blocks')
-          ->fields(array(
-            'callback' => serialize($callback),
-            'label' => serialize($label),                  
-            'proceed' => REQUEST_TIME,
-          ))
-          ->condition('mbid', $options['mbid'], '=')
-          ->execute();
-      }
-    }
+  $callback = (isset($options['callback'])) ? $options['callback'] : '';
+  $block = mediacommons_blocks_block_load($mbid);
+   if (!$block) {
+     db_insert('mediacommons_blocks_blocks')
+       ->fields(array(
+         'mbid' => $mbid,
+         'type' => mediacommons_blocks_list_types($type),
+         'label' => serialize($label),
+         'callback' => serialize($callback),
+         'created' => REQUEST_TIME,
+         'proceed' => REQUEST_TIME,
+       ))
+       ->execute();
+   }
+   else {
+     db_update('mediacommons_blocks_blocks')
+       ->fields(array(
+         'callback' => serialize($callback),
+         'label' => serialize($label),                  
+         'proceed' => REQUEST_TIME,
+       ))
+       ->condition('mbid', $options['mbid'], '=')
+       ->execute();
   }
+  // create a wathchdog record
+  return mediacommons_blocks_block_load($mbid);
 }
 
 function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
-  if (isset($options['url'])) {
+  $url = (isset($options['url'])) ? $options['url'] : NULL;
+  $block = mediacommons_blocks_block_load($mbid);
+  $text = '';
+  if ($url) {
     $url = check_url($options['url']);
     $request = drupal_http_request($url);
     if ($request->status_message) {
       $status_message = strtolower(check_plain($request->status_message));
       if ($status_message == 'ok') {
-        $text = check_markup($request->data, 'full_html');
-        $block = mediacommons_blocks_block_load($mbid);
-        if (!$block) {
-          $record = db_insert('mediacommons_blocks_blocks')
-            ->fields(array(
-              'mbid' => $mbid,
-              'type' => mediacommons_blocks_list_types($type),
-              'label' => serialize($label),
-              'url' => $url,
-              'content' => serialize($text),
-              'created' => REQUEST_TIME,
-              'proceed' => REQUEST_TIME,
-            ))
-            ->execute();
-        }
-        else {
-          $record = db_update('mediacommons_blocks_blocks')
-            ->fields(array(
-              'content' => serialize($text),
-              'url' => $url,
-              'label' => serialize($label),                  
-              'proceed' => REQUEST_TIME,
-            ))
-            ->condition('mbid', $options['mbid'], '=')
-            ->execute();
-        }
-        if ($record) {
-          // drupal_set_message('Record saved');
-          // create a wathchdog record
-        }
-        return $record;
-      }
-      else {
-        // We have a problem. Drupal was unable to get data from source
+        $text= check_markup($request->data, 'full_html');
       }
     }
   }
+  if (!$block) {
+    db_insert('mediacommons_blocks_blocks')
+      ->fields(array(
+        'mbid' => $mbid,
+        'type' => mediacommons_blocks_list_types($type),
+        'label' => serialize($label),
+        'url' => $url,
+        'content' => serialize($text),
+        'created' => REQUEST_TIME,
+        'proceed' => REQUEST_TIME,
+      ))
+      ->execute();
+  }
+  else {
+    db_update('mediacommons_blocks_blocks')
+      ->fields(array(
+        'content' => serialize($text),
+        'url' => $url,
+        'label' => serialize($label),                  
+        'proceed' => REQUEST_TIME,
+      ))
+      ->condition('mbid', $options['mbid'], '=')
+      ->execute();
+  }
+  // create a wathchdog record
+  return mediacommons_blocks_block_load($mbid);
 }
 
 function mediacommons_blocks_save_block ($options) {
@@ -430,17 +462,17 @@ function mediacommons_blocks_save_block ($options) {
     $mbid = (isset($options['mbid'])) ? check_plain($options['mbid']) : 'mc_' . REQUEST_TIME;    
     switch ($type) {
       case 'source' :
-        _mediacommons_blocks_save_source($type, $label, $mbid, $options);
+        return _mediacommons_blocks_save_source($type, $label, $mbid, $options);
         break;
       case 'fulltext' :
-        _mediacommons_blocks_save_fulltext($type, $label, $mbid, $options);
+        return _mediacommons_blocks_save_fulltext($type, $label, $mbid, $options);
         break;
       case 'plaintext' :
-        _mediacommons_blocks_save_plaintext($type, $label, $mbid, $options);
+        return _mediacommons_blocks_save_plaintext($type, $label, $mbid, $options);
         break;
 
       case 'callback' :
-        _mediacommons_blocks_save_callback($type, $label, $mbid, $options);
+        return _mediacommons_blocks_save_callback($type, $label, $mbid, $options);
         break;
     }
   }
