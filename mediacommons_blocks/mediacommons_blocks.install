@@ -27,14 +27,44 @@ function mediacommons_blocks_schema () {
   $schema['mediacommons_blocks_blocks'] = array(
     'description' => 'Table for blocks',
     'fields' => array(
-      'mbid' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE),
-      'type' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
-     	'label' => array('type' => 'text'),
-      'url' => array('type' => 'text'),
-      'callback' => array('type' => 'text'),
-      'content' => array('type' => 'text'),
-     	'created' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
-     	'proceed' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+      'mbid' => array(
+        'type' => 'varchar', 
+        'length' => 255, 
+        'not null' => TRUE
+      ),
+      'type' => array(
+        'type' => 'int', 
+        'not null' => TRUE, 
+        'default' => 0
+      ),
+     	'label' => array(
+         'type' => 'text'
+      ),
+      'url' => array(
+        'type' => 'text'
+      ),
+      'callback' => array(
+        'type' => 'text'
+      ),
+      'content' => array(
+        'type' => 'text'
+      ),
+     	'created' => array(
+         'type' => 'int', 
+         'not null' => TRUE, 
+         'default' => 0
+      ),
+     	'proceed' => array(
+         'type' => 'int', 
+         'not null' => TRUE, 
+         'default' => 0
+      ),
+      'expire' => array(
+        'description' => 'A Unix timestamp indicating when the cache entry should expire, or 0 for never.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),       
     ),
     'primary key' => array('mbid'),
  	);
@@ -42,19 +72,23 @@ function mediacommons_blocks_schema () {
 }
 
 function mediacommons_blocks_enable () {
+  
   $options = array(
     'type' => 'source',
     'mbid' => 'mc_fieldguide',    
     'label' => 'Field Guide Survey Question',
     'url' => 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub?pjax=1',
   );
+  
   mediacommons_blocks_save_block($options);
+  
   $options = array(
     'type' => 'fulltext',
     'mbid' => 'mc_footer',    
     'label' => 'Default footer',
     'content' => '<div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>',
   );
+  
   mediacommons_blocks_save_block($options);
 
   // example of using a callback
@@ -64,6 +98,7 @@ function mediacommons_blocks_enable () {
     'label' => 'Callback example',
     'callback' => 'mediacommons_blocks_callback_example',
   );
+  
   mediacommons_blocks_save_block($options);  
 
 }

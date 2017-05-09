@@ -5,6 +5,87 @@
  * Module file for mediacommons_block.
  */
 
+function mediacommons_blocks_init () {
+    
+    // drush_log(format_string('Expire @time', array('@time' => time() + (3600 * 4))), 'ok');
+
+    $spec = array(
+    'description' => 'Table for blocks',
+    'fields' => array(
+      'mbid' => array(
+        'type' => 'varchar', 
+        'length' => 255, 
+        'not null' => TRUE
+      ),
+      'type' => array(
+        'type' => 'int', 
+        'not null' => TRUE, 
+        'default' => 0
+      ),
+     	'label' => array(
+         'type' => 'text'
+      ),
+      'url' => array(
+        'type' => 'text'
+      ),
+      'callback' => array(
+        'type' => 'text'
+      ),
+      'content' => array(
+        'type' => 'text'
+      ),
+     	'created' => array(
+         'type' => 'int', 
+         'not null' => TRUE, 
+         'default' => 0
+      ),
+     	'proceed' => array(
+         'type' => 'int', 
+         'not null' => TRUE, 
+         'default' => 0
+      ),
+      'expire' => array(
+        'description' => 'A Unix timestamp indicating when the cache entry should expire, or 0 for never.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),       
+    ),
+    'primary key' => array('mbid'),
+ 	);
+
+  // db_create_table('mediacommons_blocks_blocks', $spec);
+  
+  $options = array(
+    'type' => 'source',
+    'mbid' => 'mc_fieldguide',    
+    'label' => 'Field Guide Survey Question',
+    'url' => 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub?pjax=1',
+  );
+  
+  //mediacommons_blocks_save_block($options);
+  
+  $options = array(
+    'type' => 'fulltext',
+    'mbid' => 'mc_footer',    
+    'label' => 'Default footer',
+    'content' => '<div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>',
+  );
+  
+  //mediacommons_blocks_save_block($options);
+
+  // example of using a callback
+  $options = array(
+    'type' => 'callback',
+    'mbid' => 'mc_callback',    
+    'label' => 'Callback example',
+    'callback' => 'mediacommons_blocks_callback_example',
+  );
+  
+  //mediacommons_blocks_save_block($options);    
+
+}
+
 /**
  * Implements hook_menu().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7.x
@@ -333,8 +414,9 @@ function _mediacommons_blocks_save_fulltext ($type, $label, $mbid, $options) {
         'type' => mediacommons_blocks_list_types($type),
         'label' => serialize($label),
         'content' => serialize($text),
-        'created' => REQUEST_TIME,
-        'proceed' => REQUEST_TIME,
+        'created' => time(),
+        'proceed' => time(),
+        'expire' => 0, // we don't expire fulltext
       ))
       ->execute();
   }
@@ -348,10 +430,8 @@ function _mediacommons_blocks_save_fulltext ($type, $label, $mbid, $options) {
       ->condition('mbid', $options['mbid'], '=')
       ->execute();
   }
-  
   // create a wathchdog record
   return mediacommons_blocks_block_load($mbid);
-
 }
 
 function _mediacommons_blocks_save_plaintext ($type, $label, $mbid, $options) {
@@ -365,8 +445,9 @@ function _mediacommons_blocks_save_plaintext ($type, $label, $mbid, $options) {
         'type' => mediacommons_blocks_list_types($type),
         'label' => serialize($label),
         'content' => serialize($text),
-        'created' => REQUEST_TIME,
-        'proceed' => REQUEST_TIME,
+        'created' => time(),
+        'proceed' => time(),
+        'expire' => 0, // we don't expire plaintext
       ))
       ->execute();
   }
@@ -394,8 +475,9 @@ function _mediacommons_blocks_save_callback ($type, $label, $mbid, $options) {
          'type' => mediacommons_blocks_list_types($type),
          'label' => serialize($label),
          'callback' => serialize($callback),
-         'created' => REQUEST_TIME,
-         'proceed' => REQUEST_TIME,
+         'created' => time(),
+         'proceed' => time(),
+         'expire' => 0, // maybe later on
        ))
        ->execute();
    }
@@ -435,8 +517,9 @@ function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
         'label' => serialize($label),
         'url' => $url,
         'content' => serialize($text),
-        'created' => REQUEST_TIME,
-        'proceed' => REQUEST_TIME,
+        'created' => time(),
+        'proceed' => time(),
+        'expire' => time() + (3600 * 4), // we expire sources; later on will let user change this
       ))
       ->execute();
   }
@@ -446,7 +529,8 @@ function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
         'content' => serialize($text),
         'url' => $url,
         'label' => serialize($label),                  
-        'proceed' => REQUEST_TIME,
+        'proceed' => time(),
+        'expire' => time() + (3600 * 4),
       ))
       ->condition('mbid', $options['mbid'], '=')
       ->execute();
@@ -474,6 +558,46 @@ function mediacommons_blocks_save_block ($options) {
       case 'callback' :
         return _mediacommons_blocks_save_callback($type, $label, $mbid, $options);
         break;
+    }
+  }
+}
+
+/**
+ * Implements hook_cron().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_cron/7.x
+ */
+function mediacommons_blocks_cron () {
+  while (TRUE) {
+    $update = array(
+      'proceed' => time(),
+      'expire' => time() + (3600 * 4),
+    );
+    $item = db_query_range('SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE expire > 0 AND expire > NOW() ORDER BY proceed ASC', 0, 1, array())->fetchObject();
+    if ($item) {
+      if ($item->type == 2) { // 2 stands for source. See: mediacommons_blocks_list_types
+        if ($item->url) {
+          $url = check_url($item->url);
+          $request = drupal_http_request($url);
+          if ($request->status_message) {
+            $status_message = strtolower(check_plain($request->status_message));
+            if ($status_message == 'ok') {
+              $update['content'] = serialize(check_markup($request->data, 'full_html'));
+            }
+          }
+        }
+        $succeeded = db_update('mediacommons_blocks_blocks')->fields($update)->condition('mbid', $item->mbid, '=')->execute();
+        if ($succeeded) {
+          return $item;
+        }
+      }
+      else { // at the moment we only cache source
+        // No items currently available to claim.
+        return FALSE;
+      }
+    }
+    else {
+      // No items currently available to claim.
+      return FALSE;
     }
   }
 }
