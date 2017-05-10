@@ -45,9 +45,7 @@ function drush_mediacommons_blocks_mc_rebuild_cache () {
       if ($item->type == 2) { // 2 stands for source. See: mediacommons_blocks_list_types
         if ($item->url) {
           $url = check_url($item->url);
-          drush_log($url,'ok');
           $request = drupal_http_request($url);
-          print_r($request);
           if ($request->status_message) {
             $status_message = strtolower(check_plain($request->status_message));
             if ($status_message == 'ok') {
@@ -57,7 +55,7 @@ function drush_mediacommons_blocks_mc_rebuild_cache () {
         }
         $succeeded = db_update('mediacommons_blocks_blocks')->fields($update)->condition('mbid', $item->mbid, '=')->execute();
         if ($succeeded) {
-          drush_log('MediaCommons Blocks: Cache cleaned');
+          drush_log('MediaCommons Blocks: Cache cleaned', 'ok');
           return $item;
         }
       }
