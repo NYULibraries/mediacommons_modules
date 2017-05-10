@@ -286,6 +286,7 @@ function mediacommons_blocks_block_configure ($delta = '') {
  * provided by this module are saved.
  */
 function mediacommons_blocks_block_save ($delta = '', $edit = array()) {
+  drush_log(__FUNCTION__,'ok');
   if ($delta && preg_match('/^mc_/', $delta)) {
     $block = mediacommons_blocks_block_load($delta);
     $types = mediacommons_blocks_list_types();
@@ -417,20 +418,26 @@ function _mediacommons_blocks_save_callback ($type, $label, $mbid, $options) {
 }
 
 function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
+  drush_log(__FUNCTION__,'ok');
   $url = (isset($options['url'])) ? $options['url'] : NULL;
   $block = mediacommons_blocks_block_load($mbid);
   $text = '';
+  drush_log("URL: $url ",'ok');
   if ($url) {
     $url = check_url($options['url']);
     $request = drupal_http_request($url);
     if ($request->status_message) {
       $status_message = strtolower(check_plain($request->status_message));
       if ($status_message == 'ok') {
-        $text= check_markup($request->data, 'full_html');
+        $text = check_markup($request->data, 'full_html');
+        drush_log($text,'ok');
       }
     }
   }
+  drush_log("Do we have a block?",'ok');
   if (!$block) {
+    drush_log("No ",'ok');
+
     db_insert('mediacommons_blocks_blocks')
       ->fields(array(
         'mbid' => $mbid,
@@ -464,7 +471,7 @@ function mediacommons_blocks_save_block ($options) {
   if (isset($options['type'])) {
     $type = $options['type'];
     $label = (isset($options['label'])) ? check_plain($options['label']) : '';
-    $mbid = (isset($options['mbid'])) ? check_plain($options['mbid']) : 'mc_' . REQUEST_TIME;    
+    $mbid = (isset($options['mbid'])) ? check_plain($options['mbid']) : 'mc_' . time();
     switch ($type) {
       case 'source' :
         return _mediacommons_blocks_save_source($type, $label, $mbid, $options);
