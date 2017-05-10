@@ -6,35 +6,14 @@
  */
 
 /**
- * Implements hook_menu().
- *
- * Provides a default page to explain what this module does.
- */
-function mediacommons_twitter_menu() {
-  $items['tweets'] = array(
-    'page callback' => 'mediacommons_twitter_page',
-    'access callback' => TRUE,
-    'title' => 'Tweets',
-  );
-  return $items;
-}
-
-/**
- * Simple page function to explain what the block example is about.
- */
-function mediacommons_twitter_page() {
-  return mediacommons_twitter_content();
-}
-
-/**
  * Implements hook_block_info().
  *
  * This hook declares what blocks are provided by the module.
  */
-function mediacommons_twitter_block_info() {
+function mediacommons_twitter_block_info () {
   $blocks['mediacommons_twitter'] = array(
     'info' => t('MediaCommons: Twitter block'),
-    'cache' => DRUPAL_CACHE_PER_ROLE,
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
   return $blocks;
 }
@@ -44,7 +23,7 @@ function mediacommons_twitter_block_info() {
  *
  * This hook declares configuration options for blocks provided by this module.
  */
-function mediacommons_twitter_block_configure($delta = '') {
+function mediacommons_twitter_block_configure ($delta = '') {
   $form = array();
   if ($delta == 'mediacommons_twitter') {
     $form['mediacommons_twitter_label'] = array(
@@ -54,14 +33,20 @@ function mediacommons_twitter_block_configure($delta = '') {
       '#description' => t('Link label'),
       '#default_value' => variable_get('mediacommons_twitter_label', ''),
     );
-
     $form['mediacommons_twitter_user'] = array(
       '#type' => 'textfield',
-      '#title' => t('MediaCommons: Twitter block'),
+      '#title' => t('MediaCommons: Twitter user'),
       '#size' => 60,
       '#description' => t('Twitter username'),
       '#default_value' => variable_get('mediacommons_twitter_user', ''),
-    );    
+    );
+    $form['mediacommons_twitter_url'] = array(
+      '#type' => 'textfield',
+      '#title' => t('MediaCommons: Twitter URL'),
+      '#size' => 60,
+      '#description' => t('Use this if you would like to use a Twitter URL instead of the Twitter username. Twitter user should be left empty if you plan to provide a URL.'),
+      '#default_value' => variable_get('mediacommons_twitter_url', ''),
+    );
   }
   return $form;
 }
@@ -76,6 +61,7 @@ function mediacommons_twitter_block_save($delta = '', $edit = array()) {
   if ($delta == 'mediacommons_twitter') {
     variable_set('mediacommons_twitter_user', $edit['mediacommons_twitter_user']);
     variable_set('mediacommons_twitter_label', $edit['mediacommons_twitter_label']);
+    variable_set('mediacommons_twitter_url', $edit['mediacommons_twitter_url']);    
   }
 }
 
@@ -101,20 +87,25 @@ function mediacommons_twitter_block_view($delta = '') {
 function mediacommons_twitter_content() {
   // https://dev.twitter.com/web/embedded-timelines/parameters
   $output = '';
+  $attibutes_string = '';
+  $label = variable_get('mediacommons_twitter_label', '&nbsp;');
   $username = variable_get('mediacommons_twitter_user', null);
+  $content_url = variable_get('mediacommons_twitter_url', null);
+  $pattern = '/https:\/\/twitter.com/';
+  $script = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+  $attibutes = array(
+    'data-height' => '600',
+    'data-theme' => 'dark',
+  );
   if (!is_null($username)) {
-    $attibutes_string = '';
-    $script = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
-    $label = variable_get('mediacommons_twitter_label', '&nbsp;');
-    $attibutes = array(
-      'data-height' => '600',
-      'data-theme' => 'dark',
-      'href' => 'https://twitter.com/' . $username,
-    );
-    foreach ($attibutes as $key => $attibute) {
-      $attibutes_string .= ' ' . $key . '="' . $attibute . '"';
-    }
-    $output = '<a class="twitter-timeline"' . $attibutes_string . '>' . $label . '</a>' . $script;
+    $attibutes['href'] = 'https://twitter.com/' . $username;
   }
+  elseif (!is_null($content_url) && preg_match($pattern, $content_url)) {
+    $attibutes['href'] = $content_url;
+  }
+  foreach ($attibutes as $key => $attibute) {
+    $attibutes_string .= ' ' . $key . '="' . $attibute . '"';
+  }
+  $output = '<a class="twitter-timeline mediacommons_twitter"' . $attibutes_string . '>' . $label . '</a>' . $script;
   return array('#markup' => $output);
 }

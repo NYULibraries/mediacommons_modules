@@ -13,4 +13,5 @@
 function mediacommons_twitter_uninstall() {
   variable_del('mediacommons_twitter_user');
   variable_del('mediacommons_twitter_label');
+  variable_del('mediacommons_twitter_url');
 }
