@@ -57,7 +57,7 @@ function drush_mediacommons_blocks_mc_rebuild_cache () {
         }
         $succeeded = db_update('mediacommons_blocks_blocks')->fields($update)->condition('mbid', $item->mbid, '=')->execute();
         if ($succeeded) {
-          drush_log('MediaCommons Blocks: Cache cleaned')
+          drush_log('MediaCommons Blocks: Cache cleaned');
           return $item;
         }
       }
