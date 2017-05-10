@@ -450,7 +450,7 @@ function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
         'url' => $url,
         'label' => serialize($label),                  
         'proceed' => time(),
-        'expire' => time() + (3600 * 4),
+        'expire' => time() + (3600 * 4), // we expire sources; later on will let user change this
       ))
       ->condition('mbid', $options['mbid'], '=')
       ->execute();

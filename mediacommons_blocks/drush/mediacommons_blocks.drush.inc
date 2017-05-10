@@ -12,6 +12,13 @@ function mediacommons_blocks_drush_command () {
     'aliases' => array('mcrc'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   );
+  $items['mc-init-fieldguide'] = array(
+    'description' => "Init Fieldguide block",
+    'arguments' => array(),
+    'options' => array(),
+    'aliases' => array('mcif'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  );  
   return $items;
 }
 
@@ -29,6 +36,16 @@ function mediacommons_blocks_drush_help ($section) {
     case 'drush:mc-rebuild-cache':
       return dt("Rebuild all MediaCommons blocks cache.");
   }
+}
+
+function drush_mediacommons_blocks_mc_init_fieldguide () {
+  $options = array(
+    'type' => 'source',
+    'mbid' => 'mc_fieldguide',    
+    'label' => 'Field Guide Survey Question',
+    'url' => 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub?pjax=1',
+  );
+  mediacommons_blocks_save_block($options);
 }
 
 /**
