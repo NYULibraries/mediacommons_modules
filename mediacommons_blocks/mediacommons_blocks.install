@@ -77,9 +77,10 @@ function mediacommons_blocks_enable () {
     'type' => 'source',
     'mbid' => 'mc_fieldguide',    
     'label' => 'Field Guide Survey Question',
-    'url' => 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub?pjax=1',
+    // create the block, but don't request data
+    //'url' => 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub?pjax=1',
   );
-  
+
   mediacommons_blocks_save_block($options);
   
   $options = array(

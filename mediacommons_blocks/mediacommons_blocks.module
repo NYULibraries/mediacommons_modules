@@ -500,7 +500,7 @@ function mediacommons_blocks_cron () {
       'proceed' => time(),
       'expire' => time() + (3600 * 4),
     );
-    $item = db_query_range('SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE expire > 0 AND expire > NOW() ORDER BY proceed ASC', 0, 1, array())->fetchObject();
+    $item = db_query_range("SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE expire > 0 AND expire > NOW() AND type = '2' ORDER BY proceed ASC", 0, 1, array())->fetchObject();
     if ($item) {
       if ($item->type == 2) { // 2 stands for source. See: mediacommons_blocks_list_types
         if ($item->url) {
