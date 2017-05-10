@@ -97,10 +97,10 @@ function mediacommons_twitter_content() {
     'data-height' => '600',
     'data-theme' => 'dark',
   );
-  if (!is_null($username)) {
+  if (!empty($username)) {
     $attibutes['href'] = 'https://twitter.com/' . $username;
   }
-  elseif (!is_null($content_url) && preg_match($pattern, $content_url)) {
+  elseif (!empty($content_url) && preg_match($pattern, $content_url)) {
     $attibutes['href'] = $content_url;
   }
   foreach ($attibutes as $key => $attibute) {
