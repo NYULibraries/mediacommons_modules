@@ -419,13 +419,14 @@ function _mediacommons_blocks_save_callback ($type, $label, $mbid, $options) {
 
 function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
   drush_log(__FUNCTION__,'ok');
-  $url = (isset($options['url'])) ? $options['url'] : NULL;
+  print_r($options['url']);
+  $url = (isset($options['url'])) ? check_url($options['url']) : NULL;
   $block = mediacommons_blocks_block_load($mbid);
   $text = '';
   drush_log("URL: $url ",'ok');
   if ($url) {
-    $url = check_url($options['url']);
     $request = drupal_http_request($url);
+    print_r($request);
     if ($request->status_message) {
       $status_message = strtolower(check_plain($request->status_message));
       if ($status_message == 'ok') {
@@ -437,7 +438,6 @@ function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
   drush_log("Do we have a block?",'ok');
   if (!$block) {
     drush_log("No ",'ok');
-
     db_insert('mediacommons_blocks_blocks')
       ->fields(array(
         'mbid' => $mbid,
