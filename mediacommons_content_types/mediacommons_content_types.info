@@ -463,7 +463,6 @@ features_exclude[variable][field_bundle_settings_node__spoke] = field_bundle_set
 features_exclude[dependencies][mediacommons_carousel] = mediacommons_carousel
 features_exclude[dependencies][flexslider_fields] = flexslider_fields
 features_exclude[dependencies][mediacommons_homepage_umbrella] = mediacommons_homepage_umbrella
-features_exclude[dependencies][mediacommons_image_styles_and_date_formats] = mediacommons_image_styles_and_date_formats
 features_exclude[field_base][field_project] = field_project
 features_exclude[field_base][field_rlink] = field_rlink
 features_exclude[field_base][field_large_image] = field_large_image
