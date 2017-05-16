@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * mediacommons_text_formats.features.filter.inc
+ * mediacommons_content_types.features.filter.inc
  */
 
 /**
  * Implements hook_filter_default_formats().
  */
-function mediacommons_text_formats_filter_default_formats() {
+function mediacommons_content_types_filter_default_formats() {
   $formats = array();
 
   // Exported format: Display Suite code.

@@ -2,6 +2,6 @@ name = MediaCommons Blocks
 description = Define MediaCommons default blocks.
 core = 7.x
 dependencies[] = block
-dependencies[] = mediacommons_text_formats
+dependencies[] = mediacommons_content_types
 dependencies[] = drupal:system (>= 7.50)
 package = MediaCommons
