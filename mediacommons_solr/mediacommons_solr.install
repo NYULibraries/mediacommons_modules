@@ -16,15 +16,12 @@ function mediacommons_solr_enable() {
     'name' => 'MediaCommons Apache Solr server',
     'url' => 'http://dev-discovery.dlib.nyu.edu:8080/solr3_discovery/mediacommons'
   );
-
   // set the environment
   db_update('apachesolr_environment')->fields($conf)->execute();
-
   // set a Apache Solr hash
   if ($hash = variable_get('mediacommons_project')) {
     variable_set('apachesolr_site_hash', $hash);
-  }
-  
+  }  
   $bundles = array(
     'front_page_post', 
     'hub',
@@ -32,13 +29,9 @@ function mediacommons_solr_enable() {
     'review',
     'spoke',
   );
-  
   module_load_include('inc', 'apachesolr', 'apachesolr.index');
-  
   apachesolr_index_set_bundles('solr', 'node', $bundles);
-  
   cache_clear_all();
-
 }
 
 /**

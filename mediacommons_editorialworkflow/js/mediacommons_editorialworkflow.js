@@ -15,9 +15,9 @@
               }
             }, 995);
           }
-          setTimeout(function() {
-            $(context).find('#console').hide();
-          }, 6000);
+          //setTimeout(function() {
+          //  $(context).find('#console').hide();
+          //}, 6000);
         }
       }
     }

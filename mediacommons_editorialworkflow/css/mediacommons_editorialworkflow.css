@@ -67,3 +67,14 @@
   display: none;
   visibility: hidden;
 }
+
+
+.page-node-add .field-name-field-body label {
+  display: none;
+  visibility: hidden;
+}
+
+.page-node-add .column-side #edit-actions {
+  display: none;
+  visibility: hidden;
+}

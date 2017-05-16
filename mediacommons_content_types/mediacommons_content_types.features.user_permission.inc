@@ -10,6 +10,20 @@
 function mediacommons_content_types_user_default_permissions() {
   $permissions = array();
 
+  // Exported permission: 'administer ckeditor'.
+  $permissions['administer ckeditor'] = array(
+    'name' => 'administer ckeditor',
+    'roles' => array(),
+    'module' => 'ckeditor',
+  );
+
+  // Exported permission: 'administer imce'.
+  $permissions['administer imce'] = array(
+    'name' => 'administer imce',
+    'roles' => array(),
+    'module' => 'imce',
+  );
+
   // Exported permission: 'administer mediacommons filters'.
   $permissions['administer mediacommons filters'] = array(
     'name' => 'administer mediacommons filters',
@@ -19,6 +33,13 @@ function mediacommons_content_types_user_default_permissions() {
       'managing editor' => 'managing editor',
     ),
     'module' => 'mediacommons_filter',
+  );
+
+  // Exported permission: 'create front_page_post content'.
+  $permissions['create front_page_post content'] = array(
+    'name' => 'create front_page_post content',
+    'roles' => array(),
+    'module' => 'node',
   );
 
   // Exported permission: 'create hub content'.
@@ -64,6 +85,20 @@ function mediacommons_content_types_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'customize ckeditor'.
+  $permissions['customize ckeditor'] = array(
+    'name' => 'customize ckeditor',
+    'roles' => array(),
+    'module' => 'ckeditor',
+  );
+
+  // Exported permission: 'delete any front_page_post content'.
+  $permissions['delete any front_page_post content'] = array(
+    'name' => 'delete any front_page_post content',
+    'roles' => array(),
+    'module' => 'node',
+  );
+
   // Exported permission: 'delete any hub content'.
   $permissions['delete any hub content'] = array(
     'name' => 'delete any hub content',
@@ -101,6 +136,13 @@ function mediacommons_content_types_user_default_permissions() {
       'cluster curator' => 'cluster curator',
       'managing editor' => 'managing editor',
     ),
+    'module' => 'node',
+  );
+
+  // Exported permission: 'delete own front_page_post content'.
+  $permissions['delete own front_page_post content'] = array(
+    'name' => 'delete own front_page_post content',
+    'roles' => array(),
     'module' => 'node',
   );
 
@@ -155,6 +197,13 @@ function mediacommons_content_types_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'edit any front_page_post content'.
+  $permissions['edit any front_page_post content'] = array(
+    'name' => 'edit any front_page_post content',
+    'roles' => array(),
+    'module' => 'node',
+  );
+
   // Exported permission: 'edit any hub content'.
   $permissions['edit any hub content'] = array(
     'name' => 'edit any hub content',
@@ -194,6 +243,13 @@ function mediacommons_content_types_user_default_permissions() {
       'contributor' => 'contributor',
       'managing editor' => 'managing editor',
     ),
+    'module' => 'node',
+  );
+
+  // Exported permission: 'edit own front_page_post content'.
+  $permissions['edit own front_page_post content'] = array(
+    'name' => 'edit own front_page_post content',
+    'roles' => array(),
     'module' => 'node',
   );
 
@@ -291,6 +347,13 @@ function mediacommons_content_types_user_default_permissions() {
       'cluster curator' => 'cluster curator',
       'managing editor' => 'managing editor',
     ),
+    'module' => 'view_unpublished',
+  );
+
+  // Exported permission: 'view any unpublished front_page_post content'.
+  $permissions['view any unpublished front_page_post content'] = array(
+    'name' => 'view any unpublished front_page_post content',
+    'roles' => array(),
     'module' => 'view_unpublished',
   );
 

@@ -829,6 +829,84 @@ function mediacommons_content_types_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'imce_profiles';
+  $strongarm->value = array(
+    1 => array(
+      'name' => 'User-1',
+      'usertab' => 1,
+      'filesize' => 0,
+      'quota' => 0,
+      'tuquota' => 0,
+      'extensions' => '*',
+      'dimensions' => '1200x1200',
+      'filenum' => 0,
+      'directories' => array(
+        0 => array(
+          'name' => '.',
+          'subnav' => 1,
+          'browse' => 1,
+          'upload' => 1,
+          'thumb' => 1,
+          'delete' => 1,
+          'resize' => 1,
+        ),
+      ),
+      'thumbnails' => array(
+        0 => array(
+          'name' => 'Small',
+          'dimensions' => '90x90',
+          'prefix' => 'small_',
+          'suffix' => '',
+        ),
+        1 => array(
+          'name' => 'Medium',
+          'dimensions' => '120x120',
+          'prefix' => 'medium_',
+          'suffix' => '',
+        ),
+        2 => array(
+          'name' => 'Large',
+          'dimensions' => '180x180',
+          'prefix' => 'large_',
+          'suffix' => '',
+        ),
+      ),
+    ),
+    2 => array(
+      'name' => 'Sample profile',
+      'usertab' => 1,
+      'filesize' => 1,
+      'quota' => 2,
+      'tuquota' => 0,
+      'extensions' => 'gif png jpg jpeg',
+      'dimensions' => '800x600',
+      'filenum' => 1,
+      'directories' => array(
+        0 => array(
+          'name' => 'u%uid',
+          'subnav' => 0,
+          'browse' => 1,
+          'upload' => 1,
+          'thumb' => 1,
+          'delete' => 0,
+          'resize' => 0,
+        ),
+      ),
+      'thumbnails' => array(
+        0 => array(
+          'name' => 'Thumb',
+          'dimensions' => '90x90',
+          'prefix' => 'thumb_',
+          'suffix' => '',
+        ),
+      ),
+    ),
+  );
+  $export['imce_profiles'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_hub';
   $strongarm->value = array(
     0 => 'main-menu',
@@ -873,6 +951,146 @@ function mediacommons_content_types_strongarm() {
   $strongarm->name = 'menu_parent_spoke';
   $strongarm->value = 'main-menu:0';
   $export['menu_parent_spoke'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'nodeformscols_field_placements_hub_default';
+  $strongarm->value = array(
+    'title' => array(
+      'region' => 'right',
+      'weight' => '0',
+      'has_required' => TRUE,
+      'title' => 'Title',
+    ),
+    'additional_settings' => array(
+      'region' => 'main',
+      'weight' => '13',
+      'has_required' => FALSE,
+      'title' => 'Vertical tabs',
+      'hidden' => 0,
+    ),
+    'actions' => array(
+      'region' => 'footer',
+      'weight' => '12',
+      'has_required' => FALSE,
+      'title' => 'Save',
+      'hidden' => 0,
+    ),
+    'field_body' => array(
+      'region' => 'main',
+      'weight' => '6',
+      'has_required' => FALSE,
+      'title' => 'Body',
+      'hidden' => 0,
+    ),
+    'field_co_editor' => array(
+      'region' => 'main',
+      'weight' => '10',
+      'has_required' => FALSE,
+      'title' => 'Co-editor',
+      'hidden' => 0,
+    ),
+    'field_contributors' => array(
+      'region' => 'main',
+      'weight' => '8',
+      'has_required' => FALSE,
+      'title' => 'Contributors',
+      'hidden' => 0,
+    ),
+    'field_curators_editors' => array(
+      'region' => 'main',
+      'weight' => '9',
+      'has_required' => FALSE,
+      'title' => 'Curated by',
+      'hidden' => 0,
+    ),
+    'field_image_rights' => array(
+      'region' => 'main',
+      'weight' => '12',
+      'has_required' => FALSE,
+      'title' => 'Representative image: Rights and Attribution',
+      'hidden' => 0,
+    ),
+    'field_period' => array(
+      'region' => 'right',
+      'weight' => '1',
+      'has_required' => FALSE,
+      'title' => 'Start and end dates',
+      'hidden' => 0,
+    ),
+    'field_pubstat' => array(
+      'region' => 'right',
+      'weight' => '5',
+      'has_required' => FALSE,
+      'title' => 'Publication Status',
+      'hidden' => 0,
+    ),
+    'field_representative_image' => array(
+      'region' => 'main',
+      'weight' => '11',
+      'has_required' => FALSE,
+      'title' => 'Representative Image',
+      'hidden' => 0,
+    ),
+    'field_spokes' => array(
+      'region' => 'main',
+      'weight' => '7',
+      'has_required' => FALSE,
+      'title' => 'Spokes',
+      'hidden' => 0,
+    ),
+    'field_taxonomy' => array(
+      'region' => 'right',
+      'weight' => '0',
+      'has_required' => FALSE,
+      'title' => 'Tags',
+      'hidden' => 0,
+    ),
+    'xmlsitemap' => array(
+      'region' => 'main',
+      'weight' => '0',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'metatags' => array(
+      'region' => 'main',
+      'weight' => '1',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'custom_breadcrumbs' => array(
+      'region' => 'main',
+      'weight' => '2',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'redirect' => array(
+      'region' => 'main',
+      'weight' => '3',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'panelizer' => array(
+      'region' => 'main',
+      'weight' => '4',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'book' => array(
+      'region' => 'main',
+      'weight' => '5',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+  );
+  $export['nodeformscols_field_placements_hub_default'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -954,6 +1172,20 @@ function mediacommons_content_types_strongarm() {
   $strongarm->name = 'node_submitted_spoke';
   $strongarm->value = 1;
   $export['node_submitted_spoke'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_blog_pattern';
+  $strongarm->value = 'blogs/[user:name]';
+  $export['pathauto_blog_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_forum_pattern';
+  $strongarm->value = '[term:vocabulary]/[term:name]';
+  $export['pathauto_forum_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
