@@ -300,6 +300,13 @@ function mediacommons_content_types_user_default_permissions() {
     'module' => 'image',
   );
 
+  // Exported permission: 'administer imce'.
+  $permissions['administer imce'] = array(
+    'name' => 'administer imce',
+    'roles' => array(),
+    'module' => 'imce',
+  );
+
   // Exported permission: 'administer manualcrop settings'.
   $permissions['administer manualcrop settings'] = array(
     'name' => 'administer manualcrop settings',

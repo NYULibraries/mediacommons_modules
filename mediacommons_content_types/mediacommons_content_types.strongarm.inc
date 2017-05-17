@@ -1109,6 +1109,195 @@ function mediacommons_content_types_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'nodeformscols_field_placements_page_default';
+  $strongarm->value = array(
+    'title' => array(
+      'region' => 'right',
+      'weight' => '0',
+      'has_required' => TRUE,
+      'title' => 'Title',
+    ),
+    'additional_settings' => array(
+      'region' => 'main',
+      'weight' => '9',
+      'has_required' => FALSE,
+      'title' => 'Vertical tabs',
+      'hidden' => 0,
+    ),
+    'actions' => array(
+      'region' => 'footer',
+      'weight' => '10',
+      'has_required' => FALSE,
+      'title' => 'Save',
+      'hidden' => 0,
+    ),
+    'body' => array(
+      'region' => 'main',
+      'weight' => '7',
+      'has_required' => FALSE,
+      'title' => 'Body',
+      'hidden' => 0,
+    ),
+    'field_pubstat' => array(
+      'region' => 'right',
+      'weight' => '8',
+      'has_required' => FALSE,
+      'title' => 'Publication Status',
+      'hidden' => 0,
+    ),
+    'field_body' => array(
+      'region' => 'main',
+      'weight' => '0',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'xmlsitemap' => array(
+      'region' => 'main',
+      'weight' => '1',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'metatags' => array(
+      'region' => 'main',
+      'weight' => '2',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'custom_breadcrumbs' => array(
+      'region' => 'main',
+      'weight' => '3',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'redirect' => array(
+      'region' => 'main',
+      'weight' => '4',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'panelizer' => array(
+      'region' => 'main',
+      'weight' => '5',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'book' => array(
+      'region' => 'main',
+      'weight' => '6',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+  );
+  $export['nodeformscols_field_placements_page_default'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'nodeformscols_field_placements_review_default';
+  $strongarm->value = array(
+    'title' => array(
+      'region' => 'right',
+      'weight' => '0',
+      'has_required' => TRUE,
+      'title' => 'Title',
+    ),
+    'additional_settings' => array(
+      'region' => 'main',
+      'weight' => '8',
+      'has_required' => FALSE,
+      'title' => 'Vertical tabs',
+      'hidden' => 0,
+    ),
+    'actions' => array(
+      'region' => 'right',
+      'weight' => '3',
+      'has_required' => FALSE,
+      'title' => 'Save',
+      'hidden' => 0,
+    ),
+    'body' => array(
+      'region' => 'main',
+      'weight' => '7',
+      'has_required' => FALSE,
+      'title' => 'Review',
+      'hidden' => 0,
+    ),
+    'field_isreviewof' => array(
+      'region' => 'right',
+      'weight' => '0',
+      'has_required' => FALSE,
+      'title' => 'Review of',
+      'hidden' => 0,
+    ),
+    'field_pubstat' => array(
+      'region' => 'right',
+      'weight' => '2',
+      'has_required' => FALSE,
+      'title' => 'Publication Status',
+      'hidden' => 0,
+    ),
+    'field_reviewer' => array(
+      'region' => 'right',
+      'weight' => '1',
+      'has_required' => FALSE,
+      'title' => 'Reviewer',
+      'hidden' => 0,
+    ),
+    'xmlsitemap' => array(
+      'region' => 'main',
+      'weight' => '1',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'metatags' => array(
+      'region' => 'main',
+      'weight' => '2',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'custom_breadcrumbs' => array(
+      'region' => 'main',
+      'weight' => '3',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'redirect' => array(
+      'region' => 'main',
+      'weight' => '4',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'panelizer' => array(
+      'region' => 'main',
+      'weight' => '5',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+    'book' => array(
+      'region' => 'main',
+      'weight' => '6',
+      'has_required' => FALSE,
+      'title' => NULL,
+      'hidden' => 0,
+    ),
+  );
+  $export['nodeformscols_field_placements_review_default'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'nodeformscols_field_placements_spoke_default';
   $strongarm->value = array(
     'title' => array(
@@ -1126,7 +1315,7 @@ function mediacommons_content_types_strongarm() {
     ),
     'actions' => array(
       'region' => 'footer',
-      'weight' => '0',
+      'weight' => '14',
       'has_required' => FALSE,
       'title' => 'Save',
       'hidden' => 0,
