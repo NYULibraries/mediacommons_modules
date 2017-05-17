@@ -334,8 +334,6 @@ function mediacommons_editorialworkflow_node_presave ($node) {
  * Remove the option to select a text format in the edit form
  */
 function mediacommons_editorialworkflow_remove_text_format_option (&$form) {
-  //dpm(__FUNCTION__);
-  //dpm($form);
   $form[LANGUAGE_NONE][0]['format']['guidelines']['#access'] = FALSE;
   $form[LANGUAGE_NONE][0]['format']['format']['#access'] = FALSE;
   $form[LANGUAGE_NONE][0]['format']['help']['#access'] = FALSE;
@@ -784,4 +782,3 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
     );
   }
 }
-
