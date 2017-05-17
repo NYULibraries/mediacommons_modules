@@ -215,7 +215,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'administer ckeditor'.
   $permissions['administer ckeditor'] = array(
     'name' => 'administer ckeditor',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'ckeditor',
   );
 
@@ -303,7 +305,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'administer imce'.
   $permissions['administer imce'] = array(
     'name' => 'administer imce',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'imce',
   );
 
@@ -564,7 +568,10 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'create front_page_post content'.
   $permissions['create front_page_post content'] = array(
     'name' => 'create front_page_post content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
+    ),
     'module' => 'node',
   );
 
@@ -624,7 +631,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'customize ckeditor'.
   $permissions['customize ckeditor'] = array(
     'name' => 'customize ckeditor',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'ckeditor',
   );
 
@@ -640,7 +649,10 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'delete any front_page_post content'.
   $permissions['delete any front_page_post content'] = array(
     'name' => 'delete any front_page_post content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
+    ),
     'module' => 'node',
   );
 
@@ -687,7 +699,10 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'delete own front_page_post content'.
   $permissions['delete own front_page_post content'] = array(
     'name' => 'delete own front_page_post content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
+    ),
     'module' => 'node',
   );
 
@@ -745,35 +760,45 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'delete terms in city'.
   $permissions['delete terms in city'] = array(
     'name' => 'delete terms in city',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'delete terms in country'.
   $permissions['delete terms in country'] = array(
     'name' => 'delete terms in country',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'delete terms in organizations'.
   $permissions['delete terms in organizations'] = array(
     'name' => 'delete terms in organizations',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'delete terms in state'.
   $permissions['delete terms in state'] = array(
     'name' => 'delete terms in state',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'delete terms in tags'.
   $permissions['delete terms in tags'] = array(
     'name' => 'delete terms in tags',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
@@ -807,7 +832,10 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'edit any front_page_post content'.
   $permissions['edit any front_page_post content'] = array(
     'name' => 'edit any front_page_post content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
+    ),
     'module' => 'node',
   );
 
@@ -866,7 +894,10 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'edit own front_page_post content'.
   $permissions['edit own front_page_post content'] = array(
     'name' => 'edit own front_page_post content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
+    ),
     'module' => 'node',
   );
 
@@ -916,35 +947,45 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'edit terms in city'.
   $permissions['edit terms in city'] = array(
     'name' => 'edit terms in city',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'edit terms in country'.
   $permissions['edit terms in country'] = array(
     'name' => 'edit terms in country',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'edit terms in organizations'.
   $permissions['edit terms in organizations'] = array(
     'name' => 'edit terms in organizations',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'edit terms in state'.
   $permissions['edit terms in state'] = array(
     'name' => 'edit terms in state',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
   // Exported permission: 'edit terms in tags'.
   $permissions['edit terms in tags'] = array(
     'name' => 'edit terms in tags',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'taxonomy',
   );
 
@@ -1137,8 +1178,19 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'switch users'.
   $permissions['switch users'] = array(
     'name' => 'switch users',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'devel',
+  );
+
+  // Exported permission: 'use PHP for title patterns'.
+  $permissions['use PHP for title patterns'] = array(
+    'name' => 'use PHP for title patterns',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'auto_nodetitle',
   );
 
   // Exported permission: 'use advanced search'.
@@ -1248,7 +1300,10 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'view any unpublished front_page_post content'.
   $permissions['view any unpublished front_page_post content'] = array(
     'name' => 'view any unpublished front_page_post content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
+    ),
     'module' => 'view_unpublished',
   );
 
