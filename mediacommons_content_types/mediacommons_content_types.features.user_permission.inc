@@ -1254,6 +1254,19 @@ function mediacommons_content_types_user_default_permissions() {
     'module' => 'filter',
   );
 
+  // Exported permission: 'use text format embed'.
+  $permissions['use text format embed'] = array(
+    'name' => 'use text format embed',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+      'cluster curator' => 'cluster curator',
+      'contributor' => 'contributor',
+      'managing editor' => 'managing editor',
+    ),
+    'module' => 'filter',
+  );
+
   // Exported permission: 'use text format filtered_html'.
   $permissions['use text format filtered_html'] = array(
     'name' => 'use text format filtered_html',
