@@ -67,3 +67,27 @@
   display: none;
   visibility: hidden;
 }
+
+.page-node-add .field-name-field-body label {
+  display: none;
+  visibility: hidden;
+}
+
+.page-node-add .column-side #edit-actions {
+  display: none;
+  visibility: hidden;
+}
+
+.page-node-add .text-format-wrapper .form-item {
+  background: #fff;
+  margin: 0;
+  border-width: 0;
+  border-style: none;
+  border-color: transparent;
+  padding: 0;
+}
+
+.page-node-add .field-name-field-body .filter-wrapper {
+  display: none;
+  visibility: hidden;
+}

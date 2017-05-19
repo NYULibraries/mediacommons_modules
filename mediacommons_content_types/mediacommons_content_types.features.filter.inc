@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * mediacommons_text_formats.features.filter.inc
+ * mediacommons_content_types.features.filter.inc
  */
 
 /**
  * Implements hook_filter_default_formats().
  */
-function mediacommons_text_formats_filter_default_formats() {
+function mediacommons_content_types_filter_default_formats() {
   $formats = array();
 
   // Exported format: Display Suite code.
@@ -16,12 +16,35 @@ function mediacommons_text_formats_filter_default_formats() {
     'name' => 'Display Suite code',
     'cache' => 0,
     'status' => 1,
-    'weight' => 12,
+    'weight' => -6,
     'filters' => array(
       'ds_code' => array(
         'weight' => 0,
         'status' => 1,
         'settings' => array(),
+      ),
+    ),
+  );
+
+  // Exported format: Embed.
+  $formats['embed'] = array(
+    'format' => 'embed',
+    'name' => 'Embed',
+    'cache' => 1,
+    'status' => 1,
+    'weight' => -8,
+    'filters' => array(
+      'filter_htmlcorrector' => array(
+        'weight' => -48,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'filter_iframe' => array(
+        'weight' => -47,
+        'status' => 1,
+        'settings' => array(
+          'filter_iframe' => 'mediacommons.futureofthebook.org',
+        ),
       ),
     ),
   );
@@ -32,7 +55,7 @@ function mediacommons_text_formats_filter_default_formats() {
     'name' => 'Filtered HTML',
     'cache' => 1,
     'status' => 1,
-    'weight' => 0,
+    'weight' => -9,
     'filters' => array(
       'filter_iframe' => array(
         'weight' => -49,
@@ -76,7 +99,7 @@ function mediacommons_text_formats_filter_default_formats() {
     'name' => 'Full HTML',
     'cache' => 1,
     'status' => 1,
-    'weight' => 1,
+    'weight' => -10,
     'filters' => array(
       'filter_html' => array(
         'weight' => -10,
@@ -113,7 +136,7 @@ function mediacommons_text_formats_filter_default_formats() {
     'name' => 'Limited HTML',
     'cache' => 1,
     'status' => 1,
-    'weight' => 0,
+    'weight' => -7,
     'filters' => array(
       'filter_htmlcorrector' => array(
         'weight' => -49,
@@ -157,7 +180,7 @@ function mediacommons_text_formats_filter_default_formats() {
     'name' => 'Plain text',
     'cache' => 1,
     'status' => 1,
-    'weight' => 10,
+    'weight' => -5,
     'filters' => array(
       'filter_html_escape' => array(
         'weight' => 0,

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * mediacommons_roles_and_permissions.features.user_role.inc
+ * mediacommons_content_types.features.user_role.inc
  */
 
 /**
  * Implements hook_user_default_roles().
  */
-function mediacommons_roles_and_permissions_user_default_roles() {
+function mediacommons_content_types_user_default_roles() {
   $roles = array();
 
   // Exported role: administrator.
