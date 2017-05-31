@@ -49,6 +49,9 @@ function mediacommons_blocks_schema () {
       'content' => array(
         'type' => 'text'
       ),
+      'options' => array(
+        'type' => 'text'
+      ),
      	'created' => array(
          'type' => 'int', 
          'not null' => TRUE, 

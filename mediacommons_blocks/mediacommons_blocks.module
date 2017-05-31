@@ -58,11 +58,11 @@ function mediacommons_blocks_add_block ($form, &$form_state) {
   $label = '';
 
   $form['settings']['mediacommons_blocks_label'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Block label'),
-      '#size' => 60,
-      '#description' => t('Label'),
-      '#default_value' => $label,
+    '#type' => 'textfield',
+    '#title' => t('Block label'),
+    '#size' => 60,
+    '#description' => t('Label'),
+    '#default_value' => $label,
   );
 
   $form['settings']['mediacommons_blocks_type'] = array(
@@ -137,6 +137,7 @@ function mediacommons_blocks_add_block_submit ($form, &$form_state) {
 
 /**
  * Implements hook_block_info().
+ * https://api.drupal.org/api/drupal/modules%21block%21block.api.php/function/hook_block_info/7.x
  *
  * This hook declares what blocks are provided by the module.
  */
@@ -144,12 +145,12 @@ function mediacommons_blocks_block_info () {
   $blocks = array();
   foreach (mediacommons_blocks_blocks() as $block) {
     $label = unserialize($block->label);
+    $configuration = unserialize($block->options);
     if (empty($label)) {
       $label = 'Untitled';
     }
-    $blocks[$block->mbid] = array(
-      'info' => format_string('Mediacommons Blocks: @label', array('@label' => $label))
-    );
+    $configuration['info'] = format_string('Mediacommons Blocks: @label', array('@label' => $label));
+    $blocks[$block->mbid] = $configuration;
   }
   return $blocks;
 }
@@ -324,19 +325,24 @@ function mediacommons_blocks_block_save ($delta = '', $edit = array()) {
   }
 }
 
-function _mediacommons_blocks_save_fulltext ($type, $label, $mbid, $options) {
+function _mediacommons_blocks_save_fulltext($type, $label, $mbid, $options) {
+  
   $content = (isset($options['content'])) ? $options['content'] : '';
-  $text = $content;
+
+  $configuration = (isset($options['options'])) ? $options['options'] : array();
+
   $block = mediacommons_blocks_block_load($mbid);
+
   if (!$block) {
     db_insert('mediacommons_blocks_blocks')
       ->fields(array(
         'mbid' => $mbid,
         'type' => mediacommons_blocks_list_types($type),
         'label' => serialize($label),
-        'content' => serialize($text),
+        'content' => serialize($content),
         'created' => time(),
         'proceed' => time(),
+        'options' => serialize($configuration),
         'expire' => 0, // we don't expire fulltext
       ))
       ->execute();
@@ -344,15 +350,17 @@ function _mediacommons_blocks_save_fulltext ($type, $label, $mbid, $options) {
   else {
     db_update('mediacommons_blocks_blocks')
       ->fields(array(
-        'content' => serialize($text),
+        'content' => serialize($content),
         'label' => serialize($label),                  
         'proceed' => REQUEST_TIME,
        ))
       ->condition('mbid', $options['mbid'], '=')
       ->execute();
   }
+
   // create a wathchdog record
   return mediacommons_blocks_block_load($mbid);
+
 }
 
 function _mediacommons_blocks_save_plaintext ($type, $label, $mbid, $options) {
@@ -422,7 +430,7 @@ function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
   $text = '';
   if ($url) {
     $request = drupal_http_request($url);
-    if ($request->status_message) {
+    if (isset($request->status_message)) {
       $status_message = strtolower(check_plain($request->status_message));
       if ($status_message == 'ok') {
         $text = $request->data;
@@ -459,7 +467,7 @@ function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
   return mediacommons_blocks_block_load($mbid);
 }
 
-function mediacommons_blocks_save_block ($options) {
+function mediacommons_blocks_save_block($options) {
   if (isset($options['type'])) {
     $type = $options['type'];
     $label = (isset($options['label'])) ? check_plain($options['label']) : '';
