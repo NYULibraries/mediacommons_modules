@@ -40,15 +40,15 @@ function mediacommons_blocks_menu () {
 }
 
 function mediacommons_blocks_add_block ($form, &$form_state) {
-  
+
   module_load_include('inc', 'block', 'block.admin');
-  
+
   $form = block_admin_configure($form, $form_state, 'mediacommons_blocks', NULL);
-  
+
   $types = mediacommons_blocks_list_types();
 
   $types_options = array();
-    
+
   foreach ($types as $type => $key) {
     $types_options[$key] = $type;
   }
@@ -161,6 +161,7 @@ function mediacommons_blocks_block_info () {
  */
 function mediacommons_blocks_block_view ($delta = '') {
   $block = array();
+  $content = '';
   // The $delta parameter tells us which block is being requested.
   if ($delta && preg_match('/^mc_/', $delta)) {
     $data = mediacommons_blocks_block_load($delta);
@@ -169,17 +170,14 @@ function mediacommons_blocks_block_view ($delta = '') {
       // for types see mediacommons_blocks_list_types()
       switch ($data->type) {
         case 0 : // plaintext
-          $content = check_markup(unserialize($data->content), 'plain_text');
         case 1 : // fulltext
-          $content = check_markup(unserialize($data->content), 'full_html');
-        case 2 : // source
-          $content = check_markup(unserialize($data->content), 'full_html');
+        case 2 : // source        
+          $content = unserialize($data->content);
           break;
         case 3 : // callback
-          $content = '';
           $callback = unserialize($data->callback);
           if (function_exists($callback)) {
-            $content = check_markup($callback(), 'full_html');
+            $content = $callback();
           }
           break;
       }
@@ -328,7 +326,7 @@ function mediacommons_blocks_block_save ($delta = '', $edit = array()) {
 
 function _mediacommons_blocks_save_fulltext ($type, $label, $mbid, $options) {
   $content = (isset($options['content'])) ? $options['content'] : '';
-  $text = check_markup($content, 'full_html');
+  $text = $content;
   $block = mediacommons_blocks_block_load($mbid);
   if (!$block) {
     db_insert('mediacommons_blocks_blocks')
@@ -359,7 +357,7 @@ function _mediacommons_blocks_save_fulltext ($type, $label, $mbid, $options) {
 
 function _mediacommons_blocks_save_plaintext ($type, $label, $mbid, $options) {
   $content = (isset($options['content'])) ? $options['content'] : '';
-  $text = check_markup($content, 'plain_text');
+  $text = $content;
   $block = mediacommons_blocks_block_load($mbid);
   if (!$block) {
     db_insert('mediacommons_blocks_blocks')
@@ -427,7 +425,7 @@ function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
     if ($request->status_message) {
       $status_message = strtolower(check_plain($request->status_message));
       if ($status_message == 'ok') {
-        $text = check_markup($request->data, 'full_html');
+        $text = $request->data;
       }
     }
   }
@@ -503,7 +501,7 @@ function mediacommons_blocks_cron () {
           if ($request->status_message) {
             $status_message = strtolower(check_plain($request->status_message));
             if ($status_message == 'ok') {
-              $update['content'] = serialize(check_markup($request->data, 'full_html'));
+              $update['content'] = serialize($request->data);
             }
           }
         }
