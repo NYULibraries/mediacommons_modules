@@ -4,15 +4,6 @@ module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_e
 module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.datasource');
 module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.queue');
 
-/**
- * Implements hook_views_api().
- */
-function mediacommons_editorialworkflow_views_api () {
-  return array(
-    'api' => '3.0',
-  );
-}
-
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_login') {
     $attributes = array(
@@ -47,22 +38,6 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
     $_GET['destination'] = $redirection;
     $edit['redirect'] = $redirection;
   }
-}
-
-/**
- * Implements hook_views_default_views().
- */
-function mediacommons_editorialworkflow_views_default_views () {
-  $views = array();
-  $files = file_scan_directory(drupal_get_path('module', 'mediacommons_editorialworkflow') . '/views', '/\.inc/');
-  foreach ($files as $absolute => $file) {
-    require $absolute;
-    if (isset($view)) {
-      $views[$file->name] = $view;
-      unset($view);
-    }
-  }
-  return $views;
 }
 
 function mediacommons_editorialworkflow_custom_theme() {
