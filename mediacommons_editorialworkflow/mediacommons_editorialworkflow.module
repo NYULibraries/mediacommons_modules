@@ -72,6 +72,7 @@ function mediacommons_editorialworkflow_custom_theme() {
 }
 
 function mediacommons_editorialworkflow_init () {
+  return;
   global $user;
   $path_is_admin = path_is_admin(current_path());
   if ($path_is_admin) {
@@ -121,10 +122,8 @@ function mediacommons_editorialworkflow_init () {
   }
 }
 
-function mediacommons_editorialworkflow_menu () {
-
+function mediacommons_editorialworkflow_menu() {
   $items = array();
-
   $items['contributor'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
@@ -133,7 +132,6 @@ function mediacommons_editorialworkflow_menu () {
     'file' => 'inc/mediacommons_editorialworkflow.pages.inc',
     'type' =>  MENU_NORMAL_ITEM,
   );
-
   $items['contributor/dashboard'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
@@ -143,8 +141,6 @@ function mediacommons_editorialworkflow_menu () {
     'file' => 'inc/mediacommons_editorialworkflow.pages.inc',
     'type' =>  MENU_DEFAULT_LOCAL_TASK,
   );
-
-  // Make "Foo settings" appear on the admin Config page
   $items['contributor/add'] = array(
     'title' => 'Create content',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_create_content',
@@ -154,7 +150,6 @@ function mediacommons_editorialworkflow_menu () {
     'file' => 'inc/mediacommons_editorialworkflow.pages.inc',
     'type' => MENU_LOCAL_TASK,
   );
-
   $items['contributor/profile'] = array(
     'title' => 'Profile',
     'page callback' => '_mediacommons_editorialworkflow_redirect_url_profile',
@@ -163,20 +158,7 @@ function mediacommons_editorialworkflow_menu () {
     'weight' => 9,
     'type' => MENU_LOCAL_TASK,
   );
-
-  /**
-   * $items['contributor/logout'] = array(
-   *  'title' => 'Log out',
-   *  'page callback' => '_mediacommons_editorialworkflow_redirect_url',
-   *  'access callback' => 'user_is_logged_in',
-   *  'access arguments' => array('access mediacommons dashboard'),
-   *  'weight' => 10,
-   *  'type' => MENU_LOCAL_TASK,
-   * );
-   */
-
   return $items;
-
 }
 
 /**
@@ -266,7 +248,7 @@ function mediacommons_editorialworkflow_permission () {
   );
 }
 
-function mediacommons_editorialworkflow_node_presave ($node) {
+function mediacommons_editorialworkflow_node_presave($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   // https://jira.nyu.edu/jira/browse/MC-250
   if ($node->type == 'hub' || $node->type == 'spoke') {
@@ -300,7 +282,6 @@ function mediacommons_editorialworkflow_node_presave ($node) {
       }
     }
   }
-
   // Inserting a new node @TODO: test work, add validation
   if ($node->type == 'hub') {
     if (!isset($node->nid)) { // aof December 4, 2014
@@ -327,7 +308,6 @@ function mediacommons_editorialworkflow_node_presave ($node) {
       }
     }
   }
-
 }
 
 /**
@@ -353,12 +333,32 @@ function mediacommons_editorialworkflow_form_page_front_page_post_form_alter (&$
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
 }
 
+function is_contributor() {
+  $role = user_role_load_by_name('contributor');
+  if (user_has_role($role->rid)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
 function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form_state, $form_id) {
+  
   global $user;
+  
+  $is_contributor = is_contributor();
+
+  $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
+
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
+  
   $form['field_image_rights']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';  
-  $form['field_contributors'][$form['language']['#value']][0]['uid']['#default_value'] = $user->uid;
+  
+  if ($is_contributor) {
+    $form['field_contributors'][$form['language']['#value']][0]['uid']['#default_value'] = $user->uid;
+  }
+  
   $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
+
   $settings = array(
     'mediacommons_editorialworkflow' => array(
       'isAdminPage' => TRUE,
@@ -367,7 +367,8 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form
       ),
     ),
   );
-  $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
+  
+
   if (!$user_can_edit) {
     // add a class so that we can style the form
     $form['#attributes']['class'][] = 'user-cant-contribute';

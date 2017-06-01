@@ -129,7 +129,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
   $output .= views_embed_view('recent_content', 'default', $user->uid);
   $output .= $hr;
   if ($super|| $contributor || $clustercurator || $managingeditor) {
-    $view = views_embed_view('contributorscontent', 'default', $user->uid);
+    $view = views_embed_view('contributorscontent', 'block_i_can_contribute', $user->uid);
     $output .= $br;
     $output .= theme('html_tag', array(
       'element' => array(
@@ -145,8 +145,8 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= $hr;
   }
   if ($super|| $clustercurator || $managingeditor) {
-    $view_contributorsspokes_block_1 = views_embed_view('contributorscontent', 'block_1', $user->uid);
-    $view_contributorsspokes_block_2 = views_embed_view('contributorscontent', 'block_2', $user->uid);
+    $view_contributorsspokes_block_1 = views_embed_view('contributorscontent', 'block_i_can_curate', $user->uid);
+    $view_contributorsspokes_block_2 = views_embed_view('contributorscontent', 'block_i_am_co_editor', $user->uid);
     $output .= $br;
     $output .= theme('html_tag', array(
       'element' => array(
@@ -174,6 +174,23 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= $view_contributorsspokes_block_2;
     $output .= $hr;
     $output .= $br;
+    
+    $view_contributorsspokes_block_3 = views_embed_view('contributorscontent', 'block_i_authored', $user->uid);
+    $output .= $br;
+    $output .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title',
+          ),
+        '#value' => t('I authored'),
+      ),
+    ));
+    $output .= $br;
+    $output .= $view_contributorsspokes_block_3;
+    $output .= $hr;
+    $output .= $br;
+    
   }
 
   $block = module_invoke('search', 'block_view', 'search');

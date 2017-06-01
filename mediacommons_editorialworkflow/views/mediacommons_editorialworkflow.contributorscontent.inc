@@ -5,7 +5,7 @@ $view->name = 'contributorscontent';
 $view->description = '';
 $view->tag = 'default';
 $view->base_table = 'node';
-$view->human_name = 'Contributor\'s spokes';
+$view->human_name = 'Contributor\'s content';
 $view->core = 7;
 $view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -69,11 +69,16 @@ $handler->display->display_options['filters']['type']['value'] = array(
   'spoke' => 'spoke',
 );
 
-/* Display: I can contribute to */
-$handler = $view->new_display('block', 'I can contribute to', 'block');
+/* Display: I can contribute */
+$handler = $view->new_display('block', 'I can contribute', 'block_i_can_contribute');
+$handler->display->display_options['defaults']['title'] = FALSE;
+$handler->display->display_options['title'] = 'I can contribute';
+$handler->display->display_options['block_description'] = 'I can contribute';
 
 /* Display: I can curate */
-$handler = $view->new_display('block', 'I can curate', 'block_1');
+$handler = $view->new_display('block', 'I can curate', 'block_i_can_curate');
+$handler->display->display_options['defaults']['title'] = FALSE;
+$handler->display->display_options['title'] = 'I can curate';
 $handler->display->display_options['defaults']['arguments'] = FALSE;
 /* Contextual filter: Content: Curated by (field_curators_editors) */
 $handler->display->display_options['arguments']['field_curators_editors_uid']['id'] = 'field_curators_editors_uid';
@@ -84,9 +89,12 @@ $handler->display->display_options['arguments']['field_curators_editors_uid']['d
 $handler->display->display_options['arguments']['field_curators_editors_uid']['summary']['number_of_records'] = '0';
 $handler->display->display_options['arguments']['field_curators_editors_uid']['summary']['format'] = 'default_summary';
 $handler->display->display_options['arguments']['field_curators_editors_uid']['summary_options']['items_per_page'] = '25';
+$handler->display->display_options['block_description'] = 'I can curate';
 
 /* Display: I am co-editor */
-$handler = $view->new_display('block', 'I am co-editor', 'block_2');
+$handler = $view->new_display('block', 'I am co-editor', 'block_i_am_co_editor');
+$handler->display->display_options['defaults']['title'] = FALSE;
+$handler->display->display_options['title'] = 'I Am Co-editor';
 $handler->display->display_options['defaults']['arguments'] = FALSE;
 /* Contextual filter: Content: Co-editor (field_co_editor) */
 $handler->display->display_options['arguments']['field_co_editor_uid']['id'] = 'field_co_editor_uid';
@@ -97,3 +105,20 @@ $handler->display->display_options['arguments']['field_co_editor_uid']['default_
 $handler->display->display_options['arguments']['field_co_editor_uid']['summary']['number_of_records'] = '0';
 $handler->display->display_options['arguments']['field_co_editor_uid']['summary']['format'] = 'default_summary';
 $handler->display->display_options['arguments']['field_co_editor_uid']['summary_options']['items_per_page'] = '25';
+$handler->display->display_options['block_description'] = 'I Am Co-editor';
+
+/* Display: I authored */
+$handler = $view->new_display('block', 'I authored', 'block_i_authored');
+$handler->display->display_options['defaults']['title'] = FALSE;
+$handler->display->display_options['title'] = 'I Authored';
+$handler->display->display_options['defaults']['arguments'] = FALSE;
+/* Contextual filter: Content: Author uid */
+$handler->display->display_options['arguments']['uid']['id'] = 'uid';
+$handler->display->display_options['arguments']['uid']['table'] = 'node';
+$handler->display->display_options['arguments']['uid']['field'] = 'uid';
+$handler->display->display_options['arguments']['uid']['default_action'] = 'default';
+$handler->display->display_options['arguments']['uid']['default_argument_type'] = 'current_user';
+$handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
+$handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
+$handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
+$handler->display->display_options['block_description'] = 'I Authored';
