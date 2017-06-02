@@ -1,11 +1,10 @@
 
 *.lh
 
-mediacommons_globalnav/mediacommons_globalnav2.js
-
 # Emacs files
 *~
 \#*
 
 # Intellij
 .idea/
+.vscode/

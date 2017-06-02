@@ -12,44 +12,6 @@ function mediacommons_movable_blocks_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
-  $export['block-twitter_widget_channel'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'machine_name' => 'twitter_widget_channel',
-    'module' => 'block',
-    'node_types' => array(),
-    'pages' => '',
-    'roles' => array(),
-    'themes' => array(
-      'mediacommons' => array(
-        'region' => 'homepage_sidebar',
-        'status' => 1,
-        'theme' => 'mediacommons',
-        'weight' => -25,
-      ),
-      'mediacommons_admin' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => 'content',
-        'status' => 1,
-        'theme' => 'rubik',
-        'weight' => -1,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
   $export['views-641a3efdcac935ebfa7e53c18d7e1751'] = array(
     'cache' => -1,
     'custom' => 0,
