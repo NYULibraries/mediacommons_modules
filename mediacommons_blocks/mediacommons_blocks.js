@@ -1,6 +1,6 @@
 ;(function ($) {
-    Drupal.behaviors.mediacommons_blocks = {
-        attach : function(context, settings) {
-        }
-    };
+  Drupal.behaviors.mediacommons_blocks = {
+    attach : function(context, settings) {
+  }
+};
 })(jQuery);

@@ -13,7 +13,7 @@
  *
  * Define menu items and page callbacks.
  */
-function mediacommons_blocks_menu () {
+function mediacommons_blocks_menu() {
 
   $items = array();
 
@@ -39,7 +39,7 @@ function mediacommons_blocks_menu () {
 
 }
 
-function mediacommons_blocks_add_block ($form, &$form_state) {
+function mediacommons_blocks_add_block($form, &$form_state) {
 
   module_load_include('inc', 'block', 'block.admin');
 
@@ -84,14 +84,14 @@ function mediacommons_blocks_add_block ($form, &$form_state) {
 /**
  * https://api.drupal.org/api/drupal/modules%21block%21block.admin.inc/function/block_add_block_form_validate/7.x
  */
-function mediacommons_blocks_add_block_validate ($form, &$form_state) {
+function mediacommons_blocks_add_block_validate($form, &$form_state) {
   return TRUE;
 }
 
 /**
  * https://api.drupal.org/api/drupal/modules%21block%21block.admin.inc/function/block_add_block_form_submit/7.x
  */
-function mediacommons_blocks_add_block_submit ($form, &$form_state) {
+function mediacommons_blocks_add_block_submit($form, &$form_state) {
   
   $label = (isset($form['settings']['mediacommons_blocks_label']['#value']) ? $form['settings']['mediacommons_blocks_label']['#value'] : '');
   
@@ -141,8 +141,21 @@ function mediacommons_blocks_add_block_submit ($form, &$form_state) {
  *
  * This hook declares what blocks are provided by the module.
  */
-function mediacommons_blocks_block_info () {
+function mediacommons_blocks_block_info() {
+  
   $blocks = array();
+  
+  $blocks['mediacommons_solr_usercontent'] = array(
+    'info' => t('MediaCommons: User content'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  
+  $blocks['mediacommons_solr_comments'] = array(
+    'info' => t('MediaCommons: User comments'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  // dynamic blocks
   foreach (mediacommons_blocks_blocks() as $block) {
     $label = unserialize($block->label);
     $configuration = unserialize($block->options);
@@ -160,8 +173,8 @@ function mediacommons_blocks_block_info () {
  *
  * This hook generates the contents of the blocks themselves.
  */
-function mediacommons_blocks_block_view ($delta = '') {
-  $block = array();
+function mediacommons_blocks_block_view($delta = '') {
+  $block = array();  
   $content = '';
   // The $delta parameter tells us which block is being requested.
   if ($delta && preg_match('/^mc_/', $delta)) {
@@ -187,6 +200,23 @@ function mediacommons_blocks_block_view ($delta = '') {
 
     }
   }
+  else {
+    $is_account = mediacommons_solr_is_account();
+    if ($is_account) {
+	    switch ($delta) {
+        case 'mediacommons_solr_usercontent':
+          $subject = 'User content';
+          $content = mediacommons_solr_user_content_by_uid($is_account);
+          break;
+        case 'mediacommons_solr_comments':
+          $subject = 'User comments';
+          $content = mediacommons_solr_user_comments_by_uid($is_account);
+          break;
+      }
+      $block['subject'] = t('Mediacommons Blocks: @subject', array('@subject' => $subject));
+      $block['content'] = $content;
+    }
+  }
   return $block;
 }
 
@@ -196,7 +226,7 @@ function mediacommons_blocks_block_view ($delta = '') {
  *
  * This hook declares configuration options for blocks provided by this module.
  */
-function mediacommons_blocks_block_configure ($delta = '') {
+function mediacommons_blocks_block_configure($delta = '') {
   
   $form = array();
 
@@ -286,7 +316,7 @@ function mediacommons_blocks_block_configure ($delta = '') {
  * This hook declares how the configured options for a block
  * provided by this module are saved.
  */
-function mediacommons_blocks_block_save ($delta = '', $edit = array()) {
+function mediacommons_blocks_block_save($delta = '', $edit = array()) {
   if ($delta && preg_match('/^mc_/', $delta)) {
     $block = mediacommons_blocks_block_load($delta);
     $types = mediacommons_blocks_list_types();
@@ -363,7 +393,7 @@ function _mediacommons_blocks_save_fulltext($type, $label, $mbid, $options) {
 
 }
 
-function _mediacommons_blocks_save_plaintext ($type, $label, $mbid, $options) {
+function _mediacommons_blocks_save_plaintext($type, $label, $mbid, $options) {
   $content = (isset($options['content'])) ? $options['content'] : '';
   $text = $content;
   $block = mediacommons_blocks_block_load($mbid);
@@ -394,7 +424,7 @@ function _mediacommons_blocks_save_plaintext ($type, $label, $mbid, $options) {
   return mediacommons_blocks_block_load($mbid);
 }
 
-function _mediacommons_blocks_save_callback ($type, $label, $mbid, $options) {
+function _mediacommons_blocks_save_callback($type, $label, $mbid, $options) {
   $callback = (isset($options['callback'])) ? $options['callback'] : '';
   $block = mediacommons_blocks_block_load($mbid);
    if (!$block) {
@@ -424,7 +454,7 @@ function _mediacommons_blocks_save_callback ($type, $label, $mbid, $options) {
   return mediacommons_blocks_block_load($mbid);
 }
 
-function _mediacommons_blocks_save_source ($type, $label, $mbid, $options) {
+function _mediacommons_blocks_save_source($type, $label, $mbid, $options) {
   $url = (isset($options['url'])) ? check_url($options['url']) : NULL;
   $block = mediacommons_blocks_block_load($mbid);
   $text = '';
@@ -494,7 +524,7 @@ function mediacommons_blocks_save_block($options) {
  * Implements hook_cron().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_cron/7.x
  */
-function mediacommons_blocks_cron () {
+function mediacommons_blocks_cron() {
   while (TRUE) {
     $update = array(
       'proceed' => time(),
@@ -530,7 +560,7 @@ function mediacommons_blocks_cron () {
   }
 }
 
-function mediacommons_blocks_blocks () {
+function mediacommons_blocks_blocks() {
   $query = db_query('SELECT * FROM {mediacommons_blocks_blocks}');
   $result = $query->fetchAll();
   $blocks = array();
@@ -540,12 +570,12 @@ function mediacommons_blocks_blocks () {
   return $blocks;
 }
 
-function mediacommons_blocks_block_load ($mbid) {
+function mediacommons_blocks_block_load($mbid) {
   $query = db_query('SELECT * FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid', array(':mbid' => $mbid));
   return $query->fetchObject();
 }
 
-function mediacommons_blocks_list_types ($label = null) {
+function mediacommons_blocks_list_types($label = null) {
   $types = array(
     'plaintext' => 0, // plaint text
     'fulltext' => 1, // HTML
@@ -561,6 +591,6 @@ function mediacommons_blocks_list_types ($label = null) {
 /**
  * This is here to show how can someone provide a callback as a block
  */
-function mediacommons_blocks_callback_example () {
+function mediacommons_blocks_callback_example() {
   return '<p>At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>';
 }
