@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * mediacommons_user_setup.features.fe_block_settings.inc
+ * mediacommons_content_types.features.fe_block_settings.inc
  */
 
 /**
  * Implements hook_default_fe_block_settings().
  */
-function mediacommons_user_setup_default_fe_block_settings() {
+function mediacommons_content_types_default_fe_block_settings() {
   $export = array();
 
   $export['version'] = '2.0';
@@ -128,3 +128,4 @@ function mediacommons_user_setup_default_fe_block_settings() {
 
   return $export;
 }
+
