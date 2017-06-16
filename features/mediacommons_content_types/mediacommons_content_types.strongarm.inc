@@ -815,7 +815,7 @@ function mediacommons_content_types_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '17',
+            'weight' => '19',
             'visible' => FALSE,
           ),
           'user_teaser' => array(
@@ -829,7 +829,7 @@ function mediacommons_content_types_strongarm() {
         ),
         'realname' => array(
           'full' => array(
-            'weight' => '13',
+            'weight' => '15',
             'visible' => FALSE,
           ),
         ),

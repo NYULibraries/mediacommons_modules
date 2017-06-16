@@ -816,6 +816,16 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'user';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'user_comments' => array(
+      'weight' => '7',
+      'label' => 'above',
+      'format' => 'default',
+    ),
+    'user_content' => array(
+      'weight' => '6',
+      'label' => 'above',
+      'format' => 'default',
+    ),
     'name' => array(
       'weight' => '1',
       'label' => 'hidden',
@@ -1195,6 +1205,36 @@ function mediacommons_content_types_ds_custom_fields_info() {
     ),
   );
   $export['spoke_add_comments_intransition'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'user_comments';
+  $ds_field->label = 'User comments';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|mediacommons_solr_comments',
+    'block_render' => '3',
+  );
+  $export['user_comments'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'user_content';
+  $ds_field->label = 'User content';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|mediacommons_solr_usercontent',
+    'block_render' => '3',
+  );
+  $export['user_content'] = $ds_field;
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
@@ -2024,21 +2064,25 @@ function mediacommons_content_types_ds_layout_settings_info() {
         2 => 'field_email',
         3 => 'field_skype',
         4 => 'field_title',
-        5 => 'field_twitter',
+        5 => 'field_city',
         6 => 'field_organization',
-        7 => 'field_city',
-        8 => 'field_state',
-        9 => 'group_location',
-        10 => 'field_aim',
+        7 => 'field_twitter',
+        8 => 'field_aim',
+        9 => 'field_state',
+        10 => 'group_location',
         11 => 'field_country',
         12 => 'field_url',
         13 => 'group_contactinfo',
         15 => 'field_phone',
       ),
+      'left' => array(
+        14 => 'user_content',
+        16 => 'user_comments',
+      ),
       'right' => array(
-        14 => 'field_taxonomy',
-        16 => 'field_bio',
-        17 => 'field_plan',
+        17 => 'field_taxonomy',
+        18 => 'field_bio',
+        19 => 'field_plan',
       ),
     ),
     'fields' => array(
@@ -2047,17 +2091,19 @@ function mediacommons_content_types_ds_layout_settings_info() {
       'field_email' => 'header',
       'field_skype' => 'header',
       'field_title' => 'header',
-      'field_twitter' => 'header',
-      'field_organization' => 'header',
       'field_city' => 'header',
+      'field_organization' => 'header',
+      'field_twitter' => 'header',
+      'field_aim' => 'header',
       'field_state' => 'header',
       'group_location' => 'header',
-      'field_aim' => 'header',
       'field_country' => 'header',
       'field_url' => 'header',
       'group_contactinfo' => 'header',
-      'field_taxonomy' => 'right',
+      'user_content' => 'left',
       'field_phone' => 'header',
+      'user_comments' => 'left',
+      'field_taxonomy' => 'right',
       'field_bio' => 'right',
       'field_plan' => 'right',
     ),
