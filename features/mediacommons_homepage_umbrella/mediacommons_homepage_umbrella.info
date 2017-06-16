@@ -14,7 +14,6 @@ dependencies[] = link
 dependencies[] = list
 dependencies[] = mediacommons_blocks
 dependencies[] = mediacommons_content_types
-dependencies[] = mediacommons_ds_settings
 dependencies[] = nodequeue
 dependencies[] = options
 dependencies[] = strongarm
