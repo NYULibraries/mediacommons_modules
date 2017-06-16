@@ -67,7 +67,6 @@ dependencies[] = fe_block
 dependencies[] = telephone
 dependencies[] = better_exposed_filters
 dependencies[] = mediacommons_apis
-dependencies[] = mediacommons_ds_settings
 dependencies[] = mediacommons_editorialworkflow
 dependencies[] = mediacommons_filter
 features[ckeditor_profile][] = Advanced
