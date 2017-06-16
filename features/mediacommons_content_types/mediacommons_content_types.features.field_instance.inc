@@ -2450,7 +2450,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 11,
+        'weight' => 7,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2659,7 +2659,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 16,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2711,7 +2711,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 15,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2874,7 +2874,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 12,
+        'weight' => 8,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2927,7 +2927,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 14,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3085,7 +3085,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
+        'weight' => 6,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3296,50 +3296,53 @@ Please choose "Crop" to create an additional version of your image which will be
       'type' => 'link_field',
       'weight' => 16,
     ),
-  );  
+  );
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('AIM');
+  t('An optional, free-form field');
   t('Attached Images');
+  t('Bio');
   t('Body');
+  t('City');
   t('Co-editor');
   t('Comment');
   t('Contributors');
-  t('Curated by');
-  t('Embed');
-  t('One or more authors of this review');
-  t('Part of hub');
-  t('Publication Status');
-  t('Representative Image');
-  t('Representative image: Rights and Attribution');
-  t('Review');
-  t('Review of');
-  t('Reviewer');
-  t('Spokes');
-  t('Start and end dates');
-  t('Tags');
-  t('This will appear wherever the image is seen full-sized.');
-  t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page. Please choose "Crop" to create an additional version of your image which will be visible in hub "teasers" on the homepage and in the archive list. ');
-  t('AIM');
-  t('An optional, free-form field');
-  t('Bio');
-  t('City');
   t('Country');
+  t('Curated by');
   t('Email');
+  t('Embed');
   t('First Name');
   t('Last Name');
   t('Name');
+  t('One or more authors of this review');
   t('Organization');
+  t('Part of hub');
   t('Phone');
   t('Plan');
+  t('Publication Status');
+  t('Representative Image');
+  t('Representative image: Rights and Attribution');
   t('Research Interests');
+  t('Review');
+  t('Review of');
+  t('Reviewer');
   t('Skype');
+  t('Spokes');
+  t('Start and end dates');
   t('State');
+  t('Tags');
   t('These are tied to MediaCommons "tags";  they will be linked to from your profile page, and your profile will be linked to from the corresponding tag page. ');
+  t('This will appear wherever the image is seen full-sized.');
   t('Title');
   t('Twitter');
   t('URL');
+  t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page.
+
+
+
+Please choose "Crop" to create an additional version of your image which will be visible in hub "teasers" on the homepage and in the archive list. ');
 
   return $field_instances;
-  
 }
