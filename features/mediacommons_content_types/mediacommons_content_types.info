@@ -21,6 +21,7 @@ dependencies[] = ds_format
 dependencies[] = ds_search
 dependencies[] = ds_ui
 dependencies[] = entity
+dependencies[] = email
 dependencies[] = fe_date
 dependencies[] = features
 dependencies[] = field
