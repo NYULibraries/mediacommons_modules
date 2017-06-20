@@ -2,7 +2,7 @@
 
 /**
  * @file
- *   Install and related hooks for apachesolr_search.
+ * Install and related hooks for apachesolr_search.
  */
 
 /**
@@ -11,6 +11,8 @@
  */
 function mediacommons_solr_enable() {
   
+  module_load_include('inc', 'apachesolr', 'apachesolr.index');
+
   // environment data
   $conf = array(
     'env_id' => 'solr',
@@ -25,17 +27,49 @@ function mediacommons_solr_enable() {
     variable_set('apachesolr_site_hash', $hash);
   }  
 
-  $bundles = array(
-    'front_page_post', 
-    'hub',
-    'page',
-    'review',
-    'spoke',
+  $blacklisted = array(
+    'front_page_post'
   );
 
-  module_load_include('inc', 'apachesolr', 'apachesolr.index');
-  
-  apachesolr_index_set_bundles('solr', 'node', $bundles);
+  $bundles = array_keys(node_type_get_types());
+
+  $bundles_to_index = array_diff($bundles, $blacklisted);
+
+  $transaction = db_transaction();
+
+  $env_id = 'solr';
+
+  $entity_type = 'node';
+
+  variable_set('search_active_modules', array('apachesolr_search'));
+
+  variable_set('search_default_module', 'apachesolr_search');  
+
+  try {
+
+    db_delete('apachesolr_index_bundles')
+      ->condition('env_id', $env_id)
+      ->condition('entity_type', $entity_type)
+      ->execute();
+
+    if ($bundles_to_index) {
+      $insert = db_insert('apachesolr_index_bundles')
+        ->fields(array('env_id', 'entity_type', 'bundle'));
+      foreach ($bundles_to_index as $bundle) {
+        $insert->values(array(
+          'env_id' => $env_id,
+          'entity_type' => $entity_type,
+          'bundle' => $bundle,
+        ));
+      }
+      $insert->execute();
+    }
+  }
+  catch (Exception $e) {
+    $transaction->rollback();
+    // Re-throw the exception so we are aware of the failure.
+    throw $e;
+  }
   
   cache_clear_all();
 
