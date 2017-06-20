@@ -153,108 +153,81 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
 
 }
 
-/**
- * A module-defined block content function.
- */
+function _mediacommons_solr_search($keys, $conditions) {
+  /**
+   * Include apachesolr_search forms
+   */
+  include_once(drupal_get_path('module', 'apachesolr_search') . '/apachesolr_search.pages.inc'); 
+  $query_params = drupal_get_query_parameters();
+  $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
+  $search_page = apachesolr_search_page_load(apachesolr_search_default_search_page());
+  // http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr_search.module/function/apachesolr_search_search_results/7
+  $results = apachesolr_search_search_results($keys, $conditions, $search_page);
+  if (!empty($results)) return $results;
+  else return FALSE;
+}
+
 function mediacommons_solr_user_comments_by_uid ($uid) {
-  $content = '';
-  try {
+  $conditions = array(
+    'fq' => array(
+      'im_contributors:' . $uid, 
+      'ss_searchtype:comment'
+    ),
+  );
+  $results = _mediacommons_solr_search('*:*', $conditions);
+  if ($results) {    
     /**
-     * Include apachesolr_search forms
+     * Adds search results to the render array.
+     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results 
+     * can pick a title for the search page.
+     * Not sure if this is the best way to do this; if you know "the right way"
+     * please change
      */
-    module_load_include('inc', 'apachesolr_search', 'apachesolr_search.pages');
-
-    $query_params = drupal_get_query_parameters();
-
-    $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
-
-    $conditions = array('fq' => array('im_contributors:' . $uid, 'ss_searchtype:' . 'comment'));
-    
-    $keys ='*:*';
-
-    $search_page = apachesolr_search_page_load(apachesolr_search_default_search_page());
-    
-    // http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr_search.module/function/apachesolr_search_search_results/7
-    $results = apachesolr_search_search_results($keys, $conditions, $search_page);
-
-    if (!empty($results)) {    
-      /**
-       * Adds search results to the render array.
-       * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results 
-       * can pick a title for the search page.
-       * Not sure if this is the best way to do this; if you know "the right way"
-       * please change
-       */
-      $render_array = array(
-        '#theme' => 'search_results', 
-        '#results' => $results, 
-        '#module' => 'mediacommons_solr', 
-        '#search_page' => 'user_comments_by_uid',
-      );
-    
-      $content = render($render_array);
-
-    }
-    else {
-      $content = t('No contributions.');
-    }
-
-    return $content;
-
+    $render_array = array(
+      '#theme' => 'search_results', 
+      '#results' => $results, 
+      '#module' => 'mediacommons_solr', 
+      '#search_page' => 'user_comments_by_uid',
+    );
+    $content = render($render_array);
   }
-  catch (Exception $e) {
-    watchdog('MediaCommons Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
-    apachesolr_failure('MediaCommons Apache Solr search', $keys);
+  else {
+    $content = t('No contributions.');
   }
+  return $content;
 }
 
 /**
  * A module-defined block content function.
  */
-function mediacommons_solr_user_content_by_uid ($uid) {
-  $content = '';
-  try {
-    /** Include apachesolr_search forms */
-    module_load_include('inc', 'apachesolr_search', 'apachesolr_search.pages');
-
-    $query_params = drupal_get_query_parameters();
-
-    $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
-
-    $conditions = array('fq' => array('im_contributors:' . $uid, 'ss_searchtype:' . 'node'));
-    
-    $keys ='*:*';
-
-    $search_page = apachesolr_search_page_load(apachesolr_search_default_search_page());
-    
-    /** http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr_search.module/function/apachesolr_search_search_results/7 */
-    $results = apachesolr_search_search_results($keys, $conditions, $search_page);
-
-    if (!empty($results)) {
-      /**
-       * Adds search results to the render array.
-       * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results 
-       * can pick a title for the search page.
-       * Not sure if this is the best way to do this; if you know "the right way"
-       * please change
-       */
-      $render_array = array(
-        '#theme' => 'search_results', 
-        '#results' => $results, 
-        '#module' => 'mediacommons_solr', 
-        '#search_page' => 'user_content_by_uid',
-      );
-      $content = render($render_array);
-    }
-    else {
-      $content = t('No contributions.');
-    }
-    return $content;
+function mediacommons_solr_user_content_by_uid($uid) {
+  $conditions = array(
+    'fq' => array(
+      'im_contributors:' . $uid, 
+      'ss_searchtype:node'
+    ),
+  );
+  $results = _mediacommons_solr_search('*:*', $conditions);
+  if ($results) {
+    /**
+     * Adds search results to the render array.
+     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results 
+     * can pick a title for the search page.
+     * Not sure if this is the best way to do this; if you know "the right way"
+     * please change
+     */
+    $render_array = array(
+      '#theme' => 'search_results', 
+      '#results' => $results, 
+      '#module' => 'mediacommons_solr', 
+      '#search_page' => 'user_content_by_uid',
+    );
+    $content = render($render_array);
   }
-  catch (Exception $e) {
-    watchdog('MediaCommons Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
-    apachesolr_failure('MediaCommons Apache Solr search', $keys);
+  else {
+    $content = t('No contributions.');
   }
+  return $content;
 }
 
 /**
