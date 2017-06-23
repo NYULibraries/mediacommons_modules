@@ -69,6 +69,7 @@ dependencies[] = uuid
 dependencies[] = view_unpublished
 dependencies[] = views
 dependencies[] = views_content
+dependencies[] = google_recaptcha
 features[ckeditor_profile][] = Advanced
 features[ckeditor_profile][] = CKEditor Global Profile
 features[ckeditor_profile][] = Embed
