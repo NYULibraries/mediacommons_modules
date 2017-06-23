@@ -1,3 +1,5 @@
+<?php
+
 /**
  * @file
  * MediaCommons Integration with the Apache Solr module.
