@@ -362,16 +362,24 @@ function mediacommons_editorialworkflow_user_can_edit_node ($node) {
 
   if (user_has_role($role_administrator->rid)) return TRUE;
 
-  foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
-    if ($contributor->name == $username) return TRUE;
+  $fields_info = field_info_instances('node', $wrapper->getBundle());
+
+  if (isset($fields_info['node'][$node->type]['field_contributors'])) {
+    foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
+      if ($contributor->name == $username) return TRUE;
+    }
   }
 
-  foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
-    if ($curators_editors->name == $username) return TRUE;
+  if (isset($fields_info['node'][$node->type]['field_curators_editors'])) {
+    foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
+      if ($curators_editors->name == $username) return TRUE;
+    }
   }
 
-  foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
-    if ($field_co_editor->name == $username) return TRUE;
+  if (isset($fields_info['node'][$node->type]['field_co_editor'])) {
+    foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
+      if ($field_co_editor->name == $username) return TRUE;
+    }
   }
 
   return false;
