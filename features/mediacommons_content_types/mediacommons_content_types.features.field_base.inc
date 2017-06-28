@@ -8,9 +8,6 @@
  * Implements hook_field_default_field_bases().
  */
 function mediacommons_content_types_field_default_field_bases() {
-  
-  $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);
-
   $field_bases = array();
 
   // Exported field_base: 'body'.
@@ -91,7 +88,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'locked' => 0,
     'module' => 'image',
     'settings' => array(
-      'default_image' => $fid,
+      'default_image' => 1,
       'uri_scheme' => 'public',
     ),
     'translatable' => 0,
@@ -602,6 +599,35 @@ function mediacommons_content_types_field_default_field_bases() {
     'type' => 'text',
   );
 
+  // Exported field_base: 'field_pubdate'.
+  $field_bases['field_pubdate'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_pubdate',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'date',
+    'settings' => array(
+      'cache_count' => 4,
+      'cache_enabled' => 0,
+      'granularity' => array(
+        'day' => 'day',
+        'hour' => 0,
+        'minute' => 0,
+        'month' => 'month',
+        'second' => 0,
+        'year' => 'year',
+      ),
+      'timezone_db' => '',
+      'todate' => '',
+      'tz_handling' => 'none',
+    ),
+    'translatable' => 0,
+    'type' => 'datestamp',
+  );
+
   // Exported field_base: 'field_pubstat'.
   $field_bases['field_pubstat'] = array(
     'active' => 1,
@@ -620,6 +646,7 @@ function mediacommons_content_types_field_default_field_bases() {
       'allowed_values' => array(
         0 => 'Work in progress',
         1 => 'Ready',
+        2 => 'Publish using publication date',
       ),
       'allowed_values_function' => '',
     ),
@@ -642,7 +669,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'locked' => 0,
     'module' => 'image',
     'settings' => array(
-      'default_image' => $fid,
+      'default_image' => 1,
       'uri_scheme' => 'public',
     ),
     'translatable' => 0,

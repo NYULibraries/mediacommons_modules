@@ -1711,21 +1711,21 @@ function mediacommons_content_types_strongarm() {
     ),
     'additional_settings' => array(
       'region' => 'main',
-      'weight' => '9',
+      'weight' => '7',
       'has_required' => FALSE,
       'title' => 'Vertical tabs',
       'hidden' => 0,
     ),
     'actions' => array(
-      'region' => 'footer',
-      'weight' => '10',
+      'region' => 'main',
+      'weight' => '8',
       'has_required' => FALSE,
       'title' => 'Save',
       'hidden' => 0,
     ),
     'body' => array(
       'region' => 'main',
-      'weight' => '7',
+      'weight' => '6',
       'has_required' => FALSE,
       'title' => 'Body',
       'hidden' => 0,
@@ -1737,51 +1737,44 @@ function mediacommons_content_types_strongarm() {
       'title' => 'Publication Status',
       'hidden' => 0,
     ),
-    'field_body' => array(
+    'xmlsitemap' => array(
       'region' => 'main',
       'weight' => '0',
       'has_required' => FALSE,
       'title' => NULL,
       'hidden' => 0,
     ),
-    'xmlsitemap' => array(
+    'metatags' => array(
       'region' => 'main',
       'weight' => '1',
       'has_required' => FALSE,
       'title' => NULL,
       'hidden' => 0,
     ),
-    'metatags' => array(
+    'custom_breadcrumbs' => array(
       'region' => 'main',
       'weight' => '2',
       'has_required' => FALSE,
       'title' => NULL,
       'hidden' => 0,
     ),
-    'custom_breadcrumbs' => array(
+    'redirect' => array(
       'region' => 'main',
       'weight' => '3',
       'has_required' => FALSE,
       'title' => NULL,
       'hidden' => 0,
     ),
-    'redirect' => array(
+    'panelizer' => array(
       'region' => 'main',
       'weight' => '4',
       'has_required' => FALSE,
       'title' => NULL,
       'hidden' => 0,
     ),
-    'panelizer' => array(
-      'region' => 'main',
-      'weight' => '5',
-      'has_required' => FALSE,
-      'title' => NULL,
-      'hidden' => 0,
-    ),
     'book' => array(
       'region' => 'main',
-      'weight' => '6',
+      'weight' => '5',
       'has_required' => FALSE,
       'title' => NULL,
       'hidden' => 0,
@@ -1949,7 +1942,7 @@ function mediacommons_content_types_strongarm() {
     ),
     'field_pubstat' => array(
       'region' => 'right',
-      'weight' => '3',
+      'weight' => '4',
       'has_required' => FALSE,
       'title' => 'Publication Status',
       'hidden' => 0,
@@ -2008,6 +2001,13 @@ function mediacommons_content_types_strongarm() {
       'weight' => '5',
       'has_required' => FALSE,
       'title' => NULL,
+      'hidden' => 0,
+    ),
+    'field_pubdate' => array(
+      'region' => 'right',
+      'weight' => '3',
+      'has_required' => FALSE,
+      'title' => 'Publication date',
       'hidden' => 0,
     ),
   );

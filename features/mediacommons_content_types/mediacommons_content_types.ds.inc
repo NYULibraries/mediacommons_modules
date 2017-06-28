@@ -531,7 +531,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       'format' => 'default',
     ),
     'related_reviews' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -541,7 +541,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'spoke_add_comments_intransition' => array(
-      'weight' => '7',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -1756,6 +1756,7 @@ function mediacommons_content_types_ds_layout_settings_info() {
         4 => 'field_body',
         5 => 'field_taxonomy',
         6 => 'comments',
+        7 => 'field_pubdate',
       ),
     ),
     'fields' => array(
@@ -1766,6 +1767,7 @@ function mediacommons_content_types_ds_layout_settings_info() {
       'field_body' => 'left',
       'field_taxonomy' => 'left',
       'comments' => 'left',
+      'field_pubdate' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -1799,16 +1801,17 @@ function mediacommons_content_types_ds_layout_settings_info() {
       ),
       'left' => array(
         3 => 'field_embed',
+        4 => 'field_pubdate',
       ),
       'middle' => array(
-        4 => 'field_body',
+        5 => 'field_body',
       ),
       'right' => array(
-        5 => 'related_reviews',
+        6 => 'related_reviews',
       ),
       'footer' => array(
-        6 => 'field_taxonomy',
-        7 => 'spoke_add_comments_intransition',
+        7 => 'field_taxonomy',
+        8 => 'spoke_add_comments_intransition',
       ),
     ),
     'fields' => array(
@@ -1816,6 +1819,7 @@ function mediacommons_content_types_ds_layout_settings_info() {
       'contributors_to_this_spoke' => 'header',
       'post_date' => 'header',
       'field_embed' => 'left',
+      'field_pubdate' => 'left',
       'field_body' => 'middle',
       'related_reviews' => 'right',
       'field_taxonomy' => 'footer',
@@ -1850,32 +1854,30 @@ function mediacommons_content_types_ds_layout_settings_info() {
       'ds_content' => array(
         0 => 'field_attached_images',
         1 => 'group_meta',
-        2 => 'field_part_of',
-        3 => 'title',
-        4 => 'field_contributors',
-        5 => 'post_date',
-        6 => 'comment_count_spokes',
-        7 => 'search_snippet',
+        2 => 'title',
+        3 => 'field_contributors',
+        4 => 'post_date',
+        5 => 'comment_count_spokes',
+        6 => 'search_snippet',
+        7 => 'field_pubdate',
+        8 => 'field_part_of',
       ),
     ),
     'fields' => array(
       'field_attached_images' => 'ds_content',
       'group_meta' => 'ds_content',
-      'field_part_of' => 'ds_content',
       'title' => 'ds_content',
       'field_contributors' => 'ds_content',
       'post_date' => 'ds_content',
       'comment_count_spokes' => 'ds_content',
       'search_snippet' => 'ds_content',
+      'field_pubdate' => 'ds_content',
+      'field_part_of' => 'ds_content',
     ),
     'limit' => array(
       'field_attached_images' => '1',
     ),
-    'classes' => array(
-      'layout_class' => array(
-        'node-teaser' => 'node-teaser',
-      ),
-    ),
+    'classes' => array(),
     'wrappers' => array(
       'ds_content' => 'div',
     ),
@@ -1905,6 +1907,7 @@ function mediacommons_content_types_ds_layout_settings_info() {
         4 => 'reviewed_by',
         5 => 'post_date',
         6 => 'comment_count_spokes',
+        7 => 'field_pubdate',
       ),
     ),
     'fields' => array(
@@ -1915,6 +1918,7 @@ function mediacommons_content_types_ds_layout_settings_info() {
       'reviewed_by' => 'ds_content',
       'post_date' => 'ds_content',
       'comment_count_spokes' => 'ds_content',
+      'field_pubdate' => 'ds_content',
     ),
     'limit' => array(
       'field_attached_images' => '1',
