@@ -30,7 +30,6 @@ features[ds_layout_settings][] = node|front_page_post|teaser
 features[ds_view_modes][] = front_page_post_super_featured
 features[fe_block_settings][] = mediacommons_blocks-mc_fieldguide
 features[fe_block_settings][] = views-mc_home_lede-block
-features[fe_block_settings][] = views-nodequeue_2-block
 features[fe_block_settings][] = views-recent_6_front_page_posts-block
 features[fe_nodequeue][] = featured_umbrella
 features[features_api][] = api:2

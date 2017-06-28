@@ -21,23 +21,23 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => 'umb_homepage_sidebar',
         'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => -16,
+        'weight' => 0,
       ),
       'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
         'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
-        'weight' => -17,
       ),
       'zen' => array(
         'region' => '',
@@ -59,6 +59,12 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => 'umb_homepage_top',
         'status' => 1,
@@ -69,50 +75,6 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
-        'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
-  $export['views-nodequeue_2-block'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'delta' => 'nodequeue_2-block',
-    'module' => 'views',
-    'node_types' => array(),
-    'pages' => '',
-    'roles' => array(),
-    'themes' => array(
-      'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons',
-        'weight' => 0,
-      ),
-      'mediacommons_admin' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -132,9 +94,15 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
     'delta' => 'recent_6_front_page_posts-block',
     'module' => 'views',
     'node_types' => array(),
-    'pages' => '',
+    'pages' => '<front>',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => 'umb_homepage_bottom',
         'status' => 1,
@@ -147,12 +115,6 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
         'theme' => 'mediacommons_admin',
         'weight' => 0,
       ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
-        'weight' => 0,
-      ),
       'zen' => array(
         'region' => '',
         'status' => 0,
@@ -161,7 +123,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
       ),
     ),
     'title' => '',
-    'visibility' => 0,
+    'visibility' => 1,
   );
 
   return $export;
