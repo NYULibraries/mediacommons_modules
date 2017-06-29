@@ -1,7 +1,7 @@
 name = MediaCommons Editorial Workflow
 core = 7.x
 package = MediaCommons
-version = 7.x-1.0-beta5
+version = 7.x-1.0
 project = mediacommons_editorialworkflow
 dependencies[] = gravatar:gravatar
 dependencies[] = vertical_tabs_config

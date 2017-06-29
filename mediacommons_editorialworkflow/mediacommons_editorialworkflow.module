@@ -4,6 +4,10 @@ module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_e
 module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.datasource');
 module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.queue');
 
+function mediacommons_editorialworkflow_init() {
+  dpm(__FUNCTION__);
+}
+
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_login') {
     $attributes = array(
@@ -173,16 +177,34 @@ function mediacommons_editorialworkflow_permission () {
 }
 
 function mediacommons_editorialworkflow_node_presave($node) {
+  
+  dpm(__FUNCTION__);
+  
   $wrapper = entity_metadata_wrapper('node', $node);
+
+  $bundle = $wrapper->getBundle();
+
   // https://jira.nyu.edu/jira/browse/MC-250
-  if ($node->type == 'hub' || $node->type == 'spoke') {
-    // do I need to check if user have permissions?
-    // what type of permissions?
-    $wrapper->status->set($wrapper->field_pubstat->value());
+  if ($bundle == 'hub' || $bundle == 'spoke') {
+    // Publication status
+    $pubstat = $wrapper->field_pubstat->value();
+    // Publication date
+    $pubdate = $wrapper->field_pubdate->value();
+    // at the moment we have 3 states
+    // 0: not published
+    // 1: published
+    // 2: published but not ready for release
+    if ($pubstat == 1 || $pubstat == 2) $pubstat = 1;
+    // do I need to check if user have permissions? what type of permissions?
+    $wrapper->status->set($pubstat);
+    if (empty($pubdate)) {
+      $wrapper->field_pubdate->set($node->created);
+    }
   }
+
   // Inserting a new node @TODO: test work, add validation
-  if ($node->type == 'spoke') {
-    if (!isset($node->nid)) { // aof December 4, 2014 ? I was checking for new? Why not $node->is_new?
+  if ($bundle == 'spoke') {
+    if ($node->is_new) {
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
         foreach($node->field_contributors[$node->language] as $struct) {
@@ -207,8 +229,8 @@ function mediacommons_editorialworkflow_node_presave($node) {
     }
   }
   // Inserting a new node @TODO: test work, add validation
-  if ($node->type == 'hub') {
-    if (!isset($node->nid)) { // aof December 4, 2014
+  if ($bundle == 'hub') {
+    if ($node->is_new) { // aof December 4, 2014
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
         foreach($node->field_contributors[$node->language] as $struct) {
