@@ -289,7 +289,6 @@ features[image][] = thumbnail__120x80_
 features[menu_custom][] = main-menu
 features[menu_links][] = main-menu_about:node/1
 features[menu_links][] = main-menu_archives:previous
-features[menu_links][] = main-menu_call-for-contributions:node/2
 features[menu_links][] = main-menu_home:<front>
 features[node][] = hub
 features[node][] = page

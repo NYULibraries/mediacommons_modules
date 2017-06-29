@@ -2129,6 +2129,7 @@ Please choose "Crop" to create an additional version of your image which will be
   // Exported field_instance: 'node-spoke-field_pubdate'.
   $field_instances['node-spoke-field_pubdate'] = array(
     'bundle' => 'spoke',
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -2227,7 +2228,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'text_parts' => array(),
         'year_range' => '-3:+3',
       ),
-      'type' => 'date_popup',
+      'type' => 'date_select',
       'weight' => 9,
     ),
   );

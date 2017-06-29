@@ -47,23 +47,6 @@ function mediacommons_content_types_menu_default_menu_links() {
     'weight' => 10,
     'customized' => 1,
   );
-  // Exported menu link: main-menu_call-for-contributions:node/2.
-  $menu_links['main-menu_call-for-contributions:node/2'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'node/2',
-    'router_path' => 'node/%',
-    'link_title' => 'Call for Contributions',
-    'options' => array(
-      'identifier' => 'main-menu_call-for-contributions:node/2',
-    ),
-    'module' => 'menu',
-    'hidden' => 0,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => 15,
-    'customized' => 0,
-  );
   // Exported menu link: main-menu_home:<front>.
   $menu_links['main-menu_home:<front>'] = array(
     'menu_name' => 'main-menu',
@@ -86,7 +69,6 @@ function mediacommons_content_types_menu_default_menu_links() {
   // Included for use with string extractors like potx.
   t('About');
   t('Archives');
-  t('Call for Contributions');
   t('home');
 
   return $menu_links;

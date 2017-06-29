@@ -77,13 +77,15 @@ function mediacommons_content_types_views_default_views() {
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Publication Status (field_pubstat) */
+  $handler->display->display_options['filters']['field_pubstat_value']['id'] = 'field_pubstat_value';
+  $handler->display->display_options['filters']['field_pubstat_value']['table'] = 'field_data_field_pubstat';
+  $handler->display->display_options['filters']['field_pubstat_value']['field'] = 'field_pubstat_value';
+  $handler->display->display_options['filters']['field_pubstat_value']['operator'] = 'not';
+  $handler->display->display_options['filters']['field_pubstat_value']['value'] = array(
+    0 => '0',
+  );
+  $handler->display->display_options['filters']['field_pubstat_value']['reduce_duplicates'] = TRUE;
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
