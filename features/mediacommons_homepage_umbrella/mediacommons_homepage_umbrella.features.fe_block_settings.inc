@@ -18,7 +18,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
     'delta' => 'mc_fieldguide',
     'module' => 'mediacommons_blocks',
     'node_types' => array(),
-    'pages' => '',
+    'pages' => '<front>',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -47,7 +47,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
       ),
     ),
     'title' => '',
-    'visibility' => 0,
+    'visibility' => 1,
   );
 
   $export['views-mc_home_lede-block'] = array(
