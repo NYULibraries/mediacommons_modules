@@ -662,6 +662,7 @@ features[views_view][] = contributors_this_spoke
 features[views_view][] = curated_hubs
 features[views_view][] = list_of_all_hubs
 features[views_view][] = mc_recent_comments
+features[views_view][] = message
 features[views_view][] = number_of_comments_per_spoke
 features[views_view][] = posts_contributed
 features[views_view][] = reviewed_by_for_spoke
