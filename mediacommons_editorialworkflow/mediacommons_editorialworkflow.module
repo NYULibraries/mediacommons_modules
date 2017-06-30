@@ -8,7 +8,7 @@ module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_e
  * Implements hook_init().
  */
 function mediacommons_editorialworkflow_init() {
-  dpm(__FUNCTION__);
+  // dpm(__FUNCTION__);
 }
 
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
@@ -95,11 +95,11 @@ function mediacommons_editorialworkflow_menu() {
 /**
  * Redirects user to defined page.
  */
-function _mediacommons_editorialworkflow_redirect_url () {
+function _mediacommons_editorialworkflow_redirect_url() {
   drupal_goto('user/logout');
 }
 
-function _mediacommons_editorialworkflow_redirect_url_profile () {
+function _mediacommons_editorialworkflow_redirect_url_profile() {
   
   $project = variable_get('mediacommons_project', 'mediacommons');
   
@@ -134,7 +134,7 @@ function _mediacommons_editorialworkflow_redirect_url_profile () {
 /**
  * Implementation of hook_perm().
  */
-function mediacommons_editorialworkflow_permission () {
+function mediacommons_editorialworkflow_permission() {
   return array(
     'access mediacommons content' => array(
       'title' => t('Access mediacommons content'),
@@ -180,12 +180,14 @@ function mediacommons_editorialworkflow_permission () {
 }
 
 function mediacommons_editorialworkflow_node_presave($node) {
-  
-  dpm(__FUNCTION__);
+
+  $contributors = array();
   
   $wrapper = entity_metadata_wrapper('node', $node);
 
   $bundle = $wrapper->getBundle();
+
+  $listed_contributors = array();
 
   // https://jira.nyu.edu/jira/browse/MC-250
   if ($bundle == 'hub' || $bundle == 'spoke') {
@@ -194,6 +196,9 @@ function mediacommons_editorialworkflow_node_presave($node) {
     if ($pubstat == 1 || $pubstat == 2) $pubstat = 1;
     // do I need to check if user have permissions? what type of permissions?
     $wrapper->status->set($pubstat);
+
+    $listed_contributors = $wrapper->field_contributors->value();
+
   }
 
   // Inserting a new node @TODO: test work, add validation
@@ -210,7 +215,8 @@ function mediacommons_editorialworkflow_node_presave($node) {
       }
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
-        foreach($node->field_contributors[$node->language] as $struct) {
+        foreach ($node->field_contributors[$node->language] as $struct) {
+          $contributors[] = $struct;
           // author is already part of the list of contributors
           if ($node->uid == $struct['uid']) {
             $author_is_listed = TRUE;
@@ -233,10 +239,16 @@ function mediacommons_editorialworkflow_node_presave($node) {
   }
   // Inserting a new node @TODO: test work, add validation
   if ($bundle == 'hub') {
+    
+    $listed_contributors = array_merge($listed_contributors, $wrapper->field_curators_editors->value());
+    
+    $listed_contributors = array_merge($listed_contributors, $wrapper->field_co_editor->value());    
+    
     if ($node->is_new) {
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
         foreach ($node->field_contributors[$node->language] as $struct) {
+          $contributors[] = $struct;
           // author is already part of the list of contributors
           if ($node->uid == $struct['uid']) {
             $author_is_listed = TRUE;
@@ -257,6 +269,15 @@ function mediacommons_editorialworkflow_node_presave($node) {
       }
     }
   }
+  
+  foreach ($listed_contributors as $listed_contributor) {
+    $data = array(
+      'message' => $wrapper->label() . ' saved!',
+      'contributor' => $listed_contributor,
+    );    
+    mediacommons_editorialworkflow_send_message($data);
+  } 
+
 }
 
 /**
@@ -472,7 +493,7 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
  */
 //function mediacommons_editorialworkflow_user_presave(&$edit, $account, $category) {}
 
-function mediacommons_editorialworkflow_userpath () {
+function mediacommons_editorialworkflow_userpath() {
 
   $project = variable_get('mediacommons_project', 'mediacommons');
   
@@ -737,5 +758,74 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
       // #weight controls the order of links in the resulting item list.
       '#weight' => 1,
     );
+  }
+}
+
+function mediacommons_editorialworkflow_send_message($data) {
+
+  $contributor = $data['contributor'];
+  
+  $message = $data['message'];
+
+  $uid = $contributor->uid;
+  
+  $values = array(
+    'title' => truncate_utf8($message, 80, FALSE, TRUE),
+    'type' => 'message',
+    'uid' => 1,
+    'status' => 1,
+    'comment' => 0,
+    'promote' => 0,
+  );
+
+  $entity = entity_create('node', $values);
+  
+  $wrapper = entity_metadata_wrapper('node', $entity);
+
+  $wrapper->field_message->set($message);
+  
+  $wrapper->field_recipient->set(array($uid));
+
+  $wrapper->save();
+
+  watchdog('mediacommons_editorialworkflow', $message, array(), WATCHDOG_INFO);
+
+}
+
+/**
+ * Implements hook_cron().
+ */
+function mediacommons_editorialworkflow_cron() {
+  // Find spokes meant to publish on a given day (field_pubdate)
+  // If we find nodes, change the status and publish them
+  $now = time();
+  $query = new EntityFieldQuery;
+  $result = $query->entityCondition('entity_type', 'node')
+                  ->entityCondition('bundle', 'spoke')
+                  ->fieldCondition('field_pubstat', 'value', '2', '=')
+                  ->fieldCondition('field_pubdate', 'value', $now, '<')
+                  ->range(0, 10)
+                  ->execute();
+  if (isset($result['node'])) {
+    $nids = array_keys($result['node']);
+    $nodes = node_load_multiple($nids);
+    foreach ($nodes as $node) {
+      $wrapper = entity_metadata_wrapper('node', $node);
+      $pubdate = $wrapper->field_pubdate->value();
+      $title = $wrapper->label();
+      if ($pubdate < $now) {        
+        $wrapper->status->set(1);
+        $wrapper->field_pubstat->set(1);
+        $contributors = $wrapper->field_contributors->value();
+        foreach ($contributors as $contributor) {
+          $data = array(
+            'message' => $title . ' was published.',
+            'contributor' => $contributor,
+          );
+          mediacommons_editorialworkflow_send_message($data);
+        }
+        $wrapper->save();
+      }
+    }
   }
 }

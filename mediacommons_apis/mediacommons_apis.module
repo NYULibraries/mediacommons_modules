@@ -6,7 +6,7 @@
  */
 
 function mediacommons_apis_views_pre_render(&$view) {
-  dpm('Views pre-render ' . $view->name);
+  // dpm('Views pre-render ' . $view->name);
 }
 
 /**

@@ -5,13 +5,6 @@
  */
 
 /**
- * Implements hook_cron().
- */
-function mediacommons_editorialworkflow_cron() {
-
-}
-
-/**
  * All things queue
  */
 
