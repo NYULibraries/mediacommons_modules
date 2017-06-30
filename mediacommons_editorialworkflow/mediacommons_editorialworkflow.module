@@ -188,18 +188,9 @@ function mediacommons_editorialworkflow_node_presave($node) {
   if ($bundle == 'hub' || $bundle == 'spoke') {
     // Publication status
     $pubstat = $wrapper->field_pubstat->value();
-    // Publication date
-    $pubdate = $wrapper->field_pubdate->value();
-    // at the moment we have 3 states
-    // 0: not published
-    // 1: published
-    // 2: published but not ready for release
     if ($pubstat == 1 || $pubstat == 2) $pubstat = 1;
     // do I need to check if user have permissions? what type of permissions?
     $wrapper->status->set($pubstat);
-    if (empty($pubdate)) {
-      $wrapper->field_pubdate->set($node->created);
-    }
   }
 
   // Inserting a new node @TODO: test work, add validation
@@ -230,10 +221,19 @@ function mediacommons_editorialworkflow_node_presave($node) {
   }
   // Inserting a new node @TODO: test work, add validation
   if ($bundle == 'hub') {
-    if ($node->is_new) { // aof December 4, 2014
+    if ($node->is_new) {
+      // Publication date
+      $pubdate = $wrapper->field_pubdate->value();
+      // at the moment we have 3 states
+      // 0: not published
+      // 1: published
+      // 2: published but not ready for release
+      if (empty($pubdate)) {
+        $wrapper->field_pubdate->set($node->created);
+      }      
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
-        foreach($node->field_contributors[$node->language] as $struct) {
+        foreach ($node->field_contributors[$node->language] as $struct) {
           // author is already part of the list of contributors
           if ($node->uid == $struct['uid']) {
             $author_is_listed = TRUE;
