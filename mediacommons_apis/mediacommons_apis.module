@@ -10,6 +10,7 @@ function mediacommons_apis_views_pre_render(&$view) {
 }
 
 /**
+ * @TODO: MOVE to another module
  * Implementation of hook_theme().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7
  */
@@ -23,6 +24,9 @@ function mediacommons_apis_theme() {
   );
 }
 
+/**
+ * @TODO: MOVE to another module
+ */
 function mediacommons_apis_process_field(&$variables, $hook) {
   $name = $variables['element']['#field_name'];
   $bundle = $variables['element']['#bundle'];
@@ -48,10 +52,13 @@ function mediacommons_apis_process_field(&$variables, $hook) {
   }
 }
 
+/**
+ * @TODO: MOVE to another module
+ */
 function mediacommons_apis_process_node_spoke(&$variables, $wrapper) {
   $now = time();
   $pubdate = $wrapper->field_pubdate->value();
-  if ($pubdate > $now) {
+  if ($pubdate <= $now) {
     $variables['classes'] = $variables['classes'] . ' is-available';
   }
   else {
@@ -59,6 +66,9 @@ function mediacommons_apis_process_node_spoke(&$variables, $wrapper) {
   }
 }
 
+/**
+ * @TODO: MOVE to another module
+ */
 function mediacommons_apis_process_node(&$variables) {
   $wrapper = entity_metadata_wrapper('node', $variables['node']);
   $callback = __FUNCTION__ . '_' . $wrapper->getBundle();
