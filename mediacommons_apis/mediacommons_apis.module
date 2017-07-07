@@ -130,10 +130,6 @@ function mediacommons_apis_preprocess_html(&$vars) {
   header_remove('X-Frame-Options');
 }
 
-function mediacommons_apis_keep_going_goind($form, &$form_state) {
-
-}
-
 // Change error language of Google reCAPTCHA module 
 // See: https://jira.nyu.edu/jira/browse/MC-329
 function mediacommons_apis_keep_going($form, &$form_state) {
