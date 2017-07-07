@@ -94,10 +94,6 @@ function mediacommons_apis_process_node(&$variables) {
   *
   */
  function mediacommons_apis_init() {
-   
-   //dpr(__FUNCTION__);
-
-   t('Google reCAPTCHA does not accept this submission. Try again please, or contact to Site support services.');
 
    /**
     * The Access-Control-Allow-Origin response header indicates whether
