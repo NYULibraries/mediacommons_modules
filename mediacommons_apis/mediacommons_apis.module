@@ -94,6 +94,11 @@ function mediacommons_apis_process_node(&$variables) {
   *
   */
  function mediacommons_apis_init() {
+   
+   //dpr(__FUNCTION__);
+
+   t('Google reCAPTCHA does not accept this submission. Try again please, or contact to Site support services.');
+
    /**
     * The Access-Control-Allow-Origin response header indicates whether
     * the response can be shared with resources with the given origin.
@@ -127,6 +132,51 @@ function mediacommons_apis_preprocess_html(&$vars) {
    *
    */
   header_remove('X-Frame-Options');
+}
+
+function mediacommons_apis_keep_going_goind($form, &$form_state) {
+
+}
+
+// Change error language of Google reCAPTCHA module 
+// See: https://jira.nyu.edu/jira/browse/MC-329
+function mediacommons_apis_keep_going($form, &$form_state) {
+  $errors = form_get_errors();
+  if ($errors) {
+    $recaptcha_error = FALSE;
+    foreach ($errors as $key => $error) {
+      $pos = strpos($error, 'reCAPTCHA');
+      if ($pos) {
+        $recaptcha_error = TRUE;
+        $errors[$key] = t('Your registration did not go through. Please try again. For example, did you remember to check the box next to "I am not a robot?"');
+      }
+    }
+    // https://api.drupal.org/comment/28464#comment-28464
+    if ($recaptcha_error) {
+      // Clear errors.
+      form_clear_error();
+      // Clear error messages.
+      $error_messages = drupal_get_messages('error');
+      // Initialize an array where removed error messages are stored.
+      $removed_messages = array();
+      // Reinstate remaining errors.
+      foreach ($errors as $name => $error) {
+        form_set_error($name, $error);
+        // form_set_error() calls drupal_set_message(), so we have to filter out
+        // these from the error messages as well.
+        $removed_messages[] = $error;
+      }
+    }
+  }
+}
+
+// Change error language of Google reCAPTCHA module 
+// See: https://jira.nyu.edu/jira/browse/MC-329
+
+function mediacommons_apis_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_register_form') {
+    $form['#validate'][] = 'mediacommons_apis_keep_going';
+  }
 }
 
 function mediacommons_apis_is_pjax() {
