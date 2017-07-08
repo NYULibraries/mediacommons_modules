@@ -2980,7 +2980,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'label' => 'Organization',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 0,
