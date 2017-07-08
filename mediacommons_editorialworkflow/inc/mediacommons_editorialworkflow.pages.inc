@@ -13,6 +13,8 @@ function mediacommons_editorialworkflow_contributor_dashboard_create_content () 
 
   global $user;
 
+  drupal_set_title(t('@sitename: Dashboard', array('@sitename' => variable_get('site_name', 'MediaCommons'))));
+
   $output = '';
 
   $types = node_type_get_types();
@@ -84,6 +86,8 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
   global $user;
 
   drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'contributor'),));
+
+  drupal_set_title(t('@sitename: Dashboard', array('@sitename' => variable_get('site_name', 'MediaCommons'))));
 
   // we need something more elegant. deal with this using access callback?
   if (!user_access('create spoke content')) return '';
