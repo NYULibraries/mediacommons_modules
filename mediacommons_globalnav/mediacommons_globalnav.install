@@ -20,6 +20,8 @@ function _mediacommons_globalnav_config() {
   
   $leaf_frontpage_increment = 0;  
   
+  $user_url = $info['mediacommons']['environments'][$info['mediacommons']['environment']]['mediacommons'] . 'user';
+  
   $menus = array(
     array(
       'menu_name' => $menu_name,
@@ -78,22 +80,38 @@ function _mediacommons_globalnav_config() {
   
     'My Account' => array(
 
+      // https://jira.nyu.edu/jira/browse/MC-327
+      
+      //array(
+      //  'link_path' => 'user',
+      //  'router_path' => 'user',      
+      //  'link_title' => 'View my contributions',
+      //  'menu_name' => $menu_name,
+      //  'expanded' => 0,
+      //  'external' => 1,
+      //  'weight' => ++$leaf_myaccount_increment,
+      //  'customized' => 1,      
+      //  'module' => 'menu',        
+      //),
+
+      // My Profile
       array(
-        'link_path' => 'user',
-        'router_path' => 'user',      
-        'link_title' => 'View my contributions',
+        'link_path' => $user_url,    
+        'link_title' => 'My Profile',
         'menu_name' => $menu_name,
         'expanded' => 0,
         'external' => 1,
         'weight' => ++$leaf_myaccount_increment,
-        'customized' => 1,      
+        'customized' => 0,      
         'module' => 'menu',        
       ),
+      
+      // My [channel] Dashboard       
 
       array(
-        'link_path' => 'user/logout',
-        'router_path' => 'user/logout',     
-        'link_title' => 'Log out',
+        'link_path' => 'contributor',
+        'router_path' => 'contributor',     
+        'link_title' => 'My ' . variable_get('site_name') . ' Dashboard',
         'menu_name' => $menu_name,
         'expanded' => 0,
         'external' => 1,
@@ -182,7 +200,7 @@ function _mediacommons_globalnav_config() {
     ),
       
   );
-
+  
   // Save menu group into menu_custom table
   foreach ( $menus as $menu ) {
   
