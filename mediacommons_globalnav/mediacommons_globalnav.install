@@ -4,7 +4,12 @@ function _mediacommons_globalnav_config() {
 
   $info = drupal_parse_info_file ( drupal_get_path('module', 'mediacommons_globalnav') . '/mediacommons_globalnav.info' );
   
+  $site_name = '';
+  
   if ( function_exists ( 'drush_get_option' )  ) {
+    
+    $site_name = drush_get_option('site-name');
+
     if ( $environment = drush_get_option('environment') ) {
       if ( isset ( $info['mediacommons']['environments'][$environment] ) ) { 
         $info['mediacommons']['environment'] = $environment ;
@@ -82,21 +87,9 @@ function _mediacommons_globalnav_config() {
 
       // https://jira.nyu.edu/jira/browse/MC-327
       
-      //array(
-      //  'link_path' => 'user',
-      //  'router_path' => 'user',      
-      //  'link_title' => 'View my contributions',
-      //  'menu_name' => $menu_name,
-      //  'expanded' => 0,
-      //  'external' => 1,
-      //  'weight' => ++$leaf_myaccount_increment,
-      //  'customized' => 1,      
-      //  'module' => 'menu',        
-      //),
-
       // My Profile
       array(
-        'link_path' => $user_url,    
+        'link_path' => 'user',
         'link_title' => 'My Profile',
         'menu_name' => $menu_name,
         'expanded' => 0,
@@ -111,12 +104,24 @@ function _mediacommons_globalnav_config() {
       array(
         'link_path' => 'contributor',
         'router_path' => 'contributor',     
-        'link_title' => 'My ' . variable_get('site_name') . ' Dashboard',
+        'link_title' => "My $site_name Dashboard",
         'menu_name' => $menu_name,
         'expanded' => 0,
         'external' => 1,
         'weight' => ++$leaf_myaccount_increment,
         'customized' => 1,      
+        'module' => 'menu',        
+      ),
+      
+      // Log out
+      array(
+        'link_path' => 'user/logout',
+        'link_title' => 'Log out',
+        'menu_name' => $menu_name,
+        'expanded' => 0,
+        'external' => 1,
+        'weight' => ++$leaf_myaccount_increment,
+        'customized' => 0,      
         'module' => 'menu',        
       ),
       
@@ -262,7 +267,6 @@ function _mediacommons_globalnav_config() {
   t('MediaCommons Press');
   t('My Account');
   t('The New Everyday');
-  t('View my contributions');
   t('[in]Transition');
 
   menu_cache_clear_all();
