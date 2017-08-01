@@ -87,11 +87,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'access devel information',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
-      'cluster curator' => 'cluster curator',
-      'contributor' => 'contributor',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'devel',
   );
@@ -1167,7 +1162,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'switch users',
     'roles' => array(
       'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
     ),
     'module' => 'devel',
   );
