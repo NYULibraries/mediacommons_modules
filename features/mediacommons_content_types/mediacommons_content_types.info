@@ -224,6 +224,7 @@ features[field_group][] = group_headerinfo|node|hub|third_mode
 features[field_group][] = group_hubhead|node|hub|hub_home_vertical
 features[field_group][] = group_location|user|user|full
 features[field_group][] = group_meta|node|spoke|search_result
+features[field_group][] = group_public_profile|user|user|form
 features[field_group][] = group_spoke_teaser_meta|node|spoke|teaser
 features[field_group][] = hubhead|node|hub|full
 features[field_instance][] = comment-comment_node_front_page_post-comment_body

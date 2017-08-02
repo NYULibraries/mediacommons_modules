@@ -939,10 +939,13 @@ function mediacommons_content_types_strongarm() {
           'weight' => '0',
         ),
         'timezone' => array(
-          'weight' => '5',
+          'weight' => '38',
         ),
         'picture' => array(
-          'weight' => '4',
+          'weight' => '1',
+        ),
+        'ckeditor' => array(
+          'weight' => '39',
         ),
       ),
       'display' => array(
@@ -952,7 +955,7 @@ function mediacommons_content_types_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '19',
+            'weight' => '20',
             'visible' => FALSE,
           ),
           'user_teaser' => array(
@@ -966,7 +969,7 @@ function mediacommons_content_types_strongarm() {
         ),
         'realname' => array(
           'full' => array(
-            'weight' => '15',
+            'weight' => '16',
             'visible' => FALSE,
           ),
         ),

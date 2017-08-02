@@ -21,7 +21,7 @@ function mediacommons_content_types_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contact',
-    'weight' => '5',
+    'weight' => '6',
     'children' => array(
       0 => 'field_aim',
       1 => 'field_email',
@@ -246,7 +246,7 @@ function mediacommons_content_types_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Address',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'field_city',
       1 => 'field_country',
@@ -303,6 +303,52 @@ function mediacommons_content_types_field_group_info() {
     ),
   );
   $field_groups['group_meta|node|spoke|search_result'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_public_profile|user|user|form';
+  $field_group->group_name = 'group_public_profile';
+  $field_group->entity_type = 'user';
+  $field_group->bundle = 'user';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Your Public Profile',
+    'weight' => '3',
+    'children' => array(
+      0 => 'field_aim',
+      1 => 'field_bio',
+      2 => 'field_city',
+      3 => 'field_country',
+      4 => 'field_email',
+      5 => 'field_first_name',
+      6 => 'field_last_name',
+      7 => 'field_organization',
+      8 => 'field_phone',
+      9 => 'field_plan',
+      10 => 'field_profile_name',
+      11 => 'field_skype',
+      12 => 'field_state',
+      13 => 'field_taxonomy',
+      14 => 'field_title',
+      15 => 'field_twitter',
+      16 => 'field_url',
+      17 => 'ckeditor',
+      18 => 'timezone',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-public-profile field-group-fieldset',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_public_profile|user|user|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -381,6 +427,7 @@ function mediacommons_content_types_field_group_info() {
   t('Flex Group 2 ');
   t('Group Flex 2');
   t('Meta');
+  t('Your Public Profile');
   t('headerInfo');
   t('meta');
 

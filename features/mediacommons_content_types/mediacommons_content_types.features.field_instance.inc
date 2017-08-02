@@ -2620,7 +2620,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 20,
       ),
       'type' => 'text_textfield',
-      'weight' => 12,
+      'weight' => 23,
     ),
   );
 
@@ -2642,7 +2642,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 9,
+        'weight' => 10,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2673,7 +2673,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 17,
+      'weight' => 28,
     ),
   );
 
@@ -2727,7 +2727,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 10,
+      'weight' => 37,
     ),
   );
 
@@ -2778,7 +2778,7 @@ Please choose "Crop" to create an additional version of your image which will be
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 8,
+      'weight' => 35,
     ),
   );
 
@@ -2818,7 +2818,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'ds_extras_field_template' => '',
     'entity_type' => 'user',
     'field_name' => 'field_email',
-    'label' => 'Email',
+    'label' => 'Email Address (Public-facing)',
     'required' => 0,
     'settings' => array(
       'user_register_form' => 1,
@@ -2830,7 +2830,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'email_textfield',
-      'weight' => 11,
+      'weight' => 22,
     ),
   );
 
@@ -2851,7 +2851,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 19,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2882,7 +2882,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 2,
+      'weight' => 32,
     ),
   );
 
@@ -2903,7 +2903,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 18,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2934,7 +2934,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 3,
+      'weight' => 33,
     ),
   );
 
@@ -2957,7 +2957,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2990,7 +2990,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 7,
+      'weight' => 34,
     ),
   );
 
@@ -3044,7 +3044,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'placeholder' => '',
       ),
       'type' => 'telephone_default',
-      'weight' => 15,
+      'weight' => 26,
     ),
   );
 
@@ -3066,7 +3066,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3097,7 +3097,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 18,
+      'weight' => 29,
     ),
   );
 
@@ -3119,7 +3119,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 17,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3150,7 +3150,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 40,
       ),
       'type' => 'text_textfield',
-      'weight' => 1,
+      'weight' => 31,
     ),
   );
 
@@ -3203,7 +3203,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 20,
       ),
       'type' => 'text_textfield',
-      'weight' => 14,
+      'weight' => 25,
     ),
   );
 
@@ -3254,7 +3254,7 @@ Please choose "Crop" to create an additional version of your image which will be
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 9,
+      'weight' => 36,
     ),
   );
 
@@ -3277,7 +3277,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3308,7 +3308,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 20,
+      'weight' => 30,
     ),
   );
 
@@ -3331,7 +3331,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3350,7 +3350,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'ds_extras_field_template' => '',
     'entity_type' => 'user',
     'field_name' => 'field_title',
-    'label' => 'Title',
+    'label' => 'Professional Title or Role',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -3363,7 +3363,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 6,
+      'weight' => 21,
     ),
   );
 
@@ -3416,7 +3416,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 20,
       ),
       'type' => 'text_textfield',
-      'weight' => 13,
+      'weight' => 24,
     ),
   );
 
@@ -3486,7 +3486,7 @@ Please choose "Crop" to create an additional version of your image which will be
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 16,
+      'weight' => 27,
     ),
   );
 
@@ -3503,7 +3503,7 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Contributors');
   t('Country');
   t('Curated by');
-  t('Email');
+  t('Email Address (Public-facing)');
   t('Embed');
   t('First Name');
   t('Last Name');
@@ -3514,6 +3514,7 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Part of hub');
   t('Phone');
   t('Plan');
+  t('Professional Title or Role');
   t('Publication Status');
   t('Publication date');
   t('Recipient');
@@ -3530,7 +3531,6 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Tags');
   t('These are tied to MediaCommons "tags";  they will be linked to from your profile page, and your profile will be linked to from the corresponding tag page. ');
   t('This will appear wherever the image is seen full-sized.');
-  t('Title');
   t('Twitter');
   t('URL');
   t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page.
