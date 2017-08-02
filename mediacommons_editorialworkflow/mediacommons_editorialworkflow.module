@@ -829,3 +829,8 @@ function mediacommons_editorialworkflow_cron() {
     }
   }
 }
+
+function mediacommons_editorialworkflow_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  $form['account']['mail']['#description'] = '<span class="mediacommons-message mail">A valid e-mail address. This address is kept private, and used for systems-related communications.</span>';
+  $form['account']['name']['#description'] .= '<span class="mediacommons-message name">Most MediaCommons users use their full real-world names.</span>';
+}
