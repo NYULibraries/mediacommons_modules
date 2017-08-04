@@ -98,7 +98,7 @@ function mediacommons_content_types_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ant_pattern_front_page_post';
-  $strongarm->value = '';
+  $strongarm->value = '[node:field_rlink]';
   $export['ant_pattern_front_page_post'] = $strongarm;
 
   $strongarm = new stdClass();
