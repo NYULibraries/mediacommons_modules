@@ -665,7 +665,6 @@ function mediacommons_content_types_field_default_field_bases() {
       'allowed_values' => array(
         0 => 'Work in progress',
         1 => 'Ready',
-        2 => 'Publish using publication date',
       ),
       'allowed_values_function' => '',
     ),
