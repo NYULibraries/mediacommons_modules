@@ -74,8 +74,8 @@
 }
 
 .page-node-add .column-side #edit-actions {
-  display: none;
-  visibility: hidden;
+// display: none;
+// visibility: hidden;
 }
 
 .page-node-add .text-format-wrapper .form-item {
