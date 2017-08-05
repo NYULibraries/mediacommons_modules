@@ -2045,7 +2045,12 @@ Please choose "Crop" to create an additional version of your image which will be
   // Exported field_instance: 'node-spoke-field_embed'.
   $field_instances['node-spoke-field_embed'] = array(
     'bundle' => 'spoke',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'value' => '',
+        'format' => 'embed',
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -2112,6 +2117,40 @@ Please choose "Crop" to create an additional version of your image which will be
     'label' => 'Embed',
     'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'ds_code' => 'ds_code',
+          'embed' => 'embed',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'limited_html' => 'limited_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'ds_code' => array(
+              'weight' => -6,
+            ),
+            'embed' => array(
+              'weight' => -8,
+            ),
+            'filtered_html' => array(
+              'weight' => -9,
+            ),
+            'full_html' => array(
+              'weight' => -10,
+            ),
+            'limited_html' => array(
+              'weight' => -7,
+            ),
+            'plain_text' => array(
+              'weight' => -5,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
