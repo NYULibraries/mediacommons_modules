@@ -139,22 +139,40 @@ function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_i
  */
 function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_state, $form_id) {
   global $user;
-  
-  /** indication of that this form was process by the editorial workflow module */
+  // indication that this form was process by the editorial workflow module
   $form['#attributes']['class'][] = 'editorial-workflow';
-  
   foreach ($user->roles as $role) {
     $form['#attributes']['class'][] = 'editorial-workflow-' . str_replace(' ', '-', $role);
   }
-  
-  $form['options']['#type'] = 'container';
-  
-  $form['options']['#title'] = '';
-  
-  $form['options']['status'] = array(
-    '#type' => 'value',
-    '#value' => 1
-  );
+  // check if we are in a edit form
+  if (isset($form['#node_edit_form']) && $form['#node_edit_form']) {
+    // check if the form contains a type of "publication date"
+    $pubdate = (isset($form['field_pubdate']) || isset($form['field_period'])) ? TRUE : FALSE;
+    $pubstat = (isset($form['field_pubstat'])) ? TRUE : FALSE;
+    // remove the option of selecting "Publish using publication date" 
+    // from "Publication Status" field if the form does not have any 
+    // type of "publication date"
+    if ($pubstat && !$pubdate) {
+      $language = $form['language']['#value'];
+      $needle = 'Publish using publication date';
+      $haystack = $form['field_pubstat'][$language]['#options'];
+      // find the position of $needle inside $haystack
+      $position = array_search($needle, $haystack, TRUE);
+      // unset position if found
+      // this will remove the option to select "Publish using publication date" 
+      // in the edit form.
+      if ($position) {
+        unset($form['field_pubstat'][$language]['#options'][$position]);
+      }
+    }    
+    // hide the "Publishing option" menu in the edit form.
+    $form['options']['#type'] = 'container';
+    $form['options']['#title'] = '';
+    $form['options']['status'] = array(
+      '#type' => 'value',
+      '#value' => 1
+    );
+  }
 }
 
 /**
@@ -178,7 +196,11 @@ function mediacommons_editorialworkflow_form_review_node_form_alter (&$form, &$f
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
  */
 function mediacommons_editorialworkflow_form_page_front_page_post_form_alter (&$form, &$form_state, $form_id) {
+  
+  dpm(__FUNCTION__);
+
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
+
 }
 
 /**
@@ -1313,7 +1335,8 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
 }
 
 /**
- * Redirects user to defined page.
+ * Redirects user
+  to defined page.
  */
 function _mediacommons_editorialworkflow_redirect_url() {
   drupal_goto('user/logout');
