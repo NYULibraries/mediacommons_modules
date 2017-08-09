@@ -142,18 +142,28 @@ function mediacommons_blocks_add_block_submit($form, &$form_state) {
  * This hook declares what blocks are provided by the module.
  */
 function mediacommons_blocks_block_info() {
-  
+
   $blocks = array();
-  
+
   $blocks['mediacommons_solr_usercontent'] = array(
     'info' => t('MediaCommons: User content'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
-  
+
   $blocks['mediacommons_solr_comments'] = array(
     'info' => t('MediaCommons: User comments'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
+  $blocks['mediacommons_blocks_administer_comments'] = array(
+    'info' => t('MediaCommons: Administer comments'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  
+  $blocks['mediacommons_blocks_administer_nodes'] = array(
+    'info' => t('MediaCommons: Administer nodes'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );  
 
   // dynamic blocks
   foreach (mediacommons_blocks_blocks() as $block) {
@@ -197,7 +207,6 @@ function mediacommons_blocks_block_view($delta = '') {
       }
       $block['subject'] = $subject;
       $block['content'] = array('#markup' => $content);
-
     }
   }
   else {
@@ -216,6 +225,17 @@ function mediacommons_blocks_block_view($delta = '') {
       $block['subject'] = t('Mediacommons Blocks: @subject', array('@subject' => $subject));
       $block['content'] = $content;
     }
+    
+    // we need a better logic for selecting delta
+    // for now lets test here
+    if ($delta == 'mediacommons_blocks_administer_comments') {
+      $block['subject'] = t('Administer comments');
+      $block['content'] = mediacommons_blocks_administer_comments();
+    }
+    if ($delta == 'mediacommons_blocks_administer_nodes') {
+      $block['subject'] = t('Administer nodes');
+      $block['content'] = mediacommons_blocks_administer_nodes();
+    }    
   }
   return $block;
 }
@@ -593,4 +613,53 @@ function mediacommons_blocks_list_types($label = null) {
  */
 function mediacommons_blocks_callback_example() {
   return '<p>At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>';
+}
+
+function mediacommons_blocks_administer_comments($nlimit = 10) {
+  if (user_access('administer comments')) {
+    $header = array('Subject', 'Posted', 'View', 'Edit', 'Delete');
+    $rows = array();
+    $query = db_select('comment', 'c');
+    $query->innerJoin('node', 'n', 'c.nid = n.nid');
+    $comments = $query
+      ->fields('c', array('created', 'subject', 'cid', 'nid'))
+      ->fields('n', array('title'))
+      ->condition('c.status', COMMENT_NOT_PUBLISHED)
+      ->orderBy('c.created', 'DESC')
+      ->range(0, $nlimit)
+      ->execute();
+    foreach ($comments as $comment) {
+      $rows[] = array(
+        check_plain($comment->subject), // Subject
+        format_date($comment->created, 'medium'), // Posted
+        l(t('node'), 'node/' . $comment->nid, array('fragment' => 'comment-'. $comment->cid, 'attributes' => array('title' => $comment->title))), // View
+        l(t('edit'), 'comment/' . $comment->cid . '/edit'), // Edit
+        l(t('delete'), 'comment/' . $comment->cid . '/delete') // Delete
+      );
+    }
+  }
+  return theme('table', array('header' => $header, 'rows' => $rows));
+}
+
+function mediacommons_blocks_administer_nodes($nlimit = 10) {
+  $items = array();
+  $content = '';
+  if (user_access('administer nodes')) {
+    $query = db_select('node', 'n');
+    $query->innerJoin('users', 'u', 'n.uid = u.uid');
+    $nodes = $query
+      ->fields('n', array('nid', 'title', 'type', 'changed'))
+      ->fields('u', array('name', 'uid'))
+      ->condition('n.status', 0)
+      ->orderBy('n.changed', 'DESC')
+      ->range(0, $nlimit)
+      ->execute();
+    foreach ($nodes as $node) {
+      $items[] = check_plain($node->title) . ' - ' . format_date($node->changed, 'medium') . '<br />[' . l(t('By @user', array('@user' => $node->name)), 'user/' . $node->uid) . '] [' . l(t('edit'), 'node/' . $node->nid . '/edit') . '] [' . l(t('delete'), 'node/' . $node->nid . '/delete') . ']';
+    }
+  }
+  
+  $content .= theme('item_list', array('items' => $items, 'title' => t('Content queue')));
+  $content .= '<div class="more-link">'. l(t('more'), 'admin/content/node', array('attributes' => array('title' => t('Administer content')))) .'</div>';
+  
 }

@@ -1241,7 +1241,6 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= $br;
     
     $view_contributorsspokes_block_3 = views_embed_view('contributorscontent', 'block_i_authored', $user->uid);
-    $output .= $br;
     $output .= theme('html_tag', array(
       'element' => array(
         '#tag' => 'h2',
@@ -1255,7 +1254,25 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= $view_contributorsspokes_block_3;
     $output .= $hr;
     $output .= $br;
-    
+  }
+  
+  $block = module_invoke('mediacommons_blocks', 'block_view', 'mediacommons_blocks_administer_comments');
+  
+  if ($block) {
+    $output .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title',
+        ),
+        '#value' => $block['subject'],
+      ),
+    ));
+    $output .= $hr;
+    $output .= $br;
+    $output .= $block['content'];
+    $output .= $hr;
+    $output .= $br;  
   }
 
   $block = module_invoke('search', 'block_view', 'search');
@@ -1276,7 +1293,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
   $search .= render($block);
 
   $container  = '';
-  $container .= '<div id="dashboard" class="clearfix jquery-once-2-processed">';
+  $container .= '<div id="dashboard" class="clearfix">';
   $container .= '<div id="dashboard_main" class="dashboard-region">';
   $container .= '<div class="region clearfix">';
   $container .= $output;
