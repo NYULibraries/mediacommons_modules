@@ -223,6 +223,7 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'administer comments',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'comment',
   );
@@ -575,7 +576,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'create message content'.
   $permissions['create message content'] = array(
     'name' => 'create message content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'node',
   );
 
@@ -654,7 +657,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'delete any message content'.
   $permissions['delete any message content'] = array(
     'name' => 'delete any message content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'node',
   );
 
@@ -702,7 +707,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'delete own message content'.
   $permissions['delete own message content'] = array(
     'name' => 'delete own message content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'node',
   );
 
@@ -834,7 +841,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'edit any message content'.
   $permissions['edit any message content'] = array(
     'name' => 'edit any message content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'node',
   );
 
@@ -893,7 +902,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'edit own message content'.
   $permissions['edit own message content'] = array(
     'name' => 'edit own message content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'node',
   );
 
@@ -1146,42 +1157,54 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'show format selection for comment'.
   $permissions['show format selection for comment'] = array(
     'name' => 'show format selection for comment',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: 'show format selection for node'.
   $permissions['show format selection for node'] = array(
     'name' => 'show format selection for node',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: 'show format selection for taxonomy_term'.
   $permissions['show format selection for taxonomy_term'] = array(
     'name' => 'show format selection for taxonomy_term',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: 'show format selection for user'.
   $permissions['show format selection for user'] = array(
     'name' => 'show format selection for user',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: 'show format tips'.
   $permissions['show format tips'] = array(
     'name' => 'show format tips',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: 'show more format tips link'.
   $permissions['show more format tips link'] = array(
     'name' => 'show more format tips link',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'better_formats',
   );
 
@@ -1354,7 +1377,9 @@ function mediacommons_content_types_user_default_permissions() {
   // Exported permission: 'view any unpublished message content'.
   $permissions['view any unpublished message content'] = array(
     'name' => 'view any unpublished message content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'view_unpublished',
   );
 

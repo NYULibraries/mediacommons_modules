@@ -2,9 +2,114 @@
 
 /**
  * Implements hook_init().
+ *
+ * This hook is run at the beginning of the page request. It is typically
+ * used to set up global parameters that are needed later in the request.
+ * When this hook is called, the theme and all modules are already loaded
+ * in memory.
+ *
+ * This hook is not run on cached pages.
+ *
+ * To add CSS or JS that should be present on all pages, modules should
+ * not implement this hook, but declare these files in their .info file.
+ *
+ * See: https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_init/7.x
+ *
  */
-function mediacommons_editorialworkflow_init() {
-  // dpm(__FUNCTION__);
+function mediacommons_editorialworkflow_init() { 
+    /**
+    * The Access-Control-Allow-Origin response header indicates whether
+    * the response can be shared with resources with the given origin.
+    *
+    * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+    */
+   drupal_add_http_header('Access-Control-Allow-Origin', '*');
+}
+
+/**
+ * Implements template_preprocess_html
+ * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_preprocess_html/7
+ */
+function mediacommons_editorialworkflow_preprocess_html(&$vars) {
+  /**
+   * The X-Frame-Options HTTP response header can be used to indicate whether or not a
+   * browser should be allowed to render a page in a <frame>, <iframe> or <object> .
+   * Sites can use this to avoid clickjacking attacks, by ensuring that their content is
+   * not embedded into other sites.
+   *
+   * The added security is only provided if the user accessing the document is using a
+   * browser supporting X-Frame-Options.
+   *
+   * As of Drupal 7.50, Drupal core sets X-Frame-Options by default to prevent the site
+   * from being embedded in an iframe on another domain. We want our sites to be
+   * embedded; we need to remove this header.
+   *
+   * See: https://www.drupal.org/node/2735873
+   * See: https://www.owasp.org/index.php/Clickjacking
+   * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+   *
+   */
+  header_remove('X-Frame-Options');
+}
+
+function mediacommons_editorialworkflow_theme() {
+  return array(
+    'node__spoke__teaser' => array(
+  	  'render element' => 'content',
+  		'base hook' => 'node',
+  		'template' => 'templates/node--spoke--teaser',
+  	),
+  );
+}
+
+/**
+ */
+function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
+  $name = $variables['element']['#field_name'];
+  $bundle = $variables['element']['#bundle'];
+  if ($bundle == 'spoke' && ($name == 'title' || $name == 'field_attached_images')) {
+    $now = time();
+    $variables['label_link'] = FALSE;
+    $node = $variables['element']['#object'];
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $pubdate = $wrapper->field_pubdate->value();
+    if ($pubdate > $now) {
+      if ($name == 'field_attached_images') {
+        foreach ($variables['items'] as $key => $item) {
+          // https://api.drupal.org/api/drupal/modules%21image%21image.field.inc/function/theme_image_formatter/7.x
+          unset($variables['items'][$key]['#path']);
+        }
+      }
+      if ($name == 'title') {      
+        foreach ($variables['items'] as $key => $item) {
+          $variables['items'][$key]['#markup'] = $wrapper->label();
+        }
+      }
+    }
+  }
+}
+
+/**
+ */
+function mediacommons_editorialworkflow_process_node_spoke(&$variables, $wrapper) {
+  $now = time();
+  $pubdate = $wrapper->field_pubdate->value();
+  if ($pubdate <= $now) {
+    $variables['classes'] = $variables['classes'] . ' is-available';
+  }
+  else {
+    $variables['classes'] = $variables['classes'] . ' not-available';
+  }
+}
+
+/**
+ */
+function mediacommons_editorialworkflow_process_node(&$variables) {
+  $wrapper = entity_metadata_wrapper('node', $variables['node']);
+  $callback = __FUNCTION__ . '_' . $wrapper->getBundle();
+  if (function_exists($callback)) {
+    $callback($variables, $wrapper);
+  }
 }
 
 /**
@@ -21,6 +126,11 @@ function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_i
     $form['name']['#attributes'] = $attributes;
     $form['#action'] = $form['#action'] . '?' . implode('&', $attributes);
   }
+  // Change error language of Google reCAPTCHA module 
+  // See: https://jira.nyu.edu/jira/browse/MC-329
+  if ($form_id == 'user_register_form') {
+    $form['#validate'][] = 'mediacommons_editorialworkflow_keep_going';
+  }  
 }
 
 /**
@@ -1324,4 +1434,74 @@ function mediacommons_editorialworkflow_userpath() {
 
   header('Location: ' . $url, TRUE, $http_response_code);
 
+}
+
+// Change error language of Google reCAPTCHA module 
+// See: https://jira.nyu.edu/jira/browse/MC-329
+function mediacommons_editorialworkflow_keep_going($form, &$form_state) {
+  $errors = form_get_errors();
+  if ($errors) {
+    $recaptcha_error = FALSE;
+    foreach ($errors as $key => $error) {
+      $pos = strpos($error, 'reCAPTCHA');
+      if ($pos) {
+        $recaptcha_error = TRUE;
+        $errors[$key] = t('Your registration did not go through. Please try again. For example, did you remember to check the box next to "I am not a robot?"');
+      }
+    }
+    // https://api.drupal.org/comment/28464#comment-28464
+    if ($recaptcha_error) {
+      // Clear errors.
+      form_clear_error();
+      // Clear error messages.
+      $error_messages = drupal_get_messages('error');
+      // Initialize an array where removed error messages are stored.
+      $removed_messages = array();
+      // Reinstate remaining errors.
+      foreach ($errors as $name => $error) {
+        form_set_error($name, $error);
+        // form_set_error() calls drupal_set_message(), so we have to filter out
+        // these from the error messages as well.
+        $removed_messages[] = $error;
+      }
+    }
+  }
+}
+
+function mediacommons_apis_is_pjax() {
+  $is_pjax = &drupal_static('is_pjax');
+  if (!isset($is_pjax) && function_exists('getallheaders')) {
+    $headers = getallheaders();
+    if (isset($headers['X-Pjax']) || isset($headers['X-PJAX'])) {
+      drupal_add_http_header('uri', request_uri());
+      $is_pjax = TRUE;
+    }
+    else {
+      $params = drupal_get_query_parameters();
+      if (isset($params['pjax'])) {
+        drupal_add_http_header('uri', base_path() . request_uri());
+        $is_pjax = TRUE;
+      }
+      else {
+        $is_pjax = FALSE;
+      }
+    }
+  }
+  return $is_pjax;
+}
+
+function mediacommons_apis_is_embed() {
+	$is_embed = &drupal_static('is_embed');
+	if (!isset($is_embed)) {
+		$params = drupal_get_query_parameters();
+		if (isset($params['embed'])) {
+		  if ($params['embed'] === '1' || $params['embed'] === 'true') {
+		  	$is_embed = TRUE;
+		  }
+		  else {
+		  	$is_embed = FALSE;
+		  }
+		}
+  }
+	return $is_embed;
 }

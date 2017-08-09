@@ -7,6 +7,7 @@ dependencies[] = gravatar:gravatar
 dependencies[] = vertical_tabs_config
 dependencies[] = mediacommons_content_types
 dependencies[] = mediacommons_views
+dependencies[] = entity
 dependencies[] = drupal:system (>= 7.40)
 files[] = inc/user_picture_formatter.inc
 
