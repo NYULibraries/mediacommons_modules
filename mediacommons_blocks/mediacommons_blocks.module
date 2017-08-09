@@ -155,12 +155,12 @@ function mediacommons_blocks_block_info() {
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
 
-  $blocks['mediacommons_blocks_administer_comments'] = array(
+  $blocks['workflow_admin_comments'] = array(
     'info' => t('MediaCommons: Administer comments'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
   
-  $blocks['mediacommons_blocks_administer_nodes'] = array(
+  $blocks['workflow_admin_nodes'] = array(
     'info' => t('MediaCommons: Administer nodes'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );  
@@ -228,11 +228,11 @@ function mediacommons_blocks_block_view($delta = '') {
     
     // we need a better logic for selecting delta
     // for now lets test here
-    if ($delta == 'mediacommons_blocks_administer_comments') {
+    if ($delta == 'workflow_admin_comments') {
       $block['subject'] = t('Administer comments');
       $block['content'] = mediacommons_blocks_administer_comments();
     }
-    if ($delta == 'mediacommons_blocks_administer_nodes') {
+    if ($delta == 'workflow_admin_nodes') {
       $block['subject'] = t('Administer nodes');
       $block['content'] = mediacommons_blocks_administer_nodes();
     }    
