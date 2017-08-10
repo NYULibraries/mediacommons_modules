@@ -1008,6 +1008,7 @@ function mediacommons_content_types_field_default_field_instances() {
         'weight' => 12,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'field_pubstat',
     'label' => 'Publication Status',
