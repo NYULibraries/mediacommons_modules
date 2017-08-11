@@ -638,7 +638,21 @@ function mediacommons_blocks_administer_comments($nlimit = 10) {
       );
     } 
   }
-  return theme('table', array('header' => $header, 'rows' => $rows));
+  if ($rows) {
+    return theme('table', array('header' => $header, 'rows' => $rows));
+  }
+  else {
+    $attributes = array(
+      'element' => array(
+        '#tag' => 'p',
+        '#attributes' => array(
+          'class' => 'all-done'
+        ),
+        '#value' => t('All done. No comments.')
+      )
+    );
+    return theme('html_tag', $attributes);
+  }
 }
 
 function mediacommons_blocks_administer_nodes($nlimit = 10) {

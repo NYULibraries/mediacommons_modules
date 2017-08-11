@@ -1291,7 +1291,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= theme('html_tag', $attributes);
     $output .= $br;
     $block = module_invoke('mediacommons_blocks', 'block_view', 'workflow_admin_comments');
-    if ($block) {
+    if ($block['content']) {
       $output .= $block['content'];
       $output .= $hr;
       $output .= $br;
