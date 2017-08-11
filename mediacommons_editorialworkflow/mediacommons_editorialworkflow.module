@@ -1278,32 +1278,24 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= $br;
   }
 
-  $output .= theme('html_tag', array(
-    'element' => array(
-      '#tag' => 'h2',
-      '#attributes' => array(
-        'class' => 'title',
-      ),
-      '#value' => t('Administer comments'),
-    ),
-  ));
-    
-  $output .= $hr;
-  $output .= $br;
-  $block = module_invoke('mediacommons_blocks', 'block_view', 'workflow_admin_comments');
-  if ($block) {
-    $output .= theme('html_tag', array(
+  if (user_access('administer comments')) {
+    $attributes = array(
       'element' => array(
         '#tag' => 'h2',
         '#attributes' => array(
-          'class' => 'title',
+          'class' => 'title'
         ),
-        '#value' => $block['subject'],
-      ),
-    ));
-    $output .= $block['content'];
-    $output .= $hr;
-    $output .= $br;  
+        '#value' => t('Administer comments')
+      )
+    );
+    $output .= theme('html_tag', $attributes);
+    $output .= $br;
+    $block = module_invoke('mediacommons_blocks', 'block_view', 'workflow_admin_comments');
+    if ($block) {
+      $output .= $block['content'];
+      $output .= $hr;
+      $output .= $br;
+    }
   }
 
   $block = module_invoke('search', 'block_view', 'search');
