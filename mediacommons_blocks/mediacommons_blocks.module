@@ -617,7 +617,7 @@ function mediacommons_blocks_callback_example() {
 
 function mediacommons_blocks_administer_comments($nlimit = 10) {
   if (user_access('administer comments')) {
-    $header = array('Subject', 'Posted', 'View', 'Edit', 'Delete');
+    $header = array('Subject', 'Posted', 'Approve', 'Edit', 'Delete');
     $rows = array();
     $query = db_select('comment', 'c');
     $query->innerJoin('node', 'n', 'c.nid = n.nid');
