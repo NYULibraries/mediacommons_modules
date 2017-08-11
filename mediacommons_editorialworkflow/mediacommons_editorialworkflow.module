@@ -1278,7 +1278,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= $br;
   }
   
-  $block = module_invoke('mediacommons_blocks', 'block_view', 'mediacommons_blocks_administer_comments');
+  $block = module_invoke('mediacommons_blocks', 'block_view', 'workflow_admin_comments');
   
   if ($block) {
     $output .= theme('html_tag', array(
