@@ -630,13 +630,13 @@ function mediacommons_blocks_administer_comments($nlimit = 10) {
       ->execute();
     foreach ($comments as $comment) {
       $rows[] = array(
-        check_plain($comment->subject), // Subject
+        l(check_plain($comment->subject), 'node/' . $comment->nid, array('fragment' => 'comment-'. $comment->cid, 'attributes' => array('title' => $comment->title))), // Subject
         format_date($comment->created, 'medium'), // Posted
-        l(t('node'), 'node/' . $comment->nid, array('fragment' => 'comment-'. $comment->cid, 'attributes' => array('title' => $comment->title))), // View
+        l(t('approve'), 'comment/' . $comment->cid . '/approve', array('query' => array('token' => drupal_get_token("comment/$comment->cid/approve")))), // approve
         l(t('edit'), 'comment/' . $comment->cid . '/edit'), // Edit
         l(t('delete'), 'comment/' . $comment->cid . '/delete') // Delete
       );
-    }
+    } 
   }
   return theme('table', array('header' => $header, 'rows' => $rows));
 }
