@@ -672,6 +672,7 @@ features[views_view][] = contribs_spoke_pane
 features[views_view][] = contributors_this_hub
 features[views_view][] = contributors_this_spoke
 features[views_view][] = curated_hubs
+features[views_view][] = latest_hub_fieldguide_widget
 features[views_view][] = list_of_all_hubs
 features[views_view][] = mc_recent_comments
 features[views_view][] = message
