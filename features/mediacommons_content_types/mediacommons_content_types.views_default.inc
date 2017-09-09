@@ -944,7 +944,7 @@ Post date Asc|Oldest first
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'hubs_archive_display');
-  $handler->display->display_options['path'] = 'previous';
+  $handler->display->display_options['path'] = 'archives';
   $export['list_of_all_hubs'] = $view;
 
   $view = new view();
