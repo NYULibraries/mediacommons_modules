@@ -102,8 +102,8 @@ function _mediacommons_globalnav_config() {
       // My [channel] Dashboard       
 
       array(
-        'link_path' => 'contributor',
-        'router_path' => 'contributor',     
+        'link_path' => 'dashboard',
+        'router_path' => 'dashboard',     
         'link_title' => "My $site_name Dashboard",
         'menu_name' => $menu_name,
         'expanded' => 0,

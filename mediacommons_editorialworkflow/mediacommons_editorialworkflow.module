@@ -121,7 +121,7 @@ function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_i
     $attributes = array(
       'project=' . variable_get('mediacommons_project', 'mediacommons'),
       'source=' . url(current_path(), array('absolute' => true)),
-      'redirect=contributor',
+      'redirect=dashboard',
     );
     $form['name']['#attributes'] = $attributes;
     $form['#action'] = $form['#action'] . '?' . implode('&', $attributes);
@@ -316,7 +316,7 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_custom_theme/7.x
  */
 function mediacommons_editorialworkflow_custom_theme() {
-  if (arg(0) == 'contributor') {
+  if (arg(0) == 'dashboard') {
     return 'mediacommons_admin';
   }
 }
@@ -327,13 +327,14 @@ function mediacommons_editorialworkflow_custom_theme() {
  */
 function mediacommons_editorialworkflow_menu() {
   $items = array();
-  $items['contributor'] = array(
+  $items['dashboard'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
     'access arguments' => array('access mediacommons dashboard'),
     'type' =>  MENU_NORMAL_ITEM,
   );
+  /**
   $items['contributor/dashboard'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
@@ -342,7 +343,8 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 7,
     'type' =>  MENU_DEFAULT_LOCAL_TASK,
   );
-  $items['contributor/add'] = array(
+  */
+  $items['dashboard/add'] = array(
     'title' => 'Create content',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_create_content',
     'description' => 'Create content',
@@ -350,7 +352,7 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 8,
     'type' => MENU_LOCAL_TASK,
   );
-  $items['contributor/profile'] = array(
+  $items['dashboard/profile'] = array(
     'title' => 'Profile',
     'page callback' => '_mediacommons_editorialworkflow_redirect_url_profile',
     'access callback' => 'user_is_logged_in',
@@ -731,7 +733,7 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
       '#title' => t('Dashboard'),
       // #attributes are used for list items (LI).
       '#attributes' => array('class' => array('mediacommons-editorialworkflow-dashboard')),
-      '#href' => 'contributor',
+      '#href' => 'dashboard',
       // #options are passed to l().
       '#options' => array(
         'query' => drupal_get_destination(),
@@ -745,7 +747,7 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
       '#title' => t('Add content'),
       // #attributes are used for list items (LI).
       '#attributes' => array('class' => array('mediacommons-editorialworkflow-create')),
-      '#href' => 'contributor/add',
+      '#href' => 'dashboard/add',
       // #options are passed to l().
       '#options' => array(
         'query' => drupal_get_destination(),
@@ -760,7 +762,7 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
       '#title' => t('Profile'),
       // #attributes are used for list items (LI).
       '#attributes' => array('class' => array('mediacommons-editorialworkflow-profile')),
-      '#href' => 'contributor/add',
+      '#href' => 'dashboard/add',
       // #options are passed to l().
       '#options' => array(
         'query' => drupal_get_destination(),
@@ -1139,7 +1141,7 @@ function mediacommons_editorialworkflow_contributor_dashboard_create_content () 
           $type->name = t('Contribute a New Piece');
           break;
       }
-      $items[] = t(l( $type->name, 'node/add/' . $type_url_str, array('query' => array('destination' => 'contributor'))) . '<div class="description">'. $type->description .   '</div>');
+      $items[] = t(l( $type->name, 'node/add/' . $type_url_str, array('query' => array('destination' => 'dashboard'))) . '<div class="description">'. $type->description .   '</div>');
     }
   }
 
@@ -1168,7 +1170,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
 
   global $user;
 
-  drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'contributor'),));
+  drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'dashboard'),));
 
   drupal_set_title(t('@sitename: Dashboard', array('@sitename' => variable_get('site_name', 'MediaCommons'))));
 
@@ -1459,7 +1461,7 @@ function mediacommons_editorialworkflow_userpath() {
   
   $destination = url(current_path(), array('absolute' => true));
 
-  $dashboard = url(base_path() . 'contributor', array('absolute' => true));
+  $dashboard = url(base_path() . 'dashboard', array('absolute' => true));
 
   $query = array(
     'query' => array(
