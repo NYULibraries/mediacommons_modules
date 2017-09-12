@@ -117,20 +117,21 @@ function mediacommons_editorialworkflow_process_node(&$variables) {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_alter/7.x
  */
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_login') {
-    $attributes = array(
-      'project=' . variable_get('mediacommons_project', 'mediacommons'),
-      'source=' . url(current_path(), array('absolute' => true)),
-      'redirect=dashboard',
-    );
-    $form['name']['#attributes'] = $attributes;
-    $form['#action'] = $form['#action'] . '?' . implode('&', $attributes);
+  if ($form_id == 'user_login') {    
+    $project = variable_get('mediacommons_project', 'mediacommons');
+    // https://jira.nyu.edu/jira/browse/MC-344
+    $destination = 'dashboard';
+    if (isset($_GET['destination'])) {
+      $destination = $_GET['destination'];
+    }    
+    $form['name']['#attributes'] = array("project=$project", "redirect=$destination");
+    $form['#action'] = $form['#action'] . '?' . implode('&', $form['name']['#attributes']);
   }
   // Change error language of Google reCAPTCHA module 
   // See: https://jira.nyu.edu/jira/browse/MC-329
   if ($form_id == 'user_register_form') {
     $form['#validate'][] = 'mediacommons_editorialworkflow_keep_going';
-  }  
+  }
 }
 
 /**
@@ -292,6 +293,9 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
  * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_login/7.x
  */
 function mediacommons_editorialworkflow_user_login(&$edit, $account) {
+  dpm(__FUNCTION__);
+  // we are here
+  
   $redirection = null;
   $parameters = drupal_get_query_parameters();
   // I need to check from where the user "hail from" e.g., if user is trying to write 
