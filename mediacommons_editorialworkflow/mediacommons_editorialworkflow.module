@@ -118,13 +118,14 @@ function mediacommons_editorialworkflow_process_node(&$variables) {
  */
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_login') {    
+    $source = url(current_path(), array('absolute' => true));    
     $project = variable_get('mediacommons_project', 'mediacommons');
     // https://jira.nyu.edu/jira/browse/MC-344
     $destination = 'dashboard';
     if (isset($_GET['destination'])) {
       $destination = $_GET['destination'];
     }    
-    $form['name']['#attributes'] = array("project=$project", "redirect=$destination");
+    $form['name']['#attributes'] = array("project=$project", "redirect=$destination", "source=$source");
     $form['#action'] = $form['#action'] . '?' . implode('&', $form['name']['#attributes']);
   }
   // Change error language of Google reCAPTCHA module 
