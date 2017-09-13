@@ -117,25 +117,18 @@ function mediacommons_editorialworkflow_process_node(&$variables) {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_alter/7.x
  */
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
-
   if ($form_id == 'user_login') {
-  
-    $set_destination = isset($_GET['destination']) ? TRUE : FALSE;
-    
+    $set_destination = isset($_GET['destination']) ? TRUE : FALSE;    
     // https://jira.nyu.edu/jira/browse/MC-344
     $attributes = array('destination=dashboard');
-
     if ($set_destination) {
       $attributes = array('destination=' . check_plain($_GET['destination']));
-    }
-     
+    }     
     $form['name']['#attributes'] = $attributes;
-
     if (!$set_destination) {
       $form['#action'] = $form['#action'] . '?' . implode('&', $attributes);
     }
   }
-  
   // Change error language of Google reCAPTCHA module 
   // See: https://jira.nyu.edu/jira/browse/MC-329
   if ($form_id == 'user_register_form') {
