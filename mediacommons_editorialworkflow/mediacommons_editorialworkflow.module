@@ -117,17 +117,25 @@ function mediacommons_editorialworkflow_process_node(&$variables) {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_alter/7.x
  */
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_login') {    
-    $source = url(current_path(), array('absolute' => true));    
-    $project = variable_get('mediacommons_project', 'mediacommons');
+
+  if ($form_id == 'user_login') {
+  
+    $set_destination = isset($_GET['destination']) ? TRUE : FALSE;
+    
     // https://jira.nyu.edu/jira/browse/MC-344
-    $destination = 'dashboard';
-    if (isset($_GET['destination'])) {
-      $destination = $_GET['destination'];
-    }    
-    $form['name']['#attributes'] = array("project=$project", "redirect=$destination", "source=$source");
-    $form['#action'] = $form['#action'] . '?' . implode('&', $form['name']['#attributes']);
+    $attributes = array('destination=dashboard');
+
+    if ($set_destination) {
+      $attributes = array('destination=' . check_plain($_GET['destination']));
+    }
+     
+    $form['name']['#attributes'] = $attributes;
+
+    if (!$set_destination) {
+      $form['#action'] = $form['#action'] . '?' . implode('&', $attributes);
+    }
   }
+  
   // Change error language of Google reCAPTCHA module 
   // See: https://jira.nyu.edu/jira/browse/MC-329
   if ($form_id == 'user_register_form') {
@@ -181,7 +189,7 @@ function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_stat
  * Implements hook_form_FORM_ID_alter() for content type Page.
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
  */
-function mediacommons_editorialworkflow_form_page_node_form_alter (&$form, &$form_state, $form_id) {
+function mediacommons_editorialworkflow_form_page_node_form_alter(&$form, &$form_state, $form_id) {
   $form['body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
 }
 
@@ -189,7 +197,7 @@ function mediacommons_editorialworkflow_form_page_node_form_alter (&$form, &$for
  * Implements hook_form_FORM_ID_alter()  for content type Review.
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
  */
-function mediacommons_editorialworkflow_form_review_node_form_alter (&$form, &$form_state, $form_id) {
+function mediacommons_editorialworkflow_form_review_node_form_alter(&$form, &$form_state, $form_id) {
   $form['body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
 }
 
@@ -197,22 +205,16 @@ function mediacommons_editorialworkflow_form_review_node_form_alter (&$form, &$f
  * Implements hook_form_FORM_ID_alter() for content type Front Page Post .
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
  */
-function mediacommons_editorialworkflow_form_page_front_page_post_form_alter (&$form, &$form_state, $form_id) {
-  
-  dpm(__FUNCTION__);
-
+function mediacommons_editorialworkflow_form_page_front_page_post_form_alter(&$form, &$form_state, $form_id) {
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-
 }
 
 /**
  * Implements hook_form_FORM_ID_alter() for content type Hub.
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
  */
-function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form_state, $form_id) {
-  
+function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_state, $form_id) {
   global $user;
-  
   $is_contributor = is_contributor();
 
   $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
@@ -294,11 +296,33 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
  * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_login/7.x
  */
 function mediacommons_editorialworkflow_user_login(&$edit, $account) {
-  dpm(__FUNCTION__);
-  // we are here
-  
-  $redirection = null;
+
+  $redirection = 
+  $destination = NULL;
+
+  $project = 
+     $hail = variable_get('mediacommons_project', 'mediacommons');  
+
   $parameters = drupal_get_query_parameters();
+
+  if (isset($parameters['project'])) {
+    $hail = $parameters['project'];
+  }
+  
+  if (isset($parameters['destination'])) {
+    $destination = $parameters['destination'];
+  }
+
+  // allow users to log-in from any MediaCommons project and return to the intended target
+  // https://jira.nyu.edu/jira/browse/MC-344
+  if (
+    $project != $hail // user is trying to log-in from a MediaCommon project (not Umbrella)
+    && 
+    $destination // we have a destination to go
+  ) {
+    $redirection = mediacommons_utilities_project_url($hail) . '/' . check_plain($destination);
+  }
+
   // I need to check from where the user "hail from" e.g., if user is trying to write 
   // a comment redirect to the original post after login.  
   if (isset($parameters['redirect'])) {
@@ -311,8 +335,13 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
     && 
     (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset'))
   {
-    $_GET['destination'] = $redirection;
-    $edit['redirect'] = $redirection;
+    if (url_is_external($_GET['destination'])) {
+      drupal_goto($_GET['destination']);
+    }
+    else {
+      $_GET['destination'] = $redirection;
+      $edit['redirect'] = $redirection;
+    }
   }
 }
 
@@ -339,16 +368,6 @@ function mediacommons_editorialworkflow_menu() {
     'access arguments' => array('access mediacommons dashboard'),
     'type' =>  MENU_NORMAL_ITEM,
   );
-  /**
-  $items['contributor/dashboard'] = array(
-    'title' => 'Dashboard',
-    'description' => 'User dashboard',
-    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
-    'access arguments' => array('access mediacommons dashboard'),
-    'weight' => 7,
-    'type' =>  MENU_DEFAULT_LOCAL_TASK,
-  );
-  */
   $items['dashboard/add'] = array(
     'title' => 'Create content',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_create_content',
@@ -551,7 +570,12 @@ function mediacommons_editorialworkflow_menu_local_tasks_alter(&$data, $router_i
 
 function mediacommons_editorialworkflow_menu_alter(&$items) {
   $project = variable_get('mediacommons_project', 'mediacommons');
-  if ($project === 'mediacommons') return;
+
+  // if we are in MediaCommons Umbrella, don't update the menu route.
+  if ($project === 'mediacommons') {
+    return;  
+  }
+  
   foreach ($items as $path => $item) {
     preg_match('/(user)|(users)/', $path, $matches, PREG_OFFSET_CAPTURE);
     if ($matches) {
@@ -584,16 +608,24 @@ function mediacommons_editorialworkflow_menu_alter(&$items) {
 }
 
 function mediacommons_editorialworkflow_link($item) {
+  
   $project = variable_get('mediacommons_project', 'mediacommons');
-  if ($project === 'mediacommons') return;
+  
+  if ($project === 'mediacommons') {
+    return;
+  }
+  
   $umbrella_url = mediacommons_homepage_umbrella_url();
+  
   preg_match('/(user)/', $item['path'], $matches, PREG_OFFSET_CAPTURE);
+  
   if (!empty($matches)) {
     return '<a href="' . check_plain(url($umbrella_url . '/' . $item['path'], $item['options'])) . '"' . drupal_attributes($item['options']['attributes']) . '>' . ($item['options']['html'] ? $item['text'] : check_plain($item['text'])) . '</a>';
   }
   else {
     return '<a href="' . check_plain(url($item['path'], $item['options'])) . '"' . drupal_attributes($item['options']['attributes']) . '>' . ($item['options']['html'] ? $item['text'] : check_plain($item['text'])) . '</a>';
   }
+  
 }
 
 function mediacommons_editorialworkflow_views_data_alter(&$data) {
@@ -714,11 +746,6 @@ function mediacommons_editorialworkflow_user_picture(&$variables) {
  * @see theme_admin_menu_links()
  */
 function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
-  // In case your implementation provides a configurable component, check
-  // whether the component should be displayed:
-  //if (empty($content['#components']['shortcut.links']) && !$content['#complete']) {
-    //return;
-  //}
   // Add new top-level item to the menu.
   if (isset($content['menu'])) {
     $content['menu']['home'] = array(
@@ -1553,3 +1580,10 @@ function mediacommons_apis_is_embed() {
   }
 	return $is_embed;
 }
+
+
+/**
+ * Returns a menu title which includes the number of unapproved comments.
+ */
+// function comment_count_unpublished() use this?
+// comment_get_recent

@@ -32,3 +32,18 @@ function mediacommons_homepage_umbrella_url() {
   return mediacommons_utilities_get_root_url() . '/mediacommons';
 }
 
+function mediacommons_utilities_project_url($project) {
+  return mediacommons_utilities_get_root_url() . '/' . $project;
+}
+
+function mediacommons_utilities_is_project_redirect($path) {
+  // Some browsers treat \ as / so normalize to forward slashes.
+  $path = str_replace('\\', '/', $path);
+  // If the path starts with a backslash then it is considered an project redirect
+  $substr = substr($path, 0, 1);
+
+  if ($substr == '/') return drupal_strip_dangerous_protocols($path);
+
+  else return FALSE;
+
+}
