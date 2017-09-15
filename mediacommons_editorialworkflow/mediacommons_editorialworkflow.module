@@ -118,7 +118,7 @@ function mediacommons_editorialworkflow_process_node(&$variables) {
  */
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_login') {
-    $set_destination = isset($_GET['destination']) ? TRUE : FALSE;    
+    $set_destination = isset($_GET['destination']) ? TRUE : FALSE;
     // https://jira.nyu.edu/jira/browse/MC-344
     $attributes = array('destination=dashboard');
     if ($set_destination) {
@@ -371,7 +371,7 @@ function mediacommons_editorialworkflow_menu() {
   );
   $items['dashboard/profile'] = array(
     'title' => 'Profile',
-    'page callback' => '_mediacommons_editorialworkflow_redirect_url_profile',
+    'page callback' => 'mediacommons_editorialworkflow_userpath', // test this
     'access callback' => 'user_is_logged_in',
     'access arguments' => array('access mediacommons dashboard'),
     'weight' => 9,
@@ -1363,43 +1363,10 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
 }
 
 /**
- * Redirects user
-  to defined page.
+ * Redirects user to defined page.
  */
 function _mediacommons_editorialworkflow_redirect_url() {
   drupal_goto('user/logout');
-}
-
-function _mediacommons_editorialworkflow_redirect_url_profile() {
-  
-  $project = variable_get('mediacommons_project', 'mediacommons');
-  
-  if ($project === 'mediacommons') return;
-  
-  $item = menu_get_item();
-
-  $params = implode(',', drupal_get_query_parameters());
-
-  $original = implode('/', $item['original_map']);
-  
-  $args = implode(',', arg());
-  
-  $destination = url(current_path(), array('absolute' => true));
-  
-  $query = array(
-    'query' => array(
-      'project' => $project, 
-      'destination' => $destination,
-      'args' => $args,
-      'original' => $original,
-      'params' => $params,
-    ),
-  );
-  
-  $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
-  
-  header('Location: ' . $url, TRUE, 302);
-
 }
 
 /**
@@ -1470,36 +1437,35 @@ function mediacommons_editorialworkflow_user_can_edit_node ($node) {
 
 function mediacommons_editorialworkflow_userpath() {
 
-  $project = variable_get('mediacommons_project', 'mediacommons');
-  
-  if ($project === 'mediacommons') return;
-  
-  $item = menu_get_item();
-  
-  $umbrella_url = mediacommons_homepage_umbrella_url();
-  
-  $umbrella =  $umbrella_url . '/' . implode('/', $item['original_map']);
+  $project = 
+     $hail = variable_get('mediacommons_project', 'mediacommons');  
+     
+  if ($project === 'mediacommons') {
+    return;
+  }
+
+  $parameters = drupal_get_query_parameters();
+
+  if (isset($parameters['project'])) {
+    $hail = $parameters['project'];
+  }
   
   $http_response_code = 302;
 
-  $original = implode('/', $item['original_map']);
-  
-  $destination = url(current_path(), array('absolute' => true));
-
-  $dashboard = url(base_path() . 'dashboard', array('absolute' => true));
+  $destination = isset($_GET['destination']) ? check_plain($_GET['destination']) : FALSE;
 
   $query = array(
     'query' => array(
-      'project' => $project, 
-      'destination' => $destination,
-      'dashboard' => $dashboard,
-      'original' => $original,
-    ),
-    'absolute' => true,
+      'project' => $hail,
+    )
   );
   
+  if ($destination) {
+    $query['query']['destination'] = $destination;
+  }
+  
   $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
-
+  
   header('Location: ' . $url, TRUE, $http_response_code);
 
 }
