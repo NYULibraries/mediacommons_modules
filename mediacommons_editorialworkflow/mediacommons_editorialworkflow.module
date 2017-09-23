@@ -113,26 +113,119 @@ function mediacommons_editorialworkflow_process_node(&$variables) {
 }
 
 /**
+ * Validate user, if error, redirect to user/login page.
+ * See: https://jira.nyu.edu/jira/browse/MC-320
+ */
+function mediacommons_editorialworkflow_form_validate(&$form, &$form_state) {
+  if (empty($form_state['uid'])) {
+    // http://localhost:8000/mediacommons/user/login?destination=node/667&project=fieldguide
+    // at the moment working with a user that comes from a comment, try to login and fails and then the form is rebuild without the old form data
+    $project = $hail = variable_get('mediacommons_project', 'mediacommons');
+    $parameters = drupal_get_query_parameters();
+    $get_destination = drupal_get_destination();
+    $destination = $_GET['destination'] = 'user/login';
+    $query = array('query' => array());  
+    if (isset($form_state['values']['project'])) {
+      $hail = $form_state['values']['project'];
+    }
+    elseif (isset($parameters['project'])) {
+      $hail = $parameters['project'];
+    }
+    if ($project != $hail) { // user is trying to log-in from a MediaCommon project (not Umbrella)
+      $query['query']['project'] = $hail;
+    }
+    if (isset($form_state['values']['destination'])) {
+      $destination = $form_state['values']['destination'];
+    }
+    elseif (isset($parameters['destination'])) {
+      $destination = $parameters['destination'];
+    }
+    elseif (isset($get_destination['destination'])) {
+      $destination = $get_destination['destination'];
+    }
+    if ($destination != $_GET['destination']) {
+      $query['query']['destination'] = $destination;
+    }
+    drupal_goto('user/login', $query);
+  }
+}
+
+/**
  * Implements hook_form_alter().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_alter/7.x
  */
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_login') {
-    $set_destination = isset($_GET['destination']) ? TRUE : FALSE;
-    // https://jira.nyu.edu/jira/browse/MC-344
-    $attributes = array('destination=dashboard');
-    if ($set_destination) {
-      $attributes = array('destination=' . check_plain($_GET['destination']));
-    }     
-    $form['name']['#attributes'] = $attributes;
-    if (!$set_destination) {
-      $form['#action'] = $form['#action'] . '?' . implode('&', $attributes);
-    }
-  }
-  // Change error language of Google reCAPTCHA module 
-  // See: https://jira.nyu.edu/jira/browse/MC-329
-  if ($form_id == 'user_register_form') {
-    $form['#validate'][] = 'mediacommons_editorialworkflow_keep_going';
+  switch ($form_id) {
+    case 'user_login':
+    case 'user_login_block':
+      // https://jira.nyu.edu/jira/browse/MC-344
+      $project = $hail = variable_get('mediacommons_project', 'mediacommons');
+      $parameters = drupal_get_query_parameters();
+      $qs = array('destination' => 'dashboard');
+      $url_query = array();
+      $build_query = NULL;
+      $url_components = parse_url($form['#action']);
+      $url_path = $url_components['path'];
+      $set_destination = FALSE;
+      // Destination
+      // Post
+      if (isset($_POST['destination'])) {
+        $set_destination = check_plain($_POST['destination']);
+      }
+      // Get
+      elseif (isset($_GET['destination'])) {
+        $set_destination = check_plain($_GET['destination']);
+      }
+      // Last try HTTP referer
+      elseif (isset($_SERVER['HTTP_REFERER'])) {
+        parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $queries);
+        if (isset($queries['destination'])) {
+          $set_destination = $queries['destination'];
+        }
+      }
+      // Hail
+      if (isset($_POST['project'])) {
+        $hail = check_plain($_POST['project']);
+      } 
+      elseif (isset($parameters['project'])) {
+        $hail = $parameters['project'];
+      }
+      // Last try HTTP referer
+      elseif ($set_destination && isset($queries['project'])) {
+        $hail = $queries['project'];
+      }
+      
+      if ($set_destination) {
+        $qs['destination'] = $set_destination;
+        $form['destination'] = array('#type' => 'hidden', '#value' => $qs['destination']);
+      }
+      if (isset($url_components['query'])) {
+        parse_str($url_components['query'], $url_query);
+      }
+      
+      $build_query = drupal_http_build_query(array_merge($qs, $url_query));
+      
+      if ($build_query) {
+        $url_path = $url_path . '?' . $build_query;
+        $form['query'] = array('#type' => 'hidden', '#value' => urlencode($build_query));
+      }
+      
+      $form['project'] = array('#type' => 'hidden', '#value' => $hail);
+      
+      if (!$set_destination) {
+        $form['#action'] = $url_path;
+      }
+      else {
+        //$form['#action'] = 'lola';
+      }
+
+      $form['#validate'][] = 'mediacommons_editorialworkflow_form_validate';      
+      break;
+    case 'user_register_form':
+      // Change error language of Google reCAPTCHA module 
+      // See: https://jira.nyu.edu/jira/browse/MC-329
+      $form['#validate'][] = 'mediacommons_editorialworkflow_keep_going';
+      break;
   }
 }
 
@@ -208,6 +301,7 @@ function mediacommons_editorialworkflow_form_page_front_page_post_form_alter(&$f
  */
 function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_state, $form_id) {
   global $user;
+
   $is_contributor = is_contributor();
 
   $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
@@ -261,7 +355,9 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
 
   /** node exist */
   if (!isset($form['#node']->nid)) return;
+
   $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
+
   $settings = array(
     'mediacommons_editorialworkflow' => array(
       'isAdminPage' => TRUE,
@@ -270,7 +366,9 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
       ),
     ),
   );
+
   $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
+
   if (!$user_can_edit) {
     // add a class so that we can style the form
     $form['#attributes']['class'][] = 'user-cant-contribute';
@@ -290,19 +388,23 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
  */
 function mediacommons_editorialworkflow_user_login(&$edit, $account) {
 
-  $redirection = 
-  $destination = NULL;
-
-  $project = 
-     $hail = variable_get('mediacommons_project', 'mediacommons');  
-
   $parameters = drupal_get_query_parameters();
 
-  if (isset($parameters['project'])) {
+  $redirection = $destination = NULL;
+
+  $project = $hail = variable_get('mediacommons_project', 'mediacommons');  
+
+  if (isset($edit['values']['project'])) {
+    $hail = $edit['values']['project'];
+  }
+  elseif (isset($parameters['project'])) {
     $hail = $parameters['project'];
   }
   
-  if (isset($parameters['destination'])) {
+  if (isset($edit['values']['destination'])) {
+    $destination = $edit['values']['destination'];
+  }
+  elseif (isset($parameters['destination'])) {
     $destination = $parameters['destination'];
   }
 
@@ -310,10 +412,15 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
   // https://jira.nyu.edu/jira/browse/MC-344
   if (
     $project != $hail // user is trying to log-in from a MediaCommon project (not Umbrella)
-    && 
-    $destination // we have a destination to go
   ) {
-    $redirection = mediacommons_utilities_project_url($hail) . '/' . check_plain($destination);
+
+    if ($destination) { // we have a destination to go
+      $redirection = mediacommons_utilities_project_url($hail) . '/' . check_plain($destination);
+    }
+    else {
+      $redirection = mediacommons_utilities_project_url($hail);
+    }
+
   }
 
   // I need to check from where the user "hail from" e.g., if user is trying to write 
@@ -328,7 +435,12 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
     && 
     (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset'))
   {
-    if (url_is_external($_GET['destination'])) {
+    if (
+      isset($_GET['destination']) 
+      && 
+      url_is_external($_GET['destination'])
+      ) 
+    {
       drupal_goto($_GET['destination']);
     }
     else {
@@ -536,6 +648,7 @@ function mediacommons_editorialworkflow_node_presave($node) {
 
 /**
  * Implements hook_menu_local_tasks_alter().
+ * Document why I have this here
  */
 function mediacommons_editorialworkflow_menu_local_tasks_alter(&$data, $router_item, $root_path) {
   $user_can_edit = false;
@@ -561,42 +674,43 @@ function mediacommons_editorialworkflow_menu_local_tasks_alter(&$data, $router_i
 	}
 }
 
+/**
+ * @TODO: Move to a small module thats only enable 
+ * in MediaCommons projects (not Umbrella)?
+ */
 function mediacommons_editorialworkflow_menu_alter(&$items) {
-  $project = variable_get('mediacommons_project', 'mediacommons');
-
-  // if we are in MediaCommons Umbrella, don't update the menu route.
-  if ($project === 'mediacommons') {
-    return;  
-  }
-  
-  foreach ($items as $path => $item) {
-    preg_match('/(user)|(users)/', $path, $matches, PREG_OFFSET_CAPTURE);
-    if ($matches) {
-      switch ($path) {
-        case 'users' :
-        case 'user' :
-        case 'user/login' :
-        case 'user/register' :
-        case 'user/password' :
-        case 'user/reset/%/%/%' :
-        case 'user/logout' :
-        case 'user/%user' :
-        case 'user/%user/view' :
-        case 'user/%user/cancel' :
-        case 'user/%user/cancel/confirm/%/%' :
-        case 'user/%user/edit' :
-        case 'user/%user/display' :
-        case 'user/%user/devel' :
-        case 'user/%user/devel/load' :
-        case 'user/%user/devel/render' :
-        case 'admin/people/permissions/roles/edit/%user_role' :
-        case 'admin/people/permissions/roles/delete/%user_role' :
-          $items[$path]['options']['alter'] = TRUE;
-          $items[$path]['page callback'] = 'mediacommons_editorialworkflow_userpath';
-          break;
+  // if we are not in MediaCommons Umbrella, update the menu route.
+  // and point to users to MediaCommons Umbrella
+  if (variable_get('mediacommons_project', 'mediacommons') !== 'mediacommons') {
+    foreach ($items as $path => $item) {
+      preg_match('/(user)|(users)/', $path, $matches, PREG_OFFSET_CAPTURE);
+      if ($matches) {
+        switch ($path) {
+          case 'users' :
+          case 'user' :
+          case 'user/login' :
+          case 'user/register' :
+          case 'user/password' :
+          case 'user/reset/%/%/%' :
+          case 'user/logout' :
+          case 'user/%user' :
+          case 'user/%user/view' :
+          case 'user/%user/cancel' :
+          case 'user/%user/cancel/confirm/%/%' :
+          case 'user/%user/edit' :
+          case 'user/%user/display' :
+          case 'user/%user/devel' :
+          case 'user/%user/devel/load' :
+          case 'user/%user/devel/render' :
+          case 'admin/people/permissions/roles/edit/%user_role' :
+          case 'admin/people/permissions/roles/delete/%user_role' :
+            $items[$path]['options']['alter'] = TRUE;
+            $items[$path]['page callback'] = 'mediacommons_editorialworkflow_userpath';
+            break;
+        }
       }
+      unset($matches);
     }
-    unset($matches);
   }
 }
 
@@ -947,20 +1061,16 @@ function mediacommons_editorialworkflow_preprocess_textfield(&$variables) {
 
 function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
   global $user;
-
   /**
-   * User is coming with a is_contributor flag; the flag is the nid (int)
-   * of a known hub.
+   * User is coming with a is_contributor flag; the flag 
+   * is the nid (int) of a known hub.
    */
   $is_contributor_flag = isset($_GET['is_contributor']) ? (int)$_GET['is_contributor'] : 0;
-
   if (
     isset($user->contribute)
     && !in_array('administrator', $user->roles)
   ) {
-
     $element = &$variables['element'];
-
     if (
       isset($element['#parents']) // check if is set
       && isset($element['#parents'][0]) // has parent
@@ -968,7 +1078,6 @@ function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
     ) {
       /** user have permission to add piece to this cluster */
       if (isset($element['#return_value']) ) {
-
         if (!in_array($element['#return_value'], $user->contribute['hubs_can_contribute'])) {
           $element['#attributes'] = array(
             'disabled' => 'disabled',
@@ -982,8 +1091,6 @@ function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
           );
         }
       }
-
-
       /** if is already checked and user is not the cluster manager; disable the field and mark as read-only */
       if ($element['#checked']) {
         $element['#attributes'] = array(
@@ -1363,16 +1470,9 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
 }
 
 /**
- * Redirects user to defined page.
- */
-function _mediacommons_editorialworkflow_redirect_url() {
-  drupal_goto('user/logout');
-}
-
-/**
  * Remove the option to select a text format in the edit form
  */
-function mediacommons_editorialworkflow_remove_text_format_option (&$form) {
+function mediacommons_editorialworkflow_remove_text_format_option(&$form) {
   $form[LANGUAGE_NONE][0]['format']['guidelines']['#access'] = FALSE;
   $form[LANGUAGE_NONE][0]['format']['format']['#access'] = FALSE;
   $form[LANGUAGE_NONE][0]['format']['help']['#access'] = FALSE;
@@ -1388,7 +1488,7 @@ function is_contributor() {
   return FALSE;
 }
 
-function mediacommons_editorialworkflow_user_can_edit_node ($node) {
+function mediacommons_editorialworkflow_user_can_edit_node($node) {
 
   global $user;
   
@@ -1436,38 +1536,32 @@ function mediacommons_editorialworkflow_user_can_edit_node ($node) {
 }
 
 function mediacommons_editorialworkflow_userpath() {
-
-  $project = 
-     $hail = variable_get('mediacommons_project', 'mediacommons');  
-     
-  if ($project === 'mediacommons') {
-    return;
-  }
-
+  $project = $hail = variable_get('mediacommons_project', 'mediacommons');
   $parameters = drupal_get_query_parameters();
-
   if (isset($parameters['project'])) {
     $hail = $parameters['project'];
   }
-  
-  $http_response_code = 302;
-
-  $destination = isset($_GET['destination']) ? check_plain($_GET['destination']) : FALSE;
-
-  $query = array(
-    'query' => array(
-      'project' => $hail,
-    )
-  );
-  
-  if ($destination) {
-    $query['query']['destination'] = $destination;
+  if ($hail != 'mediacommons') {
+    $http_response_code = 302;
+    $query = array(
+      'query' => array(
+        'project' => $hail,
+      )
+    );
+    if (
+      $destination = 
+        isset($_GET['destination']) // ask if destination is set
+          ? // if true
+          check_plain($_GET['destination']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
+          : // else 
+          FALSE // fail test
+    ) {
+      $query['query']['destination'] = $destination; // add destination to query-string
+    }
+    $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
+    header('Location: ' . $url, TRUE, $http_response_code);
   }
-  
-  $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
-  
-  header('Location: ' . $url, TRUE, $http_response_code);
-
+  return TRUE;
 }
 
 // Change error language of Google reCAPTCHA module 
@@ -1539,10 +1633,3 @@ function mediacommons_apis_is_embed() {
   }
 	return $is_embed;
 }
-
-
-/**
- * Returns a menu title which includes the number of unapproved comments.
- */
-// function comment_count_unpublished() use this?
-// comment_get_recent
