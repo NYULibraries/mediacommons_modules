@@ -368,7 +368,6 @@ function mediacommons_content_types_field_group_info() {
       2 => 'comment_count_spokes',
       3 => 'reviewed_by',
       4 => 'title',
-      5 => 'post_date',
     ),
     'format_type' => 'html-element',
     'format_settings' => array(

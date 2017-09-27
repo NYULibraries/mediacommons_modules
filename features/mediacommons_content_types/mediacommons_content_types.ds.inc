@@ -719,23 +719,6 @@ function mediacommons_content_types_ds_field_settings_info() {
         ),
       ),
     ),
-    'post_date' => array(
-      'weight' => '5',
-      'label' => 'hidden',
-      'format' => 'ds_post_date_medium_mc',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'fi' => TRUE,
-          'fi-el' => 'time',
-          'fi-cl' => '',
-          'fi-at' => '',
-          'fi-def-at' => FALSE,
-          'fi-odd-even' => FALSE,
-          'fi-first-last' => FALSE,
-        ),
-      ),
-    ),
     'field_attached_images' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -1905,9 +1888,8 @@ function mediacommons_content_types_ds_layout_settings_info() {
         2 => 'field_contributors',
         3 => 'group_spoke_teaser_meta',
         4 => 'reviewed_by',
-        5 => 'post_date',
+        5 => 'field_pubdate',
         6 => 'comment_count_spokes',
-        7 => 'field_pubdate',
       ),
     ),
     'fields' => array(
@@ -1916,9 +1898,8 @@ function mediacommons_content_types_ds_layout_settings_info() {
       'field_contributors' => 'ds_content',
       'group_spoke_teaser_meta' => 'ds_content',
       'reviewed_by' => 'ds_content',
-      'post_date' => 'ds_content',
-      'comment_count_spokes' => 'ds_content',
       'field_pubdate' => 'ds_content',
+      'comment_count_spokes' => 'ds_content',
     ),
     'limit' => array(
       'field_attached_images' => '1',
