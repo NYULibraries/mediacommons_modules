@@ -50,7 +50,6 @@ dependencies[] = apachesolr
 dependencies[] = apachesolr_multisitesearch
 dependencies[] = better_formats
 
-dependencies[] = mediacommons_apis
 dependencies[] = mediacommons_blocks
 dependencies[] = mediacommons_content_types
 dependencies[] = mediacommons_globalnav
