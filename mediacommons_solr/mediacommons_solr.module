@@ -112,15 +112,17 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
   global $base_url;
   $wrapper = entity_metadata_wrapper('node', $entity);
   $document->addField('im_contributors', $entity->uid);
-  $document->addField('ss_searchtype', $entity_type);  
-	switch ($entity->type) {
+  $document->addField('ss_searchtype', $entity_type);
+
+  switch ($entity_type) {
+
     case 'review' :
       foreach ($wrapper->field_reviewer->value() as $delta => $item) {
         if ($item->uid !== $entity->uid) {
           $document->addField('im_contributors', $item->uid);
         }
       }
-      break;	
+      break;
     case 'spoke' :
       foreach ($wrapper->field_contributors->value() as $delta => $item) {
         if ($item->uid !== $entity->uid) {
@@ -146,9 +148,9 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
       }
       break;
   }
-  
+
   $document->addField('ss_project', variable_get('mediacommons_project', 'project'));
-  
+
   $document->addField('ss_baseurl', $base_url);
 
 }
@@ -157,23 +159,23 @@ function _mediacommons_solr_search($keys, $conditions) {
   /**
    * Include apachesolr_search forms
    */
-  include_once(drupal_get_path('module', 'apachesolr_search') . '/apachesolr_search.pages.inc'); 
+  include_once(drupal_get_path('module', 'apachesolr_search') . '/apachesolr_search.pages.inc');
 
   $search_page = apachesolr_search_page_load(apachesolr_search_default_search_page());
 
   // Activate the page context, if the module is enabled.
   if ((module_exists('context')) && ($plugin = context_get_plugin('condition', 'apachesolr_page'))) {
     $plugin->execute($search_page);
-  }  
+  }
 
   $query_params = drupal_get_query_parameters();
-  
+
   $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
-  
+
   $results = mediacommons_solr_search_search_results($keys, $conditions, $search_page);
 
   if (!empty($results)) return $results;
-  
+
   else return FALSE;
 
 }
@@ -253,10 +255,10 @@ function mediacommons_solr_search_search_results($keys = NULL, $conditions = NUL
         // Hardcoded apachesolr name since we rely on this for the facets
         $context['page_id'] = $search_page['page_id'];
         $context['search_type'] = 'apachesolr_search_results';
-        
-        // If we execute more than 2 search and one of the search does 
+
+        // If we execute more than 2 search and one of the search does
         // not return value, we run into problems of the 2 queries failing
-        // to return a value 
+        // to return a value
         $n = 'apachesolr' . uniqid();
 
         $results = apachesolr_search_run($n, $params, $solrsort, $search_page['search_path'], pager_find_page(), $solr, $context);
@@ -273,24 +275,24 @@ function mediacommons_solr_search_search_results($keys = NULL, $conditions = NUL
 function mediacommons_solr_user_comments_by_uid ($uid) {
   $conditions = array(
     'fq' => array(
-      'im_contributors:' . $uid, 
+      'im_contributors:' . $uid,
       'ss_searchtype:comment'
     ),
   );
   $results = _mediacommons_solr_search('*:*', $conditions);
 
-  if ($results) {    
+  if ($results) {
     /**
      * Adds search results to the render array.
-     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results 
+     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results
      * can pick a title for the search page.
      * Not sure if this is the best way to do this; if you know "the right way"
      * please change
      */
     $render_array = array(
-      '#theme' => 'search_results', 
-      '#results' => $results, 
-      '#module' => 'mediacommons_solr', 
+      '#theme' => 'search_results',
+      '#results' => $results,
+      '#module' => 'mediacommons_solr',
       '#search_page' => 'user_comments_by_uid',
     );
     $content = render($render_array);
@@ -307,7 +309,7 @@ function mediacommons_solr_user_comments_by_uid ($uid) {
 function mediacommons_solr_user_content_by_uid($uid) {
   $conditions = array(
     'fq' => array(
-      'im_contributors:' . $uid, 
+      'im_contributors:' . $uid,
       'ss_searchtype:node'
     ),
   );
@@ -315,15 +317,15 @@ function mediacommons_solr_user_content_by_uid($uid) {
   if ($results) {
     /**
      * Adds search results to the render array.
-     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results 
+     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results
      * can pick a title for the search page.
      * Not sure if this is the best way to do this; if you know "the right way"
      * please change
      */
     $render_array = array(
-      '#theme' => 'search_results', 
-      '#results' => $results, 
-      '#module' => 'mediacommons_solr', 
+      '#theme' => 'search_results',
+      '#results' => $results,
+      '#module' => 'mediacommons_solr',
       '#search_page' => 'user_content_by_uid',
     );
     $content = render($render_array);
@@ -348,7 +350,7 @@ function mediacommons_solr_apachesolr_process_results(array &$results, DrupalSol
     $results[$id]['link'] = $results[$id]['fields']['url'];
     $results[$id]['project'] = $results[$id]['fields']['ss_project'];
     $results[$id]['project_url'] = $results[$id]['fields']['ss_baseurl'];
-    $results[$id]['searchtype'] = $results[$id]['fields']['ss_searchtype'];    
+    $results[$id]['searchtype'] = $results[$id]['fields']['ss_searchtype'];
   }
 }
 
@@ -360,7 +362,7 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
   $variables['link'] = $variables['result']['link'];
   $variables['project'] = $variables['result']['project'];
   $variables['project_url'] = $variables['result']['project_url'];
-  $variables['searchtype'] = $variables['result']['searchtype']; 
+  $variables['searchtype'] = $variables['result']['searchtype'];
 }
 
 /**
