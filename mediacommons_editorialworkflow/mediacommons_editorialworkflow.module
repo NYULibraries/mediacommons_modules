@@ -1123,10 +1123,10 @@ function mediacommons_editorialworkflow_hubs_user_can_contribute() {
  */
  function mediacommons_editorialworkflow_node_access($node, $op, $account) {
   if (is_object($node) && !$node->status) {
-    $wrapper = entity_metadata_wrapper('node', $node);
-    if (!$wrapper->status->value()) {
-      return mediacommons_editorialworkflow_user_can_edit_node($node) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
-    }
+    //$wrapper = entity_metadata_wrapper('node', $node);
+    //if (!$wrapper->status->value()) {
+    return mediacommons_editorialworkflow_user_can_edit_node($node) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    //}
   }
   // Returning nothing from this function would have the same effect.
   return NODE_ACCESS_IGNORE;
