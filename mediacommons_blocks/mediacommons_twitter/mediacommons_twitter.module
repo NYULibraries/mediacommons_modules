@@ -31,7 +31,7 @@ function mediacommons_twitter_block_configure ($delta = '') {
       '#title' => t('MediaCommons: Link label'),
       '#size' => 60,
       '#description' => t('Link label'),
-      '#default_value' => variable_get('mediacommons_twitter_label', ''),
+      '#default_value' => '&nbsp;',
     );
     $form['mediacommons_twitter_user'] = array(
       '#type' => 'textfield',
