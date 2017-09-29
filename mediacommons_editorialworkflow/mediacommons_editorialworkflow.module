@@ -1116,6 +1116,22 @@ function mediacommons_editorialworkflow_hubs_user_can_contribute() {
   return $hubs_user_can_contribute;
 }
 
+/** 
+ * Implements hook_node_access
+ * See https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_access/7.x
+ * See https://api.drupal.org/api/drupal/modules%21node%21node.module/group/node_access/7.x
+ */
+ function mediacommons_editorialworkflow_node_access($node, $op, $account) {
+  if (is_object($node) && !$node->status) {
+    $wrapper = entity_metadata_wrapper('node', $node);
+    if (!$wrapper->status->value()) {
+      return mediacommons_editorialworkflow_user_can_edit_node($node) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    }
+  }
+  // Returning nothing from this function would have the same effect.
+  return NODE_ACCESS_IGNORE;
+}
+
 /**
  * All things queue
  */
@@ -1490,25 +1506,25 @@ function mediacommons_editorialworkflow_user_can_edit_node($node) {
 
   $fields_info = field_info_instances('node', $wrapper->getBundle());
 
-  if (isset($fields_info['node'][$node->type]['field_contributors'])) {
+  if (isset($fields_info['field_contributors'])) {
     foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
       if ($contributor->name == $username) return TRUE;
     }
   }
 
-  if (isset($fields_info['node'][$node->type]['field_curators_editors'])) {
+  if (isset($fields_info['field_curators_editors'])) {
     foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
       if ($curators_editors->name == $username) return TRUE;
     }
   }
 
-  if (isset($fields_info['node'][$node->type]['field_co_editor'])) {
+  if (isset($fields_info['field_co_editor'])) {
     foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
       if ($field_co_editor->name == $username) return TRUE;
     }
   }
 
-  return false;
+  return FALSE;
 
 }
 
