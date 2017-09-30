@@ -142,8 +142,8 @@ function mediacommons_content_types_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'sidebar_first',
+        'status' => 1,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
@@ -256,10 +256,10 @@ function mediacommons_content_types_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'sidebar_first',
+        'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -522,10 +522,10 @@ function mediacommons_content_types_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'homepage_sidebar',
+        'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -560,8 +560,8 @@ function mediacommons_content_types_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'sidebar_tagpages',
+        'status' => 1,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
@@ -636,10 +636,10 @@ function mediacommons_content_types_default_fe_block_settings() {
         'weight' => 0,
       ),
       'mediacommons' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'homepage_sidebar',
+        'status' => 1,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'mediacommons_admin' => array(
         'region' => '',

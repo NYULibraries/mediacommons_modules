@@ -282,7 +282,7 @@ Name Desc|Name Z -> A',
   $handler->display->display_options['fields']['comment_count']['alter']['path'] = '[path]#comments';
   $handler->display->display_options['fields']['comment_count']['alter']['absolute'] = TRUE;
   $handler->display->display_options['fields']['comment_count']['alter']['trim_whitespace'] = TRUE;
-  $handler->display->display_options['fields']['comment_count']['alter']['alt'] = '[comment_count] comments';
+  $handler->display->display_options['fields']['comment_count']['alter']['alt'] = '[comment_count]';
   $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['comment_count']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
