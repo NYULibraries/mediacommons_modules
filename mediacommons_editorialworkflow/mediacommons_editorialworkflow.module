@@ -1,19 +1,362 @@
 <?php
 
-module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.theme');
-module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.datasource');
-module_load_include('inc', 'mediacommons_editorialworkflow', 'inc/mediacommons_editorialworkflow.queue');
+/**
+ * Implements hook_init().
+ *
+ * This hook is run at the beginning of the page request. It is typically
+ * used to set up global parameters that are needed later in the request.
+ * When this hook is called, the theme and all modules are already loaded
+ * in memory.
+ *
+ * This hook is not run on cached pages.
+ *
+ * To add CSS or JS that should be present on all pages, modules should
+ * not implement this hook, but declare these files in their .info file.
+ *
+ * See: https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_init/7.x
+ *
+ */
+function mediacommons_editorialworkflow_init() { 
+    /**
+    * The Access-Control-Allow-Origin response header indicates whether
+    * the response can be shared with resources with the given origin.
+    *
+    * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+    */
+   drupal_add_http_header('Access-Control-Allow-Origin', '*');
+}
 
-function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_login') {
-    $attributes = array(
-      'project=' . variable_get('mediacommons_project', 'mediacommons'),
-      'source=' . url(current_path(), array('absolute' => true)),
-      'redirect=contributor',
-    );
-    $form['name']['#attributes'] = $attributes;
-    $form['#action'] = $form['#action'] . '?' . implode('&', $attributes);
+/**
+ * Implements template_preprocess_html
+ * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_preprocess_html/7
+ */
+function mediacommons_editorialworkflow_preprocess_html(&$vars) {
+  /**
+   * The X-Frame-Options HTTP response header can be used to indicate whether or not a
+   * browser should be allowed to render a page in a <frame>, <iframe> or <object> .
+   * Sites can use this to avoid clickjacking attacks, by ensuring that their content is
+   * not embedded into other sites.
+   *
+   * The added security is only provided if the user accessing the document is using a
+   * browser supporting X-Frame-Options.
+   *
+   * As of Drupal 7.50, Drupal core sets X-Frame-Options by default to prevent the site
+   * from being embedded in an iframe on another domain. We want our sites to be
+   * embedded; we need to remove this header.
+   *
+   * See: https://www.drupal.org/node/2735873
+   * See: https://www.owasp.org/index.php/Clickjacking
+   * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+   *
+   */
+  header_remove('X-Frame-Options');
+}
+
+function mediacommons_editorialworkflow_theme() {
+  return array(
+    'node__spoke__teaser' => array(
+  	  'render element' => 'content',
+  		'base hook' => 'node',
+  		'template' => 'templates/node--spoke--teaser',
+  	),
+  );
+}
+
+/**
+ */
+function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
+  $name = $variables['element']['#field_name'];
+  $bundle = $variables['element']['#bundle'];
+  if ($bundle == 'spoke' && ($name == 'title' || $name == 'field_attached_images')) {
+    $now = time();
+    $variables['label_link'] = FALSE;
+    $node = $variables['element']['#object'];
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $pubdate = $wrapper->field_pubdate->value();
+    if ($pubdate > $now) {
+      if ($name == 'field_attached_images') {
+        foreach ($variables['items'] as $key => $item) {
+          // https://api.drupal.org/api/drupal/modules%21image%21image.field.inc/function/theme_image_formatter/7.x
+          unset($variables['items'][$key]['#path']);
+        }
+      }
+      if ($name == 'title') {      
+        foreach ($variables['items'] as $key => $item) {
+          $variables['items'][$key]['#markup'] = $wrapper->label();
+        }
+      }
+    }
   }
+}
+
+/**
+ */
+function mediacommons_editorialworkflow_process_node_spoke(&$variables, $wrapper) {
+  $now = time();
+  $pubdate = $wrapper->field_pubdate->value();
+  if ($pubdate <= $now) {
+    $variables['classes'] = $variables['classes'] . ' is-available';
+  }
+  else {
+    $variables['classes'] = $variables['classes'] . ' not-available';
+  }
+}
+
+/**
+ */
+function mediacommons_editorialworkflow_process_node(&$variables) {
+  $wrapper = entity_metadata_wrapper('node', $variables['node']);
+  $callback = __FUNCTION__ . '_' . $wrapper->getBundle();
+  if (function_exists($callback)) {
+    $callback($variables, $wrapper);
+  }
+}
+
+/**
+ * Validate user, if error, redirect to user/login page.
+ * See: https://jira.nyu.edu/jira/browse/MC-320
+ */
+function mediacommons_editorialworkflow_form_validate(&$form, &$form_state) {
+  if (empty($form_state['uid'])) {
+    $project = $hail = variable_get('mediacommons_project', 'mediacommons');
+    $destination = $_GET['destination'] = 'user/login';
+    $query = array('query' => array());
+    if (isset($form_state['values']['project']) && $project != $hail) {
+      $query['query']['project'] = $form_state['values']['project'];
+    }
+    if (isset($form_state['values']['destination'])) {
+      $destination = $form_state['values']['destination'];
+      if ($destination != $_GET['destination']) {
+        $query['query']['destination'] = $destination;
+      }
+    }
+    drupal_goto('user/login', $query);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_alter/7.x
+ */
+function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login':
+    case 'user_login_block':
+      // https://jira.nyu.edu/jira/browse/MC-344
+      $project = $hail = variable_get('mediacommons_project', 'mediacommons');
+      $parameters = drupal_get_query_parameters();
+      $qs = array('destination' => 'dashboard');
+      $url_query = array();
+      $build_query = NULL;
+      $url_components = parse_url($form['#action']);
+      $url_path = $url_components['path'];
+      $set_destination = FALSE;
+      // Destination
+      // Post
+      if (isset($_POST['destination'])) {
+        $set_destination = check_plain($_POST['destination']);
+      }
+      // Get
+      elseif (isset($_GET['destination'])) {
+        $set_destination = check_plain($_GET['destination']);
+      }
+      // Last try HTTP referer
+      elseif (isset($_SERVER['HTTP_REFERER'])) {
+        parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $queries);
+        if (isset($queries['destination'])) {
+          $set_destination = $queries['destination'];
+        }
+      }
+      // Hail
+      if (isset($_POST['project'])) {
+        $hail = check_plain($_POST['project']);
+      } 
+      elseif (isset($parameters['project'])) {
+        $hail = $parameters['project'];
+      }
+      // Last try HTTP referer
+      elseif ($set_destination && isset($queries['project'])) {
+        $hail = $queries['project'];
+      }
+      
+      if ($set_destination) {
+        $qs['destination'] = $set_destination;
+        $form['destination'] = array('#type' => 'hidden', '#value' => $qs['destination']);
+      }
+      if (isset($url_components['query'])) {
+        parse_str($url_components['query'], $url_query);
+      }
+      $build_query = drupal_http_build_query(array_merge($qs, $url_query));
+      if ($build_query) {
+        $url_path = $url_path . '?' . $build_query;
+        $form['query'] = array('#type' => 'hidden', '#value' => urlencode($build_query));
+      }
+      $form['project'] = array('#type' => 'hidden', '#value' => $hail);
+      
+      if (!$set_destination) {
+        $form['#action'] = $url_path;
+      }
+      $form['#validate'][] = 'mediacommons_editorialworkflow_form_validate';
+      break;
+    case 'user_register_form':
+      // Change error language of Google reCAPTCHA module 
+      // See: https://jira.nyu.edu/jira/browse/MC-329
+      $form['#validate'][] = 'mediacommons_editorialworkflow_keep_going';
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for node.
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
+ */
+function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  // indication that this form was process by the editorial workflow module
+  $form['#attributes']['class'][] = 'editorial-workflow';
+  foreach ($user->roles as $role) {
+    $form['#attributes']['class'][] = 'editorial-workflow-' . str_replace(' ', '-', $role);
+  }
+  // check if we are in a edit form
+  if (isset($form['#node_edit_form']) && $form['#node_edit_form']) {
+    // check if the form contains a type of "publication date"
+    $pubdate = (isset($form['field_pubdate']) || isset($form['field_period'])) ? TRUE : FALSE;
+    $pubstat = (isset($form['field_pubstat'])) ? TRUE : FALSE;
+    // remove the option of selecting "Publish using publication date" 
+    // from "Publication Status" field if the form does not have any 
+    // type of "publication date"
+    if ($pubstat && !$pubdate) {
+      $language = $form['language']['#value'];
+      $needle = 'Publish using publication date';
+      $haystack = $form['field_pubstat'][$language]['#options'];
+      // find the position of $needle inside $haystack
+      $position = array_search($needle, $haystack, TRUE);
+      // unset position if found
+      // this will remove the option to select "Publish using publication date" 
+      // in the edit form.
+      if ($position) {
+        unset($form['field_pubstat'][$language]['#options'][$position]);
+      }
+    }    
+    // hide the "Publishing option" menu in the edit form.
+    $form['options']['#type'] = 'container';
+    $form['options']['#title'] = '';
+    $form['options']['status'] = array(
+      '#type' => 'value',
+      '#value' => 1
+    );
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for content type Page.
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
+ */
+function mediacommons_editorialworkflow_form_page_node_form_alter(&$form, &$form_state, $form_id) {
+  $form['body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter()  for content type Review.
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
+ */
+function mediacommons_editorialworkflow_form_review_node_form_alter(&$form, &$form_state, $form_id) {
+  $form['body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for content type Front Page Post .
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
+ */
+function mediacommons_editorialworkflow_form_page_front_page_post_form_alter(&$form, &$form_state, $form_id) {
+  $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for content type Hub.
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
+ */
+function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  $is_contributor = is_contributor();
+
+  $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
+
+  $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
+  
+  $form['field_image_rights']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';  
+  
+  if ($is_contributor) {
+    $form['field_contributors'][$form['language']['#value']][0]['uid']['#default_value'] = $user->uid;
+  }
+  
+  $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
+
+  $settings = array(
+    'mediacommons_editorialworkflow' => array(
+      'isAdminPage' => TRUE,
+      'redirect' => array(
+        'path' => $path, 'trigger' => FALSE,
+      ),
+    ),
+  );
+
+  if (!$user_can_edit) {
+    // add a class so that we can style the form
+    $form['#attributes']['class'][] = 'user-cant-contribute';
+    // if the user is not the owner and not listed as a contributor in the node
+    drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes. Redirecting in <em><span class="redirect">5</span></em> seconds.', array('@title' => $form['#node']->title)), 'warning');
+    $form['actions']['submit']['#access'] = FALSE;
+    $form['actions']['preview']['#access'] = FALSE;
+    $form['actions']['preview_changes']['#access'] = FALSE;
+    $settings['mediacommons_editorialworkflow']['redirect']['trigger'] = TRUE;
+  }
+  else {
+    if (!isset($form['#node']->nid)) {
+      
+    }
+  }
+  drupal_add_js($settings, 'setting');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for content type Spoke.
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
+ */
+function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {
+
+  $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
+  
+  $form['field_embed']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
+
+  /** node exist */
+  if (!isset($form['#node']->nid)) return;
+
+  $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
+
+  $settings = array(
+    'mediacommons_editorialworkflow' => array(
+      'isAdminPage' => TRUE,
+      'redirect' => array(
+        'path' => $path, 'trigger' => FALSE,
+      ),
+    ),
+  );
+
+  $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
+
+  if (!$user_can_edit) {
+    // add a class so that we can style the form
+    $form['#attributes']['class'][] = 'user-cant-contribute';
+    // if the user is not the owner and not listed as a contributor in the node
+    drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes. Redirecting in <em><span class="redirect">5</span></em> seconds.', array('@title' => $form['#node']->title)), 'warning');
+    $form['actions']['submit']['#access'] = FALSE;
+    $form['actions']['preview']['#access'] = FALSE;
+    $form['actions']['preview_changes']['#access'] = FALSE;
+    $settings['mediacommons_editorialworkflow']['redirect']['trigger'] = TRUE;
+  }
+  drupal_add_js($settings, 'setting');
 }
 
 /**
@@ -21,8 +364,42 @@ function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_i
  * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_login/7.x
  */
 function mediacommons_editorialworkflow_user_login(&$edit, $account) {
-  $redirection = null;
+
   $parameters = drupal_get_query_parameters();
+
+  $redirection = $destination = NULL;
+
+  $project = $hail = variable_get('mediacommons_project', 'mediacommons');  
+
+  if (isset($edit['values']['project'])) {
+    $hail = $edit['values']['project'];
+  }
+  elseif (isset($parameters['project'])) {
+    $hail = $parameters['project'];
+  }
+  
+  if (isset($edit['values']['destination'])) {
+    $destination = $edit['values']['destination'];
+  }
+  elseif (isset($parameters['destination'])) {
+    $destination = $parameters['destination'];
+  }
+
+  // allow users to log-in from any MediaCommons project and return to the intended target
+  // https://jira.nyu.edu/jira/browse/MC-344
+  if (
+    $project != $hail // user is trying to log-in from a MediaCommon project (not Umbrella)
+  ) {
+
+    if ($destination) { // we have a destination to go
+      $redirection = mediacommons_utilities_project_url($hail) . '/' . check_plain($destination);
+    }
+    else {
+      $redirection = mediacommons_utilities_project_url($hail);
+    }
+
+  }
+
   // I need to check from where the user "hail from" e.g., if user is trying to write 
   // a comment redirect to the original post after login.  
   if (isset($parameters['redirect'])) {
@@ -35,48 +412,55 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
     && 
     (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset'))
   {
-    $_GET['destination'] = $redirection;
-    $edit['redirect'] = $redirection;
+    if (
+      isset($_GET['destination']) 
+      && 
+      url_is_external($_GET['destination'])
+      ) 
+    {
+      drupal_goto($_GET['destination']);
+    }
+    else {
+      $_GET['destination'] = $redirection;
+      $edit['redirect'] = $redirection;
+    }
   }
 }
 
+/**
+ * Implements hook_custom_theme().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_custom_theme/7.x
+ */
 function mediacommons_editorialworkflow_custom_theme() {
-  if (arg(0) == 'contributor') {
+  if (arg(0) == 'dashboard') {
     return 'mediacommons_admin';
   }
 }
 
+/**
+ * Implements hook_menu().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7.x
+ */
 function mediacommons_editorialworkflow_menu() {
   $items = array();
-  $items['contributor'] = array(
+  $items['dashboard'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
     'access arguments' => array('access mediacommons dashboard'),
-    'file' => 'inc/mediacommons_editorialworkflow.pages.inc',
     'type' =>  MENU_NORMAL_ITEM,
   );
-  $items['contributor/dashboard'] = array(
-    'title' => 'Dashboard',
-    'description' => 'User dashboard',
-    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
-    'access arguments' => array('access mediacommons dashboard'),
-    'weight' => 7,
-    'file' => 'inc/mediacommons_editorialworkflow.pages.inc',
-    'type' =>  MENU_DEFAULT_LOCAL_TASK,
-  );
-  $items['contributor/add'] = array(
+  $items['dashboard/add'] = array(
     'title' => 'Create content',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_create_content',
     'description' => 'Create content',
     'access arguments' => array('access mediacommons dashboard'),
     'weight' => 8,
-    'file' => 'inc/mediacommons_editorialworkflow.pages.inc',
     'type' => MENU_LOCAL_TASK,
   );
-  $items['contributor/profile'] = array(
+  $items['dashboard/profile'] = array(
     'title' => 'Profile',
-    'page callback' => '_mediacommons_editorialworkflow_redirect_url_profile',
+    'page callback' => 'mediacommons_editorialworkflow_userpath', // test this
     'access callback' => 'user_is_logged_in',
     'access arguments' => array('access mediacommons dashboard'),
     'weight' => 9,
@@ -86,48 +470,10 @@ function mediacommons_editorialworkflow_menu() {
 }
 
 /**
- * Redirects user to defined page.
+ * Implementation of hook_permission().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_permission/7.x
  */
-function _mediacommons_editorialworkflow_redirect_url () {
-  drupal_goto('user/logout');
-}
-
-function _mediacommons_editorialworkflow_redirect_url_profile () {
-  
-  $project = variable_get('mediacommons_project', 'mediacommons');
-  
-  if ($project === 'mediacommons') return;
-  
-  $item = menu_get_item();
-
-  $params = implode(',', drupal_get_query_parameters());
-
-  $original = implode('/', $item['original_map']);
-  
-  $args = implode(',', arg());
-  
-  $destination = url(current_path(), array('absolute' => true));
-  
-  $query = array(
-    'query' => array(
-      'project' => $project, 
-      'destination' => $destination,
-      'args' => $args,
-      'original' => $original,
-      'params' => $params,
-    ),
-  );
-  
-  $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
-  
-  header('Location: ' . $url, TRUE, 302);
-
-}
-
-/**
- * Implementation of hook_perm().
- */
-function mediacommons_editorialworkflow_permission () {
+function mediacommons_editorialworkflow_permission() {
   return array(
     'access mediacommons content' => array(
       'title' => t('Access mediacommons content'),
@@ -172,148 +518,114 @@ function mediacommons_editorialworkflow_permission () {
   );
 }
 
-function mediacommons_editorialworkflow_node_presave($node) {
-  $wrapper = entity_metadata_wrapper('node', $node);
-  // https://jira.nyu.edu/jira/browse/MC-250
-  if ($node->type == 'hub' || $node->type == 'spoke') {
-    // do I need to check if user have permissions?
-    // what type of permissions?
-    $wrapper->status->set($wrapper->field_pubstat->value());
-  }
-  // Inserting a new node @TODO: test work, add validation
-  if ($node->type == 'spoke') {
-    if (!isset($node->nid)) { // aof December 4, 2014 ? I was checking for new? Why not $node->is_new?
-      $author_is_listed = FALSE;
-      if (count($node->field_contributors[$node->language])) {
-        foreach($node->field_contributors[$node->language] as $struct) {
-          // author is already part of the list of contributors
-          if ($node->uid == $struct['uid']) {
-            $author_is_listed = TRUE;
-            break;
-          }
-        }
-      }
-      if (!$author_is_listed) {
-        if (!empty($node->field_contributors)) {
-          array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
-        }
-      }
-    }
-    if (!empty($node->field_contributors)) {
-      foreach ($node->field_contributors[$node->language] as $contributor) {
-        $queue = DrupalQueue::get('mediacommons_editorialworkflow_promote_user_worker');
-        $queue->createItem($contributor += array('sponsor' => $node->uid));
-      }
-    }
-  }
-  // Inserting a new node @TODO: test work, add validation
-  if ($node->type == 'hub') {
-    if (!isset($node->nid)) { // aof December 4, 2014
-      $author_is_listed = FALSE;
-      if (count($node->field_contributors[$node->language])) {
-        foreach($node->field_contributors[$node->language] as $struct) {
-          // author is already part of the list of contributors
-          if ($node->uid == $struct['uid']) {
-            $author_is_listed = TRUE;
-            break;
-          }
-        }
-      }
-      if (!$author_is_listed) {
-        if (!empty($node->field_contributors)) {
-          array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
-        }
-      }
-    }
-    if (!empty($node->field_contributors)) {
-      foreach ($node->field_contributors[$node->language] as $contributor) {
-        $queue = DrupalQueue::get('mediacommons_editorialworkflow_promote_user_worker');
-        $queue->createItem($contributor += array('sponsor' => $node->uid));
-      }
-    }
-  }
-}
-
 /**
- * Remove the option to select a text format in the edit form
+ * Implementation of hook_node_presave().
+ * https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_presave/7.x
  */
-function mediacommons_editorialworkflow_remove_text_format_option (&$form) {
-  $form[LANGUAGE_NONE][0]['format']['guidelines']['#access'] = FALSE;
-  $form[LANGUAGE_NONE][0]['format']['format']['#access'] = FALSE;
-  $form[LANGUAGE_NONE][0]['format']['help']['#access'] = FALSE;
-  $form[LANGUAGE_NONE][0]['format']['#theme_wrappers'] = NULL;
-  return $form; 
-}
+function mediacommons_editorialworkflow_node_presave($node) {
 
-function mediacommons_editorialworkflow_form_page_node_form_alter (&$form, &$form_state, $form_id) {
-  $form['body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-}
+  $contributors = array();
+  
+  $wrapper = entity_metadata_wrapper('node', $node);
 
-function mediacommons_editorialworkflow_form_review_node_form_alter (&$form, &$form_state, $form_id) {
-  $form['body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-}
+  $bundle = $wrapper->getBundle();
 
-function mediacommons_editorialworkflow_form_page_front_page_post_form_alter (&$form, &$form_state, $form_id) {
-  $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-}
+  $listed_contributors = array();
 
-function is_contributor() {
-  $role = user_role_load_by_name('contributor');
-  if (user_has_role($role->rid)) {
-    return TRUE;
+  // https://jira.nyu.edu/jira/browse/MC-250
+  if ($bundle == 'hub' || $bundle == 'spoke') {
+    // Publication status
+    $pubstat = $wrapper->field_pubstat->value();
+    if ($pubstat == 1 || $pubstat == 2) $pubstat = 1;
+    // do I need to check if user have permissions? what type of permissions?
+    $wrapper->status->set($pubstat);
+
+    $listed_contributors = $wrapper->field_contributors->value();
+
   }
-  return FALSE;
-}
 
-function mediacommons_editorialworkflow_form_hub_node_form_alter (&$form, &$form_state, $form_id) {
-  
-  global $user;
-  
-  $is_contributor = is_contributor();
-
-  $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
-
-  $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-  
-  $form['field_image_rights']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';  
-  
-  if ($is_contributor) {
-    $form['field_contributors'][$form['language']['#value']][0]['uid']['#default_value'] = $user->uid;
-  }
-  
-  $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
-
-  $settings = array(
-    'mediacommons_editorialworkflow' => array(
-      'isAdminPage' => TRUE,
-      'redirect' => array(
-        'path' => $path, 'trigger' => FALSE,
-      ),
-    ),
-  );
-
-  if (!$user_can_edit) {
-    // add a class so that we can style the form
-    $form['#attributes']['class'][] = 'user-cant-contribute';
-    // if the user is not the owner and not listed as a contributor in the node
-    drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes. Redirecting in <em><span class="redirect">5</span></em> seconds.', array('@title' => $form['#node']->title)), 'warning');
-    $form['actions']['submit']['#access'] = FALSE;
-    $form['actions']['preview']['#access'] = FALSE;
-    $form['actions']['preview_changes']['#access'] = FALSE;
-    $settings['mediacommons_editorialworkflow']['redirect']['trigger'] = TRUE;
-  }
-  else {
-    if (!isset($form['#node']->nid)) {
-      
+  // Inserting a new node @TODO: test work, add validation
+  if ($bundle == 'spoke') {
+    if ($node->is_new) {
+      // Publication date
+      $pubdate = $wrapper->field_pubdate->value();
+      // at the moment we have 3 states
+      // 0: not published
+      // 1: published
+      // 2: published but not ready for release
+      if (empty($pubdate)) {
+        $wrapper->field_pubdate->set($node->created);
+      }
+      $author_is_listed = FALSE;
+      if (count($node->field_contributors[$node->language])) {
+        foreach ($node->field_contributors[$node->language] as $struct) {
+          $contributors[] = $struct;
+          // author is already part of the list of contributors
+          if ($node->uid == $struct['uid']) {
+            $author_is_listed = TRUE;
+            break;
+          }
+        }
+      }
+      if (!$author_is_listed) {
+        if (!empty($node->field_contributors)) {
+          array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
+        }
+      }
+    }
+    if (!empty($node->field_contributors)) {
+      foreach ($node->field_contributors[$node->language] as $contributor) {
+        $queue = DrupalQueue::get('mediacommons_editorialworkflow_promote_user_worker');
+        $queue->createItem($contributor += array('sponsor' => $node->uid));
+      }
     }
   }
-  drupal_add_js($settings, 'setting');
-}
+  // Inserting a new node @TODO: test work, add validation
+  if ($bundle == 'hub') {
+    
+    $listed_contributors = array_merge($listed_contributors, $wrapper->field_curators_editors->value());
+    
+    $listed_contributors = array_merge($listed_contributors, $wrapper->field_co_editor->value());    
+    
+    if ($node->is_new) {
+      $author_is_listed = FALSE;
+      if (count($node->field_contributors[$node->language])) {
+        foreach ($node->field_contributors[$node->language] as $struct) {
+          $contributors[] = $struct;
+          // author is already part of the list of contributors
+          if ($node->uid == $struct['uid']) {
+            $author_is_listed = TRUE;
+            break;
+          }
+        }
+      }
+      if (!$author_is_listed) {
+        if (!empty($node->field_contributors)) {
+          array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
+        }
+      }
+    }
+    if (!empty($node->field_contributors)) {
+      foreach ($node->field_contributors[$node->language] as $contributor) {
+        $queue = DrupalQueue::get('mediacommons_editorialworkflow_promote_user_worker');
+        $queue->createItem($contributor += array('sponsor' => $node->uid));
+      }
+    }
+  }
+  
+  foreach ($listed_contributors as $listed_contributor) {
+    $data = array(
+      'message' => $wrapper->label() . ' saved!',
+      'contributor' => $listed_contributor,
+    );    
+    mediacommons_editorialworkflow_send_message($data);
+  } 
 
-function mediacommons_editorialworkflow_node_view($node, $view_mode, $langcode) {}
+}
 
 /**
  * Implements hook_menu_local_tasks_alter().
+ * Document why I have this here
  */
 function mediacommons_editorialworkflow_menu_local_tasks_alter(&$data, $router_item, $root_path) {
   $user_can_edit = false;
@@ -339,187 +651,65 @@ function mediacommons_editorialworkflow_menu_local_tasks_alter(&$data, $router_i
 	}
 }
 
-function mediacommons_editorialworkflow_user_can_edit_node ($node) {
-
-  global $user;
-  
-  if (!user_is_logged_in()) return false;
-
-  if ($user->uid == 1) return true;
-
-  $username = $user->name;
-
-  // logged user is the same as the author of the entity?
-  if ($node->name == $username) return TRUE;
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-
-  $role_administrator = user_role_load_by_name('administrator');
-
-  $role_managing_editor = user_role_load_by_name('managing editor');
-
-  if (user_has_role($role_managing_editor->rid)) return TRUE;
-
-  if (user_has_role($role_administrator->rid)) return TRUE;
-
-  foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
-    if ($contributor->name == $username) return TRUE;
-  }
-
-  foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
-    if ($curators_editors->name == $username) return TRUE;
-  }
-
-  foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
-    if ($field_co_editor->name == $username) return TRUE;
-  }
-
-  return false;
-
-}
-
-function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-  /** indication of that this form was process by the editorial workflow module */
-  $form['#attributes']['class'][] = 'editorial-workflow';
-  foreach ($user->roles as $role) {
-    $form['#attributes']['class'][] = 'editorial-workflow-' . str_replace(' ', '-', $role);
-  }
-  $form['options']['#type'] = 'container';
-  $form['options']['#title'] = '';
-  $form['options']['status'] = array(
-    '#type' => 'value',
-    '#value' => 1
-  );
-}
-
-function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {
-
-  $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-  
-  $form['field_embed']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-
-  /** node exist */
-  if (!isset($form['#node']->nid)) return;
-  $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
-  $settings = array(
-    'mediacommons_editorialworkflow' => array(
-      'isAdminPage' => TRUE,
-      'redirect' => array(
-        'path' => $path, 'trigger' => FALSE,
-      ),
-    ),
-  );
-  $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
-  if (!$user_can_edit) {
-    // add a class so that we can style the form
-    $form['#attributes']['class'][] = 'user-cant-contribute';
-    // if the user is not the owner and not listed as a contributor in the node
-    drupal_set_message(t('<strong>@title</strong> can only be changed by the managing editor of this site. Please contact that person to suggest changes. Redirecting in <em><span class="redirect">5</span></em> seconds.', array('@title' => $form['#node']->title)), 'warning');
-    $form['actions']['submit']['#access'] = FALSE;
-    $form['actions']['preview']['#access'] = FALSE;
-    $form['actions']['preview_changes']['#access'] = FALSE;
-    $settings['mediacommons_editorialworkflow']['redirect']['trigger'] = TRUE;
-  }
-  drupal_add_js($settings, 'setting');
-}
-
 /**
- * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_insert/7.x
+ * @TODO: Move to a small module thats only enable 
+ * in MediaCommons projects (not Umbrella)?
  */
-//function mediacommons_editorialworkflow_user_insert(&$edit, $account, $category) {}
-
-/**
- * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_update/7.x
- */
-//function mediacommons_editorialworkflow_user_update(&$edit, $account, $category) {}
-
-/**
- * https://api.drupal.org/api/drupal/modules!user!user.api.php/function/hook_user_presave/7.x
- */
-//function mediacommons_editorialworkflow_user_presave(&$edit, $account, $category) {}
-
-function mediacommons_editorialworkflow_userpath () {
-
-  $project = variable_get('mediacommons_project', 'mediacommons');
-  
-  if ($project === 'mediacommons') return;
-  
-  $item = menu_get_item();
-  
-  $umbrella_url = mediacommons_homepage_umbrella_url();
-  
-  $umbrella =  $umbrella_url . '/' . implode('/', $item['original_map']);
-  
-  $http_response_code = 302;
-
-  $original = implode('/', $item['original_map']);
-  
-  $destination = url(current_path(), array('absolute' => true));
-
-  $dashboard = url(base_path() . 'contributor', array('absolute' => true));
-
-  $query = array(
-    'query' => array(
-      'project' => $project, 
-      'destination' => $destination,
-      'dashboard' => $dashboard,
-      'original' => $original,
-    ),
-    'absolute' => true,
-  );
-  
-  $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
-
-  header('Location: ' . $url, TRUE, $http_response_code);
-
-}
-
 function mediacommons_editorialworkflow_menu_alter(&$items) {
-  $project = variable_get('mediacommons_project', 'mediacommons');
-  if ($project === 'mediacommons') return;
-  foreach ($items as $path => $item) {
-    preg_match('/(user)|(users)/', $path, $matches, PREG_OFFSET_CAPTURE);
-    if ($matches) {
-      switch ($path) {
-        case 'users' :
-        case 'user' :
-        case 'user/login' :
-        case 'user/register' :
-        case 'user/password' :
-        case 'user/reset/%/%/%' :
-        case 'user/logout' :
-        case 'user/%user' :
-        case 'user/%user/view' :
-        case 'user/%user/cancel' :
-        case 'user/%user/cancel/confirm/%/%' :
-        case 'user/%user/edit' :
-        case 'user/%user/display' :
-        case 'user/%user/devel' :
-        case 'user/%user/devel/load' :
-        case 'user/%user/devel/render' :
-        case 'admin/people/permissions/roles/edit/%user_role' :
-        case 'admin/people/permissions/roles/delete/%user_role' :
-          $items[$path]['options']['alter'] = TRUE;
-          $items[$path]['page callback'] = 'mediacommons_editorialworkflow_userpath';
-          break;
+  // if we are not in MediaCommons Umbrella, update the menu route.
+  // and point to users to MediaCommons Umbrella
+  if (variable_get('mediacommons_project', 'mediacommons') !== 'mediacommons') {
+    foreach ($items as $path => $item) {
+      preg_match('/(user)|(users)/', $path, $matches, PREG_OFFSET_CAPTURE);
+      if ($matches) {
+        switch ($path) {
+          case 'users' :
+          case 'user' :
+          case 'user/login' :
+          case 'user/register' :
+          case 'user/password' :
+          case 'user/reset/%/%/%' :
+          case 'user/logout' :
+          case 'user/%user' :
+          case 'user/%user/view' :
+          case 'user/%user/cancel' :
+          case 'user/%user/cancel/confirm/%/%' :
+          case 'user/%user/edit' :
+          case 'user/%user/display' :
+          case 'user/%user/devel' :
+          case 'user/%user/devel/load' :
+          case 'user/%user/devel/render' :
+          case 'admin/people/permissions/roles/edit/%user_role' :
+          case 'admin/people/permissions/roles/delete/%user_role' :
+            $items[$path]['options']['alter'] = TRUE;
+            $items[$path]['page callback'] = 'mediacommons_editorialworkflow_userpath';
+            break;
+        }
       }
+      unset($matches);
     }
-    unset($matches);
   }
 }
 
 function mediacommons_editorialworkflow_link($item) {
+  
   $project = variable_get('mediacommons_project', 'mediacommons');
-  if ($project === 'mediacommons') return;
+  
+  if ($project === 'mediacommons') {
+    return;
+  }
+  
   $umbrella_url = mediacommons_homepage_umbrella_url();
+  
   preg_match('/(user)/', $item['path'], $matches, PREG_OFFSET_CAPTURE);
+  
   if (!empty($matches)) {
     return '<a href="' . check_plain(url($umbrella_url . '/' . $item['path'], $item['options'])) . '"' . drupal_attributes($item['options']['attributes']) . '>' . ($item['options']['html'] ? $item['text'] : check_plain($item['text'])) . '</a>';
   }
   else {
     return '<a href="' . check_plain(url($item['path'], $item['options'])) . '"' . drupal_attributes($item['options']['attributes']) . '>' . ($item['options']['html'] ? $item['text'] : check_plain($item['text'])) . '</a>';
   }
+  
 }
 
 function mediacommons_editorialworkflow_views_data_alter(&$data) {
@@ -640,11 +830,6 @@ function mediacommons_editorialworkflow_user_picture(&$variables) {
  * @see theme_admin_menu_links()
  */
 function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
-  // In case your implementation provides a configurable component, check
-  // whether the component should be displayed:
-  //if (empty($content['#components']['shortcut.links']) && !$content['#complete']) {
-    //return;
-  //}
   // Add new top-level item to the menu.
   if (isset($content['menu'])) {
     $content['menu']['home'] = array(
@@ -664,7 +849,7 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
       '#title' => t('Dashboard'),
       // #attributes are used for list items (LI).
       '#attributes' => array('class' => array('mediacommons-editorialworkflow-dashboard')),
-      '#href' => 'contributor',
+      '#href' => 'dashboard',
       // #options are passed to l().
       '#options' => array(
         'query' => drupal_get_destination(),
@@ -678,7 +863,7 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
       '#title' => t('Add content'),
       // #attributes are used for list items (LI).
       '#attributes' => array('class' => array('mediacommons-editorialworkflow-create')),
-      '#href' => 'contributor/add',
+      '#href' => 'dashboard/add',
       // #options are passed to l().
       '#options' => array(
         'query' => drupal_get_destination(),
@@ -693,7 +878,7 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
       '#title' => t('Profile'),
       // #attributes are used for list items (LI).
       '#attributes' => array('class' => array('mediacommons-editorialworkflow-profile')),
-      '#href' => 'contributor/add',
+      '#href' => 'dashboard/add',
       // #options are passed to l().
       '#options' => array(
         'query' => drupal_get_destination(),
@@ -705,4 +890,739 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
       '#weight' => 1,
     );
   }
+}
+
+function mediacommons_editorialworkflow_send_message($data) {
+
+  $contributor = $data['contributor'];
+  
+  $message = $data['message'];
+
+  $uid = $contributor->uid;
+  
+  $values = array(
+    'title' => truncate_utf8($message, 80, FALSE, TRUE),
+    'type' => 'message',
+    'uid' => 1,
+    'status' => 1,
+    'comment' => 0,
+    'promote' => 0,
+  );
+
+  $entity = entity_create('node', $values);
+  
+  $wrapper = entity_metadata_wrapper('node', $entity);
+
+  $wrapper->field_message->set($message);
+  
+  $wrapper->field_recipient->set(array($uid));
+
+  $wrapper->save();
+
+  watchdog('mediacommons_editorialworkflow', $message, array(), WATCHDOG_INFO);
+
+}
+
+/**
+ * Implements hook_cron().
+ */
+function mediacommons_editorialworkflow_cron() {
+  // Find spokes meant to publish on a given day (field_pubdate)
+  // If we find nodes, change the status and publish them
+  $now = time();
+  $query = new EntityFieldQuery;
+  $result = $query->entityCondition('entity_type', 'node')
+                  ->entityCondition('bundle', 'spoke')
+                  ->fieldCondition('field_pubstat', 'value', '2', '=')
+                  ->fieldCondition('field_pubdate', 'value', $now, '<')
+                  ->range(0, 10)
+                  ->execute();
+  if (isset($result['node'])) {
+    $nids = array_keys($result['node']);
+    $nodes = node_load_multiple($nids);
+    foreach ($nodes as $node) {
+      $wrapper = entity_metadata_wrapper('node', $node);
+      $pubdate = $wrapper->field_pubdate->value();
+      $title = $wrapper->label();
+      if ($pubdate < $now) {        
+        $wrapper->status->set(1);
+        $wrapper->field_pubstat->set(1);
+        $contributors = $wrapper->field_contributors->value();
+        foreach ($contributors as $contributor) {
+          $data = array(
+            'message' => $title . ' was published.',
+            'contributor' => $contributor,
+          );
+          mediacommons_editorialworkflow_send_message($data);
+        }
+        $wrapper->save();
+      }
+    }
+  }
+}
+
+function mediacommons_editorialworkflow_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  $form['account']['mail']['#description'] = '<span class="mediacommons-message mail">A valid e-mail address. This address is kept private, and used for systems-related communications.</span>';
+  $form['account']['name']['#description'] .= '<span class="mediacommons-message name">Most MediaCommons users use their full real-world names.</span>';
+}
+
+function mediacommons_editorialworkflow_theme_registry_alter(&$theme_registry) {
+  $project = variable_get('mediacommons_project', 'mediacommons');
+  if ($project === 'mediacommons') return;
+  $theme_registry['link']['function'] = 'mediacommons_editorialworkflow_link';
+  // do we want to unset gravatar_preprocess_user_picture, we are taking over that function ...
+  $theme_registry['user_picture']['preprocess functions'][] = 'mediacommons_editorialworkflow_user_picture';
+}
+
+function mediacommons_editorialworkflow_preprocess_button(&$variables) {
+  global $user;
+  if (isset($user->contribute)) {
+    $element = $variables['element'];
+
+    // disable submit button
+    //if (
+    //		1 == 2 &&
+    //    $element['#type'] == 'submit' /** submit buttons */
+    //    &&
+    //    isset( $user->contribute['current_nid'] ) /** is a node */
+    //    &&
+    //    $user->uid != $user->contribute['current_uid'] /** not the primary contributor */
+    //		&& ! in_array('administrator', $user->roles) /** not an administrator */
+    //) {
+    //	if ( ! in_array ( $user->contribute['current_nid'], $user->contribute['spokes_can_contribute'] ) /** not a additional contributor */ ) {
+    //   $element['#attributes'] = array(
+    //      'disabled' => 'disabled',
+    //      'class' => array('no-contributor-permission element-invisible')
+    //   );
+    //  }
+    //}
+    
+    if (isset($element['#value']) && isset($element['#name'])) {
+      switch ($element['#name']) {
+        case 'field_contributed_piece_add_more' :
+          $element['#value'] = t('Add another spoke');
+          break;
+        case 'field_contributors_add_more' :
+          $element['#value'] = t('Add another contributor');
+          break;
+        case 'field_clusters_add_more' :
+          $element['#value'] = t('Add another hub');
+          break;
+      }
+    }
+    
+  }
+}
+
+function mediacommons_editorialworkflow_preprocess_container(&$variables) {
+  global $user;
+  if (isset($user->contribute)) {
+    $element = &$variables['element'];
+    if (isset($element['#id'])) {
+      switch ($element['#id']) {
+        case 'edit-field-mbed' :
+        case 'edit-field-representative-image' :
+          $element['#attributes']['class'][] = 'invisible-element';
+          break;
+      }
+    }
+  }
+}
+
+function mediacommons_editorialworkflow_preprocess_textfield(&$variables) {
+  $element = &$variables['element'];
+  if (isset($element['#name']) && $element['#name'] == 'title') {
+    $element['#attributes']['placeholder'] = t('Untitled');
+  }
+}
+
+function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
+  global $user;
+  /**
+   * User is coming with a is_contributor flag; the flag 
+   * is the nid (int) of a known hub.
+   */
+  $is_contributor_flag = isset($_GET['is_contributor']) ? (int)$_GET['is_contributor'] : 0;
+  if (
+    isset($user->contribute)
+    && !in_array('administrator', $user->roles)
+  ) {
+    $element = &$variables['element'];
+    if (
+      isset($element['#parents']) // check if is set
+      && isset($element['#parents'][0]) // has parent
+      && $element['#parents'][0] == 'field_part_of' // is a reference to a hub
+    ) {
+      /** user have permission to add piece to this cluster */
+      if (isset($element['#return_value']) ) {
+        if (!in_array($element['#return_value'], $user->contribute['hubs_can_contribute'])) {
+          $element['#attributes'] = array(
+            'disabled' => 'disabled',
+            'class' => array('no-contributor-permission')
+          );
+        }
+        elseif ($element['#return_value'] == $is_contributor_flag) {
+          $element['#attributes'] = array(
+            'checked' => 'checked',
+            'class' => array('set-as-contribute-pieces')
+          );
+        }
+      }
+      /** if is already checked and user is not the cluster manager; disable the field and mark as read-only */
+      if ($element['#checked']) {
+        $element['#attributes'] = array(
+          'disabled' => 'disabled',
+          'class' => array('disabled')
+        );
+      }
+    }
+  }
+}
+
+function mediacommons_editorialworkflow_contributor() {
+	global $user;
+	$mediacommons_editorialworkflow_contributor = &drupal_static(__FUNCTION__, array());
+	$field = field_info_instances('node');
+	/** If content-type HUB or SPOKE exist and field_contributors exist in any of the 2 types continue */
+	if ((isset($field['hub']) && isset($field['hub']['field_contributors'])) || (isset($field['spoke']) && isset($field['spoke']['field_contributors']))) {
+    $query = new EntityFieldQuery;
+    $result = $query
+              ->entityCondition('entity_type', 'node')
+              ->fieldCondition('field_contributors', 'uid', $user->uid, '=')
+              ->execute();
+    if (isset($result['node'])) {
+      $mediacommons_editorialworkflow_contributor = array_keys($result['node']);
+    }
+	}
+  return $mediacommons_editorialworkflow_contributor;
+}
+
+function mediacommons_editorialworkflow_hubs_user_can_contribute() {
+  global $user;
+	$field = field_info_instances('node');
+  $hubs_user_can_contribute = &drupal_static(__FUNCTION__, array());
+	/** If content-type HUB or SPOKE exist and field_contributors exist in any of the 2 types continue */
+	if ((isset($field['hub']) && isset($field['hub']['field_contributors']))) {
+    $query = new EntityFieldQuery;
+    $result = $query
+                ->entityCondition('entity_type', 'node')
+                ->entityCondition('bundle', 'hub')
+                ->fieldCondition('field_contributors', 'uid', $user->uid, '=')
+                ->execute();
+    if (isset($result['node'])) {
+      $hubs_user_can_contribute = array_keys($result['node']);
+    }
+  }
+  return $hubs_user_can_contribute;
+}
+
+/** 
+ * Implements hook_node_access
+ * See https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_access/7.x
+ * See https://api.drupal.org/api/drupal/modules%21node%21node.module/group/node_access/7.x
+ */
+ function mediacommons_editorialworkflow_node_access($node, $op, $account) {
+  if (is_object($node) && !$node->status) {
+    //$wrapper = entity_metadata_wrapper('node', $node);
+    //if (!$wrapper->status->value()) {
+    return mediacommons_editorialworkflow_user_can_edit_node($node) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    //}
+  }
+  // Returning nothing from this function would have the same effect.
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * All things queue
+ */
+
+/**
+ * Implementation of hook_cron_queue_info()
+ * http://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_cron_queue_info/7
+ */
+function mediacommons_editorialworkflow_cron_queue_info() {
+  $queues['mediacommons_editorialworkflow_promote_user_worker'] = array(
+    'worker callback' => 'mediacommons_editorialworkflow_promote_user',
+    'time' => 60,
+  );
+  return $queues;
+}
+
+/**
+ * Promote user worker (callback); add contributor role to authenticated user
+ * @param array $data
+ *   User ID (uid) to be associated with task. e.g., array('uid' => 2)
+ */
+function mediacommons_editorialworkflow_promote_user($data) {
+	if (
+	  isset($data['uid']) // we have a user account ID
+	  && $data['uid'] != 1 // no need to proceed if user 1
+	  && isset($data['sponsor']) // we have a sponsor ID
+  )
+	{
+
+		$uid = $data['uid'];
+		$sid = $data['sponsor'];
+	  $account_roles = array();
+
+    try {
+
+      // load sponsor account
+      $sponsor = user_load($sid);
+
+			// sponsor is allow to promote users role
+			if (user_access('promote users role', $sponsor)) {
+
+        // load user account
+        $account = user_load($uid);
+
+        if (
+          !in_array('contributor', $account->roles) // user is already a contributor?
+          && (
+            !in_array('administrator', $account->roles) // if user is an administrator we don't need to add him the contributor roles
+            && !in_array('editor', $account->roles) // if user is an editor we don't need to add him the contributor roles
+          )
+        ) {
+
+      	  // user is not a contributor; find role index and assign it to user
+          $account_roles['roles'] = $account->roles;
+          $account_roles['roles'][array_search('contributor', user_roles(TRUE))] = 'contributor';
+
+          user_save($account, $account_roles);
+
+				  // log task
+				  watchdog('mediacommons_editorialworkflow', 'User @user was promoted to contributor by @sponsor.', array('@user' => $account->name, '@sponsor' => $sponsor->name), WATCHDOG_NOTICE);
+
+				  // send notifications
+          //mediacommons_editorialworkflow_mail_send(
+          //  array(
+          //    'email' => $account->mail,
+          //    'from' => $sponsor->mail,
+          //    'key' => 'contributor_promoted',
+          //  )
+          //);
+        }
+      }
+    }
+    catch (Exception $e) {
+      drupal_set_essage($e->getMessage(), 'error');
+    }
+  }
+}
+
+function mediacommons_editorialworkflow_contributor_title () {
+  global $user;
+  $name = realname_load($user);
+  if (empty($name)) {
+    $name = $user->name;
+  }
+  return t('Dashboard', array());
+}
+
+function mediacommons_editorialworkflow_contributor_dashboard_create_content () {
+
+  global $user;
+
+  drupal_set_title(t('@sitename: Dashboard', array('@sitename' => variable_get('site_name', 'MediaCommons'))));
+
+  $output = '';
+
+  $types = node_type_get_types();
+
+  $items = array();
+
+  $br = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'br',
+    ),
+  ));
+
+  $hr = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'hr',
+    ),
+  ));
+
+  $output .= theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'h2',
+      '#attributes' => array(
+        'class' => 'title',
+        ),
+      '#value' => t('Create new content'),
+    ),
+  ));
+
+  $output .= $br;
+
+  foreach ($types as $type) {
+    if (user_access('create ' . $type->type . ' content')) {
+      $type_url_str = str_replace('_', '-', $type->type);
+      switch ($type->type) {
+        case 'cluster' :
+          $type->name = t('Create a New Cluster');
+          break;
+        case 'contributed_pieces' :
+          $type->name = t('Contribute a New Piece');
+          break;
+      }
+      $items[] = t(l( $type->name, 'node/add/' . $type_url_str, array('query' => array('destination' => 'dashboard'))) . '<div class="description">'. $type->description .   '</div>');
+    }
+  }
+
+  $output .= theme('item_list', array('items' => $items));
+
+  $output .= $br;
+
+  $container  = '';
+  $container .= '<div id="dashboard" class="clearfix jquery-once-2-processed">';
+  $container .= '<div id="dashboard_main" class="dashboard-region">';
+  $container .= '<div class="region clearfix">';
+  $container .= $output;
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '<div id="dashboard_sidebar" class="dashboard-region">';
+  $container .= '<div class="region clearfix">';
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '</div>';
+
+  return $container;
+
+}
+
+function mediacommons_editorialworkflow_contributor_dashboard () {
+
+  global $user;
+
+  drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'dashboard'),));
+
+  drupal_set_title(t('@sitename: Dashboard', array('@sitename' => variable_get('site_name', 'MediaCommons'))));
+
+  // we need something more elegant. deal with this using access callback?
+  if (!user_access('create spoke content')) return '';
+
+  $output = '';
+
+  $br = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'br',
+    ),
+  ));
+
+  $hr = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'hr',
+    ),
+  ));
+
+  $super = ($user->uid == 1) ? true : false;
+
+  $role_contributor = user_role_load_by_name('contributor');
+
+  $contributor = user_has_role($role_contributor->rid);
+
+  $role_clustercurator = user_role_load_by_name('cluster curator');
+
+  $clustercurator = user_has_role($role_clustercurator->rid);
+
+  $role_managingeditor = user_role_load_by_name('managing editor');
+
+  $managingeditor = user_has_role($role_managingeditor->rid);
+
+  $output .= theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'h2',
+      '#attributes' => array(
+        'class' => 'title',
+        ),
+      '#value' => t('Recent content'),
+    ),
+  ));
+  $output .= $br;
+  $output .= views_embed_view('recent_content', 'default', $user->uid);
+  $output .= $hr;
+  if ($super|| $contributor || $clustercurator || $managingeditor) {
+    $view = views_embed_view('contributorscontent', 'block_i_can_contribute', $user->uid);
+    $output .= $br;
+    $output .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title',
+          ),
+        '#value' => t('Content I can contribute to'),
+      ),
+    ));
+    $output .= $br;
+    $output .= $view;
+    $output .= $hr;
+  }
+  if ($super|| $clustercurator || $managingeditor) {
+    $view_contributorsspokes_block_1 = views_embed_view('contributorscontent', 'block_i_can_curate', $user->uid);
+    $view_contributorsspokes_block_2 = views_embed_view('contributorscontent', 'block_i_am_co_editor', $user->uid);
+    $output .= $br;
+    $output .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title',
+          ),
+        '#value' => t('Content I can curate'),
+      ),
+    ));
+    $output .= $br;
+    $output .= $view_contributorsspokes_block_1;
+    $output .= $hr;
+    $output .= $br;
+    $output .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title',
+          ),
+        '#value' => t('Content I am a co-editor'),
+      ),
+    ));
+    $output .= $br;
+    $output .= $view_contributorsspokes_block_2;
+    $output .= $hr;
+    $output .= $br;
+    
+    $view_contributorsspokes_block_3 = views_embed_view('contributorscontent', 'block_i_authored', $user->uid);
+    $output .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title',
+          ),
+        '#value' => t('I authored'),
+      ),
+    ));
+    $output .= $br;
+    $output .= $view_contributorsspokes_block_3;
+    $output .= $hr;
+    $output .= $br;
+  }
+
+  if (user_access('administer comments')) {
+    $attributes = array(
+      'element' => array(
+        '#tag' => 'h2',
+        '#attributes' => array(
+          'class' => 'title'
+        ),
+        '#value' => t('Administer comments')
+      )
+    );
+    $output .= theme('html_tag', $attributes);
+    $output .= $br;
+    $block = module_invoke('mediacommons_blocks', 'block_view', 'workflow_admin_comments');
+    if ($block['content']) {
+      $output .= $block['content'];
+      $output .= $hr;
+      $output .= $br;
+    }
+  }
+
+  $block = module_invoke('search', 'block_view', 'search');
+
+  $search = '';
+
+  $search .= theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'h2',
+      '#attributes' => array(
+        'class' => 'title',
+        ),
+      '#value' => t('Search'),
+    ),
+  ));
+
+  $search .= $br;
+  $search .= render($block);
+
+  $container  = '';
+  $container .= '<div id="dashboard" class="clearfix">';
+  $container .= '<div id="dashboard_main" class="dashboard-region">';
+  $container .= '<div class="region clearfix">';
+  $container .= $output;
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '<div id="dashboard_sidebar" class="dashboard-region">';
+  $container .= '<div class="region clearfix">';
+  $container .= $search;
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '</div>';
+
+  drupal_add_css(drupal_get_path('module', 'dashboard') . '/dashboard.css');
+
+  return $container;
+
+}
+
+/**
+ * Remove the option to select a text format in the edit form
+ */
+function mediacommons_editorialworkflow_remove_text_format_option(&$form) {
+  $form[LANGUAGE_NONE][0]['format']['guidelines']['#access'] = FALSE;
+  $form[LANGUAGE_NONE][0]['format']['format']['#access'] = FALSE;
+  $form[LANGUAGE_NONE][0]['format']['help']['#access'] = FALSE;
+  $form[LANGUAGE_NONE][0]['format']['#theme_wrappers'] = NULL;
+  return $form; 
+}
+
+function is_contributor() {
+  $role = user_role_load_by_name('contributor');
+  if (user_has_role($role->rid)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+function mediacommons_editorialworkflow_user_can_edit_node($node) {
+
+  global $user;
+  
+  if (!user_is_logged_in()) return false;
+
+  if ($user->uid == 1) return true;
+
+  $username = $user->name;
+
+  // logged user is the same as the author of the entity?
+  if ($node->name == $username) return TRUE;
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  $role_administrator = user_role_load_by_name('administrator');
+
+  $role_managing_editor = user_role_load_by_name('managing editor');
+
+  if (user_has_role($role_managing_editor->rid)) return TRUE;
+
+  if (user_has_role($role_administrator->rid)) return TRUE;
+
+  $fields_info = field_info_instances('node', $wrapper->getBundle());
+
+  if (isset($fields_info['field_contributors'])) {
+    foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
+      if ($contributor->name == $username) return TRUE;
+    }
+  }
+
+  if (isset($fields_info['field_curators_editors'])) {
+    foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
+      if ($curators_editors->name == $username) return TRUE;
+    }
+  }
+
+  if (isset($fields_info['field_co_editor'])) {
+    foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
+      if ($field_co_editor->name == $username) return TRUE;
+    }
+  }
+
+  return FALSE;
+
+}
+
+function mediacommons_editorialworkflow_userpath() {
+  $project = $hail = variable_get('mediacommons_project', 'mediacommons');
+  $parameters = drupal_get_query_parameters();
+  if (isset($parameters['project'])) {
+    $hail = $parameters['project'];
+  }
+  if ($hail != 'mediacommons') {
+    $http_response_code = 302;
+    $query = array(
+      'query' => array(
+        'project' => $hail,
+      )
+    );
+    if (
+      $destination = 
+        isset($_GET['destination']) // ask if destination is set
+          ? // if true
+          check_plain($_GET['destination']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
+          : // else 
+          FALSE // fail test
+    ) {
+      $query['query']['destination'] = $destination; // add destination to query-string
+    }
+    $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
+    header('Location: ' . $url, TRUE, $http_response_code);
+  }
+  return TRUE;
+}
+
+// Change error language of Google reCAPTCHA module 
+// See: https://jira.nyu.edu/jira/browse/MC-329
+function mediacommons_editorialworkflow_keep_going($form, &$form_state) {
+  $errors = form_get_errors();
+  if ($errors) {
+    $recaptcha_error = FALSE;
+    foreach ($errors as $key => $error) {
+      $pos = strpos($error, 'reCAPTCHA');
+      if ($pos) {
+        $recaptcha_error = TRUE;
+        $errors[$key] = t('Your registration did not go through. Please try again. For example, did you remember to check the box next to "I am not a robot?"');
+      }
+    }
+    // https://api.drupal.org/comment/28464#comment-28464
+    if ($recaptcha_error) {
+      // Clear errors.
+      form_clear_error();
+      // Clear error messages.
+      $error_messages = drupal_get_messages('error');
+      // Initialize an array where removed error messages are stored.
+      $removed_messages = array();
+      // Reinstate remaining errors.
+      foreach ($errors as $name => $error) {
+        form_set_error($name, $error);
+        // form_set_error() calls drupal_set_message(), so we have to filter out
+        // these from the error messages as well.
+        $removed_messages[] = $error;
+      }
+    }
+  }
+}
+
+function mediacommons_apis_is_pjax() {
+  $is_pjax = &drupal_static('is_pjax');
+  if (!isset($is_pjax) && function_exists('getallheaders')) {
+    $headers = getallheaders();
+    if (isset($headers['X-Pjax']) || isset($headers['X-PJAX'])) {
+      drupal_add_http_header('uri', request_uri());
+      $is_pjax = TRUE;
+    }
+    else {
+      $params = drupal_get_query_parameters();
+      if (isset($params['pjax'])) {
+        drupal_add_http_header('uri', base_path() . request_uri());
+        $is_pjax = TRUE;
+      }
+      else {
+        $is_pjax = FALSE;
+      }
+    }
+  }
+  return $is_pjax;
+}
+
+function mediacommons_apis_is_embed() {
+	$is_embed = &drupal_static('is_embed');
+	if (!isset($is_embed)) {
+		$params = drupal_get_query_parameters();
+		if (isset($params['embed'])) {
+		  if ($params['embed'] === '1' || $params['embed'] === 'true') {
+		  	$is_embed = TRUE;
+		  }
+		  else {
+		  	$is_embed = FALSE;
+		  }
+		}
+  }
+	return $is_embed;
 }

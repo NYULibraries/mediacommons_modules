@@ -4,7 +4,12 @@ function _mediacommons_globalnav_config() {
 
   $info = drupal_parse_info_file ( drupal_get_path('module', 'mediacommons_globalnav') . '/mediacommons_globalnav.info' );
   
+  $site_name = '';
+  
   if ( function_exists ( 'drush_get_option' )  ) {
+    
+    $site_name = drush_get_option('site-name');
+
     if ( $environment = drush_get_option('environment') ) {
       if ( isset ( $info['mediacommons']['environments'][$environment] ) ) { 
         $info['mediacommons']['environment'] = $environment ;
@@ -19,6 +24,8 @@ function _mediacommons_globalnav_config() {
   $leaf_myaccount_increment = 0;
   
   $leaf_frontpage_increment = 0;  
+  
+  $user_url = $info['mediacommons']['environments'][$info['mediacommons']['environment']]['mediacommons'] . 'user';
   
   $menus = array(
     array(
@@ -78,10 +85,26 @@ function _mediacommons_globalnav_config() {
   
     'My Account' => array(
 
+      // https://jira.nyu.edu/jira/browse/MC-327
+      
+      // My Profile
       array(
         'link_path' => 'user',
-        'router_path' => 'user',      
-        'link_title' => 'View my contributions',
+        'link_title' => 'My Profile',
+        'menu_name' => $menu_name,
+        'expanded' => 0,
+        'external' => 1,
+        'weight' => ++$leaf_myaccount_increment,
+        'customized' => 0,      
+        'module' => 'menu',        
+      ),
+      
+      // My [channel] Dashboard       
+
+      array(
+        'link_path' => 'dashboard',
+        'router_path' => 'dashboard',     
+        'link_title' => "My $site_name Dashboard",
         'menu_name' => $menu_name,
         'expanded' => 0,
         'external' => 1,
@@ -89,16 +112,16 @@ function _mediacommons_globalnav_config() {
         'customized' => 1,      
         'module' => 'menu',        
       ),
-
+      
+      // Log out
       array(
         'link_path' => 'user/logout',
-        'router_path' => 'user/logout',     
         'link_title' => 'Log out',
         'menu_name' => $menu_name,
         'expanded' => 0,
         'external' => 1,
         'weight' => ++$leaf_myaccount_increment,
-        'customized' => 1,      
+        'customized' => 0,      
         'module' => 'menu',        
       ),
       
@@ -182,7 +205,7 @@ function _mediacommons_globalnav_config() {
     ),
       
   );
-
+  
   // Save menu group into menu_custom table
   foreach ( $menus as $menu ) {
   
@@ -244,7 +267,6 @@ function _mediacommons_globalnav_config() {
   t('MediaCommons Press');
   t('My Account');
   t('The New Everyday');
-  t('View my contributions');
   t('[in]Transition');
 
   menu_cache_clear_all();

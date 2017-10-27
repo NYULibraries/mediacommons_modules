@@ -43,7 +43,7 @@ function drush_mediacommons_blocks_mc_init_fieldguide () {
     'type' => 'source',
     'mbid' => 'mc_fieldguide',    
     'label' => 'Field Guide Survey Question',
-    'url' => 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub?pjax=1',
+    'url' => 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub-fieldguide-widget?pjax=1',
   );
   mediacommons_blocks_save_block($options);
 }

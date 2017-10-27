@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the MediaCommons Movable Blocks feature.
- */
-
-include_once 'mediacommons_movable_blocks.features.inc';

@@ -2,7 +2,7 @@
 
 /**
  * @file
- *   Install and related hooks for apachesolr_search.
+ * Install and related hooks for apachesolr_search.
  */
 
 /**
@@ -11,6 +11,8 @@
  */
 function mediacommons_solr_enable() {
   
+  module_load_include('inc', 'apachesolr', 'apachesolr.index');
+
   // environment data
   $conf = array(
     'env_id' => 'solr',
@@ -25,18 +27,10 @@ function mediacommons_solr_enable() {
     variable_set('apachesolr_site_hash', $hash);
   }  
 
-  $bundles = array(
-    'front_page_post', 
-    'hub',
-    'page',
-    'review',
-    'spoke',
-  );
+  variable_set('search_active_modules', array('apachesolr_search'));
 
-  module_load_include('inc', 'apachesolr', 'apachesolr.index');
-  
-  apachesolr_index_set_bundles('solr', 'node', $bundles);
-  
+  variable_set('search_default_module', 'apachesolr_search');  
+
   cache_clear_all();
 
 }
