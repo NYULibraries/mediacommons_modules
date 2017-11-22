@@ -228,6 +228,8 @@ function mediacommons_solr_preprocess_search_result_spoke(&$variables) {
   // Representative Image
   $variables['ri'] = $result['ri'];
   $peoplelist_contributors = array();
+  $variables['peoplelist_contributors'] = '';
+  $variables['comment_count'] = $result['comment_count'];
   foreach ($result['contributor'] as $person) {
     $organization = '';
     $wrapper = entity_metadata_wrapper('user', $person);
@@ -240,7 +242,6 @@ function mediacommons_solr_preprocess_search_result_spoke(&$variables) {
       'name' => l(format_username($person),'user/' . $person->uid),
       'organization' => $organization,
     );
-    $variables['comment_count'] = $result['comment_count'];
     $variables['peoplelist_contributors'] = theme('mediacommons_solr_hcard', array('peoplelist' => $peoplelist_contributors));
   }
 }
