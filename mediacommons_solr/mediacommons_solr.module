@@ -28,7 +28,7 @@ function mediacommons_solr_theme() {
   }
   $themes['mediacommons_solr_search_result__base'] = array(
     'variables' => array(),
-  	'template' => 'mediacommons_solr_search_result__base',
+  	'template' => 'templates/mediacommons_solr_search_result__base',
   );
   $themes['mediacommons_solr_hcard'] = array(
     'variables' => array(
