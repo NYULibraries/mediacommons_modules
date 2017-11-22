@@ -242,8 +242,8 @@ function mediacommons_solr_preprocess_search_result_spoke(&$variables) {
       'name' => l(format_username($person),'user/' . $person->uid),
       'organization' => $organization,
     );
-    $variables['peoplelist_contributors'] = theme('mediacommons_solr_hcard', array('peoplelist' => $peoplelist_contributors));
   }
+  $variables['peoplelist_contributors'] = theme('mediacommons_solr_hcard', array('peoplelist' => $peoplelist_contributors));
 }
 
 function mediacommons_solr_preprocess_search_result_hub(&$variables) {
