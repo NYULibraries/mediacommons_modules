@@ -5,7 +5,7 @@
   <div class="thumb">
     <a href="<?php print $url ?>">
       <!-- $ri holds URL for all available styles defined by Drupal's image styles -->
-      <img typeof="foaf:Image" src="<?php print $ri['thumbnail__120x80_'] ?>" width="120" height="80" >
+      <img typeof="foaf:Image" src="<?php print $ri->thumbnail__120x80_ ?>" width="120" height="80"/>
     </a>
   </div>
   <div class="node-meta">
@@ -19,6 +19,6 @@
     </time>
     <div class="peoplelist curator">
       <span class="curatorlabel"></span>
-      <?php print $peoplelist_curator ?>
+      <?php print $peoplelist ?>
   </div>
 </li>
