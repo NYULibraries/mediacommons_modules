@@ -34,16 +34,16 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
   $variables['theme_hook_suggestions'][] = 'mediacommons_solr_search_result__' . $bundle;
   $variables['projectname'] = $result['projectname'];
   $variables['projectclass'] = $result['projectclass'];
-  $variables['link'] = $result['link'];
+  $variables['link'] = $result['link'];  
   $variables['project'] = $result['project'];
   $variables['project_url'] = $result['project_url'];
   $variables['project_link'] = l($result['projectname'], $result['project_url'], array('external' => TRUE));
   $variables['searchtype'] = $result['searchtype'];
   // add project to class_array
-  $variables['classes_array'][] = 'node-' . $variables['projectname'];
+  $variables['classes_array'][] = 'node-' . $result['projectclass'];
   // add bundle to class_array
   $variables['classes_array'][] = 'node-' . $bundle;
-  $variables['classes_array'][] = $result['projectclass'];    
+  $variables['classes_array'][] = $result['projectclass'];
   $call = 'mediacommons_solr_preprocess_search_result_' . $bundle;  
   if (function_exists($call)) {
     $call($variables);
