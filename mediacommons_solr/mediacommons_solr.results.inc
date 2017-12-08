@@ -51,7 +51,7 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
 		$call ( $variables );
 	}
 }
-function mediacommons_solr_preprocess_search_result_comment_node_spoke(&fields) {
+function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variables) {
 	$node = $variables ['result'] ['fields'];
 
 	dpm ( $fields );
