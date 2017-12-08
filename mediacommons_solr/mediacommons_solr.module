@@ -5,9 +5,42 @@
  * MediaCommons Integration with the Apache Solr module.
  */
 
-function mediacommons_solr_theme_registry_alter(&$theme_registry) {
-  $theme_registry['search_result']['template'] = join('/', array(drupal_get_path('module', 'mediacommons_solr'), 'templates', 'search-result'));
-  $theme_registry['search_results']['template'] = join('/', array(drupal_get_path('module', 'mediacommons_solr'), 'templates', 'search-results'));
+include_once 'mediacommons_solr.datasource.inc';
+
+include_once 'mediacommons_solr.index.inc';
+
+include_once 'mediacommons_solr.results.inc';
+
+/**
+ * Implements hook_theme($existing, $type, $theme, $path)
+ * Register a module (or theme's) theme implementations.
+ * See: mediacommons_solr_preprocess_search_result
+ * See: https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7.x
+ */
+function mediacommons_solr_theme() {
+  $themes = array();
+  $templates = drupal_get_path('module', 'mediacommons_solr') . '/templates';
+  foreach (node_type_get_types() as $bundle => $type) {
+    $template = 'mediacommons_solr_search_result__' . $bundle;
+    if (file_exists($templates . '/' . $template . '.tpl.php')) {
+      $template_file = 'templates/' . $template;
+      $themes[$template] = array(
+        'variables' => array(),
+        'template' => $template_file,
+      );
+    }
+  }
+  $themes['mediacommons_solr_search_result__base'] = array(
+    'variables' => array(),
+  	'template' => 'templates/mediacommons_solr_search_result__base',
+  );
+  $themes['mediacommons_solr_hcard'] = array(
+    'variables' => array(
+      'peoplelist' => array()
+    ),
+    'template' => 'templates/mediacommons_solr_hcard',
+  );
+  return $themes;
 }
 
 /**
@@ -18,375 +51,15 @@ function mediacommons_solr_user_view($account, $view_mode) {
 }
 
 /**
- * Helper function returning common facet definitions.
- */
-function mediacommons_solr_common_node_facets() {
-  $facets = array();
-  $facets['project'] = array(
-    'label' => t('Project'),
-    'description' => t('Filter by network project.'),
-    'field api bundles' => array('node'),
-    'map callback' => 'mediacommons_solr_project',
-    'values callback' => 'facetapi_callback_type_values',
-    'facet mincount allowed' => TRUE,
-    'dependency plugins' => array('role'),
-  );
-  return $facets;
-}
-
-/**
- * Implements hook_facetapi_facet_info().
- * Currently it only supports the node entity type
- */
-function mediacommons_solr_facetapi_facet_info($searcher_info) {
-  $facets = array();
-  if ('apachesolr' == $searcher_info['adapter']) {
-    $environment = apachesolr_environment_load($searcher_info['instance']);
-    if (!empty($environment['conf']['facet callbacks'])) {
-      foreach ($environment['conf']['facet callbacks'] as $callback) {
-        if (is_callable($callback)) {
-          $facets = array_merge($facets, call_user_func($callback, $searcher_info));
-        }
-      }
-    }
-    elseif (isset($searcher_info['types']['node'])) {
-      $facets = mediacommons_solr_common_node_facets();
-    }
-  }
-  return $facets;
-}
-
-/**
- * Implements hook_facetapi_widgets().
- */
-function mediacommons_solr_facetapi_widgets() {
-  return array(
-    'mediacommons_solr_widget' => array(
-      'handler' => array(
-        'label' => t('MediaCommons Solr Widget'),
-        'class' => 'MediaCommonsSolrWidget',
-      ),
-    ),
-  );
-}
-
-/**
  * Implements hook_apachesolr_query_alter().
  */
 function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $query) {
-  // I sure this is not the best place to do this but will keep here for a while.
-  $context = $query->getContext();
-  if (isset($context['page_id']) && $context['page_id'] === 'core_search') {
-    $currentFq = $query->getParam('fq');
-    $currentParams = $query->getParam('fq');
-    $fq = array_pop($currentParams);
-    if (strpos($fq, 'hash') !== false) {
-      unset($currentFq[count($currentFq) - 1]);
-      $query->replaceParam('fq', $currentFq);
-    }
-  }
-  // ask for our fls
-  $currentFl = $query->getParam('fl');
-  $query->replaceParam('fl', array_merge($currentFl, array('ss_project', 'ss_baseurl', 'ss_searchtype')));
-}
-
-/**
- * Allows a module to modify the delete query. Only delete this site nodes from index
- *
- * @param string $query
- *   Defaults to *:*
- */
-function mediacommons_solr_apachesolr_delete_index_alter($query) {
-  $query = 'hash:' . apachesolr_site_hash();
-}
-
-/**
- * Build the documents before sending them to Solr.
- * The function is the follow-up for apachesolr_update_index
- *
- * @param integer $document_id
- * @param array $entity
- * @param string $entity_type
- */
-function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
-  global $base_url;
-  $wrapper = entity_metadata_wrapper('node', $entity);
-  $document->addField('im_contributors', $entity->uid);
-  $document->addField('ss_searchtype', $entity_type);
-
-  switch ($entity_type) {
-
-    case 'review' :
-      foreach ($wrapper->field_reviewer->value() as $delta => $item) {
-        if ($item->uid !== $entity->uid) {
-          $document->addField('im_contributors', $item->uid);
-        }
-      }
-      break;
-    case 'spoke' :
-      foreach ($wrapper->field_contributors->value() as $delta => $item) {
-        if ($item->uid !== $entity->uid) {
-          $document->addField('im_contributors', $item->uid);
-        }
-      }
-      break;
-    case 'hub' :
-      foreach ($wrapper->field_contributors->value() as $delta => $item) {
-        if ($item->uid !== $entity->uid) {
-          $document->addField('im_contributors', $item->uid);
-        }
-      }
-      foreach ($wrapper->field_curators_editors->value() as $delta => $item) {
-        if ($item->uid !== $entity->uid) {
-          $document->addField('im_contributors', $item->uid);
-        }
-      }
-      foreach ($wrapper->field_co_editor->value() as $delta => $item) {
-        if ($item->uid !== $entity->uid) {
-          $document->addField('im_contributors', $item->uid);
-        }
-      }
-      break;
-  }
-
-  $document->addField('ss_project', variable_get('mediacommons_project', 'project'));
-
-  $document->addField('ss_baseurl', $base_url);
-
-}
-
-function _mediacommons_solr_search($keys, $conditions) {
-  /**
-   * Include apachesolr_search forms
-   */
-  include_once(drupal_get_path('module', 'apachesolr_search') . '/apachesolr_search.pages.inc');
-
-  $search_page = apachesolr_search_page_load(apachesolr_search_default_search_page());
-
-  // Activate the page context, if the module is enabled.
-  if ((module_exists('context')) && ($plugin = context_get_plugin('condition', 'apachesolr_page'))) {
-    $plugin->execute($search_page);
-  }
-
-  $query_params = drupal_get_query_parameters();
-
-  $solrsort = isset($query_params['solrsort']) ? $query_params['solrsort'] : '';
-
-  $results = mediacommons_solr_search_search_results($keys, $conditions, $search_page);
-
-  if (!empty($results)) return $results;
-
-  else return FALSE;
-
-}
-
-/**
- * Executes search depending on the conditions given.
- */
-function mediacommons_solr_search_search_results($keys = NULL, $conditions = NULL, $search_page = NULL) {
-  $params = array();
-  $results = array();
-  // Process the search form. Note that if there is $_POST data,
-  // search_form_submit() will cause a redirect to search/[module path]/[keys],
-  // which will get us back to this page callback. In other words, the search
-  // form submits with POST but redirects to GET. This way we can keep
-  // the search query URL clean as a whistle.
-  if (empty($_POST['form_id'])
-      || ($_POST['form_id'] != 'apachesolr_search_custom_page_search_form')
-      && ($_POST['form_id'] != 'search_form')
-      && ($_POST['form_id'] != 'search_block_form') ) {
-    // Check input variables
-    if (empty($search_page)) {
-      $search_page = apachesolr_search_page_load('core_search');
-      // Verify if it actually loaded
-      if (empty($search_page)) {
-        // Something must have been really messed up.
-        apachesolr_failure(t('Solr search'), $keys);
-        return array();
-      }
-    }
-    if (empty($conditions)) {
-      $conditions = apachesolr_search_conditions_default($search_page);
-    }
-
-    // Sort options from the conditions array.
-    // @see apachesolr_search_conditions_default()
-    //   See This condition callback to find out how.
-    $solrsort = isset($conditions['apachesolr_search_sort']) ? $conditions['apachesolr_search_sort'] : '';
-    // What to do when we have an initial empty search
-    $empty_search_behavior = isset($search_page['settings']['apachesolr_search_browse']) ? $search_page['settings']['apachesolr_search_browse'] : '';
-
-    try {
-
-      $solr = apachesolr_get_solr($search_page['env_id']);
-      // Default parameters
-      $params['fq'] = isset($conditions['fq']) ? $conditions['fq'] : array();
-      $params['rows'] = $search_page['settings']['apachesolr_search_per_page'];
-
-      if (empty($search_page['settings']['apachesolr_search_spellcheck'])) {
-        // Spellcheck needs to have a string as false/true
-        $params['spellcheck'] = 'false';
-      }
-      else {
-        $params['spellcheck'] = 'true';
-      }
-
-      // Empty text Behavior
-      if (!$keys && !isset($conditions['f']) && ($empty_search_behavior == 'browse' || $empty_search_behavior == 'blocks')) {
-        // Pass empty search behavior as string on to apachesolr_search_search_page()
-        // Hardcoded apachesolr name since we rely on this for the facets
-        $context['page_id'] = $search_page['page_id'];
-        $context['search_type'] = 'apachesolr_search_browse';
-        apachesolr_search_run_empty('apachesolr', $params, $search_page['search_path'], $solr, $context);
-        $results['apachesolr_search_browse'] = $empty_search_behavior;
-
-        if ($empty_search_behavior == 'browse') {
-          // Hide sidebar blocks for content-area browsing instead.
-          apachesolr_suppress_blocks($search_page['env_id'], TRUE);
-        }
-      }
-      // Full text behavior. Triggers with a text search or a facet
-      elseif (($keys || isset($conditions['f'])) || ($empty_search_behavior == 'results')) {
-        // Don't allow local params to pass through to EDismax from the url.
-        // We also remove any remaining leading {! since that causes a parse
-        // error in Solr.
-        $keys = preg_replace('/^(?:{![^}]*}\s*)*(?:{!\s*)*/',' ', $keys);
-        $params['q'] = $keys;
-        // Hardcoded apachesolr name since we rely on this for the facets
-        $context['page_id'] = $search_page['page_id'];
-        $context['search_type'] = 'apachesolr_search_results';
-
-        // If we execute more than 2 search and one of the search does
-        // not return value, we run into problems of the 2 queries failing
-        // to return a value
-        $n = 'apachesolr' . uniqid();
-
-        $results = apachesolr_search_run($n, $params, $solrsort, $search_page['search_path'], pager_find_page(), $solr, $context);
-      }
-    }
-    catch (Exception $e) {
-      watchdog('Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
-      apachesolr_failure(t('Solr search'), $keys);
-    }
-  }
-  return $results;
-}
-
-function mediacommons_solr_user_comments_by_uid ($uid) {
-  $conditions = array(
-    'fq' => array(
-      'im_contributors:' . $uid,
-      'ss_searchtype:comment'
-    ),
-  );
-  $results = _mediacommons_solr_search('*:*', $conditions);
-
-  if ($results) {
-    /**
-     * Adds search results to the render array.
-     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results
-     * can pick a title for the search page.
-     * Not sure if this is the best way to do this; if you know "the right way"
-     * please change
-     */
-    $render_array = array(
-      '#theme' => 'search_results',
-      '#results' => $results,
-      '#module' => 'mediacommons_solr',
-      '#search_page' => 'user_comments_by_uid',
-    );
-    $content = render($render_array);
-  }
-  else {
-    $content = t('No contributions.');
-  }
-  return $content;
-}
-
-/**
- * A module-defined block content function.
- */
-function mediacommons_solr_user_content_by_uid($uid) {
-  $conditions = array(
-    'fq' => array(
-      'im_contributors:' . $uid,
-      'ss_searchtype:node'
-    ),
-  );
-  $results = _mediacommons_solr_search('*:*', $conditions);
-  if ($results) {
-    /**
-     * Adds search results to the render array.
-     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results
-     * can pick a title for the search page.
-     * Not sure if this is the best way to do this; if you know "the right way"
-     * please change
-     */
-    $render_array = array(
-      '#theme' => 'search_results',
-      '#results' => $results,
-      '#module' => 'mediacommons_solr',
-      '#search_page' => 'user_content_by_uid',
-    );
-    $content = render($render_array);
-  }
-  else {
-    $content = t('No contributions.');
-  }
-  return $content;
-}
-
-/**
- * This is invoked by apachesolr_search.module for the whole resultset returned
- * in a search.
- *
- * @param array $results
- *   The returned search results.
- * @param DrupalSolrQueryInterface $query
- *   The query for which we want to process the results from
- */
-function mediacommons_solr_apachesolr_process_results(array &$results, DrupalSolrQueryInterface $query) {
-  foreach ($results as $id => $result) {
-    $results[$id]['link'] = $results[$id]['fields']['url'];
-    $results[$id]['project'] = $results[$id]['fields']['ss_project'];
-    $results[$id]['project_url'] = $results[$id]['fields']['ss_baseurl'];
-    $results[$id]['searchtype'] = $results[$id]['fields']['ss_searchtype'];
-  }
-}
-
-/**
- * Process variables for search-result.tpl.php.
- * https://api.drupal.org/api/drupal/modules%21search%21search.pages.inc/function/template_preprocess_search_result/7.x
- */
-function mediacommons_solr_preprocess_search_result(&$variables) {
-  $variables['link'] = $variables['result']['link'];
-  $variables['project'] = $variables['result']['project'];
-  $variables['project_url'] = $variables['result']['project_url'];
-  $variables['searchtype'] = $variables['result']['searchtype'];
-}
-
-/**
- * Process variables for search-results.tpl.php.
- *
- * The $variables array contains the following arguments:
- * - $results: Search results array.
- * - $module: Module the search results came from (module implementing
- *   hook_search_info()).
- *
- * @see search-results.tpl.php
- */
-function mediacommons_solr_preprocess_search_results(&$variables) {
-  switch ($variables['search_page']) {
-    case 'user_content_by_uid':
-      $title = t('As author');
-      break;
-    case 'user_comments_by_uid':
-      $title = t('As a commenter');
-      break;
-    default:
-      $title = t('Search results');
-  }
-  $variables['title'] = $title;
+  /** add FL's */
+  $query->replaceParam('fl', array_merge($query->getParam('fl'), mediacommons_solr_fls()));
+  
+  // while I debug
+  // $query->addFilter('bundle', 'spoke');
+  
 }
 
 function mediacommons_solr_is_account($account = NULL) {
@@ -403,4 +76,32 @@ function mediacommons_solr_is_account($account = NULL) {
     }
   }
   return $is_account;
+}
+
+function mediacommons_solr_fls() {
+  return array(
+    'ss_project',
+    'ss_baseurl',
+    'ss_searchtype',
+    'ss_projectname',
+    'ss_projectclass',
+    'im_coeditor',
+    'im_curatorseditors',
+    'im_contributor',
+    'im_reviewer',
+  	'ss_pubdate',
+  	'is_comment_count',
+  	'ss_reviewer', // JSON object
+  	'ss_contributors', // JSON object
+  	'ss_curatorseditors',  // JSON object
+  	'ss_coeditor', // JSON object
+    'ss_ri', // JSON object including all image styles URL
+    'ss_periodstart', 
+  	'ss_createddate', 
+  	'ss_cdyyyymmdd', 
+  	'ss_pubdate', 
+  	'ss_periodend', 
+  	'ss_enddate', 
+  	'ss_edyyyymmdd',
+  );
 }

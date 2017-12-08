@@ -7,3 +7,4 @@ dependencies[] = apachesolr_search
 dependencies[] = node
 dependencies[] = entity
 dependencies[] = apachesolr_comments
+dependencies[] = facetapi

@@ -1221,7 +1221,7 @@ function mediacommons_content_types_ds_custom_fields_info() {
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
   $ds_field->field = 'user_content';
-  $ds_field->label = 'User content';
+  $ds_field->label = 'User content: Spokes';
   $ds_field->field_type = 6;
   $ds_field->entities = array(
     'user' => 'user',
@@ -1232,6 +1232,21 @@ function mediacommons_content_types_ds_custom_fields_info() {
     'block_render' => '3',
   );
   $export['user_content'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'user_content_hubs';
+  $ds_field->label = 'User content: Hubs';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|mediacommons_solr_userhubs',
+    'block_render' => '3',
+  );
+  $export['user_content_hubs'] = $ds_field;
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
