@@ -1,3 +1,4 @@
+<?php // needs work ?>
 <li class="clearfix  node-comment <?php print $classes; ?> node-<?php print $projectclass; ?>">
   <div class="field-name-field-project"> <?php print l($projectname, $project_url, array('external' => TRUE, )); ?></div>
   <!-- TODO Data needed: referenced-node -->
