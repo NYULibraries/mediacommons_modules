@@ -47,6 +47,7 @@ dependencies[] = manualcrop
 dependencies[] = views_bulk_operations
 dependencies[] = admin_views
 dependencies[] = apachesolr
+dependencies[] = apachesolr_multisitesearch
 dependencies[] = better_formats
 
 dependencies[] = mediacommons_blocks

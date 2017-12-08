@@ -44,6 +44,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   if ($representativeimage['fid']) {
     foreach (image_styles() as $style) {
       $derivative_uri = image_style_path($style['name'], $representativeimage['uri']);
+      
       if (!file_exists($derivative_uri)) {
         $image = image_style_create_derivative($style, $representativeimage['uri'], $derivative_uri);
         if ($image) {
@@ -53,7 +54,9 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
       else {
         $imageurl = file_create_url($derivative_uri);
       }
-      $ri[$style['name']] = $imageurl;
+      if (isset($imageurl)) {
+      	$ri[$style['name']] = $imageurl;
+      }
     }
   }
 
@@ -95,7 +98,7 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
 	    $imageurl  = file_create_url($derivative_uri);
       }
       // Make sure we have a URL    
-	  if ($imageurl) {
+      if (isset($imageurl)) {
 	    $ri[$style['name']] = $imageurl;
 	  }
 	}
@@ -194,7 +197,7 @@ function mediacommons_solr_user_metadata($entity) {
           $imageurl  = file_create_url($derivative_uri);
         }
         // Make sure we have a URL
-        if ($imageurl) {
+        if (isset($imageurl)) {
           $picture[$style['name']] = $imageurl;
         }
       }
