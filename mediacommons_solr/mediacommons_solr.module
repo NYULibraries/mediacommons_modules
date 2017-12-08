@@ -64,13 +64,10 @@ function mediacommons_solr_user_view($account, $view_mode) {
  * Implements hook_apachesolr_query_alter().
  */
 function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $query) {
-	/**
-	 * add FL's
-	 */
+	// add FL's
 	$query->replaceParam ( 'fl', array_merge ( $query->getParam ( 'fl' ), mediacommons_solr_fls () ) );
-
 	// while I debug
-	// $query->addFilter('bundle', 'spoke');
+	$query->addFilter ( 'bundle', 'comment_node_spoke' );
 }
 function mediacommons_solr_is_account($account = NULL) {
 	$is_account = &drupal_static ( 'is_account' );

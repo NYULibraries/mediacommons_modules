@@ -32,6 +32,7 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
   $bundle = $result['bundle'];
   $variables['theme_hook_suggestions'][] = 'mediacommons_solr_search_result__base';
   $variables['theme_hook_suggestions'][] = 'mediacommons_solr_search_result__' . $bundle;
+  dpm('mediacommons_solr_search_result__' . $bundle);
   $variables['projectname'] = $result['projectname'];
   $variables['projectclass'] = $result['projectclass'];
   $variables['link'] = $result['link'];  
