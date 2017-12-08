@@ -52,7 +52,7 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
 	}
 }
 function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variables) {
-	$node = $variables ['result'] ['fields'];
+	$fields = $variables ['result'] ['fields'];
 
 	dpm ( $fields );
 
