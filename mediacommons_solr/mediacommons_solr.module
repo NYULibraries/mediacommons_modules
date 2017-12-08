@@ -21,15 +21,26 @@ function mediacommons_solr_theme() {
   $themes = array();
   $templates = drupal_get_path('module', 'mediacommons_solr') . '/templates';
   foreach (node_type_get_types() as $bundle => $type) {
-    $template = 'mediacommons_solr_search_result__' . $bundle;
-    if (file_exists($templates . '/' . $template . '.tpl.php')) {
-      $template_file = 'templates/' . $template;
-      $themes[$template] = array(
+    $template_node = 'mediacommons_solr_search_result__' . $bundle;
+    // nodes
+    if (file_exists($templates . '/' . $template_node . '.tpl.php')) {
+      $template_node_file = 'templates/' . $template_node;
+      $themes[$template_node] = array(
         'variables' => array(),
-        'template' => $template_file,
+      	'template' => $template_node_file,
+      );
+    }
+    // comments
+    $template_comment = 'mediacommons_solr_search_result__comment_node_' . $bundle;
+    if (file_exists($templates . '/' . $template_comment . '.tpl.php')) {
+      $template_comment_file = 'templates/' . $template_comment;
+      $themes[$template_comment] = array(
+      	'variables' => array(),
+      	'template' => $template_comment_file,
       );
     }
   }
+  
   $themes['mediacommons_solr_search_result__base'] = array(
     'variables' => array(),
   	'template' => 'templates/mediacommons_solr_search_result__base',
@@ -54,11 +65,14 @@ function mediacommons_solr_user_view($account, $view_mode) {
  * Implements hook_apachesolr_query_alter().
  */
 function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $query) {
+
+  dpm(__FUNCTION__);
+
   /** add FL's */
   $query->replaceParam('fl', array_merge($query->getParam('fl'), mediacommons_solr_fls()));
   
   // while I debug
-  // $query->addFilter('bundle', 'spoke');
+  $query->addFilter('bundle', 'comment_node_spoke');
   
 }
 
@@ -89,19 +103,19 @@ function mediacommons_solr_fls() {
     'im_curatorseditors',
     'im_contributor',
     'im_reviewer',
-  	'ss_pubdate',
-  	'is_comment_count',
-  	'ss_reviewer', // JSON object
-  	'ss_contributors', // JSON object
-  	'ss_curatorseditors',  // JSON object
-  	'ss_coeditor', // JSON object
+    'ss_pubdate',
+    'is_comment_count',
+    'ss_reviewer', // JSON object
+    'ss_contributors', // JSON object
+    'ss_curatorseditors',  // JSON object
+    'ss_coeditor', // JSON object
     'ss_ri', // JSON object including all image styles URL
     'ss_periodstart', 
-  	'ss_createddate', 
-  	'ss_cdyyyymmdd', 
-  	'ss_pubdate', 
-  	'ss_periodend', 
-  	'ss_enddate', 
-  	'ss_edyyyymmdd',
+    'ss_createddate', 
+    'ss_cdyyyymmdd', 
+    'ss_pubdate', 
+    'ss_periodend', 
+    'ss_enddate', 
+    'ss_edyyyymmdd',
   );
 }
