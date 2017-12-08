@@ -51,11 +51,12 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
 		$call ( $variables );
 	}
 }
-function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variables) {
-	dpm ( $variables );
-	return;
+function mediacommons_solr_preprocess_search_result_comment_node_spoke(&fields) {
+	$node = $variables ['result'] ['fields'];
 
-	$node = $variables ['result'] ['node'];
+	dpm ( $fields );
+
+	return;
 
 	$variables ['classes_array'] [] = 'node-teaser';
 
