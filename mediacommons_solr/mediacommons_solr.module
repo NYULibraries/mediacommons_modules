@@ -68,9 +68,9 @@ function mediacommons_solr_user_view($account, $view_mode) {
  */
 function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $query) {
   // add FL's
-  $query->replaceParam ( 'fl', array_merge ( $query->getParam ( 'fl' ), mediacommons_solr_fls () ) );
+  $query->replaceParam('fl', array_merge($query->getParam('fl'), mediacommons_solr_fls()));
   // while I debug
-  $query->addFilter ( 'bundle', 'comment_node_spoke' );
+  //$query->addFilter ( 'bundle', 'comment_node_spoke' );
 }
 
 function mediacommons_solr_is_account($account = NULL) {
