@@ -9,28 +9,28 @@
  * @param string $entity_type
  */
 function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
-	global $base_url;
-	$wrapper = entity_metadata_wrapper ( $entity_type, $entity );
-	$bundle = $wrapper->getBundle ();
-	$document->addField ( 'im_contributors', $entity->uid );
-	$document->addField ( 'ss_searchtype', $bundle );
-	$document->addField ( 'ss_baseurl', $base_url );
-	$document->addField ( 'ss_project', variable_get ( 'mediacommons_project', 'project' ) );
-	$document->addField ( 'ss_projectname', variable_get ( 'site_name', 'MediaCommons Project' ) );
-	$document->addField ( 'ss_projectclass', theme_get_setting ( 'special_body_class', 'mediacommons' ) );
-	$call = 'mediacommons_solr_apachesolr_index_document_build_' . $bundle;
-	if (function_exists ( $call )) {
-		$call ( $document, $wrapper, $entity );
-	}
+  global $base_url;
+  $wrapper = entity_metadata_wrapper($entity_type, $entity);
+  $bundle = $wrapper->getBundle();
+  $document->addField('im_contributors', $entity->uid);
+  $document->addField('ss_searchtype', $bundle );
+  $document->addField('ss_baseurl', $base_url );
+  $document->addField('ss_project', variable_get ( 'mediacommons_project', 'project' ) );
+  $document->addField('ss_projectname', variable_get ( 'site_name', 'MediaCommons Project' ) );
+  $document->addField('ss_projectclass', theme_get_setting ( 'special_body_class', 'mediacommons'));
+  $call = 'mediacommons_solr_apachesolr_index_document_build_' . $bundle;
+  if (function_exists($call)) {
+    $call($document, $wrapper, $entity);
+  }
 }
 
 /**
  * Spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wrapper, $entity) {
-	// Contributors
-	$json = array ();
-	foreach ( $wrapper->field_contributors->value () as $delta => $user_entity ) {
+  // Contributors
+  $json = array();
+  foreach ( $wrapper->field_contributors->value () as $delta => $user_entity ) {
 		$document->addField ( 'im_contributors', $user_entity->uid );
 		$document->addField ( 'im_contributor', $user_entity->uid );
 		$json [] = mediacommons_solr_user_metadata ( $user_entity );
@@ -174,10 +174,21 @@ function mediacommons_solr_apachesolr_index_document_build_review(&$document, $w
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$document, $wrapper, $entity) {
-	$document->addField ( 'ss_periodstart', $entity->created );
-	$document->addField ( 'ss_createddate', date ( 'F d, Y', $entity->created ) );
-	$document->addField ( 'ss_cdyyyymmdd', date ( 'Y-m-d', $entity->created ) );
-	$document->addField ( 'ss_pubdate', date ( 'F d, Y', $entity->created ) );
+  global $base_url;
+  $document->addField('ss_periodstart', $entity->created);
+  // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
+  // http://php.net/manual/en/function.date.php
+  $document->addField('ss_createddate', date('l, F j, Y — g:i a', $entity->created));
+  $document->addField('ss_cdyyyymmdd', date('Y-m-d', $entity->created));
+  $document->addField('ss_pubdate', date('F d, Y', $entity->created));
+  $node = node_load($entity->nid);
+  $referencedspoke = array(
+    'cid' => $entity->cid,
+    'nid' => $entity->nid,
+    'label' => $node->title,
+    'url' => $base_url . '/' . drupal_get_path_alias('node/' . $entity->nid),
+  );
+  $document->addField('ss_referencedspoke', json_encode($referencedspoke));
 }
 
 /**
