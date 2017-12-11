@@ -39,21 +39,17 @@ function mediacommons_solr_theme() {
       );
     }
   }
-
   $themes ['mediacommons_solr_search_result__base'] = array(
     'variables' => array(),
     'template' => 'templates/mediacommons_solr_search_result__base',
   );
-
   $themes['mediacommons_solr_hcard'] = array(
     'variables' => array(
       'peoplelist' => array(),
     ),
     'template' => 'templates/mediacommons_solr_hcard',
   );
-
   return $themes;
-
 }
 
 /**
@@ -69,8 +65,6 @@ function mediacommons_solr_user_view($account, $view_mode) {
 function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $query) {
   // add FL's
   $query->replaceParam('fl', array_merge($query->getParam('fl'), mediacommons_solr_fls()));
-  // while I debug
-  //$query->addFilter ( 'bundle', 'comment_node_spoke' );
 }
 
 function mediacommons_solr_is_account($account = NULL) {
