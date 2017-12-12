@@ -4,7 +4,6 @@
  * @file
  * MediaCommons Integration with the Apache Solr module.
  */
-include_once 'mediacommons_solr.datasource.inc';
 
 include_once 'mediacommons_solr.index.inc';
 
@@ -65,6 +64,100 @@ function mediacommons_solr_user_view($account, $view_mode) {
 function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $query) {
   // add FL's
   $query->replaceParam('fl', array_merge($query->getParam('fl'), mediacommons_solr_fls()));
+}
+
+/**
+ * Executes search depending on the conditions given.
+ */
+function mediacommons_solr_runsearch($keys = NULL, $conditions = NULL) {
+
+  // don't run empty query
+  if (!$keys) {
+    apachesolr_failure(t('Solr search'), $keys);
+    return array();
+  }
+
+  /**
+   * Include apachesolr_search forms
+   */
+  include_once(drupal_get_path('module', 'apachesolr_search') . '/apachesolr_search.pages.inc');
+
+  $results = array();
+
+  $params = array();
+
+  $solrsort = '';
+
+  $query_params = drupal_get_query_parameters();
+
+  // Load search page
+  $search_page = apachesolr_search_page_load(apachesolr_search_default_search_page());
+
+  // Verify if it actually loaded
+  if (empty($search_page)) {
+    // Something must have been really messed up.
+    apachesolr_failure(t('Solr search'), $keys);
+    return array();
+  }
+
+  // Check input variables
+  if (empty($conditions)) {
+    $conditions = apachesolr_search_conditions_default($search_page);
+  }
+
+  if (isset($conditions['sort'])) {
+    $solrsort = $params['sort'] = $conditions['sort'];
+  }
+
+  // What to do when we have an initial empty search
+  $empty_search_behavior = isset($search_page['settings']['apachesolr_search_browse']) ? $search_page['settings']['apachesolr_search_browse'] : '';
+
+  try {
+
+    $solr = apachesolr_get_solr($search_page['env_id']);
+    // Default parameters
+    $params['fq'] = isset($conditions['fq']) ? $conditions['fq'] : array();
+    $params['rows'] = $search_page['settings']['apachesolr_search_per_page'];
+
+    if (isset($conditions['spellcheck'])) {
+      $params['spellcheck'] = (string) $conditions['spellcheck'];
+    }
+    elseif (empty($search_page['settings']['apachesolr_search_spellcheck'])) {
+      // Spellcheck needs to have a string as false/true
+      $params['spellcheck'] = 'false';
+    }
+    else {
+      $params['spellcheck'] = 'true';
+    }
+
+    // Full text behavior. Triggers with a text search or a facet
+
+    // Don't allow local params to pass through to EDismax from the url.
+    // We also remove any remaining leading {! since that causes a parse
+    // error in Solr.
+    $keys = preg_replace('/^(?:{![^}]*}\s*)*(?:{!\s*)*/',' ', $keys);
+
+    $params['q'] = $keys;
+
+    // Hardcoded apachesolr name since we rely on this for the facets
+    $context = array(
+      'page_id' => $search_page['page_id'],
+      'search_type' => 'apachesolr_search_results',
+    );
+
+    // If we execute more than 2 search and one of the search does
+    // not return value, we run into problems of the 2 queries failing
+    // to return a value
+    $results = apachesolr_search_run('apachesolr' . uniqid(), $params, $solrsort, $search_page['search_path'], pager_find_page(), $solr, $context);
+
+  }
+  catch (Exception $e) {
+    watchdog('MediaCommons Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+    apachesolr_failure(t('Solr search'), $keys);
+  }
+
+  return $results;
+
 }
 
 function mediacommons_solr_is_account($account = NULL) {
