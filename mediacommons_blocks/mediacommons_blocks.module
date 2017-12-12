@@ -177,7 +177,7 @@ function mediacommons_blocks_block_view($delta = '') {
               'img_path' => drupal_get_path('module', 'mediacommons_blocks') . '/images/ajax-loader.gif',
             ),
           ), 'setting');
-          $content = mediacommons_solr_user_content_by_uid($is_account);
+          $content = mediacommons_blocks_user_content_by_uid($is_account);
           $block['subject'] = t('User content');
           $block['content'] = $content;
         }
@@ -193,6 +193,39 @@ function mediacommons_blocks_block_view($delta = '') {
     }
   }
   return $block;
+}
+
+/**
+ * A module-defined block content function.
+ */
+function mediacommons_blocks_user_content_by_uid($uid) {
+  $content = '';
+  $conditions = array(
+    'fq' => array(
+      'im_contributors:' . $uid,
+    ),
+  );
+  $results = _mediacommons_solr_search('*:*', $conditions);
+  if ($results) {
+    /**
+     * Adds search results to the render array.
+     * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results
+     * can pick a title for the search page.
+     * Not sure if this is the best way to do this; if you know "the right way"
+     * please change
+     */
+    $render_array = array(
+      '#theme' => 'search_results',
+      '#results' => $results,
+      '#module' => 'mediacommons_solr',
+      '#search_page' => 'user_content_by_uid',
+    );
+    $content = render($render_array);
+  }
+  else {
+    watchdog('MediaCommons Blocks', "User $uid contributions, no results.", NULL, WATCHDOG_ERROR);
+  }
+  return $content;
 }
 
 /**
