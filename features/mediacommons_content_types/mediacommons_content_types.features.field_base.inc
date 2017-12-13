@@ -9,7 +9,7 @@
  */
 function mediacommons_content_types_field_default_field_bases() {
   $field_bases = array();
-
+  $fid = variable_get('mediacommons_content_types_default_image_fid', 1);
   // Exported field_base: 'body'.
   $field_bases['body'] = array(
     'active' => 1,
@@ -88,8 +88,8 @@ function mediacommons_content_types_field_default_field_bases() {
     'locked' => 0,
     'module' => 'image',
     'settings' => array(
-      'default_image' => 1,
-      'uri_scheme' => 'public',
+    'default_image' => $fid,
+    'uri_scheme' => 'public',
     ),
     'translatable' => 0,
     'type' => 'image',
@@ -724,7 +724,7 @@ function mediacommons_content_types_field_default_field_bases() {
     'locked' => 0,
     'module' => 'image',
     'settings' => array(
-      'default_image' => 1,
+      'default_image' => $fid,
       'uri_scheme' => 'public',
     ),
     'translatable' => 0,
