@@ -246,6 +246,13 @@ function mediacommons_content_types_user_default_permissions() {
     'module' => 'corresponding_node_references',
   );
 
+  // Exported permission: 'administer facets'.
+  $permissions['administer facets'] = array(
+    'name' => 'administer facets',
+    'roles' => array(),
+    'module' => 'facetapi',
+  );
+
   // Exported permission: 'administer features'.
   $permissions['administer features'] = array(
     'name' => 'administer features',

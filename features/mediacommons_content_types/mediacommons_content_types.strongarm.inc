@@ -939,6 +939,9 @@ function mediacommons_content_types_strongarm() {
       'user_byline' => array(
         'custom_settings' => TRUE,
       ),
+      'user_pjax' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -973,10 +976,22 @@ function mediacommons_content_types_strongarm() {
             'weight' => '21',
             'visible' => FALSE,
           ),
+          'user_pjax' => array(
+            'weight' => '5',
+            'visible' => FALSE,
+          ),
         ),
         'realname' => array(
           'full' => array(
             'weight' => '16',
+            'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '-1',
+            'visible' => TRUE,
+          ),
+          'user_pjax' => array(
+            'weight' => '8',
             'visible' => FALSE,
           ),
         ),

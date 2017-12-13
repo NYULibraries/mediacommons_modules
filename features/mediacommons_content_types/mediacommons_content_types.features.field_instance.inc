@@ -2670,6 +2670,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 18,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2722,6 +2728,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 19,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2777,6 +2789,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 6,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2831,6 +2849,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 11,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2880,6 +2904,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 16,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2932,6 +2962,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 14,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2983,6 +3019,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 13,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 11,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3038,6 +3080,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 1,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -3095,6 +3143,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 9,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3146,6 +3200,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 20,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3200,6 +3260,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 3,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'user_teaser' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -3252,6 +3318,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 17,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3307,6 +3379,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 10,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3353,6 +3431,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'weight' => 9,
       ),
       'user_byline' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
+      'user_pjax' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -3412,6 +3496,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 8,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
       'user_teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -3466,6 +3556,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 15,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3518,6 +3614,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 12,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
       ),
       'user_teaser' => array(
         'label' => 'above',
