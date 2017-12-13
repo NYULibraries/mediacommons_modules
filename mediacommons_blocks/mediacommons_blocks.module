@@ -61,6 +61,22 @@ function mediacommons_blocks_add_block($form, &$form_state) {
 }
 
 /**
+ * Implements hook_entity_view_mode_alter() // for switching the view mode
+ */
+function mediacommons_blocks_entity_view_mode_alter(&$view_mode, $context) {
+  if ($context['entity_type'] == 'user') {
+    $parameters = drupal_get_query_parameters();
+    if ($parameters) {
+      // User PJAX request (admin/structure/ds/view_modes)
+      // Use DS: Use block field "User content" (admin/structure/ds/fields: user_content_pjax)
+      if (isset($parameters['bjax'])) {
+        $view_mode = 'user_pjax'; // provided by Display Suite
+      }
+    }
+  }
+}
+
+/**
  * https://api.drupal.org/api/drupal/modules%21block%21block.admin.inc/function/block_add_block_form_submit/7.x
  */
 function mediacommons_blocks_add_block_submit($form, &$form_state) {
@@ -171,6 +187,7 @@ function mediacommons_blocks_block_view($delta = '') {
     switch ($delta) {
       case 'mediacommons_solr_usercontent':
         $is_account = mediacommons_solr_is_account();
+
         if ($is_account) {
           drupal_add_js(array(
             'mediacommons_blocks' => array(
@@ -181,6 +198,7 @@ function mediacommons_blocks_block_view($delta = '') {
           $block['subject'] = t('User content');
           $block['content'] = $content;
         }
+
         break;
       case 'workflow_admin_comments':
         $block['subject'] = t('Administer comments');
@@ -204,8 +222,14 @@ function mediacommons_blocks_user_content_by_uid($uid) {
     'fq' => array(
       'im_contributors:' . $uid,
     ),
+    'spellcheck' => 'false',
+    'sort' => 'ss_periodstart asc',
   );
-  $results = _mediacommons_solr_search('*:*', $conditions);
+
+  //pjax=1//
+
+  $results = mediacommons_solr_runsearch('*:*', $conditions);
+
   if ($results) {
     /**
      * Adds search results to the render array.
@@ -223,7 +247,7 @@ function mediacommons_blocks_user_content_by_uid($uid) {
     $content = render($render_array);
   }
   else {
-    watchdog('MediaCommons Blocks', "User $uid contributions, no results.", NULL, WATCHDOG_ERROR);
+    watchdog('MediaCommons Blocks', format_string("User @uidcontributions, no results.", array('!uid' => uid)), NULL, WATCHDOG_ERROR);
   }
   return $content;
 }
