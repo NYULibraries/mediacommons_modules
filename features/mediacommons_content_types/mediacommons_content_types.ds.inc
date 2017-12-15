@@ -813,6 +813,26 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'user';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'as_contributors' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'user_as_comments' => array(
+      'weight' => '9',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'user_as_co_editor' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'user_as_curator_editor' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'name' => array(
       'weight' => '1',
       'label' => 'hidden',
@@ -941,6 +961,21 @@ function mediacommons_content_types_ds_field_settings_info() {
  */
 function mediacommons_content_types_ds_custom_fields_info() {
   $export = array();
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'as_contributors';
+  $ds_field->label = 'As contributors';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|usercontent_spoke',
+    'block_render' => '3',
+  );
+  $export['as_contributors'] = $ds_field;
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
@@ -1192,6 +1227,51 @@ function mediacommons_content_types_ds_custom_fields_info() {
     ),
   );
   $export['spoke_add_comments_intransition'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'user_as_co_editor';
+  $ds_field->label = 'As co-editor';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|usercontent_hub_coeditor',
+    'block_render' => '3',
+  );
+  $export['user_as_co_editor'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'user_as_comments';
+  $ds_field->label = 'Comments';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|usercontent_comments',
+    'block_render' => '3',
+  );
+  $export['user_as_comments'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'user_as_curator_editor';
+  $ds_field->label = 'As curator/editor';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|usercontent_hub_curatorseditors',
+    'block_render' => '3',
+  );
+  $export['user_as_curator_editor'] = $ds_field;
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
@@ -2047,12 +2127,18 @@ function mediacommons_content_types_ds_layout_settings_info() {
         11 => 'group_contactinfo',
         12 => 'field_url',
         13 => 'field_country',
-        15 => 'field_phone',
+        14 => 'field_phone',
+      ),
+      'left' => array(
+        15 => 'as_contributors',
+        16 => 'user_as_curator_editor',
+        17 => 'user_as_co_editor',
+        18 => 'user_as_comments',
       ),
       'right' => array(
-        14 => 'field_taxonomy',
-        16 => 'field_bio',
-        17 => 'field_plan',
+        19 => 'field_taxonomy',
+        20 => 'field_bio',
+        21 => 'field_plan',
       ),
     ),
     'fields' => array(
@@ -2070,8 +2156,12 @@ function mediacommons_content_types_ds_layout_settings_info() {
       'group_contactinfo' => 'header',
       'field_url' => 'header',
       'field_country' => 'header',
-      'field_taxonomy' => 'right',
       'field_phone' => 'header',
+      'as_contributors' => 'left',
+      'user_as_curator_editor' => 'left',
+      'user_as_co_editor' => 'left',
+      'user_as_comments' => 'left',
+      'field_taxonomy' => 'right',
       'field_bio' => 'right',
       'field_plan' => 'right',
     ),
