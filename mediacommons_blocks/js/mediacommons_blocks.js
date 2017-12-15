@@ -2,6 +2,7 @@
   "use strict";
   Drupal.behaviors.mediacommons_blocks = {
     attach : function(context, settings) {
+      return;
       var $pager = $('.mc-mc .pager', context);
       var $links = $pager.find('a');
       if ($links.length) {

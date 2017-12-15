@@ -38,7 +38,13 @@ function mediacommons_solr_theme() {
       );
     }
   }
-  $themes ['mediacommons_solr_search_result__base'] = array(
+
+  $themes['mediacommons_solr_search_results'] = array(
+    'variables' => array(),
+    'template' => 'templates/mediacommons_solr_search_results',
+  );
+
+  $themes['mediacommons_solr_search_result__base'] = array(
     'variables' => array(),
     'template' => 'templates/mediacommons_solr_search_result__base',
   );

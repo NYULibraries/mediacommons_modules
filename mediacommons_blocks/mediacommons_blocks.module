@@ -4,6 +4,13 @@
  * @file
  * Module file for mediacommons_block.
  */
+function mediacommons_blocks_init() {
+  drupal_add_js(array(
+    'mediacommons_blocks' => array(
+      'img_path' => drupal_get_path('module', 'mediacommons_blocks') . '/images/ajax-loader.gif',
+    ),
+  ), 'setting');
+}
 
 /**
  * Implements hook_menu().
@@ -122,23 +129,49 @@ function mediacommons_blocks_add_block_submit($form, &$form_state) {
  * This hook declares what blocks are provided by the module.
  */
 function mediacommons_blocks_block_info() {
+
   $blocks = array();
-  $blocks['mediacommons_solr_usercontent'] = array(
-    'info' => t('MediaCommons: User content'),
+
+  $blocks['usercontent_hub'] = array(
+    'info' => t('MediaCommons: User content: Hub'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
+  $blocks['usercontent_spoke'] = array(
+    'info' => t('MediaCommons: User content: As contributor'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  $blocks['usercontent_hub_coeditor'] = array(
+    'info' => t('MediaCommons: User content: As co-editor'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  $blocks['usercontent_hub_curatorseditors'] = array(
+    'info' => t('MediaCommons: User content: As curator/editor'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  $blocks['usercontent_comments'] = array(
+    'info' => t('MediaCommons: User content: Comments'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
   $blocks['mediacommons_solr_comments'] = array(
     'info' => t('MediaCommons: User comments'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
   $blocks['workflow_admin_comments'] = array(
     'info' => t('MediaCommons: Administer comments'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
   $blocks['workflow_admin_nodes'] = array(
     'info' => t('MediaCommons: Administer nodes'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
   // dynamic blocks
   foreach (mediacommons_blocks_blocks() as $block) {
     $label = unserialize($block->label);
@@ -149,7 +182,9 @@ function mediacommons_blocks_block_info() {
     $configuration['info'] = format_string('Mediacommons Blocks: @label', array('@label' => $label));
     $blocks[$block->mbid] = $configuration;
   }
+
   return $blocks;
+
 }
 
 /**
@@ -185,25 +220,17 @@ function mediacommons_blocks_block_view($delta = '') {
   }
   else {
     switch ($delta) {
-      case 'mediacommons_solr_usercontent':
+      case (preg_match('/usercontent/', $delta) ? TRUE : FALSE):
         $is_account = mediacommons_solr_is_account();
-
-        if ($is_account) {
-          drupal_add_js(array(
-            'mediacommons_blocks' => array(
-              'img_path' => drupal_get_path('module', 'mediacommons_blocks') . '/images/ajax-loader.gif',
-            ),
-          ), 'setting');
-          $content = mediacommons_blocks_user_content_by_uid($is_account);
-          $block['subject'] = t('User content');
-          $block['content'] = $content;
+        if ($is_account && function_exists($delta)) {
+          $block = $delta($is_account);
         }
-
         break;
       case 'workflow_admin_comments':
         $block['subject'] = t('Administer comments');
         $block['content'] = mediacommons_blocks_administer_comments();
         break;
+
       case 'workflow_admin_nodes':
         $block['subject'] = t('Administer nodes');
         $block['content'] = mediacommons_blocks_administer_nodes();
@@ -214,23 +241,43 @@ function mediacommons_blocks_block_view($delta = '') {
 }
 
 /**
+ * Process variables for search-results.tpl.php.
+ *
+ * The $variables array contains the following arguments:
+ * - $results: Search results array.
+ * - $module: Module the search results came from (module implementing
+ * hook_search_info()).
+ *
+ * @see search-results.tpl.php
+ */
+function mediacommons_blocks_preprocess_search_results(&$variables) {
+  $variables['theme_hook_suggestions'][] = 'mediacommons_solr_search_results';
+  switch ($variables['search_page']) {
+    case 'usercontent_spoke' :
+      $title = t ('As contributor');
+      break;
+    case 'usercontent_hub_coeditor' :
+      $title = t('As co-editor');
+      break;
+    case 'usercontent_hub_curatorseditors' :
+        $title = t('As curator/editor');
+        break;
+    case 'usercontent_comments' :
+        $title = t('Comments');
+        break;
+    default :
+      $title = t('Search results');
+    break;
+  }
+  $variables['title'] = $title;
+}
+
+/**
  * A module-defined block content function.
  */
-function mediacommons_blocks_user_content_by_uid($uid) {
+function mediacommons_blocks_user_search($uid, $key = NULL, $conditions = array(), $search_page = 'user_content_by_uid') {
   $content = '';
-  $conditions = array(
-    'fq' => array(
-      'im_contributors:' . $uid,
-    ),
-    'spellcheck' => 'false',
-    'sort' => 'ss_periodstart asc',
-  );
-
-  //pjax=1//
-
-  $results = mediacommons_solr_runsearch('*:*', $conditions);
-
-  if ($results) {
+  if ($results = mediacommons_solr_runsearch($key, $conditions)) {
     /**
      * Adds search results to the render array.
      * We add "search_page" to the render_array so that mediacommons_solr_preprocess_search_results
@@ -239,15 +286,16 @@ function mediacommons_blocks_user_content_by_uid($uid) {
      * please change
      */
     $render_array = array(
+      //'#theme' => 'mediacommons_solr_search_results',
       '#theme' => 'search_results',
       '#results' => $results,
       '#module' => 'mediacommons_solr',
-      '#search_page' => 'user_content_by_uid',
+      '#search_page' => $search_page,
     );
     $content = render($render_array);
   }
   else {
-    watchdog('MediaCommons Blocks', format_string("User @uidcontributions, no results.", array('!uid' => uid)), NULL, WATCHDOG_ERROR);
+    watchdog('MediaCommons Blocks', format_string("User @uidcontributions, no results.", array('!uid' => $uid)), NULL, WATCHDOG_ERROR);
   }
   return $content;
 }
@@ -609,6 +657,7 @@ function mediacommons_blocks_callback_example() {
   return '<p>At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>';
 }
 
+
 function mediacommons_blocks_administer_comments($nlimit = 10) {
   if (user_access('administer comments')) {
     $header = array('Subject', 'Posted', 'Approve', 'Edit', 'Delete');
@@ -649,6 +698,7 @@ function mediacommons_blocks_administer_comments($nlimit = 10) {
   }
 }
 
+
 function mediacommons_blocks_administer_nodes($nlimit = 10) {
   $items = array();
   $content = '';
@@ -669,4 +719,75 @@ function mediacommons_blocks_administer_nodes($nlimit = 10) {
 
   $content .= theme('item_list', array('items' => $items, 'title' => t('Content queue')));
   $content .= '<div class="more-link">'. l(t('more'), 'admin/content/node', array('attributes' => array('title' => t('Administer content')))) .'</div>';
+}
+
+function usercontent($uid) {
+  $key = '*:*';
+  $block = array();
+  $block['subject'] = t('User content');
+  $conditions = array(
+    'fq' => array('im_contributors:' . $uid),
+    'spellcheck' => 'false',
+    'sort' => 'ss_periodstart desc',
+  );
+  $block['content'] = mediacommons_blocks_user_search($uid, $key, $conditions, __FUNCTION__);
+  return $block;
+}
+
+function usercontent_hub_curatorseditors($uid) {
+  $key = '*:*';
+  $block = array();
+  $block['subject'] = t('User content: As curator/editor');
+  $conditions = array(
+    'fq' => array('im_field_curators_editors:' . $uid),
+    'spellcheck' => 'false',
+    'sort' => 'ss_periodstart desc',
+  );
+  $block['content'] = mediacommons_blocks_user_search($uid, $key, $conditions, __FUNCTION__);
+  return $block;
+}
+
+function usercontent_hub_coeditor($uid) {
+  $key = '*:*';
+  $block = array();
+  $block['subject'] = t('User content: As co-editor');
+  $conditions = array(
+    'fq' => array('im_field_co_editor:' . $uid),
+    'spellcheck' => 'false',
+    'sort' => 'ss_periodstart desc',
+  );
+  $block['content'] = mediacommons_blocks_user_search($uid, $key, $conditions, __FUNCTION__);
+  return $block;
+}
+
+function usercontent_spoke($uid) {
+  $key = '*:*';
+  $block = array();
+  $block['subject'] = t('User content: Spokes');
+  $conditions = array(
+    'fq' => array(
+      'bundle:spoke',
+      'im_contributor:' . $uid,
+    ),
+    'spellcheck' => 'false',
+    'sort' => 'ss_periodstart desc',
+  );
+  $block['content'] = mediacommons_blocks_user_search($uid, $key, $conditions, __FUNCTION__);
+  return $block;
+}
+
+function usercontent_comments($uid) {
+  $key = '*:*';
+  $block = array();
+  $block['subject'] = t('User content: Comments');
+  $conditions = array(
+    'fq' => array(
+      'im_contributors:' . $uid,
+      'entity_type: comment',
+    ),
+    'spellcheck' => 'false',
+    'sort' => 'timestamp desc',
+  );
+  $block['content'] = mediacommons_blocks_user_search($uid, $key, $conditions, __FUNCTION__);
+  return $block;
 }

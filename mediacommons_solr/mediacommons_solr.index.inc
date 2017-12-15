@@ -71,11 +71,11 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
  * Hub
  */
 function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrapper, $entity) {
-	// Save representative image styles + URLs as JSON
-	$ri = array ();
-	$representativeimage = $wrapper->field_representative_image->value ();
-	if ($representativeimage ['fid']) {
-		foreach ( image_styles () as $style ) {
+  // Save representative image styles + URLs as JSON
+  $ri = array();
+  $representativeimage = $wrapper->field_representative_image->value();
+  if ($representativeimage ['fid']) {
+    foreach ( image_styles () as $style ) {
 			$derivative_uri = image_style_path ( $style ['name'], $representativeimage ['uri'] );
 			if (! file_exists ( $derivative_uri )) {
 				$image = image_style_create_derivative ( $style, $representativeimage ['uri'], $derivative_uri );
