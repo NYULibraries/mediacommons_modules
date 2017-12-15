@@ -813,13 +813,8 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'user';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'user_content' => array(
-      'weight' => '7',
-      'label' => 'above',
-      'format' => 'default',
-    ),
     'name' => array(
-      'weight' => '2',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -830,7 +825,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'ds_user_picture' => array(
-      'weight' => '1',
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'ds_picture_profile_page_pic',
       'formatter_settings' => array(
@@ -1227,36 +1222,6 @@ function mediacommons_content_types_ds_custom_fields_info() {
     'block_render' => '3',
   );
   $export['user_content'] = $ds_field;
-
-  $ds_field = new stdClass();
-  $ds_field->api_version = 1;
-  $ds_field->field = 'user_content_hubs';
-  $ds_field->label = 'User content: Hubs';
-  $ds_field->field_type = 6;
-  $ds_field->entities = array(
-    'user' => 'user',
-  );
-  $ds_field->ui_limit = '';
-  $ds_field->properties = array(
-    'block' => 'mediacommons_blocks|mediacommons_solr_userhubs',
-    'block_render' => '3',
-  );
-  $export['user_content_hubs'] = $ds_field;
-
-  $ds_field = new stdClass();
-  $ds_field->api_version = 1;
-  $ds_field->field = 'user_content_pjax';
-  $ds_field->label = 'User content';
-  $ds_field->field_type = 6;
-  $ds_field->entities = array(
-    'user' => 'user',
-  );
-  $ds_field->ui_limit = '';
-  $ds_field->properties = array(
-    'block' => 'mediacommons_blocks|mediacommons_solr_usercontent',
-    'block_render' => '3',
-  );
-  $export['user_content_pjax'] = $ds_field;
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
@@ -2086,46 +2051,42 @@ function mediacommons_content_types_ds_layout_settings_info() {
         0 => 'ds_user_picture',
         1 => 'field_email',
         2 => 'name',
-        3 => 'field_skype',
-        4 => 'field_twitter',
-        5 => 'field_title',
-        6 => 'field_city',
-        7 => 'field_aim',
-        8 => 'field_organization',
+        3 => 'field_title',
+        4 => 'field_skype',
+        5 => 'field_city',
+        6 => 'field_organization',
+        7 => 'field_twitter',
+        8 => 'field_aim',
         9 => 'field_state',
         10 => 'group_location',
-        11 => 'field_url',
-        12 => 'field_country',
-        13 => 'group_contactinfo',
-        14 => 'field_phone',
-      ),
-      'left' => array(
-        15 => 'user_content',
+        11 => 'group_contactinfo',
+        12 => 'field_url',
+        13 => 'field_country',
+        15 => 'field_phone',
       ),
       'right' => array(
-        16 => 'field_taxonomy',
-        17 => 'field_bio',
-        18 => 'field_plan',
+        14 => 'field_taxonomy',
+        16 => 'field_bio',
+        17 => 'field_plan',
       ),
     ),
     'fields' => array(
       'ds_user_picture' => 'header',
       'field_email' => 'header',
       'name' => 'header',
-      'field_skype' => 'header',
-      'field_twitter' => 'header',
       'field_title' => 'header',
+      'field_skype' => 'header',
       'field_city' => 'header',
-      'field_aim' => 'header',
       'field_organization' => 'header',
+      'field_twitter' => 'header',
+      'field_aim' => 'header',
       'field_state' => 'header',
       'group_location' => 'header',
+      'group_contactinfo' => 'header',
       'field_url' => 'header',
       'field_country' => 'header',
-      'group_contactinfo' => 'header',
-      'field_phone' => 'header',
-      'user_content' => 'left',
       'field_taxonomy' => 'right',
+      'field_phone' => 'header',
       'field_bio' => 'right',
       'field_plan' => 'right',
     ),
@@ -2183,14 +2144,6 @@ function mediacommons_content_types_ds_layout_settings_info() {
   $ds_layout->view_mode = 'user_pjax';
   $ds_layout->layout = 'ds_reset';
   $ds_layout->settings = array(
-    'regions' => array(
-      'ds_content' => array(
-        0 => 'user_content',
-      ),
-    ),
-    'fields' => array(
-      'user_content' => 'ds_content',
-    ),
     'classes' => array(),
     'wrappers' => array(
       'ds_content' => 'div',

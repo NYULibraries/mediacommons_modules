@@ -8,7 +8,6 @@
  * Implements hook_field_default_field_instances().
  */
 function mediacommons_content_types_field_default_field_instances() {
-  $fid = variable_get('mediacommons_content_types_default_image_fid', NULL);
   $field_instances = array();
 
   // Exported field_instance:
@@ -1189,7 +1188,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => $fid,
+      'default_image' => 1,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '10 MB',
@@ -1881,7 +1880,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-            'default_image' => $fid,
+      'default_image' => 1,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
@@ -2529,7 +2528,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
-            'default_image' => $fid,
+      'default_image' => 1,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
@@ -2675,7 +2674,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 26,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2722,7 +2721,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 10,
+        'weight' => 7,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2734,7 +2733,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 27,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2794,7 +2793,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 13,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2854,7 +2853,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 16,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2910,7 +2909,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 24,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2955,7 +2954,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 20,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2967,7 +2966,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 22,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3013,7 +3012,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 19,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3025,7 +3024,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 21,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3073,7 +3072,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 4,
+        'weight' => 3,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3086,7 +3085,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 12,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -3148,7 +3147,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 19,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3194,7 +3193,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 11,
+        'weight' => 8,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3206,7 +3205,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 28,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3253,7 +3252,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 18,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3265,7 +3264,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -3324,7 +3323,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 25,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3384,7 +3383,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 14,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3429,7 +3428,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 9,
+        'weight' => 6,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3441,7 +3440,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 17,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3489,7 +3488,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3501,7 +3500,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 1,
+        'weight' => 11,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -3561,7 +3560,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 23,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3620,7 +3619,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 20,
       ),
       'user_teaser' => array(
         'label' => 'above',

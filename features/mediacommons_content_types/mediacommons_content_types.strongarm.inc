@@ -965,7 +965,7 @@ function mediacommons_content_types_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '20',
+            'weight' => '21',
             'visible' => FALSE,
           ),
           'user_teaser' => array(
@@ -977,13 +977,13 @@ function mediacommons_content_types_strongarm() {
             'visible' => FALSE,
           ),
           'user_pjax' => array(
-            'weight' => '5',
+            'weight' => '15',
             'visible' => FALSE,
           ),
         ),
         'realname' => array(
           'full' => array(
-            'weight' => '16',
+            'weight' => '17',
             'visible' => FALSE,
           ),
           'default' => array(
@@ -991,7 +991,7 @@ function mediacommons_content_types_strongarm() {
             'visible' => TRUE,
           ),
           'user_pjax' => array(
-            'weight' => '8',
+            'weight' => '18',
             'visible' => FALSE,
           ),
         ),
