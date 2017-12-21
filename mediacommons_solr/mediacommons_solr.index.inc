@@ -152,13 +152,13 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
  * Review
  */
 function mediacommons_solr_apachesolr_index_document_build_review(&$document, $wrapper, $entity) {
-	$json = array ();
-	foreach ( $wrapper->field_reviewer->value () as $delta => $user_entity ) {
-		$document->addField ( 'im_contributors', $item->uid );
-		$document->addField ( 'im_reviewer', $item->uid );
-		$json [] = mediacommons_solr_user_metadata ( $user_entity );
-	}
-	$document->addField ( 'ss_reviewer', json_encode ( $json ) );
+  $json = array();
+  foreach ($wrapper->field_reviewer->value () as $delta => $user_entity) {
+    $document->addField('im_contributors', $item->uid);
+    $document->addField('im_reviewer', $item->uid);
+    $json[] = mediacommons_solr_user_metadata($user_entity);
+  }
+  $document->addField ( 'ss_reviewer', json_encode ( $json ) );
 }
 
 /**
@@ -180,6 +180,13 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$
     'url' => $base_url . '/' . drupal_get_path_alias('node/' . $entity->nid),
   );
   $document->addField('ss_referencedspoke', json_encode($referencedspoke));
+  unset($node);
+  $json = array();
+  $document->addField('im_contributors', $entity->uid);
+  $document->addField ('im_contributor', $entity->uid);
+  $account = user_load($entity->uid);
+  $json[] = mediacommons_solr_user_metadata($account);
+  $document->addField('ss_contributors', json_encode($json));
 }
 
 /**
@@ -201,6 +208,13 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_hub(&$do
     'url' => $base_url . '/' . drupal_get_path_alias('node/' . $entity->nid),
   );
   $document->addField('ss_referencedspoke', json_encode($referencedspoke));
+  unset($node);
+  $json = array();
+  $document->addField('im_contributors', $entity->uid);
+  $document->addField ('im_contributor', $entity->uid);
+  $account = user_load($entity->uid);
+  $json[] = mediacommons_solr_user_metadata($account);
+  $document->addField('ss_contributors', json_encode($json));
 }
 
 /**
@@ -222,20 +236,27 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_review(&
     'url' => $base_url . '/' . drupal_get_path_alias('node/' . $entity->nid),
   );
   $document->addField('ss_referencedspoke', json_encode($referencedspoke));
+  unset($node);
+  $json = array();
+  $document->addField('im_contributors', $entity->uid);
+  $document->addField ('im_contributor', $entity->uid);
+  $account = user_load($entity->uid);
+  $json[] = mediacommons_solr_user_metadata($account);
+  $document->addField('ss_contributors', json_encode($json));
 }
 
 /**
  * User metadata
  */
 function mediacommons_solr_user_metadata($entity) {
-	$user = array ();
-	try {
-		$uwrapper = entity_metadata_wrapper ( 'user', $entity );
-		$uid = $uwrapper->getIdentifier ();
-		$picture = array ();
-		if (! empty ( $entity->picture )) {
-			foreach ( image_styles () as $style ) {
-				$derivative_uri = image_style_path ( $style ['name'], $entity->picture->uri );
+  $user = array();
+  try {
+    $uwrapper = entity_metadata_wrapper('user', $entity);
+	$uid = $uwrapper->getIdentifier ();
+	$picture = array ();
+	if (! empty ( $entity->picture )) {
+	  foreach ( image_styles () as $style ) {
+		  $derivative_uri = image_style_path ( $style ['name'], $entity->picture->uri );
 				if (! file_exists ( $derivative_uri )) {
 					$image = image_style_create_derivative ( $style, $entity->picture->uri, $derivative_uri );
 					if ($image) {

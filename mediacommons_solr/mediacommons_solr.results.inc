@@ -53,12 +53,18 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
 
 function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variables) {
   $fields = $variables['result']['fields'];
+  dpm($fields);
   $referencedspoke = json_decode($fields['ss_referencedspoke']);
   $variables['classes_array'][] = 'clearfix';
   $variables['classes_array'][] = 'node-comment';
   $variables['classes_array'][] = 'node-' . $fields['ss_projectclass'];
   $variables['created_date'] = $fields['ss_createddate'];
   $variables['referencedspoke'] = json_decode($fields['ss_referencedspoke']);
+  // contributors
+  $peoplelist = array(
+    'peoplelist' => json_decode($fields['ss_contributors'])
+  );
+  $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);
 }
 
 function mediacommons_solr_preprocess_search_result_spoke(&$variables) {

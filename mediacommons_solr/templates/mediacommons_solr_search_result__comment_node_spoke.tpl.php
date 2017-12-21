@@ -6,6 +6,10 @@
   <h3 class="comment__title comment-title">
     <a href="<?php print $url ?>" class="permalink" ><?php print $title; ?></a>
   </h3>
+  <div class="peoplelist contributors">
+    <span>By</span>
+    <?php print $peoplelist ?>
+  </div>
   <time datetime="YYYY-MM-DD"><?php print $created_date ?></time>
   <div class="comment-body">
     <?php print $snippet; ?>
