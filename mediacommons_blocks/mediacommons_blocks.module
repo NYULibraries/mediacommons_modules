@@ -263,7 +263,7 @@ function mediacommons_blocks_preprocess_search_results(&$variables) {
         $title = t('As curator/editor');
         break;
     case 'usercontent_comments' :
-        $title = t('Comments');
+        $title = t('As commenter');
         break;
     default :
       $title = t('Search results');
