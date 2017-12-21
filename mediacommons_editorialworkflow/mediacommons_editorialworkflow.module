@@ -1,57 +1,5 @@
 <?php
 
-/**
- * Implements hook_init().
- *
- * This hook is run at the beginning of the page request. It is typically
- * used to set up global parameters that are needed later in the request.
- * When this hook is called, the theme and all modules are already loaded
- * in memory.
- *
- * This hook is not run on cached pages.
- *
- * To add CSS or JS that should be present on all pages, modules should
- * not implement this hook, but declare these files in their .info file.
- *
- * See: https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_init/7.x
- *
- */
-function mediacommons_editorialworkflow_init() { 
-    /**
-    * The Access-Control-Allow-Origin response header indicates whether
-    * the response can be shared with resources with the given origin.
-    *
-    * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
-    */
-   drupal_add_http_header('Access-Control-Allow-Origin', '*');
-}
-
-/**
- * Implements template_preprocess_html
- * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_preprocess_html/7
- */
-function mediacommons_editorialworkflow_preprocess_html(&$vars) {
-  /**
-   * The X-Frame-Options HTTP response header can be used to indicate whether or not a
-   * browser should be allowed to render a page in a <frame>, <iframe> or <object> .
-   * Sites can use this to avoid clickjacking attacks, by ensuring that their content is
-   * not embedded into other sites.
-   *
-   * The added security is only provided if the user accessing the document is using a
-   * browser supporting X-Frame-Options.
-   *
-   * As of Drupal 7.50, Drupal core sets X-Frame-Options by default to prevent the site
-   * from being embedded in an iframe on another domain. We want our sites to be
-   * embedded; we need to remove this header.
-   *
-   * See: https://www.drupal.org/node/2735873
-   * See: https://www.owasp.org/index.php/Clickjacking
-   * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-   *
-   */
-  header_remove('X-Frame-Options');
-}
-
 function mediacommons_editorialworkflow_theme() {
   return array(
     'node__spoke__teaser' => array(
@@ -80,7 +28,7 @@ function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
           unset($variables['items'][$key]['#path']);
         }
       }
-      if ($name == 'title') {      
+      if ($name == 'title') {
         foreach ($variables['items'] as $key => $item) {
           $variables['items'][$key]['#markup'] = $wrapper->label();
         }
@@ -170,7 +118,7 @@ function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_i
       // Hail
       if (isset($_POST['project'])) {
         $hail = check_plain($_POST['project']);
-      } 
+      }
       elseif (isset($parameters['project'])) {
         $hail = $parameters['project'];
       }
@@ -178,7 +126,7 @@ function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_i
       elseif ($set_destination && isset($queries['project'])) {
         $hail = $queries['project'];
       }
-      
+
       if ($set_destination) {
         $qs['destination'] = $set_destination;
         $form['destination'] = array('#type' => 'hidden', '#value' => $qs['destination']);
@@ -192,14 +140,14 @@ function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_i
         $form['query'] = array('#type' => 'hidden', '#value' => urlencode($build_query));
       }
       $form['project'] = array('#type' => 'hidden', '#value' => $hail);
-      
+
       if (!$set_destination) {
         $form['#action'] = $url_path;
       }
       $form['#validate'][] = 'mediacommons_editorialworkflow_form_validate';
       break;
     case 'user_register_form':
-      // Change error language of Google reCAPTCHA module 
+      // Change error language of Google reCAPTCHA module
       // See: https://jira.nyu.edu/jira/browse/MC-329
       $form['#validate'][] = 'mediacommons_editorialworkflow_keep_going';
       break;
@@ -222,8 +170,8 @@ function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_stat
     // check if the form contains a type of "publication date"
     $pubdate = (isset($form['field_pubdate']) || isset($form['field_period'])) ? TRUE : FALSE;
     $pubstat = (isset($form['field_pubstat'])) ? TRUE : FALSE;
-    // remove the option of selecting "Publish using publication date" 
-    // from "Publication Status" field if the form does not have any 
+    // remove the option of selecting "Publish using publication date"
+    // from "Publication Status" field if the form does not have any
     // type of "publication date"
     if ($pubstat && !$pubdate) {
       $language = $form['language']['#value'];
@@ -232,12 +180,12 @@ function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_stat
       // find the position of $needle inside $haystack
       $position = array_search($needle, $haystack, TRUE);
       // unset position if found
-      // this will remove the option to select "Publish using publication date" 
+      // this will remove the option to select "Publish using publication date"
       // in the edit form.
       if ($position) {
         unset($form['field_pubstat'][$language]['#options'][$position]);
       }
-    }    
+    }
     // hide the "Publishing option" menu in the edit form.
     $form['options']['#type'] = 'container';
     $form['options']['#title'] = '';
@@ -284,13 +232,13 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
   $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
 
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-  
-  $form['field_image_rights']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';  
-  
+
+  $form['field_image_rights']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
+
   if ($is_contributor) {
     $form['field_contributors'][$form['language']['#value']][0]['uid']['#default_value'] = $user->uid;
   }
-  
+
   $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
 
   $settings = array(
@@ -314,7 +262,7 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
   }
   else {
     if (!isset($form['#node']->nid)) {
-      
+
     }
   }
   drupal_add_js($settings, 'setting');
@@ -327,7 +275,7 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
 function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {
 
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-  
+
   $form['field_embed']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
 
   /** node exist */
@@ -369,7 +317,7 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
 
   $redirection = $destination = NULL;
 
-  $project = $hail = variable_get('mediacommons_project', 'mediacommons');  
+  $project = $hail = variable_get('mediacommons_project', 'mediacommons');
 
   if (isset($edit['values']['project'])) {
     $hail = $edit['values']['project'];
@@ -377,7 +325,7 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
   elseif (isset($parameters['project'])) {
     $hail = $parameters['project'];
   }
-  
+
   if (isset($edit['values']['destination'])) {
     $destination = $edit['values']['destination'];
   }
@@ -400,23 +348,23 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
 
   }
 
-  // I need to check from where the user "hail from" e.g., if user is trying to write 
-  // a comment redirect to the original post after login.  
+  // I need to check from where the user "hail from" e.g., if user is trying to write
+  // a comment redirect to the original post after login.
   if (isset($parameters['redirect'])) {
     $redirection = $parameters['redirect'];
   }
-  // if $redirection is set and the user is not trying to reset his password, 
+  // if $redirection is set and the user is not trying to reset his password,
   // we redirect to $redirection.
   if (
-    !is_null($redirection) 
-    && 
+    !is_null($redirection)
+    &&
     (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset'))
   {
     if (
-      isset($_GET['destination']) 
-      && 
+      isset($_GET['destination'])
+      &&
       url_is_external($_GET['destination'])
-      ) 
+      )
     {
       drupal_goto($_GET['destination']);
     }
@@ -525,7 +473,7 @@ function mediacommons_editorialworkflow_permission() {
 function mediacommons_editorialworkflow_node_presave($node) {
 
   $contributors = array();
-  
+
   $wrapper = entity_metadata_wrapper('node', $node);
 
   $bundle = $wrapper->getBundle();
@@ -582,11 +530,11 @@ function mediacommons_editorialworkflow_node_presave($node) {
   }
   // Inserting a new node @TODO: test work, add validation
   if ($bundle == 'hub') {
-    
+
     $listed_contributors = array_merge($listed_contributors, $wrapper->field_curators_editors->value());
-    
-    $listed_contributors = array_merge($listed_contributors, $wrapper->field_co_editor->value());    
-    
+
+    $listed_contributors = array_merge($listed_contributors, $wrapper->field_co_editor->value());
+
     if ($node->is_new) {
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
@@ -612,14 +560,14 @@ function mediacommons_editorialworkflow_node_presave($node) {
       }
     }
   }
-  
+
   foreach ($listed_contributors as $listed_contributor) {
     $data = array(
       'message' => $wrapper->label() . ' saved!',
       'contributor' => $listed_contributor,
-    );    
+    );
     mediacommons_editorialworkflow_send_message($data);
-  } 
+  }
 
 }
 
@@ -652,7 +600,7 @@ function mediacommons_editorialworkflow_menu_local_tasks_alter(&$data, $router_i
 }
 
 /**
- * @TODO: Move to a small module thats only enable 
+ * @TODO: Move to a small module thats only enable
  * in MediaCommons projects (not Umbrella)?
  */
 function mediacommons_editorialworkflow_menu_alter(&$items) {
@@ -692,24 +640,24 @@ function mediacommons_editorialworkflow_menu_alter(&$items) {
 }
 
 function mediacommons_editorialworkflow_link($item) {
-  
+
   $project = variable_get('mediacommons_project', 'mediacommons');
-  
+
   if ($project === 'mediacommons') {
     return;
   }
-  
+
   $umbrella_url = mediacommons_homepage_umbrella_url();
-  
+
   preg_match('/(user)/', $item['path'], $matches, PREG_OFFSET_CAPTURE);
-  
+
   if (!empty($matches)) {
     return '<a href="' . check_plain(url($umbrella_url . '/' . $item['path'], $item['options'])) . '"' . drupal_attributes($item['options']['attributes']) . '>' . ($item['options']['html'] ? $item['text'] : check_plain($item['text'])) . '</a>';
   }
   else {
     return '<a href="' . check_plain(url($item['path'], $item['options'])) . '"' . drupal_attributes($item['options']['attributes']) . '>' . ($item['options']['html'] ? $item['text'] : check_plain($item['text'])) . '</a>';
   }
-  
+
 }
 
 function mediacommons_editorialworkflow_views_data_alter(&$data) {
@@ -895,11 +843,11 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
 function mediacommons_editorialworkflow_send_message($data) {
 
   $contributor = $data['contributor'];
-  
+
   $message = $data['message'];
 
   $uid = $contributor->uid;
-  
+
   $values = array(
     'title' => truncate_utf8($message, 80, FALSE, TRUE),
     'type' => 'message',
@@ -910,11 +858,11 @@ function mediacommons_editorialworkflow_send_message($data) {
   );
 
   $entity = entity_create('node', $values);
-  
+
   $wrapper = entity_metadata_wrapper('node', $entity);
 
   $wrapper->field_message->set($message);
-  
+
   $wrapper->field_recipient->set(array($uid));
 
   $wrapper->save();
@@ -944,7 +892,7 @@ function mediacommons_editorialworkflow_cron() {
       $wrapper = entity_metadata_wrapper('node', $node);
       $pubdate = $wrapper->field_pubdate->value();
       $title = $wrapper->label();
-      if ($pubdate < $now) {        
+      if ($pubdate < $now) {
         $wrapper->status->set(1);
         $wrapper->field_pubstat->set(1);
         $contributors = $wrapper->field_contributors->value();
@@ -996,7 +944,7 @@ function mediacommons_editorialworkflow_preprocess_button(&$variables) {
     //   );
     //  }
     //}
-    
+
     if (isset($element['#value']) && isset($element['#name'])) {
       switch ($element['#name']) {
         case 'field_contributed_piece_add_more' :
@@ -1010,7 +958,7 @@ function mediacommons_editorialworkflow_preprocess_button(&$variables) {
           break;
       }
     }
-    
+
   }
 }
 
@@ -1039,7 +987,7 @@ function mediacommons_editorialworkflow_preprocess_textfield(&$variables) {
 function mediacommons_editorialworkflow_preprocess_checkbox(&$variables) {
   global $user;
   /**
-   * User is coming with a is_contributor flag; the flag 
+   * User is coming with a is_contributor flag; the flag
    * is the nid (int) of a known hub.
    */
   $is_contributor_flag = isset($_GET['is_contributor']) ? (int)$_GET['is_contributor'] : 0;
@@ -1116,7 +1064,7 @@ function mediacommons_editorialworkflow_hubs_user_can_contribute() {
   return $hubs_user_can_contribute;
 }
 
-/** 
+/**
  * Implements hook_node_access
  * See https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_access/7.x
  * See https://api.drupal.org/api/drupal/modules%21node%21node.module/group/node_access/7.x
@@ -1388,7 +1336,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= $view_contributorsspokes_block_2;
     $output .= $hr;
     $output .= $br;
-    
+
     $view_contributorsspokes_block_3 = views_embed_view('contributorscontent', 'block_i_authored', $user->uid);
     $output .= theme('html_tag', array(
       'element' => array(
@@ -1470,7 +1418,7 @@ function mediacommons_editorialworkflow_remove_text_format_option(&$form) {
   $form[LANGUAGE_NONE][0]['format']['format']['#access'] = FALSE;
   $form[LANGUAGE_NONE][0]['format']['help']['#access'] = FALSE;
   $form[LANGUAGE_NONE][0]['format']['#theme_wrappers'] = NULL;
-  return $form; 
+  return $form;
 }
 
 function is_contributor() {
@@ -1484,7 +1432,7 @@ function is_contributor() {
 function mediacommons_editorialworkflow_user_can_edit_node($node) {
 
   global $user;
-  
+
   if (!user_is_logged_in()) return false;
 
   if ($user->uid == 1) return true;
@@ -1542,11 +1490,11 @@ function mediacommons_editorialworkflow_userpath() {
       )
     );
     if (
-      $destination = 
+      $destination =
         isset($_GET['destination']) // ask if destination is set
           ? // if true
           check_plain($_GET['destination']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
-          : // else 
+          : // else
           FALSE // fail test
     ) {
       $query['query']['destination'] = $destination; // add destination to query-string
@@ -1557,7 +1505,7 @@ function mediacommons_editorialworkflow_userpath() {
   return TRUE;
 }
 
-// Change error language of Google reCAPTCHA module 
+// Change error language of Google reCAPTCHA module
 // See: https://jira.nyu.edu/jira/browse/MC-329
 function mediacommons_editorialworkflow_keep_going($form, &$form_state) {
   $errors = form_get_errors();
