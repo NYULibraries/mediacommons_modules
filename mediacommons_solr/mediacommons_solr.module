@@ -15,14 +15,40 @@ include_once 'mediacommons_solr.results.inc';
  * See: mediacommons_solr_preprocess_search_result
  * See: https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7.x
  */
+
+function mediacommons_solr_form_alter(&$form, &$form_state, $form_id) {
+    if($form_id=="apachesolr_search_custom_page_search_form"){
+    
+      $form['#attributes'] = array('role' => 'search', 'class' => array('search-results-input'));
+      $form['#id'] = 'search-block-form';
+     
+      $form['basic']['submit'] = array(
+            '#type' => 'submit',
+            '#value' => t('')
+      );
+      $form['basic']['#attributes'] = array('class' => array('search-contain')); 
+     
+      $form['retain-filters'] = array(
+        '#type' => 'container',
+        '#attributes' => array('class' => array('retain-filters')),
+      );
+      $form['retain-filters'] = $form['basic']['retain-filters'];
+      unset($form['basic']['retain-filters']);
+    }   
+}
+
+
+
+
+
 function mediacommons_solr_theme() {
   $themes = array();
   $templates = drupal_get_path('module', 'mediacommons_solr') . '/templates';
   foreach (node_type_get_types() as $bundle => $type) {
     $template_node = 'mediacommons_solr_search_result__' . $bundle;
-	// nodes
+  // nodes
     if (file_exists($templates . '/' . $template_node . '.tpl.php')) {
-	  $template_node_file = 'templates/' . $template_node;
+    $template_node_file = 'templates/' . $template_node;
       $themes [$template_node] = array(
         'variables' => array(),
         'template' => $template_node_file,
