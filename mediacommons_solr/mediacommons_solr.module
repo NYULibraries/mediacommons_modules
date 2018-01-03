@@ -21,11 +21,13 @@ function mediacommons_solr_form_alter(&$form, &$form_state, $form_id) {
     
       $form['#attributes'] = array('role' => 'search', 'class' => array('search-results-input'));
       $form['#id'] = 'search-block-form';
-      $form['retain-filters'] = array(
+     
+      if (isset($form['basic']['retain-filters'])){
+         $form['retain-filters'] = array(
               '#type' => 'container',
               '#attributes' => array('class' => array('retain-filters')),
             );
-      if (isset($form['basic']['retain-filters'])){
+         
         $form['retain-filters'] = $form['basic']['retain-filters'];
         unset($form['basic']['retain-filters']);
       }
