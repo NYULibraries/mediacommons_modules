@@ -53,7 +53,7 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
 
 function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variables) {
   $fields = $variables['result']['fields'];
-  dpm($fields);
+  //dpm($fields);
   $referencedspoke = json_decode($fields['ss_referencedspoke']);
   $variables['classes_array'][] = 'clearfix';
   $variables['classes_array'][] = 'node-comment';
