@@ -2699,7 +2699,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 20,
       ),
       'type' => 'text_textfield',
-      'weight' => 23,
+      'weight' => 24,
     ),
   );
 
@@ -2758,7 +2758,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 28,
+      'weight' => 29,
     ),
   );
 
@@ -2933,7 +2933,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'email_textfield',
-      'weight' => 22,
+      'weight' => 23,
     ),
   );
 
@@ -2991,7 +2991,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 32,
+      'weight' => 33,
     ),
   );
 
@@ -3049,7 +3049,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 33,
+      'weight' => 34,
     ),
   );
 
@@ -3111,7 +3111,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 34,
+      'weight' => 22,
     ),
   );
 
@@ -3171,7 +3171,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'placeholder' => '',
       ),
       'type' => 'telephone_default',
-      'weight' => 26,
+      'weight' => 27,
     ),
   );
 
@@ -3230,7 +3230,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 29,
+      'weight' => 30,
     ),
   );
 
@@ -3289,7 +3289,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 40,
       ),
       'type' => 'text_textfield',
-      'weight' => 31,
+      'weight' => 32,
     ),
   );
 
@@ -3348,7 +3348,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 20,
       ),
       'type' => 'text_textfield',
-      'weight' => 25,
+      'weight' => 26,
     ),
   );
 
@@ -3465,7 +3465,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 30,
+      'weight' => 31,
     ),
   );
 
@@ -3585,7 +3585,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 20,
       ),
       'type' => 'text_textfield',
-      'weight' => 24,
+      'weight' => 25,
     ),
   );
 
@@ -3661,7 +3661,7 @@ Please choose "Crop" to create an additional version of your image which will be
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 27,
+      'weight' => 28,
     ),
   );
 
