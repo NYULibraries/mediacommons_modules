@@ -21,7 +21,7 @@ function mediacommons_content_types_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contact',
-    'weight' => '6',
+    'weight' => '5',
     'children' => array(
       0 => 'field_aim',
       1 => 'field_email',
@@ -246,7 +246,7 @@ function mediacommons_content_types_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Address',
-    'weight' => '5',
+    'weight' => '4',
     'children' => array(
       0 => 'field_city',
       1 => 'field_country',
@@ -337,15 +337,20 @@ function mediacommons_content_types_field_group_info() {
       17 => 'ckeditor',
       18 => 'timezone',
     ),
-    'format_type' => 'fieldset',
+    'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Your Public Profile',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => 'group-public-profile field-group-fieldset',
-        'required_fields' => 1,
+        'required_fields' => 0,
         'id' => '',
+        'classes' => '',
+        'description' => 'All fields are optional, and can be updated at any time.',
+        'show_label' => '1',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
       ),
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_public_profile|user|user|form'] = $field_group;

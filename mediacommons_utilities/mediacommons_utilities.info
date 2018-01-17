@@ -1,4 +1,0 @@
-name = MediaCommons Utilities
-description = Define tools and utilities for MediaCommons project.
-core = 7.x
-package = MediaCommons

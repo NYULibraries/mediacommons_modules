@@ -53,4 +53,3 @@ dependencies[] = better_formats
 dependencies[] = mediacommons_blocks
 dependencies[] = mediacommons_content_types
 dependencies[] = mediacommons_globalnav
-dependencies[] = mediacommons_utilities

@@ -813,18 +813,28 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'user';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'user_comments' => array(
-      'weight' => '8',
-      'label' => 'above',
+    'as_contributors' => array(
+      'weight' => '6',
+      'label' => 'hidden',
       'format' => 'default',
     ),
-    'user_content' => array(
+    'user_as_comments' => array(
+      'weight' => '9',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'user_as_co_editor' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'user_as_curator_editor' => array(
       'weight' => '7',
-      'label' => 'above',
+      'label' => 'hidden',
       'format' => 'default',
     ),
     'name' => array(
-      'weight' => '2',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -835,7 +845,7 @@ function mediacommons_content_types_ds_field_settings_info() {
       ),
     ),
     'ds_user_picture' => array(
-      'weight' => '1',
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'ds_picture_profile_page_pic',
       'formatter_settings' => array(
@@ -951,6 +961,21 @@ function mediacommons_content_types_ds_field_settings_info() {
  */
 function mediacommons_content_types_ds_custom_fields_info() {
   $export = array();
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'as_contributors';
+  $ds_field->label = 'As contributors';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|usercontent_spoke',
+    'block_render' => '3',
+  );
+  $export['as_contributors'] = $ds_field;
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
@@ -1205,6 +1230,51 @@ function mediacommons_content_types_ds_custom_fields_info() {
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
+  $ds_field->field = 'user_as_co_editor';
+  $ds_field->label = 'As co-editor';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|usercontent_hub_coeditor',
+    'block_render' => '3',
+  );
+  $export['user_as_co_editor'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'user_as_comments';
+  $ds_field->label = 'Comments';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|usercontent_comments',
+    'block_render' => '3',
+  );
+  $export['user_as_comments'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'user_as_curator_editor';
+  $ds_field->label = 'As curator/editor';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|usercontent_hub_curatorseditors',
+    'block_render' => '3',
+  );
+  $export['user_as_curator_editor'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
   $ds_field->field = 'user_comments';
   $ds_field->label = 'User comments';
   $ds_field->field_type = 6;
@@ -1217,36 +1287,6 @@ function mediacommons_content_types_ds_custom_fields_info() {
     'block_render' => '3',
   );
   $export['user_comments'] = $ds_field;
-
-  $ds_field = new stdClass();
-  $ds_field->api_version = 1;
-  $ds_field->field = 'user_content';
-  $ds_field->label = 'User content: Spokes';
-  $ds_field->field_type = 6;
-  $ds_field->entities = array(
-    'user' => 'user',
-  );
-  $ds_field->ui_limit = '';
-  $ds_field->properties = array(
-    'block' => 'mediacommons_blocks|mediacommons_solr_usercontent',
-    'block_render' => '3',
-  );
-  $export['user_content'] = $ds_field;
-
-  $ds_field = new stdClass();
-  $ds_field->api_version = 1;
-  $ds_field->field = 'user_content_hubs';
-  $ds_field->label = 'User content: Hubs';
-  $ds_field->field_type = 6;
-  $ds_field->entities = array(
-    'user' => 'user',
-  );
-  $ds_field->ui_limit = '';
-  $ds_field->properties = array(
-    'block' => 'mediacommons_blocks|mediacommons_solr_userhubs',
-    'block_render' => '3',
-  );
-  $export['user_content_hubs'] = $ds_field;
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
@@ -2073,52 +2113,54 @@ function mediacommons_content_types_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'header' => array(
-        0 => 'group_required_fields',
+        0 => 'ds_user_picture',
         1 => 'field_email',
-        2 => 'ds_user_picture',
-        3 => 'name',
+        2 => 'name',
+        3 => 'field_title',
         4 => 'field_skype',
-        5 => 'field_title',
-        6 => 'field_twitter',
-        7 => 'field_city',
+        5 => 'field_city',
+        6 => 'field_organization',
+        7 => 'field_twitter',
         8 => 'field_aim',
-        9 => 'field_organization',
-        10 => 'field_state',
-        11 => 'group_location',
+        9 => 'field_state',
+        10 => 'group_location',
+        11 => 'group_contactinfo',
         12 => 'field_url',
         13 => 'field_country',
-        14 => 'group_contactinfo',
-        15 => 'field_phone',
+        14 => 'field_phone',
       ),
       'left' => array(
-        16 => 'user_content',
-        17 => 'user_comments',
+        15 => 'as_contributors',
+        16 => 'user_as_curator_editor',
+        17 => 'user_as_co_editor',
+        18 => 'user_as_comments',
       ),
       'right' => array(
-        18 => 'field_taxonomy',
-        19 => 'field_bio',
-        20 => 'field_plan',
+        19 => 'field_taxonomy',
+        20 => 'field_bio',
+        21 => 'field_plan',
       ),
     ),
     'fields' => array(
-      'group_required_fields' => 'header',
-      'field_email' => 'header',
       'ds_user_picture' => 'header',
+      'field_email' => 'header',
       'name' => 'header',
-      'field_skype' => 'header',
       'field_title' => 'header',
-      'field_twitter' => 'header',
+      'field_skype' => 'header',
       'field_city' => 'header',
-      'field_aim' => 'header',
       'field_organization' => 'header',
+      'field_twitter' => 'header',
+      'field_aim' => 'header',
       'field_state' => 'header',
       'group_location' => 'header',
+      'group_contactinfo' => 'header',
       'field_url' => 'header',
       'field_country' => 'header',
-      'group_contactinfo' => 'header',
       'field_phone' => 'header',
-      'user_content' => 'left',
-      'user_comments' => 'left',
+      'as_contributors' => 'left',
+      'user_as_curator_editor' => 'left',
+      'user_as_co_editor' => 'left',
+      'user_as_comments' => 'left',
       'field_taxonomy' => 'right',
       'field_bio' => 'right',
       'field_plan' => 'right',
@@ -2168,6 +2210,27 @@ function mediacommons_content_types_ds_layout_settings_info() {
     'layout_link_custom' => '',
   );
   $export['user|user|user_byline'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'user|user|user_pjax';
+  $ds_layout->entity_type = 'user';
+  $ds_layout->bundle = 'user';
+  $ds_layout->view_mode = 'user_pjax';
+  $ds_layout->layout = 'ds_reset';
+  $ds_layout->settings = array(
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['user|user|user_pjax'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
@@ -2256,6 +2319,15 @@ function mediacommons_content_types_ds_view_modes_info() {
     'user' => 'user',
   );
   $export['user_byline'] = $ds_view_mode;
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'user_pjax';
+  $ds_view_mode->label = 'User PJAX';
+  $ds_view_mode->entities = array(
+    'user' => 'user',
+  );
+  $export['user_pjax'] = $ds_view_mode;
 
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;

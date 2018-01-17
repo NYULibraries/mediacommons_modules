@@ -2670,6 +2670,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 18,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2693,7 +2699,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 20,
       ),
       'type' => 'text_textfield',
-      'weight' => 23,
+      'weight' => 24,
     ),
   );
 
@@ -2715,13 +2721,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'user_byline' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 19,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2746,7 +2758,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 28,
+      'weight' => 29,
     ),
   );
 
@@ -2776,6 +2788,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 6,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2831,6 +2849,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 11,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2881,6 +2905,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 16,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2903,7 +2933,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'email_textfield',
-      'weight' => 22,
+      'weight' => 23,
     ),
   );
 
@@ -2924,13 +2954,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 21,
       ),
       'user_byline' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 14,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -2955,7 +2991,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 32,
+      'weight' => 33,
     ),
   );
 
@@ -2976,13 +3012,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 20,
       ),
       'user_byline' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 13,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3007,7 +3049,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 33,
+      'weight' => 34,
     ),
   );
 
@@ -3030,7 +3072,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 4,
+        'weight' => 3,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3038,6 +3080,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 1,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -3063,7 +3111,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 34,
+      'weight' => 22,
     ),
   );
 
@@ -3095,6 +3143,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 9,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 19,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3117,7 +3171,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'placeholder' => '',
       ),
       'type' => 'telephone_default',
-      'weight' => 26,
+      'weight' => 27,
     ),
   );
 
@@ -3139,13 +3193,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'user_byline' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 20,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3170,7 +3230,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 29,
+      'weight' => 30,
     ),
   );
 
@@ -3192,13 +3252,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 19,
       ),
       'user_byline' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 3,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -3223,7 +3289,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 40,
       ),
       'type' => 'text_textfield',
-      'weight' => 31,
+      'weight' => 32,
     ),
   );
 
@@ -3253,6 +3319,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 17,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3276,7 +3348,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 20,
       ),
       'type' => 'text_textfield',
-      'weight' => 25,
+      'weight' => 26,
     ),
   );
 
@@ -3306,6 +3378,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 10,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3350,13 +3428,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 9,
+        'weight' => 10,
       ),
       'user_byline' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 7,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3381,7 +3465,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 30,
+      'weight' => 31,
     ),
   );
 
@@ -3404,13 +3488,19 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'user_byline' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 8,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 11,
       ),
       'user_teaser' => array(
         'label' => 'hidden',
@@ -3466,6 +3556,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'type' => 'hidden',
         'weight' => 15,
       ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 23,
+      ),
       'user_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3489,7 +3585,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'size' => 20,
       ),
       'type' => 'text_textfield',
-      'weight' => 24,
+      'weight' => 25,
     ),
   );
 
@@ -3518,6 +3614,12 @@ Please choose "Crop" to create an additional version of your image which will be
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 12,
+      ),
+      'user_pjax' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
       ),
       'user_teaser' => array(
         'label' => 'above',
@@ -3559,7 +3661,7 @@ Please choose "Crop" to create an additional version of your image which will be
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 27,
+      'weight' => 28,
     ),
   );
 

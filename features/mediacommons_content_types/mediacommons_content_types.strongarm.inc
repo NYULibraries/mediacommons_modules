@@ -939,6 +939,9 @@ function mediacommons_content_types_strongarm() {
       'user_byline' => array(
         'custom_settings' => TRUE,
       ),
+      'user_pjax' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -962,7 +965,7 @@ function mediacommons_content_types_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '20',
+            'weight' => '22',
             'visible' => FALSE,
           ),
           'user_teaser' => array(
@@ -973,10 +976,22 @@ function mediacommons_content_types_strongarm() {
             'weight' => '21',
             'visible' => FALSE,
           ),
+          'user_pjax' => array(
+            'weight' => '15',
+            'visible' => FALSE,
+          ),
         ),
         'realname' => array(
           'full' => array(
-            'weight' => '16',
+            'weight' => '18',
+            'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '-1',
+            'visible' => TRUE,
+          ),
+          'user_pjax' => array(
+            'weight' => '18',
             'visible' => FALSE,
           ),
         ),
