@@ -385,6 +385,7 @@ function mediacommons_blocks_block_configure($delta = '') {
  * provided by this module are saved.
  */
 function mediacommons_blocks_block_save($delta = '', $edit = array()) {
+  dpm(__FUNCTION__);
   if ($delta && preg_match('/^mc_/', $delta)) {
     $block = mediacommons_blocks_block_load($delta);
     $types = mediacommons_blocks_list_types();
@@ -656,7 +657,6 @@ function mediacommons_blocks_list_types($label = null) {
 function mediacommons_blocks_callback_example() {
   return '<p>At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>';
 }
-
 
 function mediacommons_blocks_administer_comments($nlimit = 10) {
   if (user_access('administer comments')) {

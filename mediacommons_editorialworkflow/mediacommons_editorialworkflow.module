@@ -4,8 +4,8 @@ function mediacommons_editorialworkflow_theme() {
   return array(
     'node__spoke__teaser' => array(
   	  'render element' => 'content',
-  		'base hook' => 'node',
-  		'template' => 'templates/node--spoke--teaser',
+  	  'base hook' => 'node',
+  	  'template' => 'templates/node--spoke--teaser',
   	),
   );
 }
@@ -398,6 +398,14 @@ function mediacommons_editorialworkflow_menu() {
     'access arguments' => array('access mediacommons dashboard'),
     'type' =>  MENU_NORMAL_ITEM,
   );
+  $items['dashboard/panel'] = array(
+    'title' => 'Dashboard',
+    'description' => 'User dashboard',
+    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
+    'access arguments' => array('access mediacommons dashboard'),
+    'weight' => 0,
+    'type' =>  MENU_LOCAL_TASK,
+  );
   $items['dashboard/add'] = array(
     'title' => 'Create content',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_create_content',
@@ -414,7 +422,39 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 9,
     'type' => MENU_LOCAL_TASK,
   );
+  $items['dashboard/others'] = array(
+    'title' => 'Others',
+    'description' => 'Others',
+    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_others',
+    'access arguments' => array('access mediacommons dashboard'),
+    'weight' => 10,
+    'type' =>  MENU_LOCAL_TASK,
+  );
+
+  $items['dashboard/others/rebuild-cache'] = array(
+    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
+    'access arguments' => array('access mediacommons dashboard'),
+    'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['dashboard/others/solr-metadata'] = array(
+    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_solr_metadata',
+    'access arguments' => array('access mediacommons dashboard'),
+    'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['dashboard/refresh/%'] = array(
+    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
+    'access arguments' => array('access mediacommons dashboard'),
+    'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
+    'page arguments' => array(2)
+  );
+
   return $items;
+
 }
 
 /**
@@ -1167,6 +1207,65 @@ function mediacommons_editorialworkflow_contributor_title () {
   return t('Dashboard', array());
 }
 
+function mediacommons_editorialworkflow_contributor_dashboard_others() {
+
+  // Make sure Drupal Ajax framework javascript is around
+  drupal_add_library('system', 'drupal.ajax');
+
+  $output = '';
+
+  $query = array('tok' => drupal_get_token()) + drupal_get_destination();
+
+  $header = array(
+    'Description',
+    'Options',
+  );
+
+  $rows = array();
+
+  $sql = db_query('SELECT * FROM {mediacommons_blocks_blocks} WHERE type = 2');
+
+  $results = $sql->fetchAll();
+
+  foreach ($results as $record) {
+    $rows[] = array(
+      t('Refresh block: @label', array('@label' => unserialize($record->label))),
+      l(t('refresh'), 'dashboard/refresh/' . $record->mbid, array('attributes' => array('class' => 'use-ajax'), 'query' => $query)),
+    );
+  }
+
+  $attributes = array(
+    'class' => 'mediacommons_editorialworkflow',
+    'width' => '100%',
+  );
+
+  $table = array(
+    'header' => $header,
+    'rows' => $rows,
+    'attributes' => $attributes,
+    'sticky' => FALSE,
+    'empty' => t('No options available'),
+    'caption' => NULL,
+    'colgroups' => NULL,
+  );
+
+  $container  = '';
+  $container .= '<div id="dashboard" class="clearfix jquery-once-2-processed">';
+  $container .= '<div id="dashboard_main" class="dashboard-region">';
+  $container .= '<div class="dashboard-console">';
+  $container .= '</div>';
+  $container .= '<div class="region clearfix">';
+  $container .= theme_table($table);
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '<div id="dashboard_sidebar" class="dashboard-region">';
+  $container .= '<div class="region clearfix">';
+  $container .= '</div>';
+  $container .= '</div>';
+  $container .= '</div>';
+  return $container;
+}
+
 function mediacommons_editorialworkflow_contributor_dashboard_create_content () {
 
   global $user;
@@ -1240,13 +1339,10 @@ function mediacommons_editorialworkflow_contributor_dashboard_create_content () 
 }
 
 function mediacommons_editorialworkflow_contributor_dashboard () {
-
-  global $user;
+  global $user, $conf;
 
   drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'dashboard'),));
-
   drupal_set_title(t('@sitename: Dashboard', array('@sitename' => variable_get('site_name', 'MediaCommons'))));
-
   // we need something more elegant. deal with this using access callback?
   if (!user_access('create spoke content')) return '';
 
@@ -1264,7 +1360,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     ),
   ));
 
-  $super = ($user->uid == 1) ? true : false;
+  $super = ($user->uid == 1) ? TRUE : FALSE;
 
   $role_contributor = user_role_load_by_name('contributor');
 
@@ -1287,9 +1383,11 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
       '#value' => t('Recent content'),
     ),
   ));
+
   $output .= $br;
   $output .= views_embed_view('recent_content', 'default', $user->uid);
   $output .= $hr;
+
   if ($super|| $contributor || $clustercurator || $managingeditor) {
     $view = views_embed_view('contributorscontent', 'block_i_can_contribute', $user->uid);
     $output .= $br;
@@ -1306,6 +1404,7 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
     $output .= $view;
     $output .= $hr;
   }
+
   if ($super|| $clustercurator || $managingeditor) {
     $view_contributorsspokes_block_1 = views_embed_view('contributorscontent', 'block_i_can_curate', $user->uid);
     $view_contributorsspokes_block_2 = views_embed_view('contributorscontent', 'block_i_am_co_editor', $user->uid);
@@ -1560,17 +1659,74 @@ function mediacommons_apis_is_pjax() {
 }
 
 function mediacommons_apis_is_embed() {
-	$is_embed = &drupal_static('is_embed');
-	if (!isset($is_embed)) {
-		$params = drupal_get_query_parameters();
-		if (isset($params['embed'])) {
-		  if ($params['embed'] === '1' || $params['embed'] === 'true') {
-		  	$is_embed = TRUE;
-		  }
-		  else {
-		  	$is_embed = FALSE;
-		  }
-		}
+  $is_embed = &drupal_static('is_embed');
+  if (!isset($is_embed)) {
+	$params = drupal_get_query_parameters();
+	if (isset($params['embed'])) {
+	  if ($params['embed'] === '1' || $params['embed'] === 'true') {
+	    $is_embed = TRUE;
+	  }
+	  else {
+		$is_embed = FALSE;
+	  }
+    }
   }
-	return $is_embed;
+  return $is_embed;
+}
+
+function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache($bid) {
+  if (empty($_GET['tok']) || !drupal_valid_token($_GET['tok'])) {
+    return MENU_ACCESS_DENIED;
+  }
+  /** make sure Drupal Ajax framework javascript is around */
+  drupal_add_library('system', 'drupal.ajax');
+  $commands = array();
+  $sql = "SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid ORDER BY proceed ASC";
+  $item = db_query($sql, array(':mbid' => $bid))->fetchObject();
+  $update = array('proceed' => time(), 'expire' => time() + (3600 * 4),);
+  if (filter_var($item->url, FILTER_VALIDATE_URL)) {
+    $url = check_url($item->url);
+    $request = drupal_http_request($url);
+    /** we can't reach the URL. we have a problem. */
+    if (isset($request->error)) {
+      $commands[] = ajax_command_alert($request->error);
+    }
+    elseif ($request->status_message) {
+      $status_message = strtolower(check_plain($request->status_message));
+      if ($status_message == 'ok') {
+        $update['content'] = serialize(check_markup($request->data, 'full_html'));
+        $success = db_update('mediacommons_blocks_blocks')->fields($update)->condition('mbid', $bid, '=')->execute();
+        if ($success) {
+          $commands[] = ajax_command_alert('Success');
+        }
+      }
+      else {
+        $commands[] = ajax_command_alert($status_message);
+      }
+    }
+  }
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  );
+}
+
+function mediacommons_editorialworkflow_contributor_dashboard_solr_metadata() {
+  if (empty($_GET['tok']) || !drupal_valid_token($_GET['tok'])) {
+    return MENU_ACCESS_DENIED;
+  }
+  // Make sure Drupal Ajax framework javascript is around
+  drupal_add_library('system', 'drupal.ajax');
+  module_load_include('inc', 'apachesolr_multisitesearch', 'apachesolr_multisitesearch.index');
+  // Delete all current variables and refresh them
+  variable_del('apachesolr_multisitesearch_last_metadata_update');
+  variable_del('apachesolr_multisitesearch_last_metadata_fetch');
+  apachesolr_multisitesearch_refresh_metadata();
+  $commands = array();
+  // $commands[] = ajax_command_append('.dashboard-console', t('Task done.'));
+  $commands[] = ajax_command_alert(t('Task done.'));
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  );
 }
