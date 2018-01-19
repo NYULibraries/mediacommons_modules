@@ -385,7 +385,6 @@ function mediacommons_blocks_block_configure($delta = '') {
  * provided by this module are saved.
  */
 function mediacommons_blocks_block_save($delta = '', $edit = array()) {
-  dpm(__FUNCTION__);
   if ($delta && preg_match('/^mc_/', $delta)) {
     $block = mediacommons_blocks_block_load($delta);
     $types = mediacommons_blocks_list_types();
