@@ -23,8 +23,13 @@
  * @ingroup themeable
  */
 ?>
+
+
+
 <?php if ($search_results): ?>
   <h2 class="contribution-type"><?php print $title;?></h2>
+  <div class="locator-text"><?php print $description;?></div>
+ 
   <ul class="mc-searchresults <?php print $module; ?>-results">
     <?php print $search_results; ?>
   </ul>
