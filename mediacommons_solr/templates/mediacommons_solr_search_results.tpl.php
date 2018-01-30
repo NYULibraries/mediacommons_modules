@@ -28,6 +28,12 @@
 
 <?php if ($search_results): ?>
   <h2 class="contribution-type"><?php print $title;?></h2>
+
+  <?php 
+ 		$block = module_invoke('apachesolr_search', 'block_view', 'sort');
+		print render($block['content']);
+	?>
+
   <div class="locator-text"><?php print $description;?></div>
  
   <ul class="mc-searchresults <?php print $module; ?>-results">
