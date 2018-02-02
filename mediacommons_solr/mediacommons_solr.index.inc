@@ -58,13 +58,25 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   }
   $document->addField('ss_ri', json_encode($ri));
   $pubdate = $wrapper->field_pubdate->value();
+
   if (empty($pubdate)) {
     $pubdate = $entity->created;
   }
+
   $document->addField('ss_periodstart', $pubdate);
   $document->addField('ss_createddate', date('F d, Y', $pubdate));
   $document->addField('ss_cdyyyymmdd', date('Y-m-d', $pubdate));
   $document->addField('ss_pubdate', date('F d, Y', $pubdate));
+
+  // Timestamp of the node
+  $document->addField('ds_pubdate', apachesolr_date_iso($pubdate));
+  $document->addField('ds_pubdated', apachesolr_date_iso($pubdate));
+
+  $document->addField('ds_pubdatea', apachesolr_date_iso($pubdate));
+
+  // $document->addField('ds_pubdatea', apachesolr_date_iso($pubdate));
+  // sort_
+
 }
 
 /**
@@ -124,16 +136,24 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
 	$period = $wrapper->field_period->value ();
 
 	// Period start
-	if (isset ( $period ['value'] ) && ! empty ( $period ['value'] )) {
-		$document->addField ( 'ss_periodstart', $period ['value'] );
-		$document->addField ( 'ss_createddate', date ( 'F d, Y', $period ['value'] ) );
-		$document->addField ( 'ss_cdyyyymmdd', date ( 'Y-m-d', $period ['value'] ) );
-		$document->addField ( 'ss_pubdate', date ( 'F d, Y', $period ['value'] ) );
-	} else {
-		$document->addField ( 'ss_periodstart', $entity->created );
-		$document->addField ( 'ss_createddate', date ( 'F d, Y', $entity->created ) );
-		$document->addField ( 'ss_cdyyyymmdd', date ( 'Y-m-d', $entity->created ) );
-		$document->addField ( 'ss_pubdate', date ( 'F d, Y', $entity->created ) );
+	if (isset ( $period ['value'] ) && ! empty ( $period['value'])) {
+		$document->addField('ss_periodstart', $period['value']);
+		$document->addField('ss_createddate', date('F d, Y', $period['value']));
+		$document->addField('ss_cdyyyymmdd', date('Y-m-d', $period['value']));
+		$document->addField('ss_pubdate', date('F d, Y', $period['value']));
+		$document->addField('ds_pubdate', apachesolr_date_iso($period['value']));
+		$document->addField('ds_pubdated', apachesolr_date_iso($period['value']));
+		$document->addField('ds_pubdatea', apachesolr_date_iso($period['value']));
+
+	}
+	else {
+	  $document->addField ( 'ss_periodstart', $entity->created );
+      $document->addField ( 'ss_createddate', date ( 'F d, Y', $entity->created ) );
+      $document->addField ( 'ss_cdyyyymmdd', date ( 'Y-m-d', $entity->created ) );
+      $document->addField ( 'ss_pubdate', date ( 'F d, Y', $entity->created ) );
+      $document->addField('ds_pubdate', apachesolr_date_iso($entity->created));
+      $document->addField('ds_pubdated', apachesolr_date_iso($entity->created));
+      $document->addField('ds_pubdatea', apachesolr_date_iso($entity->created));
 	}
 
 	// Period end
@@ -159,6 +179,9 @@ function mediacommons_solr_apachesolr_index_document_build_review(&$document, $w
     $json[] = mediacommons_solr_user_metadata($user_entity);
   }
   $document->addField ( 'ss_reviewer', json_encode ( $json ) );
+  $document->addField('ds_pubdate', apachesolr_date_iso($entity->created));
+  $document->addField('ds_pubdated', apachesolr_date_iso($entity->created));
+  $document->addField('ds_pubdatea', apachesolr_date_iso($entity->created));
 }
 
 /**
@@ -172,6 +195,9 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$
   $document->addField('ss_createddate', date('l, F j, Y — g:i a', $entity->created));
   $document->addField('ss_cdyyyymmdd', date('Y-m-d', $entity->created));
   $document->addField('ss_pubdate', date('F d, Y', $entity->created));
+  $document->addField('ds_pubdate', apachesolr_date_iso($entity->created));
+  $document->addField('ds_pubdated', apachesolr_date_iso($entity->created));
+  $document->addField('ds_pubdatea', apachesolr_date_iso($entity->created));
   $node = node_load($entity->nid);
   $referencedspoke = array(
     'cid' => $entity->cid,
@@ -200,6 +226,9 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_hub(&$do
   $document->addField('ss_createddate', date('l, F j, Y — g:i a', $entity->created));
   $document->addField('ss_cdyyyymmdd', date('Y-m-d', $entity->created));
   $document->addField('ss_pubdate', date('F d, Y', $entity->created));
+  $document->addField('ds_pubdate', apachesolr_date_iso($entity->created));
+  $document->addField('ds_pubdated', apachesolr_date_iso($entity->created));
+  $document->addField('ds_pubdatea', apachesolr_date_iso($entity->created));
   $node = node_load($entity->nid);
   $referencedspoke = array(
     'cid' => $entity->cid,
@@ -228,6 +257,9 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_review(&
   $document->addField('ss_createddate', date('l, F j, Y — g:i a', $entity->created));
   $document->addField('ss_cdyyyymmdd', date('Y-m-d', $entity->created));
   $document->addField('ss_pubdate', date('F d, Y', $entity->created));
+  $document->addField('ds_pubdate', apachesolr_date_iso($entity->created));
+  $document->addField('ds_pubdated', apachesolr_date_iso($entity->created));
+  $document->addField('ds_pubdatea', apachesolr_date_iso($entity->created));
   $node = node_load($entity->nid);
   $referencedspoke = array(
     'cid' => $entity->cid,

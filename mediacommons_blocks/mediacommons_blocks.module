@@ -162,6 +162,12 @@ function mediacommons_blocks_block_info() {
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
 
+  // Add the sort block.
+  $blocks['mediacommons_solr_sort'] = array(
+    'info' => t('MediaCommons Solr Core: Sorting'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   $blocks['workflow_admin_comments'] = array(
     'info' => t('MediaCommons: Administer comments'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
@@ -235,9 +241,106 @@ function mediacommons_blocks_block_view($delta = '') {
         $block['subject'] = t('Administer nodes');
         $block['content'] = mediacommons_blocks_administer_nodes();
         break;
+      case 'mediacommons_solr_sort':
+        return mediacommons_blocks_solr_sort();
     }
   }
   return $block;
+}
+
+/**
+ * Implements hook_apachesolr_query_prepare().
+ */
+function mediacommons_blocks_apachesolr_query_prepare(DrupalSolrQueryInterface $query) {
+  // See: https://jira.nyu.edu/jira/browse/MC-376
+  // We want to have:
+  // - Relevance
+  // Date, newest to oldest
+  // Date, oldest to newest
+  $query->setAvailableSort('ds_pubdated', array('title' => t('Earliest first'), 'default' => 'asc'));
+  $query->setAvailableSort('ds_pubdatea', array('title' => t('Most recent first'), 'default' => 'desc'));
+  $query->removeAvailableSort('sort_label');
+  $query->removeAvailableSort('bundle');
+  $query->removeAvailableSort('ds_created');
+  $query->removeAvailableSort('sort_name');
+}
+
+function mediacommons_blocks_solr_sort() {
+  $environments = apachesolr_load_all_environments();
+  foreach ($environments as $env_id => $environment) {
+    if (apachesolr_has_searched($env_id) && !apachesolr_suppress_blocks($env_id)) {
+      $response = NULL;
+      $query = apachesolr_current_query($env_id);
+      if ($query) {
+        // Get the query and response. Without these no blocks make sense.
+        $response = apachesolr_static_response_cache($query->getSearcher());
+      }
+      if (empty($response) || ($response->response->numFound < 2)) {
+        return NULL;
+      }
+
+      $sorts = $query->getAvailableSorts();
+      // See: https://jira.nyu.edu/jira/browse/MC-376
+      $sorts['score']['title'] = t('Relevance');
+      // Relevance = score
+      // Get the current sort as an array.
+      $solrsort = $query->getSolrsort();
+      $sort_links = array();
+      $path = $query->getPath();
+      $new_query = clone $query;
+      $toggle = array('asc' => 'desc', 'desc' => 'asc');
+      foreach ($sorts as $name => $sort) {
+        $active = $solrsort['#name'] == $name;
+        if ($name == 'score') {
+          $direction = '';
+          $new_direction = 'desc'; // We only sort by descending score.
+        }
+        elseif ($active) {
+          $direction = $toggle[$solrsort['#direction']];
+          $new_direction = $toggle[$solrsort['#direction']];
+        }
+        else {
+          $direction = '';
+          $new_direction = $sort['default'];
+        }
+        $new_query->setSolrsort($name, $new_direction);
+        $sort_links[$name] = array(
+          'text' => $sort['title'],
+          'path' => $path,
+          'options' => array('query' => $new_query->getSolrsortUrlQuery()),
+          'active' => $active,
+          'direction' => $direction,
+        );
+      }
+      foreach ($sort_links as $name => $link) {
+        $themed_links[$name] = theme('apachesolr_sort_link', $link);
+      }
+      return array(
+        'subject' => t('Sort by'),
+        'content' => theme('apachesolr_sort_list', array('items' => $themed_links))
+      );
+    }
+  }
+}
+
+/**
+ * Parses a url to extract the query parameters from it as a assoc array
+ * @param string $url
+ * @param bool $decode (optional) apply url decode
+ * @return array
+ */
+function parseUrl($url, $decode = false)
+{
+    $urlData = parse_url($url);
+    if (empty($urlData['query'])) { return null; }
+    $query = explode("&", $urlData['query']);
+    $parameters = array();
+    foreach($query as $parameter) {
+        $param = explode("=", $parameter);
+        if (!empty($param) && count($param) == 2)
+            $parameters[$param[0]] = $decode == true ? urldecode($param[1]) : $param[1];
+    }
+    return $parameters;
 }
 
 /**

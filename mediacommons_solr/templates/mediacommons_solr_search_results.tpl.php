@@ -24,23 +24,21 @@
  */
 ?>
 
-
-
 <?php if ($search_results): ?>
-  <h2 class="contribution-type"><?php print $title;?></h2>
-
-  <?php 
- 		$block = module_invoke('apachesolr_search', 'block_view', 'sort');
-		print render($block['content']);
-	?>
-
-  <div class="locator-text"><?php print $description;?></div>
- 
-  <ul class="mc-searchresults <?php print $module; ?>-results">
-    <?php print $search_results; ?>
+  <h2 class="contribution-type"><?php print $title ?></h2>
+  <?php if (isset($solr_sort)): ?>
+    <?php print $solr_sort ?>
+  <?php endif; ?>
+  <?php if (isset($description)): ?>
+    <div class="locator-text">
+      <?php print $description ?>
+    </div>
+  <?php endif; ?>
+  <ul class="mc-searchresults <?php print $module ?>-results">
+    <?php print $search_results ?>
   </ul>
-  <?php print $pager; ?>
+  <?php print $pager ?>
 <?php else : ?>
-  <h2><?php print t('Your search yielded no results');?></h2>
-  <?php print search_help('search#noresults', drupal_help_arg()); ?>
+  <h2><?php print t('Your search yielded no results') ?></h2>
+  <?php print search_help('search#noresults', drupal_help_arg()) ?>
 <?php endif; ?>
