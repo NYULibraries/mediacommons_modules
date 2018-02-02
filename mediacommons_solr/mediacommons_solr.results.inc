@@ -107,6 +107,8 @@ function mediacommons_solr_preprocess_search_result_hub(&$variables) {
 
 function mediacommons_solr_preprocess_search_results(&$variables) {
   $variables['theme_hook_suggestions'][] = 'mediacommons_solr_search_results';
-  $block = module_invoke('mediacommons_blocks', 'block_view', 'mediacommons_solr_sort');
-  $variables['solr_sort'] = render($block['content']);
+  if ($variables['search_page'] == 'core_search') {
+    $block = module_invoke('mediacommons_blocks', 'block_view', 'mediacommons_solr_sort');
+    $variables['solr_sort'] = render($block['content']);
+  }
 }
