@@ -52,7 +52,6 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
 
 function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variables) {
   $fields = $variables['result']['fields'];
-  //dpm($fields);
   $referencedspoke = json_decode($fields['ss_referencedspoke']);
   $variables['classes_array'][] = 'clearfix';
   $variables['classes_array'][] = 'node-comment';
@@ -107,7 +106,7 @@ function mediacommons_solr_preprocess_search_result_hub(&$variables) {
 
 function mediacommons_solr_preprocess_search_results(&$variables) {
   $variables['theme_hook_suggestions'][] = 'mediacommons_solr_search_results';
-  if ($variables['search_page'] == 'core_search') {
+  if ($variables['search_page']['page_id'] == 'core_search') {
     $block = module_invoke('mediacommons_blocks', 'block_view', 'mediacommons_solr_sort');
     $variables['solr_sort'] = render($block['content']);
   }
