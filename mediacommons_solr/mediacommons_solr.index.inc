@@ -67,16 +67,10 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   $document->addField('ss_createddate', date('F d, Y', $pubdate));
   $document->addField('ss_cdyyyymmdd', date('Y-m-d', $pubdate));
   $document->addField('ss_pubdate', date('F d, Y', $pubdate));
-
   // Timestamp of the node
   $document->addField('ds_pubdate', apachesolr_date_iso($pubdate));
   $document->addField('ds_pubdated', apachesolr_date_iso($pubdate));
-
   $document->addField('ds_pubdatea', apachesolr_date_iso($pubdate));
-
-  // $document->addField('ds_pubdatea', apachesolr_date_iso($pubdate));
-  // sort_
-
 }
 
 /**

@@ -324,26 +324,6 @@ function mediacommons_blocks_solr_sort() {
 }
 
 /**
- * Parses a url to extract the query parameters from it as a assoc array
- * @param string $url
- * @param bool $decode (optional) apply url decode
- * @return array
- */
-function parseUrl($url, $decode = false)
-{
-    $urlData = parse_url($url);
-    if (empty($urlData['query'])) { return null; }
-    $query = explode("&", $urlData['query']);
-    $parameters = array();
-    foreach($query as $parameter) {
-        $param = explode("=", $parameter);
-        if (!empty($param) && count($param) == 2)
-            $parameters[$param[0]] = $decode == true ? urldecode($param[1]) : $param[1];
-    }
-    return $parameters;
-}
-
-/**
  * Process variables for search-results.tpl.php.
  *
  * The $variables array contains the following arguments:
