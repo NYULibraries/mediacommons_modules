@@ -608,7 +608,7 @@ function _mediacommons_blocks_save_source($type, $label, $mbid, $options) {
     if (isset($request->status_message)) {
       $status_message = strtolower(check_plain($request->status_message));
       if ($status_message == 'ok') {
-        $text = $request->data;
+        $text = filter_xss($request->data, mediacommons_filter_allowed_tags());
       }
     }
   }

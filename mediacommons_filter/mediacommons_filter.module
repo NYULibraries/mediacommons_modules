@@ -190,5 +190,32 @@ function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
       }
     }
   }
+}
 
+function mediacommons_filter_allowed_tags() {
+  $allowed_tags = array(
+    'a',
+    'em',
+    'strong',
+    'cite',
+    'code',
+    'ul',
+    'ol',
+    'li',
+    'dl',
+    'dt',
+    'dd',
+    'div',
+    'header',
+    'img',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'span',
+    'time',
+  );
+  return $allowed_tags;
 }
