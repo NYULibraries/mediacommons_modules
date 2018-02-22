@@ -31,7 +31,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -69,7 +69,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -7,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -107,7 +107,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 9,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -145,7 +145,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 5,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -183,7 +183,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 6,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -221,7 +221,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 7,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -259,7 +259,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -21,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -297,7 +297,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -23,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -335,7 +335,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -22,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -373,7 +373,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => -20,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -411,7 +411,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 10,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -449,7 +449,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 11,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -487,7 +487,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 13,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -525,7 +525,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 15,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -563,7 +563,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 14,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -601,7 +601,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 16,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -639,7 +639,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 17,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -677,7 +677,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 18,
       ),
       'mediacommons_admin' => array(
         'region' => '',
@@ -715,7 +715,7 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 0,
+        'weight' => 19,
       ),
       'mediacommons_admin' => array(
         'region' => '',
