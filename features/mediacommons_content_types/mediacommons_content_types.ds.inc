@@ -507,14 +507,6 @@ function mediacommons_content_types_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'post_date' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'ds_post_date_long_no_time',
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
-    ),
   );
   $export['node|spoke|full'] = $ds_fieldsetting;
 
@@ -1799,7 +1791,7 @@ function mediacommons_content_types_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'header' => array(
-        0 => 'post_date',
+        0 => 'field_pubdate',
         1 => 'title',
         2 => 'contributors_to_this_spoke',
       ),
@@ -1808,18 +1800,16 @@ function mediacommons_content_types_ds_layout_settings_info() {
         4 => 'field_body',
         5 => 'field_taxonomy',
         6 => 'comments',
-        7 => 'field_pubdate',
       ),
     ),
     'fields' => array(
-      'post_date' => 'header',
+      'field_pubdate' => 'header',
       'title' => 'header',
       'contributors_to_this_spoke' => 'header',
       'field_embed' => 'left',
       'field_body' => 'left',
       'field_taxonomy' => 'left',
       'comments' => 'left',
-      'field_pubdate' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(
