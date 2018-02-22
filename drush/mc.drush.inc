@@ -97,6 +97,8 @@ function drush_mc_set_theme_setting_class_name($class) {
  *
  */
 function drush_mc_update_fieldguide_umbrella_block($url) {
+
+
   if (filter_var($url, FILTER_VALIDATE_URL)) {
     $url = check_url($url);
   }
@@ -116,6 +118,7 @@ function drush_mc_update_fieldguide_umbrella_block($url) {
   $sql = "SELECT url FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid";
   $item = db_query($sql, array(':mbid' => $bid))->fetchObject();
   $update = array('proceed' => time(), 'expire' => time() + (3600 * 4));
+
   $request = drupal_http_request($url);
   /** we can't reach the URL. we have a problem. */
   if (isset($request->error)) {
@@ -124,7 +127,7 @@ function drush_mc_update_fieldguide_umbrella_block($url) {
   else {
     $status_message = strtolower(check_plain($request->status_message));
     if ($status_message == 'ok') {
-      $update['content'] = serialize(check_markup($request->data, 'full_html'));
+      $update['content'] = serialize(filter_xss($request->data, mediacommons_filter_allowed_tags()));
       $success = db_update('mediacommons_blocks_blocks')->fields($update)->condition('mbid', $bid, '=')->execute();
       if ($success) {
         drush_log($update['content'], 'ok');

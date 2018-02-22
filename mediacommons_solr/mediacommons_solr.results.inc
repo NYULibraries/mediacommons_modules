@@ -10,7 +10,6 @@
  *   The query for which we want to process the results from
  */
 function mediacommons_solr_apachesolr_process_results(array &$results, DrupalSolrQueryInterface $query) {
-  $variables['theme_hook_suggestions'][] = 'mediacommons_solr_search_results';
   foreach ($results as $id => $result) {
     $results[$id]['link'] = $results[$id]['fields']['url'];
     $results[$id]['project'] = $results[$id]['fields']['ss_project'];
@@ -53,7 +52,6 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
 
 function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variables) {
   $fields = $variables['result']['fields'];
-  //dpm($fields);
   $referencedspoke = json_decode($fields['ss_referencedspoke']);
   $variables['classes_array'][] = 'clearfix';
   $variables['classes_array'][] = 'node-comment';
@@ -104,4 +102,12 @@ function mediacommons_solr_preprocess_search_result_hub(&$variables) {
     'peoplelist' => json_decode($node->ss_curatorseditors)
   );
   $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);
+}
+
+function mediacommons_solr_preprocess_search_results(&$variables) {
+  $variables['theme_hook_suggestions'][] = 'mediacommons_solr_search_results';
+  if ($variables['search_page']['page_id'] == 'core_search') {
+    $block = module_invoke('mediacommons_blocks', 'block_view', 'mediacommons_solr_sort');
+    $variables['solr_sort'] = render($block['content']);
+  }
 }
