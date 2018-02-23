@@ -66,7 +66,8 @@ function drush_mediacommons_blocks_mc_rebuild_cache () {
           if ($request->status_message) {
             $status_message = strtolower(check_plain($request->status_message));
             if ($status_message == 'ok') {
-              $update['content'] = serialize(check_markup($request->data, 'full_html'));
+              $text = filter_xss($request->data, mediacommons_filter_allowed_tags());
+              $update['content'] = serialize($text);             
             }
           }
         }
