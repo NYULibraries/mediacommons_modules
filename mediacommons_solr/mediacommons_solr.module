@@ -241,5 +241,6 @@ function mediacommons_solr_fls() {
     'ss_enddate',
     'ss_edyyyymmdd',
     'ss_referencedspoke',
+    'ds_pubdated',
   );
 }
