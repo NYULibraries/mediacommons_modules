@@ -656,7 +656,7 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'comment_count_spokes' => array(
-      'weight' => '6',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -711,19 +711,6 @@ function mediacommons_content_types_ds_field_settings_info() {
         ),
       ),
     ),
-    'field_attached_images' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'ow' => TRUE,
-          'ow-el' => 'div',
-          'ow-cl' => 'thumb',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
     'field_contributors' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -742,6 +729,19 @@ function mediacommons_content_types_ds_field_settings_info() {
           'fi-def-at' => FALSE,
           'fi-odd-even' => FALSE,
           'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+    'field_representative_image' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'thumb',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
     ),
@@ -1942,9 +1942,9 @@ function mediacommons_content_types_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'field_attached_images',
-        1 => 'title',
-        2 => 'group_spoke_teaser_meta',
+        0 => 'field_representative_image',
+        1 => 'group_spoke_teaser_meta',
+        2 => 'title',
         3 => 'field_contributors',
         4 => 'reviewed_by',
         5 => 'field_pubdate',
@@ -1952,16 +1952,13 @@ function mediacommons_content_types_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'field_attached_images' => 'ds_content',
-      'title' => 'ds_content',
+      'field_representative_image' => 'ds_content',
       'group_spoke_teaser_meta' => 'ds_content',
+      'title' => 'ds_content',
       'field_contributors' => 'ds_content',
       'reviewed_by' => 'ds_content',
       'field_pubdate' => 'ds_content',
       'comment_count_spokes' => 'ds_content',
-    ),
-    'limit' => array(
-      'field_attached_images' => '1',
     ),
     'classes' => array(),
     'wrappers' => array(
