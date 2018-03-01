@@ -1694,7 +1694,8 @@ function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache($bid
     elseif ($request->status_message) {
       $status_message = strtolower(check_plain($request->status_message));
       if ($status_message == 'ok') {
-        $update['content'] = filter_xss($request->data, mediacommons_filter_allowed_tags());
+        // $update['content'] = serialize(check_markup($request->data, 'full_html'));
+        $update['content'] = serialize(filter_xss($request->data, mediacommons_filter_allowed_tags()));
         $success = db_update('mediacommons_blocks_blocks')->fields($update)->condition('mbid', $bid, '=')->execute();
         if ($success) {
           $commands[] = ajax_command_alert('Success');
