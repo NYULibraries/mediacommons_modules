@@ -148,6 +148,25 @@ function mediacommons_content_types_image_default_styles() {
     ),
   );
 
+  // Exported image style: manual_crop_thumbnail_120_by_80.
+  $styles['manual_crop_thumbnail_120_by_80'] = array(
+    'label' => 'Manual Crop Thumbnail 120 by 80',
+    'effects' => array(
+      1 => array(
+        'name' => 'manualcrop_crop_and_scale',
+        'data' => array(
+          'width' => 120,
+          'height' => 80,
+          'upscale' => 1,
+          'respectminimum' => 1,
+          'onlyscaleifcrop' => 0,
+          'style_name' => 'manual_crop_thumbnail_120_by_80',
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
   // Exported image style: max_width_600px.
   $styles['max_width_600px'] = array(
     'label' => 'Max width 600px',
