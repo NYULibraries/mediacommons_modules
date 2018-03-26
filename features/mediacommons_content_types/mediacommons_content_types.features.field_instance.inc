@@ -2528,7 +2528,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 0,
+      'default_image' => 2491,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '1 MB',
@@ -2542,8 +2542,8 @@ Please choose "Crop" to create an additional version of your image which will be
       'module' => 'imagefield_crop',
       'settings' => array(
         'collapsible' => 1,
-        'croparea' => '1200x800',
-        'enforce_minimum' => 0,
+        'croparea' => '480x320',
+        'enforce_minimum' => 1,
         'enforce_ratio' => 1,
         'preview_image_style' => 'manual_crop_thumbnail_120_by_80',
         'progress_indicator' => 'throbber',
