@@ -17,34 +17,24 @@ include_once 'mediacommons_solr.results.inc';
  */
 
 function mediacommons_solr_form_alter(&$form, &$form_state, $form_id) {
-    if($form_id=="apachesolr_search_custom_page_search_form"){
-    
-      $form['#attributes'] = array('role' => 'search', 'class' => array('search-results-input'));
-      $form['#id'] = 'search-block-form';
-     
-      if (isset($form['basic']['retain-filters'])){
-         $form['retain-filters'] = array(
-              '#type' => 'container',
-              '#attributes' => array('class' => array('retain-filters')),
-            );
-         
-        $form['retain-filters'] = $form['basic']['retain-filters'];
-        unset($form['basic']['retain-filters']);
-      }
-             
-      $form['basic']['submit'] = array(
-            '#type' => 'submit',
-            '#value' => t('')
-      );
-      $form['basic']['#attributes'] = array('class' => array('search-contain')); 
-     
-    
-    }   
+  if ($form_id=="apachesolr_search_custom_page_search_form") {    
+    $form['#attributes'] = array('role' => 'search', 'class' => array('search-results-input'));
+    $form['#id'] = 'search-block-form';     
+    if (isset($form['basic']['retain-filters'])) {
+      $form['retain-filters'] = array(
+        '#type' => 'container',
+        '#attributes' => array('class' => array('retain-filters')),
+      );         
+      $form['retain-filters'] = $form['basic']['retain-filters'];
+      unset($form['basic']['retain-filters']);
+    }             
+    $form['basic']['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('')
+    );
+    $form['basic']['#attributes'] = array('class' => array('search-contain'));    
+  }
 }
-
-
-
-
 
 function mediacommons_solr_theme() {
   $themes = array();
@@ -243,4 +233,24 @@ function mediacommons_solr_fls() {
     'ss_referencedspoke',
     'ds_pubdated',
   );
+}
+
+function mediacommons_solr_cron() {
+  // https://jira.nyu.edu/jira/browse/MC-294
+  // https://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/drupal_is_cli/7.x
+  if (drupal_is_cli()) {
+    $env_id = 'solr';
+    $environment = apachesolr_environment_load($env_id);
+    $hosts = array(
+      'devmc2.dlib.nyu.edu' => 'http://dev-discovery.dlib.nyu.edu:8983/solr/mediacommons',
+      'stagemc2.dlib.nyu.edu' => 'http://stage-discovery.dlib.nyu.edu:8983/solr/mediacommons',
+      'mc2.dlib.nyu.edu' => 'http://discovery1.dlib.nyu.edu:8983/solr/mediacommons', // https://jira.nyu.edu/jira/browse/MC-294#comment-95586
+    );
+    if (isset($hosts[$_SERVER['HOSTNAME']])) {
+      if ($environment['url'] != $hosts[$_SERVER['HOSTNAME']]) {
+        $environment['url'] = $hosts[$_SERVER['HOSTNAME']];
+        apachesolr_environment_save($environment);
+      }
+    }
+  }
 }
