@@ -234,23 +234,3 @@ function mediacommons_solr_fls() {
     'ds_pubdated',
   );
 }
-
-function mediacommons_solr_cron() {
-  // https://jira.nyu.edu/jira/browse/MC-294
-  // https://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/drupal_is_cli/7.x
-  if (drupal_is_cli()) {
-    $env_id = 'solr';
-    $environment = apachesolr_environment_load($env_id);
-    $hosts = array(
-      'devmc2.dlib.nyu.edu' => 'http://dev-discovery.dlib.nyu.edu:8983/solr/mediacommons',
-      'stagemc2.dlib.nyu.edu' => 'http://stage-discovery.dlib.nyu.edu:8983/solr/mediacommons',
-      'mc2.dlib.nyu.edu' => 'http://discovery1.dlib.nyu.edu:8983/solr/mediacommons', // https://jira.nyu.edu/jira/browse/MC-294#comment-95586
-    );
-    if (isset($hosts[$_SERVER['HOSTNAME']])) {
-      if ($environment['url'] != $hosts[$_SERVER['HOSTNAME']]) {
-        $environment['url'] = $hosts[$_SERVER['HOSTNAME']];
-        apachesolr_environment_save($environment);
-      }
-    }
-  }
-}

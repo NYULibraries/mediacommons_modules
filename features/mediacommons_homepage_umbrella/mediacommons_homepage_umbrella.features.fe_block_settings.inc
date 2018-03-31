@@ -12,11 +12,11 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
-  $export['mediacommons_blocks-mc_fieldguide'] = array(
+  $export['mediacommons_fieldguide-mediacommons_fieldguide'] = array(
     'cache' => -1,
     'custom' => 0,
-    'delta' => 'mc_fieldguide',
-    'module' => 'mediacommons_blocks',
+    'delta' => 'mediacommons_fieldguide',
+    'module' => 'mediacommons_fieldguide',
     'node_types' => array(),
     'pages' => '<front>',
     'roles' => array(),

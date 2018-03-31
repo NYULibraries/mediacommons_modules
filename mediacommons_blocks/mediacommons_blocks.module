@@ -706,7 +706,7 @@ function mediacommons_blocks_cron() {
 }
 
 function mediacommons_blocks_blocks() {
-  $query = db_query('SELECT * FROM {mediacommons_blocks_blocks}');
+  $query = db_query('SELECT * FROM {mediacommons_blocks_blocks} WHERE type <> :type', array(':type' => 4));
   $result = $query->fetchAll();
   $blocks = array();
   foreach ($result as $record) {
@@ -726,6 +726,7 @@ function mediacommons_blocks_list_types($label = null) {
     'fulltext' => 1, // HTML
     'source' => 2, // URL
     'callback' => 3, // function to call
+    'module' => 4, // module
   );
   if (isset($types[$label])) {
     return $types[$label];
