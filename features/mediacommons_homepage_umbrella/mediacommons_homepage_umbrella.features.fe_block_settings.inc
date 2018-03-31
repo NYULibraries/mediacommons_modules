@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * mediacommons_homepage_umbrella.features.fe_block_settings.inc
@@ -12,7 +13,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
-  $export['mediacommons_blocks-mc_fieldguide'] = array(
+  $export['mediacommons_fieldguide-mc_fieldguide'] = array(
     'cache' => -1,
     'custom' => 0,
     'delta' => 'mc_fieldguide',
@@ -127,4 +128,5 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
   );
 
   return $export;
+
 }
