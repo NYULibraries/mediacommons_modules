@@ -46,9 +46,13 @@ function mediacommons_blocks_add_block($form, &$form_state) {
   $form = block_admin_configure($form, $form_state, 'mediacommons_blocks', NULL);
   $types = mediacommons_blocks_list_types();
   $types_options = array();
+  
   foreach ($types as $type => $key) {
-    $types_options[$key] = $type;
+    if ($type != 'module') {
+      $types_options[$key] = $type;
+    }
   }
+
   $form['settings']['mediacommons_blocks_label'] = array(
     '#type' => 'textfield',
     '#title' => t('Block label'),
@@ -56,15 +60,19 @@ function mediacommons_blocks_add_block($form, &$form_state) {
     '#description' => t('Label'),
     '#default_value' => $label,
   );
+
   $form['settings']['mediacommons_blocks_type'] = array(
     '#type' => 'select',
     '#title' => t('Type of source'),
     '#default_value' => $default_value,
     '#options' => $types_options,
     '#description' => t('At the moment we do not allow to change the type of the source.'),
-  );
+  );  
+  
   $form['#submit'][] = 'mediacommons_blocks_add_block_submit';
+  
   return $form;
+
 }
 
 /**
@@ -116,8 +124,10 @@ function mediacommons_blocks_add_block_submit($form, &$form_state) {
       );
       break;
   }
-  $options['new'] = TRUE;
-  $block = mediacommons_blocks_save_block($options);
+  if ($type != 4) { // don't deal with modules
+    $options['new'] = TRUE;
+    $block = mediacommons_blocks_save_block($options);
+  }
   cache_clear_all();
   $form_state['redirect'] = format_string('admin/structure/block/manage/mediacommons_blocks/@mbid/configure', array('@mbid' => $block->mbid));
 }

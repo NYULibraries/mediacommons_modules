@@ -8,7 +8,7 @@
 function mediacommons_fieldguide_enable() {
   db_insert('mediacommons_blocks_blocks')
     ->fields(array(
-    'mbid' => 'mediacommons_fieldguide',
+    'mbid' => 'mc_fieldguide',
     'type' => 4, // module
     'label' => serialize('Field Guide Survey Question'),
     'content' => serialize(''),
@@ -22,6 +22,6 @@ function mediacommons_fieldguide_enable() {
 
 function mediacommons_fieldguide_disable() {
   db_delete('mediacommons_blocks_blocks')
-    ->condition('mbid', 'mediacommons_fieldguide')
+    ->condition('mbid', 'mc_fieldguide')
     ->execute();
 }

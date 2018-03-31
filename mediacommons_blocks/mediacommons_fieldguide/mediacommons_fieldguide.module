@@ -11,7 +11,7 @@
  * This hook declares what blocks are provided by the module.
  */
 function mediacommons_fieldguide_block_info() {
-  $blocks['mediacommons_fieldguide'] = array(
+  $blocks['mc_fieldguide'] = array(
     'info' => t('MediaCommons: Field Guide Survey Question block'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
@@ -26,7 +26,7 @@ function mediacommons_fieldguide_block_info() {
 function mediacommons_fieldguide_block_view($delta = '') {
   // The $delta parameter tells us which block is being requested.
   switch ($delta) {
-    case 'mediacommons_fieldguide':
+    case 'mc_fieldguide':
       $entity = mediacommons_blocks_block_load($delta);
       $block['subject'] = t('Field Guide Survey Question');
       $block['content'] = array('#markup' => unserialize($entity->content));
@@ -40,7 +40,7 @@ function mediacommons_fieldguide_block_view($delta = '') {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_cron/7.x
  */
 function mediacommons_fieldguide_cron() {
-  $mbid = 'mediacommons_fieldguide';
+  $mbid = 'mc_fieldguide';
   $fieldguide_baseurl = array(
     'devmc2.dlib.nyu.edu' => 'http://dev.mediacommons.org/fieldguide/latest-hub?pjax=1',  
     'stagemc2.dlib.nyu.edu' => 'http://stage.mediacommons.org/fieldguide/latest-hub?pjax=1',
