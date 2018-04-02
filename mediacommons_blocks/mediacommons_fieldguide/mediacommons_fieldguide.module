@@ -11,9 +11,11 @@
  * This hook declares what blocks are provided by the module.
  */
 function mediacommons_fieldguide_block_info() {
-  $blocks['mc_fieldguide'] = array(
-    'info' => t('MediaCommons: Field Guide Survey Question block'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
+  $blocks = array(
+    'mc_fieldguide' => array(
+      'info' => t('MediaCommons: Field Guide Survey Question block'),
+      'cache' => DRUPAL_CACHE_GLOBAL,
+    ),
   );
   return $blocks;
 }
