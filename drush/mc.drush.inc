@@ -110,6 +110,7 @@ function drush_mc_update_fieldguide_umbrella_block() {
 
 function drush_mc_init_fieldguide() {
   module_enable(array('mediacommons_fieldguide'));
+  mediacommons_fieldguide_cron();
 }
 
 /**
