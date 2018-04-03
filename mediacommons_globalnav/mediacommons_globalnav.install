@@ -130,6 +130,17 @@ function _mediacommons_globalnav_config() {
   
     'Front page' =>  array(
     
+     // Front Page Link for Mobile devices
+      array(
+        'link_path' => $info['mediacommons']['environments'][$info['mediacommons']['environment']]['mediacommons'],
+        'link_title' => 'MediaCommons Front Page',
+        'menu_name' => $menu_name,
+        'expanded' => 0,
+        'external' => 1,
+        'weight' => ++$leaf_frontpage_increment,
+        'customized' => 1,      
+        'module' => 'menu',        
+      ),
       // Field Guide
       array(
         'link_path' => $info['mediacommons']['environments'][$info['mediacommons']['environment']]['fieldguide'],

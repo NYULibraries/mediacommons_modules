@@ -31,7 +31,7 @@ mediacommons[environments][development][tne] = http://[MEDIACOMMONS_DOMAIN]/tne/
 mediacommons[environments][development][imr] = http://[MEDIACOMMONS_DOMAIN]/imr/
 mediacommons[environments][development][altac] = http://[MEDIACOMMONS_DOMAIN]/alt-ac/
 mediacommons[environments][development][intransition] = http://[MEDIACOMMONS_DOMAIN]/intransition/
-mediacommons[environments][development][mediacommons] = http://[MEDIACOMMONS_DOMAIN]/mediacommons/
+mediacommons[environments][development][mediacommons] = http://[MEDIACOMMONS_DOMAIN]
 mediacommons[environments][development][mcpress] = http://mcpress.media-commons.org/
 
 mediacommons[environments][stage][fieldguide] = /fieldguide/
@@ -39,7 +39,7 @@ mediacommons[environments][stage][tne] = /tne/
 mediacommons[environments][stage][imr] = /imr/
 mediacommons[environments][stage][altac] = /alt-ac/
 mediacommons[environments][stage][intransition] = /intransition/
-mediacommons[environments][stage][mediacommons] = /mediacommons/
+mediacommons[environments][stage][mediacommons] = /
 mediacommons[environments][stage][mcpress] = http://mcpress.media-commons.org/
 
 mediacommons[environments][production][fieldguide] = http://mediacommons.futureofthebook.org/fieldguide/

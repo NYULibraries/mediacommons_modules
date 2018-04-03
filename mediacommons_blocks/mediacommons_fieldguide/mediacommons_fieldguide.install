@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the mediacommons_block module.
+ */
+
+function mediacommons_fieldguide_enable() {
+  db_insert('mediacommons_blocks_blocks')
+    ->fields(array(
+    'mbid' => 'mc_fieldguide',
+    'type' => 4, // module
+    'label' => serialize('Field Guide Survey Question'),
+    'content' => serialize(''),
+    'created' => time(),
+    'proceed' => time(),
+    'expire' => time(),
+    )
+  )
+  ->execute();  
+}
+
+function mediacommons_fieldguide_disable() {
+  db_delete('mediacommons_blocks_blocks')
+    ->condition('mbid', 'mc_fieldguide')
+    ->execute();
+}

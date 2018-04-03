@@ -77,16 +77,6 @@ function mediacommons_blocks_schema () {
 function mediacommons_blocks_enable () {
   
   $options = array(
-    'type' => 'source',
-    'mbid' => 'mc_fieldguide',    
-    'label' => 'Field Guide Survey Question',
-    // create the block, but don't request data
-    //'url' => 'http://devmc2.dlib.nyu.edu/fieldguide/latest-hub?pjax=1',
-  );
-
-  mediacommons_blocks_save_block($options);
-  
-  $options = array(
     'type' => 'fulltext',
     'mbid' => 'mc_footer',    
     'label' => 'Default footer',

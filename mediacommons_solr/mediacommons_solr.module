@@ -17,34 +17,24 @@ include_once 'mediacommons_solr.results.inc';
  */
 
 function mediacommons_solr_form_alter(&$form, &$form_state, $form_id) {
-    if($form_id=="apachesolr_search_custom_page_search_form"){
-    
-      $form['#attributes'] = array('role' => 'search', 'class' => array('search-results-input'));
-      $form['#id'] = 'search-block-form';
-     
-      if (isset($form['basic']['retain-filters'])){
-         $form['retain-filters'] = array(
-              '#type' => 'container',
-              '#attributes' => array('class' => array('retain-filters')),
-            );
-         
-        $form['retain-filters'] = $form['basic']['retain-filters'];
-        unset($form['basic']['retain-filters']);
-      }
-             
-      $form['basic']['submit'] = array(
-            '#type' => 'submit',
-            '#value' => t('')
-      );
-      $form['basic']['#attributes'] = array('class' => array('search-contain')); 
-     
-    
-    }   
+  if ($form_id=="apachesolr_search_custom_page_search_form") {    
+    $form['#attributes'] = array('role' => 'search', 'class' => array('search-results-input'));
+    $form['#id'] = 'search-block-form';     
+    if (isset($form['basic']['retain-filters'])) {
+      $form['retain-filters'] = array(
+        '#type' => 'container',
+        '#attributes' => array('class' => array('retain-filters')),
+      );         
+      $form['retain-filters'] = $form['basic']['retain-filters'];
+      unset($form['basic']['retain-filters']);
+    }             
+    $form['basic']['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('')
+    );
+    $form['basic']['#attributes'] = array('class' => array('search-contain'));    
+  }
 }
-
-
-
-
 
 function mediacommons_solr_theme() {
   $themes = array();
@@ -241,5 +231,6 @@ function mediacommons_solr_fls() {
     'ss_enddate',
     'ss_edyyyymmdd',
     'ss_referencedspoke',
+    'ds_pubdated',
   );
 }

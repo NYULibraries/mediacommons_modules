@@ -294,6 +294,7 @@ features[image][] = 21_9_ratio
 features[image][] = 450_by_175
 features[image][] = homepage_featured_item__480x320_
 features[image][] = manual_crop_480_320
+features[image][] = manual_crop_thumbnail_120_by_80
 features[image][] = max_width_600px
 features[image][] = profile_page_pic
 features[image][] = profile_pic_small

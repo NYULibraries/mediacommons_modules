@@ -366,7 +366,7 @@ function mediacommons_content_types_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Meta',
-    'weight' => '3',
+    'weight' => '1',
     'children' => array(
       0 => 'field_contributors',
       1 => 'field_pubdate',

@@ -12,51 +12,13 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
 
   $export['version'] = '2.0';
 
-  $export['mediacommons_blocks-mc_fieldguide'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'delta' => 'mc_fieldguide',
-    'module' => 'mediacommons_blocks',
-    'node_types' => array(),
-    'pages' => '<front>',
-    'roles' => array(),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'mediacommons' => array(
-        'region' => 'umb_homepage_sidebar',
-        'status' => 1,
-        'theme' => 'mediacommons',
-        'weight' => 0,
-      ),
-      'mediacommons_admin' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 1,
-  );
-
   $export['views-mc_home_lede-block'] = array(
     'cache' => -1,
     'custom' => 0,
     'delta' => 'mc_home_lede-block',
     'module' => 'views',
     'node_types' => array(),
-    'pages' => '<front>',
+    'pages' => '',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -85,7 +47,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
       ),
     ),
     'title' => '',
-    'visibility' => 1,
+    'visibility' => 0,
   );
 
   $export['views-recent_6_front_page_posts-block'] = array(
@@ -94,7 +56,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
     'delta' => 'recent_6_front_page_posts-block',
     'module' => 'views',
     'node_types' => array(),
-    'pages' => '<front>',
+    'pages' => '',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -123,7 +85,7 @@ function mediacommons_homepage_umbrella_default_fe_block_settings() {
       ),
     ),
     'title' => '',
-    'visibility' => 1,
+    'visibility' => 0,
   );
 
   return $export;
