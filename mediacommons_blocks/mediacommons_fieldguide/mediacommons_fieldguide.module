@@ -44,10 +44,9 @@ function mediacommons_fieldguide_block_view($delta = '') {
 function mediacommons_fieldguide_cron() {
   $mbid = 'mc_fieldguide';
   $fieldguide_baseurl = array(
-    'devmc2.dlib.nyu.edu' => 'http://dev.mediacommons.org/fieldguide/latest-hub?pjax=1',  
-    'stagemc2.dlib.nyu.edu' => 'http://stage.mediacommons.org/fieldguide/latest-hub?pjax=1',
-    'mc2.dlib.nyu.edu' => 'http://mediacommons.org/fieldguide/latest-hub?pjax=1',
-    'base' => 'http://192.168.0.16:2000/fieldguide/latest-hub?pjax=1',
+    'devmc2.dlib.nyu.edu' => 'http://dev.mediacommons.org/fieldguide/latest-hub-fieldguide-widget?pjax=1',  
+    'stagemc2.dlib.nyu.edu' => 'http://stage.mediacommons.org/fieldguide/latest-hub-fieldguide-widget?pjax=1',
+    'mc2.dlib.nyu.edu' => 'http://mediacommons.org/fieldguide/latest-hub-fieldguide-widget?pjax=1',
   );
   $hostname = gethostname();  
   if (isset($fieldguide_baseurl[$hostname])) {
