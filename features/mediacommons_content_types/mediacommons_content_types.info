@@ -296,6 +296,7 @@ features[image][] = homepage_featured_item__480x320_
 features[image][] = manual_crop_480_320
 features[image][] = manual_crop_thumbnail_120_by_80
 features[image][] = max_width_600px
+features[image][] = mc_unchanged
 features[image][] = profile_page_pic
 features[image][] = profile_pic_small
 features[image][] = thumbnail__120x80_

@@ -183,6 +183,12 @@ function mediacommons_content_types_image_default_styles() {
     ),
   );
 
+  // Exported image style: mc_unchanged.
+  $styles['mc_unchanged'] = array(
+    'label' => 'MC_unchanged',
+    'effects' => array(),
+  );
+
   // Exported image style: profile_page_pic.
   $styles['profile_page_pic'] = array(
     'label' => 'Profile Page Pic',
