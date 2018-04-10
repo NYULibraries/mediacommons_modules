@@ -1808,7 +1808,7 @@ Please choose "Crop" to create an additional version of your image which will be
   $field_instances['node-spoke-field_attached_images'] = array(
     'bundle' => 'spoke',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Use this field to store images associated with this post.   The images will not show up anywhere by default; they must be explicitly referenced in the post\'s body text. ',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -1876,28 +1876,35 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 1,
+      'default_image' => 0,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
-      'max_resolution' => '',
+      'max_resolution' => '800x800',
       'min_resolution' => '',
-      'title_field' => 1,
+      'title_field' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'imagefield_crop',
+      'module' => 'image',
       'settings' => array(
-        'collapsible' => 2,
-        'croparea' => '500x500',
-        'enforce_minimum' => 1,
-        'enforce_ratio' => 1,
-        'preview_image_style' => 'medium',
+        'manualcrop_crop_info' => 0,
+        'manualcrop_default_crop_area' => 0,
+        'manualcrop_enable' => 0,
+        'manualcrop_inline_crop' => 0,
+        'manualcrop_instant_crop' => 0,
+        'manualcrop_instant_preview' => 0,
+        'manualcrop_keyboard' => 0,
+        'manualcrop_maximize_default_crop_area' => 0,
+        'manualcrop_require_cropping' => array(),
+        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => 0,
+        'preview_image_style' => 'mc_unchanged',
         'progress_indicator' => 'throbber',
-        'resolution' => '200x150',
       ),
-      'type' => 'imagefield_crop_widget',
+      'type' => 'image_image',
       'weight' => 4,
     ),
   );
@@ -2472,7 +2479,7 @@ Please choose "Crop" to create an additional version of your image which will be
   $field_instances['node-spoke-field_representative_image'] = array(
     'bundle' => 'spoke',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'This will used as the thumbnail image for this post.   After upload, you will be asked to crop it to 120px wide and 80px high.   Maximum file size for the uploaded image is 200 KB.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -2524,16 +2531,16 @@ Please choose "Crop" to create an additional version of your image which will be
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'field_representative_image',
-    'label' => 'Representative Image',
+    'label' => 'Representative Image:  the thumbnail for this post',
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
       'default_image' => 2491,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '1 MB',
+      'max_filesize' => '200 KB',
       'max_resolution' => '1200x800',
-      'min_resolution' => '120x80',
+      'min_resolution' => '12x8',
       'title_field' => 0,
       'user_register_form' => FALSE,
     ),
@@ -2543,7 +2550,7 @@ Please choose "Crop" to create an additional version of your image which will be
       'settings' => array(
         'collapsible' => 1,
         'croparea' => '480x320',
-        'enforce_minimum' => 1,
+        'enforce_minimum' => 0,
         'enforce_ratio' => 1,
         'preview_image_style' => 'manual_crop_thumbnail_120_by_80',
         'progress_indicator' => 'throbber',
@@ -3687,6 +3694,7 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Publication date');
   t('Recipient');
   t('Representative Image');
+  t('Representative Image:  the thumbnail for this post');
   t('Representative image: Rights and Attribution');
   t('Research Interests');
   t('Review');
@@ -3699,6 +3707,7 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Tags');
   t('These are tied to MediaCommons "tags";  they will be linked to from your profile page, and your profile will be linked to from the corresponding tag page. ');
   t('This will appear wherever the image is seen full-sized.');
+  t('This will used as the thumbnail image for this post.   After upload, you will be asked to crop it to 120px wide and 80px high.   Maximum file size for the uploaded image is 200 KB.');
   t('Twitter');
   t('URL');
   t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page.
@@ -3706,6 +3715,7 @@ Please choose "Crop" to create an additional version of your image which will be
 
 
 Please choose "Crop" to create an additional version of your image which will be visible in hub "teasers" on the homepage and in the archive list. ');
+  t('Use this field to store images associated with this post.   The images will not show up anywhere by default; they must be explicitly referenced in the post\'s body text. ');
 
   return $field_instances;
 }
