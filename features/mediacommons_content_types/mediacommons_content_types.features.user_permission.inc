@@ -378,6 +378,7 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'administer nodes',
     'roles' => array(
       'administrator' => 'administrator',
+      'managing editor' => 'managing editor',
     ),
     'module' => 'node',
   );
@@ -487,7 +488,6 @@ function mediacommons_content_types_user_default_permissions() {
     'name' => 'administer users',
     'roles' => array(
       'administrator' => 'administrator',
-      'managing editor' => 'managing editor',
     ),
     'module' => 'user',
   );
