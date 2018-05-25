@@ -2479,7 +2479,9 @@ Please choose "Crop" to create an additional version of your image which will be
   $field_instances['node-spoke-field_representative_image'] = array(
     'bundle' => 'spoke',
     'deleted' => 0,
-    'description' => 'This will used as the thumbnail image for this post.   After upload, you will be asked to crop it to 120px wide and 80px high.   Maximum file size for the uploaded image is 200 KB.',
+    'description' => 'This image will appear next to the post\'s title and other metadata, whenever it appears in a listing, such as on a collection page or in search results.  It will not appear in the body of the post. 
+Immediately after upload, you will need to crop the image.   To change the cropping later, click the crop button. 
+',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -2522,7 +2524,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => '',
+          'image_style' => 'manual_crop_thumbnail_120_by_80',
         ),
         'type' => 'image',
         'weight' => 0,
@@ -2531,7 +2533,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'field_representative_image',
-    'label' => 'Representative Image:  the thumbnail for this post',
+    'label' => 'Thumbnail image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
@@ -2539,24 +2541,35 @@ Please choose "Crop" to create an additional version of your image which will be
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '200 KB',
-      'max_resolution' => '1200x800',
+      'max_resolution' => '600x400',
       'min_resolution' => '12x8',
       'title_field' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'imagefield_crop',
+      'module' => 'image',
       'settings' => array(
-        'collapsible' => 1,
-        'croparea' => '480x320',
-        'enforce_minimum' => 0,
-        'enforce_ratio' => 1,
+        'manualcrop_crop_info' => 1,
+        'manualcrop_default_crop_area' => 1,
+        'manualcrop_enable' => 1,
+        'manualcrop_inline_crop' => 0,
+        'manualcrop_instant_crop' => 1,
+        'manualcrop_instant_preview' => 1,
+        'manualcrop_keyboard' => 1,
+        'manualcrop_maximize_default_crop_area' => 1,
+        'manualcrop_require_cropping' => array(
+          'manual_crop_thumbnail_120_by_80' => 'manual_crop_thumbnail_120_by_80',
+        ),
+        'manualcrop_styles_list' => array(
+          'manual_crop_thumbnail_120_by_80' => 'manual_crop_thumbnail_120_by_80',
+        ),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => 0,
         'preview_image_style' => 'manual_crop_thumbnail_120_by_80',
         'progress_indicator' => 'throbber',
-        'resolution' => '120x80',
       ),
-      'type' => 'imagefield_crop_widget',
+      'type' => 'image_image',
       'weight' => 5,
     ),
   );
@@ -3694,7 +3707,6 @@ Please choose "Crop" to create an additional version of your image which will be
   t('Publication date');
   t('Recipient');
   t('Representative Image');
-  t('Representative Image:  the thumbnail for this post');
   t('Representative image: Rights and Attribution');
   t('Research Interests');
   t('Review');
@@ -3706,8 +3718,11 @@ Please choose "Crop" to create an additional version of your image which will be
   t('State');
   t('Tags');
   t('These are tied to MediaCommons "tags";  they will be linked to from your profile page, and your profile will be linked to from the corresponding tag page. ');
+  t('This image will appear next to the post\'s title and other metadata, whenever it appears in a listing, such as on a collection page or in search results.  It will not appear in the body of the post. 
+Immediately after upload, you will need to crop the image.   To change the cropping later, click the crop button. 
+');
   t('This will appear wherever the image is seen full-sized.');
-  t('This will used as the thumbnail image for this post.   After upload, you will be asked to crop it to 120px wide and 80px high.   Maximum file size for the uploaded image is 200 KB.');
+  t('Thumbnail image');
   t('Twitter');
   t('URL');
   t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page.
