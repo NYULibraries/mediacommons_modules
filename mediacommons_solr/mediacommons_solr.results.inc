@@ -60,7 +60,7 @@ function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variabl
   $variables['referencedspoke'] = json_decode($fields['ss_referencedspoke']);
   // contributors
   $peoplelist = array(
-    'peoplelist' => json_decode($fields['ss_contributors'])
+    'peoplelist' => json_decode($fields['zs_contributors'])
   );
   $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);
 }
@@ -70,13 +70,13 @@ function mediacommons_solr_preprocess_search_result_spoke(&$variables) {
   $variables['classes_array'][] = 'node-teaser';
   $variables['classes_array'][] = 'view-mode-teaser';
   // Representative Image
-  $variables['ri'] = json_decode($node->ss_ri);
+  $variables['ri'] = json_decode($node->zs_ri);
   // Period start
   $variables['created_date'] = $node->ss_createddate;
   $variables['comment_count'] = $node->is_comment_count;
   // contributors
   $peoplelist = array(
-    'peoplelist' => json_decode($node->ss_contributors)
+    'peoplelist' => json_decode($node->zs_contributors)
   );
   $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);
 }
@@ -85,7 +85,7 @@ function mediacommons_solr_preprocess_search_result_hub(&$variables) {
   $node = $variables['result']['node'];
   $variables['classes_array'][] = 'clearfix';
   // Representative Image
-  $variables['ri'] = json_decode($node->ss_ri);
+  $variables['ri'] = json_decode($node->zs_ri);
   // Period start
   $variables['created_date'] = $node->ss_createddate;
   $variables['cd_yyyy_mm_dd'] = $node->ss_cdyyyymmdd;
@@ -99,7 +99,7 @@ function mediacommons_solr_preprocess_search_result_hub(&$variables) {
    * @theme_file: templates/mediacommons_solr_hcard.tpl.php
    */
   $peoplelist = array(
-    'peoplelist' => json_decode($node->ss_curatorseditors)
+    'peoplelist' => json_decode($node->zs_curatorseditors)
   );
   $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);
 }

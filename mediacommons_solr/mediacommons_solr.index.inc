@@ -31,17 +31,17 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   // Contributors
   $json = array();
   foreach ($wrapper->field_contributors->value() as $delta => $user_entity) {
-    $document->addField ('im_contributors', $user_entity->uid);
-    $document->addField ('im_contributor', $user_entity->uid);
-    $json[] = mediacommons_solr_user_metadata ( $user_entity);
+    $document->addField('im_contributors', $user_entity->uid);
+    $document->addField('im_contributor', $user_entity->uid);
+    $json[] = mediacommons_solr_user_metadata($user_entity);
   }
-  $document->addField('ss_contributors', json_encode($json));
+  $document->addField('zs_contributors', json_encode($json));
   // Representative image
-  $ri = array ();
+  $ri = array();
   $representativeimage = $wrapper->field_representative_image->value();
-  if ($representativeimage ['fid']) {
+  if ($representativeimage['fid']) {
     foreach (image_styles() as $style) {
-	  $derivative_uri = image_style_path($style ['name'], $representativeimage['uri']);
+	  $derivative_uri = image_style_path($style['name'], $representativeimage['uri']);
       if (!file_exists($derivative_uri)) {
         $image = image_style_create_derivative($style, $representativeimage['uri'], $derivative_uri);
         if ($image) {
@@ -56,7 +56,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
       }
     }
   }
-  $document->addField('ss_ri', json_encode($ri));
+  $document->addField('zs_ri', json_encode($ri));
   $pubdate = $wrapper->field_pubdate->value();
 
   if (empty($pubdate)) {
@@ -80,57 +80,57 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
   // Save representative image styles + URLs as JSON
   $ri = array();
   $representativeimage = $wrapper->field_representative_image->value();
-  if ($representativeimage ['fid']) {
-    foreach ( image_styles () as $style ) {
-			$derivative_uri = image_style_path ( $style ['name'], $representativeimage ['uri'] );
-			if (! file_exists ( $derivative_uri )) {
-				$image = image_style_create_derivative ( $style, $representativeimage ['uri'], $derivative_uri );
+  if ($representativeimage['fid']) {
+    foreach (image_styles() as $style) {
+			$derivative_uri = image_style_path($style ['name'], $representativeimage['uri']);
+			if (!file_exists($derivative_uri)) {
+				$image = image_style_create_derivative($style, $representativeimage['uri'], $derivative_uri);
 				if ($image) {
-					$imageurl = file_create_url ( $derivative_uri );
+					$imageurl = file_create_url($derivative_uri);
 				}
 			} else {
-				$imageurl = file_create_url ( $derivative_uri );
+				$imageurl = file_create_url($derivative_uri);
 			}
 			// Make sure we have a URL
-			if (isset ( $imageurl )) {
+			if (isset($imageurl)) {
 				$ri [$style ['name']] = $imageurl;
 			}
 		}
 	}
-	$document->addField ( 'ss_ri', json_encode ( $ri ) );
-
+	$document->addField('zs_ri', json_encode($ri));
+ 
 	// Contributors
-	$json = array ();
-	foreach ( $wrapper->field_contributors->value () as $delta => $user_entity ) {
-		$document->addField ( 'im_contributors', $user_entity->uid );
-		$document->addField ( 'im_contributor', $user_entity->uid );
-		$json [] = mediacommons_solr_user_metadata ( $user_entity );
+	$json = array();
+	foreach ($wrapper->field_contributors->value () as $delta => $user_entity ) {
+		$document->addField('im_contributors', $user_entity->uid );
+		$document->addField('im_contributor', $user_entity->uid );
+		$json [] = mediacommons_solr_user_metadata ($user_entity );
 	}
-	$document->addField ( 'ss_contributors', json_encode ( $json ) );
+	$document->addField('zs_contributors', json_encode ($json ) );
 
 	// Curators editors
 	$json = array ();
-	foreach ( $wrapper->field_curators_editors->value () as $delta => $user_entity ) {
-		$document->addField ( 'im_contributors', $user_entity->uid );
-		$document->addField ( 'im_curatorseditors', $user_entity->uid );
-		$json [] = mediacommons_solr_user_metadata ( $user_entity );
+	foreach ($wrapper->field_curators_editors->value () as $delta => $user_entity ) {
+		$document->addField('im_contributors', $user_entity->uid );
+		$document->addField('im_curatorseditors', $user_entity->uid );
+		$json [] = mediacommons_solr_user_metadata ($user_entity );
 	}
-	$document->addField ( 'ss_curatorseditors', json_encode ( $json ) );
+	$document->addField('zs_curatorseditors', json_encode ($json ) );
 
 	// Co-editors
 	$json = array ();
-	foreach ( $wrapper->field_co_editor->value () as $delta => $user_entity ) {
-		$document->addField ( 'im_contributors', $user_entity->uid );
-		$document->addField ( 'im_coeditor', $user_entity->uid );
-		$json [] = mediacommons_solr_user_metadata ( $user_entity );
+	foreach ($wrapper->field_co_editor->value () as $delta => $user_entity ) {
+		$document->addField('im_contributors', $user_entity->uid );
+		$document->addField('im_coeditor', $user_entity->uid );
+		$json [] = mediacommons_solr_user_metadata ($user_entity );
 	}
 
-	$document->addField ( 'ss_coeditor', json_encode ( $json ) );
+	$document->addField('zs_coeditor', json_encode ($json ) );
 
-	$period = $wrapper->field_period->value ();
+	$period = $wrapper->field_period->value();
 
 	// Period start
-	if (isset ( $period ['value'] ) && ! empty ( $period['value'])) {
+	if (isset ($period ['value'] ) && ! empty ($period['value'])) {
 		$document->addField('ss_periodstart', $period['value']);
 		$document->addField('ss_createddate', date('F d, Y', $period['value']));
 		$document->addField('ss_cdyyyymmdd', date('Y-m-d', $period['value']));
@@ -141,24 +141,24 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
 
 	}
 	else {
-	  $document->addField ( 'ss_periodstart', $entity->created );
-      $document->addField ( 'ss_createddate', date ( 'F d, Y', $entity->created ) );
-      $document->addField ( 'ss_cdyyyymmdd', date ( 'Y-m-d', $entity->created ) );
-      $document->addField ( 'ss_pubdate', date ( 'F d, Y', $entity->created ) );
+	  $document->addField('ss_periodstart', $entity->created );
+      $document->addField('ss_createddate', date ('F d, Y', $entity->created ) );
+      $document->addField('ss_cdyyyymmdd', date ('Y-m-d', $entity->created ) );
+      $document->addField('ss_pubdate', date ('F d, Y', $entity->created ) );
       $document->addField('ds_pubdate', apachesolr_date_iso($entity->created));
       $document->addField('ds_pubdated', apachesolr_date_iso($entity->created));
       $document->addField('ds_pubdatea', apachesolr_date_iso($entity->created));
 	}
 
 	// Period end
-	if (isset ( $period ['value2'] ) && ! empty ( $period ['value2'] )) {
-		$document->addField ( 'ss_periodend', $period ['value2'] );
-		$document->addField ( 'ss_enddate', date ( 'F d, Y', $period ['value2'] ) );
-		$document->addField ( 'ss_edyyyymmdd', date ( 'Y-m-d', $period ['value2'] ) );
+	if (isset ($period ['value2'] ) && ! empty ($period ['value2'] )) {
+		$document->addField('ss_periodend', $period ['value2'] );
+		$document->addField('ss_enddate', date ('F d, Y', $period ['value2'] ) );
+		$document->addField('ss_edyyyymmdd', date ('Y-m-d', $period ['value2'] ) );
 	} else {
-		$document->addField ( 'ss_periodend', $entity->created );
-		$document->addField ( 'ss_enddate', date ( 'F d, Y', $entity->created ) );
-		$document->addField ( 'ss_edyyyymmdd', date ( 'Y-m-d', $entity->created ) );
+		$document->addField('ss_periodend', $entity->created );
+		$document->addField('ss_enddate', date ('F d, Y', $entity->created ) );
+		$document->addField('ss_edyyyymmdd', date ('Y-m-d', $entity->created ) );
 	}
 }
 
@@ -172,7 +172,7 @@ function mediacommons_solr_apachesolr_index_document_build_review(&$document, $w
     $document->addField('im_reviewer', $item->uid);
     $json[] = mediacommons_solr_user_metadata($user_entity);
   }
-  $document->addField ( 'ss_reviewer', json_encode ( $json ) );
+  $document->addField('zs_reviewer', json_encode ($json ) );
   $document->addField('ds_pubdate', apachesolr_date_iso($entity->created));
   $document->addField('ds_pubdated', apachesolr_date_iso($entity->created));
   $document->addField('ds_pubdatea', apachesolr_date_iso($entity->created));
@@ -203,10 +203,10 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$
   unset($node);
   $json = array();
   $document->addField('im_contributors', $entity->uid);
-  $document->addField ('im_contributor', $entity->uid);
+  $document->addField('im_contributor', $entity->uid);
   $account = user_load($entity->uid);
   $json[] = mediacommons_solr_user_metadata($account);
-  $document->addField('ss_contributors', json_encode($json));
+  $document->addField('zs_contributors', json_encode($json));
 }
 
 /**
@@ -234,10 +234,10 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_hub(&$do
   unset($node);
   $json = array();
   $document->addField('im_contributors', $entity->uid);
-  $document->addField ('im_contributor', $entity->uid);
+  $document->addField('im_contributor', $entity->uid);
   $account = user_load($entity->uid);
   $json[] = mediacommons_solr_user_metadata($account);
-  $document->addField('ss_contributors', json_encode($json));
+  $document->addField('zs_contributors', json_encode($json));
 }
 
 /**
@@ -265,10 +265,10 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_review(&
   unset($node);
   $json = array();
   $document->addField('im_contributors', $entity->uid);
-  $document->addField ('im_contributor', $entity->uid);
+  $document->addField('im_contributor', $entity->uid);
   $account = user_load($entity->uid);
   $json[] = mediacommons_solr_user_metadata($account);
-  $document->addField('ss_contributors', json_encode($json));
+  $document->addField('zs_contributors', json_encode($json));
 }
 
 /**
@@ -278,21 +278,21 @@ function mediacommons_solr_user_metadata($entity) {
   $user = array();
   try {
     $uwrapper = entity_metadata_wrapper('user', $entity);
-	$uid = $uwrapper->getIdentifier ();
-	$picture = array ();
-	if (! empty ( $entity->picture )) {
-	  foreach ( image_styles () as $style ) {
-		  $derivative_uri = image_style_path ( $style ['name'], $entity->picture->uri );
-				if (! file_exists ( $derivative_uri )) {
-					$image = image_style_create_derivative ( $style, $entity->picture->uri, $derivative_uri );
+	  $uid = $uwrapper->getIdentifier ();
+	  $picture = array ();
+	  if (!empty($entity->picture)) {
+	  foreach (image_styles () as $style ) {
+		  $derivative_uri = image_style_path ($style ['name'], $entity->picture->uri );
+				if (! file_exists ($derivative_uri )) {
+					$image = image_style_create_derivative ($style, $entity->picture->uri, $derivative_uri );
 					if ($image) {
-						$imageurl = file_create_url ( $derivative_uri );
+						$imageurl = file_create_url ($derivative_uri );
 					}
 				} else {
-					$imageurl = file_create_url ( $derivative_uri );
+					$imageurl = file_create_url ($derivative_uri );
 				}
 				// Make sure we have a URL
-				if (isset ( $imageurl )) {
+				if (isset ($imageurl )) {
 					$picture [$style ['name']] = $imageurl;
 				}
 			}
@@ -304,24 +304,24 @@ function mediacommons_solr_user_metadata($entity) {
 			$organization ['vid'] = $field_organization->vid;
 			$organization ['name'] = $field_organization->name;
 			$organization ['vocabulary'] = $field_organization->vocabulary_machine_name;
-			$organization ['url'] = drupal_get_path_alias ( 'taxonomy/term/' . $field_organization->tid );
+			$organization ['url'] = drupal_get_path_alias ('taxonomy/term/' . $field_organization->tid );
 		}
 		$user ['uid'] = $uwrapper->getIdentifier ();
-		$user ['url'] = drupal_get_path_alias ( 'user/' . $uid );
+		$user ['url'] = drupal_get_path_alias ('user/' . $uid );
 		$user ['organization'] = $organization;
 		$user ['picture'] = $picture;
-		if (isset ( $entity->realname )) {
+		if (isset ($entity->realname )) {
 			$user ['name'] = $entity->realname;
 		}
-	} catch ( EntityMetadataWrapperException $exc ) {
+	} catch (EntityMetadataWrapperException $exc ) {
 		$args = array (
 				'%function' => __FUNCTION__,
 				'@trace' => $exc->getTraceAsString ()
 		);
 		$string = 'EntityMetadataWrapper exception in %function() <pre>@trace</pre>';
-		watchdog ( 'mediacommons_solr', $string, $args, WATCHDOG_ERROR );
-		if (function_exists ( 'drush' )) {
-			drush_log ( dt ( $string, $args ), 'error' );
+		watchdog ('mediacommons_solr', $string, $args, WATCHDOG_ERROR );
+		if (function_exists ('drush' )) {
+			drush_log (dt ($string, $args ), 'error' );
 		}
 	}
 	return $user;

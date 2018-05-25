@@ -218,11 +218,11 @@ function mediacommons_solr_fls() {
     'im_reviewer',
     'ss_pubdate',
     'is_comment_count',
-    'ss_reviewer', // JSON object
-    'ss_contributors', // JSON object
-    'ss_curatorseditors', // JSON object
-    'ss_coeditor', // JSON object
-    'ss_ri', // JSON object including all image styles URL
+    'zs_reviewer', // JSON object
+    'zs_contributors', // JSON object
+    'zs_curatorseditors', // JSON object
+    'zs_coeditor', // JSON object
+    'zs_ri', // JSON object including all image styles URL
     'ss_periodstart',
     'ss_createddate',
     'ss_cdyyyymmdd',
