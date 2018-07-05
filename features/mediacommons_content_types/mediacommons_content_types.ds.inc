@@ -792,8 +792,19 @@ function mediacommons_content_types_ds_field_settings_info() {
     ),
     'title' => array(
       'weight' => '0',
-      'label' => 'hidden',
+      'label' => 'inline',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '0',
+        'wrapper' => 'h1',
+        'class' => 'page-title',
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Tag',
+          'lbw-el' => 'span',
+          'lbw-cl' => 'l',
+        ),
+      ),
     ),
   );
   $export['taxonomy_term|tags|full'] = $ds_fieldsetting;
@@ -2087,6 +2098,7 @@ function mediacommons_content_types_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['taxonomy_term|tags|full'] = $ds_layout;
 

@@ -8,6 +8,9 @@
  * Implements hook_field_default_field_instances().
  */
 function mediacommons_content_types_field_default_field_instances() {
+  
+  $fid = variable_get('mediacommons_content_types_default_image_fid', 1);
+
   $field_instances = array();
 
   // Exported field_instance:
@@ -1188,7 +1191,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 1,
+      'default_image' => $fid,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '10 MB',
@@ -1808,7 +1811,7 @@ Please choose "Crop" to create an additional version of your image which will be
   $field_instances['node-spoke-field_attached_images'] = array(
     'bundle' => 'spoke',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Use this field to store images associated with this post.   The images will not show up anywhere by default; they must be explicitly referenced in the post\'s body text. ',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -1876,28 +1879,35 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 1,
+      'default_image' => 0,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
-      'max_resolution' => '',
+      'max_resolution' => '800x800',
       'min_resolution' => '',
-      'title_field' => 1,
+      'title_field' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'imagefield_crop',
+      'module' => 'image',
       'settings' => array(
-        'collapsible' => 2,
-        'croparea' => '500x500',
-        'enforce_minimum' => 1,
-        'enforce_ratio' => 1,
-        'preview_image_style' => 'medium',
+        'manualcrop_crop_info' => 0,
+        'manualcrop_default_crop_area' => 0,
+        'manualcrop_enable' => 0,
+        'manualcrop_inline_crop' => 0,
+        'manualcrop_instant_crop' => 0,
+        'manualcrop_instant_preview' => 0,
+        'manualcrop_keyboard' => 0,
+        'manualcrop_maximize_default_crop_area' => 0,
+        'manualcrop_require_cropping' => array(),
+        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => 0,
+        'preview_image_style' => 'mc_unchanged',
         'progress_indicator' => 'throbber',
-        'resolution' => '200x150',
       ),
-      'type' => 'imagefield_crop_widget',
+      'type' => 'image_image',
       'weight' => 4,
     ),
   );
@@ -2472,7 +2482,9 @@ Please choose "Crop" to create an additional version of your image which will be
   $field_instances['node-spoke-field_representative_image'] = array(
     'bundle' => 'spoke',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'This image will appear next to the post\'s title and other metadata, whenever it appears in a listing, such as on a collection page or in search results.  It will not appear in the body of the post. 
+Immediately after upload, you will need to crop the image.   To change the cropping later, click the crop button. 
+',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -2515,7 +2527,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => '',
+          'image_style' => 'manual_crop_thumbnail_120_by_80',
         ),
         'type' => 'image',
         'weight' => 0,
@@ -2524,32 +2536,43 @@ Please choose "Crop" to create an additional version of your image which will be
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'field_representative_image',
-    'label' => 'Representative Image',
+    'label' => 'Thumbnail image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 2491,
+      'default_image' => $fid,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '1 MB',
-      'max_resolution' => '1200x800',
-      'min_resolution' => '120x80',
+      'max_filesize' => '200 KB',
+      'max_resolution' => '600x400',
+      'min_resolution' => '12x8',
       'title_field' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'imagefield_crop',
+      'module' => 'image',
       'settings' => array(
-        'collapsible' => 1,
-        'croparea' => '480x320',
-        'enforce_minimum' => 1,
-        'enforce_ratio' => 1,
+        'manualcrop_crop_info' => 1,
+        'manualcrop_default_crop_area' => 1,
+        'manualcrop_enable' => 1,
+        'manualcrop_inline_crop' => 0,
+        'manualcrop_instant_crop' => 1,
+        'manualcrop_instant_preview' => 1,
+        'manualcrop_keyboard' => 1,
+        'manualcrop_maximize_default_crop_area' => 1,
+        'manualcrop_require_cropping' => array(
+          'manual_crop_thumbnail_120_by_80' => 'manual_crop_thumbnail_120_by_80',
+        ),
+        'manualcrop_styles_list' => array(
+          'manual_crop_thumbnail_120_by_80' => 'manual_crop_thumbnail_120_by_80',
+        ),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => 0,
         'preview_image_style' => 'manual_crop_thumbnail_120_by_80',
         'progress_indicator' => 'throbber',
-        'resolution' => '120x80',
       ),
-      'type' => 'imagefield_crop_widget',
+      'type' => 'image_image',
       'weight' => 5,
     ),
   );
@@ -3698,7 +3721,11 @@ Please choose "Crop" to create an additional version of your image which will be
   t('State');
   t('Tags');
   t('These are tied to MediaCommons "tags";  they will be linked to from your profile page, and your profile will be linked to from the corresponding tag page. ');
+  t('This image will appear next to the post\'s title and other metadata, whenever it appears in a listing, such as on a collection page or in search results.  It will not appear in the body of the post. 
+Immediately after upload, you will need to crop the image.   To change the cropping later, click the crop button. 
+');
   t('This will appear wherever the image is seen full-sized.');
+  t('Thumbnail image');
   t('Twitter');
   t('URL');
   t('Upload the image you\'d like use.  Maximum size is 1200 * 640.  Minimum is 450 * 175.  The entire image will be visible on the hub landing page.
@@ -3706,6 +3733,7 @@ Please choose "Crop" to create an additional version of your image which will be
 
 
 Please choose "Crop" to create an additional version of your image which will be visible in hub "teasers" on the homepage and in the archive list. ');
+  t('Use this field to store images associated with this post.   The images will not show up anywhere by default; they must be explicitly referenced in the post\'s body text. ');
 
   return $field_instances;
 }

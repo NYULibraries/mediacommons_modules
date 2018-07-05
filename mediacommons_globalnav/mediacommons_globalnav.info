@@ -1,5 +1,5 @@
 name = MediaCommons Global Navigation
-description = Horizontal bar; for moving among projects
+description = Horizontal bar for moving among projects
 core = 7.x
 version = 7.x-1.0
 project = mediacommons_globalnav
@@ -9,43 +9,3 @@ dependencies[] = menu
 
 scripts[] = underscore-min.js
 scripts[] = mediacommons_globalnav.js
-
-mediacommons[environment] = development
-
-; This module stores the global nav URLs in the database at install time only.
-; To make the global nav more portable in cases where the site is copied to
-; another machine via file/database copy, we use a string "[MEDIACOMMONS_DOMAIN]"
-; placeholder for the hostname/domain plus port number (if specified).
-; This placeholder is filled in by the mediacommons theme on page load.
-
-mediacommons[environments][local][fieldguide] = http://[MEDIACOMMONS_DOMAIN]/fieldguide/
-mediacommons[environments][local][tne] = http://[MEDIACOMMONS_DOMAIN]/tne/
-mediacommons[environments][local][imr] = http://[MEDIACOMMONS_DOMAIN]/imr/
-mediacommons[environments][local][altac] = http://[MEDIACOMMONS_DOMAIN]/alt-ac/
-mediacommons[environments][local][intransition] = http://[MEDIACOMMONS_DOMAIN]/intransition/
-mediacommons[environments][local][mediacommons] = http://[MEDIACOMMONS_DOMAIN]/mediacommons/
-mediacommons[environments][local][mcpress] = http://mcpress.media-commons.org/
-
-mediacommons[environments][development][fieldguide] = http://[MEDIACOMMONS_DOMAIN]/fieldguide/
-mediacommons[environments][development][tne] = http://[MEDIACOMMONS_DOMAIN]/tne/
-mediacommons[environments][development][imr] = http://[MEDIACOMMONS_DOMAIN]/imr/
-mediacommons[environments][development][altac] = http://[MEDIACOMMONS_DOMAIN]/alt-ac/
-mediacommons[environments][development][intransition] = http://[MEDIACOMMONS_DOMAIN]/intransition/
-mediacommons[environments][development][mediacommons] = http://[MEDIACOMMONS_DOMAIN]
-mediacommons[environments][development][mcpress] = http://mcpress.media-commons.org/
-
-mediacommons[environments][stage][fieldguide] = /fieldguide/
-mediacommons[environments][stage][tne] = /tne/
-mediacommons[environments][stage][imr] = /imr/
-mediacommons[environments][stage][altac] = /alt-ac/
-mediacommons[environments][stage][intransition] = /intransition/
-mediacommons[environments][stage][mediacommons] = /
-mediacommons[environments][stage][mcpress] = http://mcpress.media-commons.org/
-
-mediacommons[environments][production][fieldguide] = http://mediacommons.futureofthebook.org/fieldguide/
-mediacommons[environments][production][tne] = http://mediacommons.futureofthebook.org/tne/
-mediacommons[environments][production][imr] = http://mediacommons.futureofthebook.org/imr/
-mediacommons[environments][production][altac] = http://mediacommons.futureofthebook.org/alt-ac/
-mediacommons[environments][production][intransition] = http://mediacommons.futureofthebook.org/intransition/
-mediacommons[environments][production][mediacommons] = http://mediacommons.futureofthebook.org/
-mediacommons[environments][production][mcpress] = http://mcpress.media-commons.org/

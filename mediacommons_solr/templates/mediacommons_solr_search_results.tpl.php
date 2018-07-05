@@ -26,13 +26,13 @@
 
 <?php if ($search_results): ?>
   <h2 class="contribution-type"><?php print $title ?></h2>
-  <?php if (isset($solr_sort)): ?>
-    <?php print $solr_sort ?>
-  <?php endif; ?>
   <?php if (isset($description)): ?>
     <div class="locator-text">
       <?php print $description ?>
     </div>
+  <?php endif; ?>
+   <?php if (isset($solr_sort)): ?>
+    <?php print $solr_sort ?>
   <?php endif; ?>
   <ul class="mc-searchresults <?php print $module ?>-results">
     <?php print $search_results ?>
