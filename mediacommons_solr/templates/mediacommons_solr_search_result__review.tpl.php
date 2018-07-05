@@ -1,10 +1,16 @@
-<?php // needs work ?>
 <li class="clearfix  node-comment <?php print $classes; ?> node-<?php print $projectclass; ?>">
-  <div class="field-name-field-project"> <?php print l($projectname, $project_url, array('external' => TRUE, )); ?></div>
-  <!-- TODO Data needed: referenced-node -->
-  <div class="referenced-node">    <span class="views-label">Re: </span><a href="#">Data needed: Referenced Spoke</a></div>
-  <h3 class="comment__title comment-title"><a href="<?php print $url; ?>" class="permalink" ><?php print $title; ?></a></h3>
-  <!-- TODO Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm -->
-  <time datetime="YYYY-MM-DD">Monday, October 23, 2017 — 7:46 pm</time>
+  <div class="field-name-field-project"> 
+    <?php print l($projectname, $project_url, array('external' => TRUE, )); ?>
+  </div>
+  <div class="referenced-node">    
+    <span class="views-label">Re: </span>
+    <?php print l($referencedspoke->label, $referencedspoke->url, array('external' => FALSE)); ?>
+  </div>
+  <h3 class="comment__title comment-title">
+    <?php print l($title, $referencedspoke->url, array('external' => FALSE, 'attributes' => array('class' => 'permalink'))); ?>
+  </h3>
+  <time><?php print $created_date ?></time>
   <div class="comment-body"><?php print $snippet; ?></div>
 </li>
+
+

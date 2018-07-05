@@ -50,6 +50,16 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
   }
 }
 
+function mediacommons_solr_preprocess_search_result_review(&$variables) {
+  $fields = $variables['result']['fields'];
+  $referencedspoke = json_decode($fields['ss_referencedspoke']);
+  $variables['classes_array'][] = 'clearfix';
+  $variables['classes_array'][] = 'node-comment';
+  $variables['classes_array'][] = 'node-' . $fields['ss_projectclass'];
+  $variables['created_date'] = $fields['ss_createddate'];
+  $variables['referencedspoke'] = json_decode($fields['ss_referencedspoke']);
+}
+
 function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variables) {
   $fields = $variables['result']['fields'];
   $referencedspoke = json_decode($fields['ss_referencedspoke']);
