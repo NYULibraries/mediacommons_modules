@@ -29,9 +29,6 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
  * Spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wrapper, $entity) { 
-  
-  return;
-
   // Contributors
   $json = array();
   foreach ($wrapper->field_contributors->value() as $delta => $user_entity) {
@@ -78,17 +75,29 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   $document->addField('ds_pubdatea', apachesolr_date_iso($pubdate));
 
   /** searchable content; dump all you want to be searchable in this array */
-  // $searchableFields = array();
-  // $searchableFields[] = $document->content;
+  $searchableFields = array();
   
-  // unset($document->content);
-  // $document->addField('content', implode($searchableFields, ' '));
+  $searchableFields[] = $document->content;
 
-  // $node_view = drupal_render(node_view($entity, 'full'));
+  $searchableFields[] = $entity->label . ' ' . apachesolr_clean_text(drupal_render(node_view($entity, 'full')));
+  
+  unset($document->content);
+  
+  // Use node id to search for any reference (e.g., "Review" of this "Spoke")
+  $query = new EntityFieldQuery;
+  $keys = array();
+  $result = $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'review')
+    ->fieldCondition('field_isreviewof', 'nid', array($entity->nid))
+    ->execute();
+  if (!empty($result['node'])) {
+    $keys = array_keys($result['node']);
+    foreach ($keys as $key) {
+      $searchableFields[] = apachesolr_clean_text($entity->label . ' ' . drupal_render(node_view(node_load($key), 'full')));
+    }
+  }
 
-  // print_r($entity);
-
-
+  $document->addField('content', implode($searchableFields, ' '));
 
 }
 
@@ -96,7 +105,6 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
  * Hub
  */
 function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrapper, $entity) {
-  return;
   // Save representative image styles + URLs as JSON
   $ri = array();
   $representativeimage = $wrapper->field_representative_image->value();
@@ -196,13 +204,28 @@ function mediacommons_solr_apachesolr_index_document_build_review(&$document, $w
   $document->addField('ss_pubdate', apachesolr_date_iso($entity->created));
   $document->addField('ss_pubdated', apachesolr_date_iso($entity->created));
   $document->addField('ss_pubdatea', apachesolr_date_iso($entity->created));
+
+  $isreviewof = $wrapper->field_isreviewof->value();
+
+  print_r($isreviewof->nid);
+
+  $referencedspoke = array(
+    'cid' => NULL,
+    'nid' => $isreviewof->nid,
+    'label' => $isreviewof->title,
+    'url' => $base_url . '/' . drupal_get_path_alias('node/' . $isreviewof->nid),
+  );
+  
+  $document->addField('ss_referencedspoke', json_encode($referencedspoke));
+
+  unset($node);
+
 }
 
 /**
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$document, $wrapper, $entity) {
-  return;
   global $base_url;
   $document->addField('ss_periodstart', $entity->created);
   // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
@@ -234,7 +257,6 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_hub(&$document, $wrapper, $entity) {
-  return;
   global $base_url;
   $document->addField('ss_periodstart', $entity->created);
   // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
@@ -266,7 +288,6 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_hub(&$do
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_review(&$document, $wrapper, $entity) {
-  return;
   global $base_url;
   $document->addField('ss_periodstart', $entity->created);
   // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
