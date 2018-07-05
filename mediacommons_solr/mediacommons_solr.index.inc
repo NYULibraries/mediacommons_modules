@@ -19,6 +19,7 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
   $document->addField('ss_projectname', variable_get('site_name', 'MediaCommons Project'));
   $document->addField('ss_projectclass', theme_get_setting('special_body_class', 'mediacommons'));
   $call = 'mediacommons_solr_apachesolr_index_document_build_' . $bundle;
+  // content
   if (function_exists($call)) {
     $call($document, $wrapper, $entity);
   }
@@ -27,7 +28,10 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
 /**
  * Spoke
  */
-function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wrapper, $entity) {
+function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wrapper, $entity) { 
+  
+  return;
+
   // Contributors
   $json = array();
   foreach ($wrapper->field_contributors->value() as $delta => $user_entity) {
@@ -57,6 +61,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
     }
   }
   $document->addField('zs_ri', json_encode($ri));
+  
   $pubdate = $wrapper->field_pubdate->value();
 
   if (empty($pubdate)) {
@@ -71,12 +76,27 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   $document->addField('ds_pubdate', apachesolr_date_iso($pubdate));
   $document->addField('ds_pubdated', apachesolr_date_iso($pubdate));
   $document->addField('ds_pubdatea', apachesolr_date_iso($pubdate));
+
+  /** searchable content; dump all you want to be searchable in this array */
+  // $searchableFields = array();
+  // $searchableFields[] = $document->content;
+  
+  // unset($document->content);
+  // $document->addField('content', implode($searchableFields, ' '));
+
+  // $node_view = drupal_render(node_view($entity, 'full'));
+
+  // print_r($entity);
+
+
+
 }
 
 /**
  * Hub
  */
 function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrapper, $entity) {
+  return;
   // Save representative image styles + URLs as JSON
   $ri = array();
   $representativeimage = $wrapper->field_representative_image->value();
@@ -125,7 +145,7 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
 		$json [] = mediacommons_solr_user_metadata ($user_entity );
 	}
 
-	$document->addField('zs_coeditor', json_encode ($json ) );
+	$document->addField('zs_coeditor', json_encode($json));
 
 	$period = $wrapper->field_period->value();
 
@@ -167,21 +187,22 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
  */
 function mediacommons_solr_apachesolr_index_document_build_review(&$document, $wrapper, $entity) {
   $json = array();
-  foreach ($wrapper->field_reviewer->value () as $delta => $user_entity) {
+  foreach ($wrapper->field_reviewer->value () as $item) {
     $document->addField('im_contributors', $item->uid);
     $document->addField('im_reviewer', $item->uid);
-    $json[] = mediacommons_solr_user_metadata($user_entity);
-  }
-  $document->addField('zs_reviewer', json_encode ($json ) );
-  $document->addField('ds_pubdate', apachesolr_date_iso($entity->created));
-  $document->addField('ds_pubdated', apachesolr_date_iso($entity->created));
-  $document->addField('ds_pubdatea', apachesolr_date_iso($entity->created));
+    $json[] = mediacommons_solr_user_metadata($item);
+  }  
+  $document->addField('zs_reviewer', json_encode($json));
+  $document->addField('ss_pubdate', apachesolr_date_iso($entity->created));
+  $document->addField('ss_pubdated', apachesolr_date_iso($entity->created));
+  $document->addField('ss_pubdatea', apachesolr_date_iso($entity->created));
 }
 
 /**
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$document, $wrapper, $entity) {
+  return;
   global $base_url;
   $document->addField('ss_periodstart', $entity->created);
   // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
@@ -213,6 +234,7 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_hub(&$document, $wrapper, $entity) {
+  return;
   global $base_url;
   $document->addField('ss_periodstart', $entity->created);
   // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
@@ -244,6 +266,7 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_hub(&$do
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_review(&$document, $wrapper, $entity) {
+  return;
   global $base_url;
   $document->addField('ss_periodstart', $entity->created);
   // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
