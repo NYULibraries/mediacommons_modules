@@ -29,9 +29,6 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
  * Spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wrapper, $entity) { 
-  
-  return;
-
   // Contributors
   $json = array();
   foreach ($wrapper->field_contributors->value() as $delta => $user_entity) {
@@ -88,15 +85,12 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
 
   // print_r($entity);
 
-
-
 }
 
 /**
  * Hub
  */
 function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrapper, $entity) {
-  return;
   // Save representative image styles + URLs as JSON
   $ri = array();
   $representativeimage = $wrapper->field_representative_image->value();
@@ -202,7 +196,6 @@ function mediacommons_solr_apachesolr_index_document_build_review(&$document, $w
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$document, $wrapper, $entity) {
-  return;
   global $base_url;
   $document->addField('ss_periodstart', $entity->created);
   // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
@@ -234,7 +227,6 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_spoke(&$
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_hub(&$document, $wrapper, $entity) {
-  return;
   global $base_url;
   $document->addField('ss_periodstart', $entity->created);
   // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
@@ -266,7 +258,6 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_hub(&$do
  * Comment node spoke
  */
 function mediacommons_solr_apachesolr_index_document_build_comment_node_review(&$document, $wrapper, $entity) {
-  return;
   global $base_url;
   $document->addField('ss_periodstart', $entity->created);
   // Data needed: date comment was created, in this format:  Monday, October 23, 2017 — 7:46 pm
