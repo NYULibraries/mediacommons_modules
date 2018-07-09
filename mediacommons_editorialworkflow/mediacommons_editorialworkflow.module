@@ -416,7 +416,7 @@ function mediacommons_editorialworkflow_menu() {
   );
   $items['dashboard/profile'] = array(
     'title' => 'Profile',
-    'page callback' => 'mediacommons_editorialworkflow_userpath', // test this
+    'page callback' => 'mediacommons_editorialworkflow_userpath',
     'access callback' => 'user_is_logged_in',
     'access arguments' => array('access mediacommons dashboard'),
     'weight' => 9,
@@ -1601,7 +1601,9 @@ function mediacommons_editorialworkflow_userpath() {
     $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
     header('Location: ' . $url, TRUE, $http_response_code);
   }
-  return TRUE;
+  else {
+    drupal_goto('user', array(), 301);
+  }
 }
 
 // Change error language of Google reCAPTCHA module
