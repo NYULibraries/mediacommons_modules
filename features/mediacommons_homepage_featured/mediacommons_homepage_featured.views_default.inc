@@ -43,6 +43,16 @@ function mediacommons_homepage_featured_views_default_views() {
     'featured_content_for_homepage' => 'featured_content_for_homepage',
     'featured_umbrella' => 0,
   );
+  /* Field: Global: Fieldset */
+  $handler->display->display_options['fields']['fieldset_1']['id'] = 'fieldset_1';
+  $handler->display->display_options['fields']['fieldset_1']['table'] = 'views';
+  $handler->display->display_options['fields']['fieldset_1']['field'] = 'fieldset';
+  $handler->display->display_options['fields']['fieldset_1']['label'] = 'Rep Image wrapper';
+  $handler->display->display_options['fields']['fieldset_1']['children'] = array(
+    0 => 'field_representative_image',
+  );
+  $handler->display->display_options['fields']['fieldset_1']['fieldset']['type'] = 'div';
+  $handler->display->display_options['fields']['fieldset_1']['fieldset']['classes'] = 'field-name-field-representative-image';
   /* Field: Content: Representative Image */
   $handler->display->display_options['fields']['field_representative_image']['id'] = 'field_representative_image';
   $handler->display->display_options['fields']['field_representative_image']['table'] = 'field_data_field_representative_image';
