@@ -51,7 +51,7 @@ function mc_preprocess_html(&$vars) {
     header_remove('X-Frame-Options');
 }
 
-function mc_get_root_url() {
+function  mc_get_root_url() {
   static $root_url;
   if ($root_url) {
     return $root_url;
@@ -75,11 +75,17 @@ function mc_get_root_url() {
 }
 
 function mediacommons_homepage_umbrella_url() {
-  return mc_get_root_url() . '/mediacommons';
+  if (function_exists('__host_root()')) {
+    return __host_root();
+  }
+  else {
+    return mc_get_root_url();
+  }
 }
 
-function mc_project_url($project) {
-  return mc_get_root_url() . '/' . $project;
+function mc_project_url() {
+  global $base_url;
+  return $base_url;
 }
 
 // remove later on
