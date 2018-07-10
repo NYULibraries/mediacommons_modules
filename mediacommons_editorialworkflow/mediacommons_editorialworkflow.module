@@ -347,10 +347,10 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
   ) {
 
     if ($destination) { // we have a destination to go
-      $redirection = mediacommons_utilities_project_url($hail) . '/' . check_plain($destination);
+      $redirection = mc_project_url($hail) . '/' . check_plain($destination);
     }
     else {
-      $redirection = mediacommons_utilities_project_url($hail);
+      $redirection = mc_project_url($hail);
     }
 
   }

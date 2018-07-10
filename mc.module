@@ -83,14 +83,14 @@ function mediacommons_homepage_umbrella_url() {
   }
 }
 
-function mc_project_url() {
+function mc_project_url($project = NULL) {
   global $base_url;
-  return $base_url;
-}
-
-// remove later on
-function mediacommons_utilities_project_url($project) {
-  return mc_project_url($project);
+  if ($project) {
+    return mediacommons_homepage_umbrella_url() . '/' . $project;
+  }
+  else {
+    return $base_url;
+  }
 }
 
 function mediacommons_utilities_is_project_redirect($path) {
