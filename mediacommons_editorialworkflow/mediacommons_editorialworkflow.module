@@ -1,14 +1,14 @@
 <?php
 
-function mediacommons_editorialworkflow_theme() {
-  return array(
-    'node__spoke__teaser' => array(
-  	  'render element' => 'content',
-  	  'base hook' => 'node',
-  	  'template' => 'templates/node--spoke--teaser',
-  	),
-  );
-}
+//function mediacommons_editorialworkflow_theme() {
+  //return array(
+  //  'node__spoke__teaser' => array(
+  //	  'render element' => 'content',
+  //	  'base hook' => 'node',
+  //	  'template' => 'templates/node--spoke--teaser',
+  //	),
+  //);
+//}
 
 /**
  */
