@@ -38,19 +38,26 @@ function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
 }
 
 /**
+ * Custom hook. Called by mediacommons_editorialworkflow_process_node
  */
 function mediacommons_editorialworkflow_process_node_spoke(&$variables, $wrapper) {
+  // get the current time
   $now = time();
+  // sites can use field_pubdate to indicate that a node it is ready and 
+  // will be available to public after pubdate. 
   $pubdate = $wrapper->field_pubdate->value();
+  // node available for general public at the moment
   if ($pubdate <= $now) {
     $variables['classes'] = $variables['classes'] . ' is-available';
   }
+  // node not available for general public at the moment
   else {
     $variables['classes'] = $variables['classes'] . ' not-available';
   }
 }
 
 /**
+ * See https://api.drupal.org/api/drupal/modules%21system%21theme.api.php/function/hook_process/7.x 
  */
 function mediacommons_editorialworkflow_process_node(&$variables) {
   $wrapper = entity_metadata_wrapper('node', $variables['node']);
@@ -1234,6 +1241,17 @@ function mediacommons_editorialworkflow_contributor_dashboard_others() {
     );
   }
 
+  try {
+    $result = db_query('SELECT * FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid', array(':mbid' => 'mc_fieldguide'));
+    $record = $result->fetchObject();
+    $rows[] = array(
+      t('Refresh block: @label', array('@label' => unserialize($record->label))),
+      l(t('refresh'), 'dashboard/refresh/' . $record->mbid, array('attributes' => array('class' => 'use-ajax'), 'query' => $query)),
+    );
+  }
+  catch (Exception $e) {
+  }
+  
   $attributes = array(
     'class' => 'mediacommons_editorialworkflow',
     'width' => '100%',
