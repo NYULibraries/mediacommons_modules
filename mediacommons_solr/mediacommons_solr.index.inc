@@ -204,22 +204,15 @@ function mediacommons_solr_apachesolr_index_document_build_review(&$document, $w
   $document->addField('ss_pubdate', apachesolr_date_iso($entity->created));
   $document->addField('ss_pubdated', apachesolr_date_iso($entity->created));
   $document->addField('ss_pubdatea', apachesolr_date_iso($entity->created));
-
   $isreviewof = $wrapper->field_isreviewof->value();
-
-  print_r($isreviewof->nid);
-
   $referencedspoke = array(
     'cid' => NULL,
     'nid' => $isreviewof->nid,
     'label' => $isreviewof->title,
     'url' => $base_url . '/' . drupal_get_path_alias('node/' . $isreviewof->nid),
-  );
-  
+  );  
   $document->addField('ss_referencedspoke', json_encode($referencedspoke));
-
   unset($node);
-
 }
 
 /**
@@ -351,7 +344,7 @@ function mediacommons_solr_user_metadata($entity) {
 			$organization ['url'] = drupal_get_path_alias ('taxonomy/term/' . $field_organization->tid );
 		}
 		$user ['uid'] = $uwrapper->getIdentifier ();
-		$user ['url'] = drupal_get_path_alias ('user/' . $uid );
+		$user ['url'] = mediacommons_homepage_umbrella_url() . '/' . drupal_get_path_alias('user/' . $uid);
 		$user ['organization'] = $organization;
 		$user ['picture'] = $picture;
 		if (isset ($entity->realname )) {
@@ -365,7 +358,7 @@ function mediacommons_solr_user_metadata($entity) {
 		$string = 'EntityMetadataWrapper exception in %function() <pre>@trace</pre>';
 		watchdog ('mediacommons_solr', $string, $args, WATCHDOG_ERROR );
 		if (function_exists ('drush' )) {
-			drush_log (dt ($string, $args ), 'error' );
+			drush_log (dt ($string, $args ), 'error');
 		}
 	}
 	return $user;

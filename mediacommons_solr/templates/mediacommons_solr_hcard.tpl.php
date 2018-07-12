@@ -2,7 +2,7 @@
   <div class="h-card">
     <?php if ($person->name) : ?>
       <span class="p-name name fn">
-        <a href="<?php print url($person->url) ?>" data-uid="<?php print $person->uid ?>"><?php print $person->name ?></a>
+        <a href="<?php print url($person->url, array('absolute' => TRUE)) ?>" data-uid="<?php print $person->uid ?>"><?php print $person->name ?></a>
       </span>
     <?php endif; ?>
     <?php if ($person->organization) : ?>
