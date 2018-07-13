@@ -59,6 +59,14 @@ function mc_drush_command() {
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   );
 
+  $items['create-intransition-fake-reviews'] = array(
+    'description' => 'Create [in]Transition fake reviews',
+    'arguments' => array(),
+    'options' => array(),
+    'aliases' => array('cifr'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  );  
+
   return $items;
 
 }
@@ -113,6 +121,62 @@ function drush_mc_init_fieldguide() {
   mediacommons_fieldguide_cron();
 }
 
+function drush_mc_create_intransition_fake_reviews() {
+
+  $pubstat = intval(1);
+
+  $dt = new DateTime('January 1, 2013');
+  
+  $pubdate = $dt->getTimestamp();  
+
+  $embed = '<iframe allowfullscreen="" frameborder="0" height="360" mozallowfullscreen="" src="https://player.vimeo.com/video/233553740" webkitallowfullscreen="" width="640"></iframe>';
+  
+  $body = "Overhaul Spanish Main draft cutlass gunwalls lookout trysail loaded to the gunwalls careen bilge rat. Lanyard maroon warp black spot salmagundi ye pinnace heave to scuttle reef sails. Stern spike lateen sail transom gally hulk crack Jennys tea cup gibbet clap of thunder salmagundi.";
+
+
+  $node = mc_drush_create_node(
+    array(
+      'type' => 'spoke',
+      'title' => 'TEST - SPOKE - Overhaul Spanish Main',
+      'uid' => 8,
+      'contributors' => array(8,9,10),
+      'embed' => $embed,
+      'body' => $body,
+      'pubdate' => $pubdate,
+      'pubstat' => $pubstat,
+    )
+  );
+  
+  $body = "Sail ho quarterdeck jack furl tack Nelsons folly sheet heave to haul wind gangplank. Deadlights bring a spring upon her cable knave Davy Jones' Locker Barbary Coast warp lanyard furl fluke spanker. Bilged on her anchor boom code of conduct crow's nest brig deadlights boatswain reef sails Jack Tar Shiver me timbers.";
+
+  $review1 = mc_drush_create_node(
+    array(
+      'type' => 'review',
+      'title' => 'TEST - REVIEW - Sail ho quarterdeck jack',
+      'uid' => 9,
+      'body' => $body,
+      'pubstat' => $pubstat,      
+      'reviewer' => array(9),
+      'isreviewof' => intval($node->nid),
+    )
+  );
+
+  $body = "Scurvy hornswaggle chantey reef sails plunder take a caulk main sheet Cat o'nine tails wherry scuppers. Lugger crimp topsail Blimey lateen sail come about brig chandler run a shot across the bow execution dock. Maroon parley Jack Tar black spot crow's nest careen hogshead reef sails bilge rat scuppers.";
+
+  $review2 = mc_drush_create_node(
+    array(
+      'type' => 'review',
+      'title' => 'TEST - REVIEW - Scurvy hornswaggle chantey',
+      'uid' => 10,
+      'body' => $body,
+      'pubstat' => $pubstat,
+      'reviewer' => array(10),
+      'isreviewof' => intval($node->nid),
+    )
+  );    
+
+}
+
 /**
  * Implementation of drush_hook_COMMAND().
  */
@@ -152,4 +216,60 @@ function drush_mc_rebuild_cache () {
       return FALSE;
     }
   }  
+}
+
+function mc_drush_create_node($config) {
+
+  drush_log($config['title'], 'ok');
+  
+  $values = array(
+    'type' => $config['type'],
+    'uid' => $config['uid'],
+    'status' => 1,
+    'comment' => 1,
+    'promote' => 0,
+  );
+
+  $entity = entity_create('node', $values);
+
+  $wrapper = entity_metadata_wrapper('node', $entity);  
+  
+  $wrapper->title->set($config['title']);
+
+  if (isset($config['embed'])) {
+    $wrapper->field_embed->set(array('value' =>  $config['embed'], 'format'=> 'limited_html'));
+  } 
+
+  if (isset($config['body']) && $config['type'] == 'spoke') {
+    $wrapper->field_body->set(array('value' => $config['body']));
+  }
+
+  if (isset($config['body']) && $config['type'] == 'review') {
+    $wrapper->body->set(array('value' => $config['body']));
+  }  
+
+  if (isset($config['isreviewof'])) {
+    $wrapper->field_isreviewof->set($config['isreviewof']);
+  }
+
+  if (isset($config['reviewer'])) {
+    $wrapper->field_reviewer->set($config['reviewer']);
+  }
+
+  if (isset($config['pubdate'])) {
+    $wrapper->field_pubdate->set($pubdate);  
+  }
+
+  if (isset($config['contributors'])) {
+    $wrapper->field_contributors->set($config['contributors']);
+  }
+
+  if (isset($config['pubstat'])) {
+    $wrapper->field_pubstat->set($config['pubstat']);
+  }
+
+  $wrapper->save();
+
+  return $entity;
+
 }
