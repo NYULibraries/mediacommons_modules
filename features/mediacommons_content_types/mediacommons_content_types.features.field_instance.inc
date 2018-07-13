@@ -8,9 +8,7 @@
  * Implements hook_field_default_field_instances().
  */
 function mediacommons_content_types_field_default_field_instances() {
-  
   $fid = variable_get('mediacommons_content_types_default_image_fid', 1);
-
   $field_instances = array();
 
   // Exported field_instance:
@@ -1817,7 +1815,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 16,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -1921,9 +1919,10 @@ Please choose "Crop" to create an additional version of your image which will be
     'display' => array(
       'default' => array(
         'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 18,
+        'type' => 'text_default',
+        'weight' => 2,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -2009,7 +2008,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 17,
       ),
       'full' => array(
         'label' => 'inline',
@@ -2096,9 +2095,10 @@ Please choose "Crop" to create an additional version of your image which will be
     'display' => array(
       'default' => array(
         'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 17,
+        'type' => 'text_default',
+        'weight' => 3,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -2216,7 +2216,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 19,
       ),
       'full' => array(
         'label' => 'above',
@@ -2297,17 +2297,9 @@ Please choose "Crop" to create an additional version of your image which will be
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-          'show_remaining_days' => FALSE,
-        ),
-        'type' => 'date_default',
-        'weight' => 22,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -2410,7 +2402,7 @@ Please choose "Crop" to create an additional version of your image which will be
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 18,
       ),
       'full' => array(
         'label' => 'above',
@@ -2490,7 +2482,7 @@ Immediately after upload, you will need to crop the image.   To change the cropp
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 20,
       ),
       'full' => array(
         'label' => 'above',
@@ -2585,10 +2577,11 @@ Immediately after upload, you will need to crop the image.   To change the cropp
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 15,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 1,
       ),
       'full' => array(
         'label' => 'inline',
