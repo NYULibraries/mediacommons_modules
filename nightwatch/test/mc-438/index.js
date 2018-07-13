@@ -2,17 +2,15 @@ var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
 
-  beforeEach: function (client, done) {
-    client.url('http://mediacommons.local/users/ana-cabral-martins', function () {
-      done();
-    });
+  'MC-438 - When I search for "daniel day-lewis" on IMR I should get result "Bastard from a Basket: Deafness in There Will Be Blood"' : function (client) {
+    client
+      .url('http://mediacommons.local/imr/search/site/%22daniel%20day-lewis%22')
+      .saveScreenshot('MC-438-1.png')
+      .waitForElementVisible('ul.mc-searchresults', 1000)
+      .assert.elementPresent('li.search-result')
+      .assert.containsText('li.search-result', "Bastard from a Basket: Deafness in There Will Be Blood")
+      .end();
   },
-  
-  'MC-438 - Fix search problem - words from spoke content' : function (client) {
-    client.elements('css selector','li.search-result', function (result) {
-      client.assert.equal(((result.value.length ) ? true : false), true)
-    });
-  },  
 
   'Finished': function (client) {
     client
