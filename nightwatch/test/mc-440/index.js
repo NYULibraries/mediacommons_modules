@@ -16,7 +16,7 @@ module.exports = {
       browser.assert.equal(response.statusCode, 200);  
       const datasource = JSON.parse(body); 
       const numFound = parseInt(datasource.response.numFound, 10);
-      browser.assert.equal((response.statusCode > 0 ? true : false), true);
+      browser.assert.equal((numFound > 0 ? true : false), true);
       browser.end();
     });
   },
