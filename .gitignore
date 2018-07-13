@@ -9,3 +9,5 @@
 # Intellij
 .idea/
 .vscode/
+
+nightwatch/*.png
