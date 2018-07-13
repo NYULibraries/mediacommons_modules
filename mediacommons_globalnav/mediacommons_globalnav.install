@@ -1,6 +1,1 @@
 <?php
-
-function mediacommons_globalnav_install() {
-//  variable_set('mediacommons_hostname', gethostname());
-//  _mediacommons_globalnav_config();
-}

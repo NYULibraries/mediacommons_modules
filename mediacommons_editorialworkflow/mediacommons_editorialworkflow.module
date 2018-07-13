@@ -1,15 +1,5 @@
 <?php
 
-function mediacommons_editorialworkflow_theme() {
-  return array(
-    'node__spoke__teaser' => array(
-  	  'render element' => 'content',
-  	  'base hook' => 'node',
-  	  'template' => 'templates/node--spoke--teaser',
-  	),
-  );
-}
-
 /**
  */
 function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
@@ -38,19 +28,26 @@ function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
 }
 
 /**
+ * Custom hook. Called by mediacommons_editorialworkflow_process_node
  */
 function mediacommons_editorialworkflow_process_node_spoke(&$variables, $wrapper) {
+  // get the current time
   $now = time();
+  // sites can use field_pubdate to indicate that a node it is ready and 
+  // will be available to public after pubdate. 
   $pubdate = $wrapper->field_pubdate->value();
+  // node available for general public at the moment
   if ($pubdate <= $now) {
     $variables['classes'] = $variables['classes'] . ' is-available';
   }
+  // node not available for general public at the moment
   else {
     $variables['classes'] = $variables['classes'] . ' not-available';
   }
 }
 
 /**
+ * See https://api.drupal.org/api/drupal/modules%21system%21theme.api.php/function/hook_process/7.x 
  */
 function mediacommons_editorialworkflow_process_node(&$variables) {
   $wrapper = entity_metadata_wrapper('node', $variables['node']);
@@ -226,21 +223,14 @@ function mediacommons_editorialworkflow_form_page_front_page_post_form_alter(&$f
  */
 function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_state, $form_id) {
   global $user;
-
   $is_contributor = is_contributor();
-
   $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
-
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-
   $form['field_image_rights']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-
   if ($is_contributor) {
     $form['field_contributors'][$form['language']['#value']][0]['uid']['#default_value'] = $user->uid;
   }
-
   $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
-
   $settings = array(
     'mediacommons_editorialworkflow' => array(
       'isAdminPage' => TRUE,
@@ -249,7 +239,6 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
       ),
     ),
   );
-
   if (!$user_can_edit) {
     // add a class so that we can style the form
     $form['#attributes']['class'][] = 'user-cant-contribute';
@@ -340,10 +329,10 @@ function mediacommons_editorialworkflow_user_login(&$edit, $account) {
   ) {
 
     if ($destination) { // we have a destination to go
-      $redirection = mediacommons_utilities_project_url($hail) . '/' . check_plain($destination);
+      $redirection = mc_project_url($hail) . '/' . check_plain($destination);
     }
     else {
-      $redirection = mediacommons_utilities_project_url($hail);
+      $redirection = mc_project_url($hail);
     }
 
   }
@@ -416,7 +405,7 @@ function mediacommons_editorialworkflow_menu() {
   );
   $items['dashboard/profile'] = array(
     'title' => 'Profile',
-    'page callback' => 'mediacommons_editorialworkflow_userpath', // test this
+    'page callback' => 'mediacommons_editorialworkflow_userpath',
     'access callback' => 'user_is_logged_in',
     'access arguments' => array('access mediacommons dashboard'),
     'weight' => 9,
@@ -430,7 +419,6 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 10,
     'type' =>  MENU_LOCAL_TASK,
   );
-
   $items['dashboard/others/rebuild-cache'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
     'access arguments' => array('access mediacommons dashboard'),
@@ -444,7 +432,6 @@ function mediacommons_editorialworkflow_menu() {
     'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
   );
-
   $items['dashboard/refresh/%'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
     'access arguments' => array('access mediacommons dashboard'),
@@ -452,9 +439,7 @@ function mediacommons_editorialworkflow_menu() {
     'type' => MENU_CALLBACK,
     'page arguments' => array(2)
   );
-
   return $items;
-
 }
 
 /**
@@ -511,15 +496,10 @@ function mediacommons_editorialworkflow_permission() {
  * https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_presave/7.x
  */
 function mediacommons_editorialworkflow_node_presave($node) {
-
   $contributors = array();
-
   $wrapper = entity_metadata_wrapper('node', $node);
-
   $bundle = $wrapper->getBundle();
-
   $listed_contributors = array();
-
   // https://jira.nyu.edu/jira/browse/MC-250
   if ($bundle == 'hub' || $bundle == 'spoke') {
     // Publication status
@@ -527,11 +507,8 @@ function mediacommons_editorialworkflow_node_presave($node) {
     if ($pubstat == 1 || $pubstat == 2) $pubstat = 1;
     // do I need to check if user have permissions? what type of permissions?
     $wrapper->status->set($pubstat);
-
     $listed_contributors = $wrapper->field_contributors->value();
-
   }
-
   // Inserting a new node @TODO: test work, add validation
   if ($bundle == 'spoke') {
     if ($node->is_new) {
@@ -570,11 +547,8 @@ function mediacommons_editorialworkflow_node_presave($node) {
   }
   // Inserting a new node @TODO: test work, add validation
   if ($bundle == 'hub') {
-
     $listed_contributors = array_merge($listed_contributors, $wrapper->field_curators_editors->value());
-
     $listed_contributors = array_merge($listed_contributors, $wrapper->field_co_editor->value());
-
     if ($node->is_new) {
       $author_is_listed = FALSE;
       if (count($node->field_contributors[$node->language])) {
@@ -600,7 +574,6 @@ function mediacommons_editorialworkflow_node_presave($node) {
       }
     }
   }
-
   foreach ($listed_contributors as $listed_contributor) {
     $data = array(
       'message' => $wrapper->label() . ' saved!',
@@ -608,7 +581,6 @@ function mediacommons_editorialworkflow_node_presave($node) {
     );
     mediacommons_editorialworkflow_send_message($data);
   }
-
 }
 
 /**
@@ -1234,6 +1206,17 @@ function mediacommons_editorialworkflow_contributor_dashboard_others() {
     );
   }
 
+  try {
+    $result = db_query('SELECT * FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid', array(':mbid' => 'mc_fieldguide'));
+    $record = $result->fetchObject();
+    $rows[] = array(
+      t('Refresh block: @label', array('@label' => unserialize($record->label))),
+      l(t('refresh'), 'dashboard/refresh/' . $record->mbid, array('attributes' => array('class' => 'use-ajax'), 'query' => $query)),
+    );
+  }
+  catch (Exception $e) {
+  }
+  
   $attributes = array(
     'class' => 'mediacommons_editorialworkflow',
     'width' => '100%',
@@ -1576,11 +1559,17 @@ function mediacommons_editorialworkflow_user_can_edit_node($node) {
 }
 
 function mediacommons_editorialworkflow_userpath() {
+  
   $project = $hail = variable_get('mediacommons_project', 'mediacommons');
+  
   $parameters = drupal_get_query_parameters();
+
+  $userpath = 'user';
+
   if (isset($parameters['project'])) {
     $hail = $parameters['project'];
   }
+
   if ($hail != 'mediacommons') {
     $http_response_code = 302;
     $query = array(
@@ -1598,10 +1587,25 @@ function mediacommons_editorialworkflow_userpath() {
     ) {
       $query['query']['destination'] = $destination; // add destination to query-string
     }
-    $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), 'user')), $query);
+    elseif (
+      $destination =
+        isset($_GET['q']) // ask if q is set
+          ? // if true
+          check_plain($_GET['q']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
+          : // else
+          FALSE // fail test
+    ) {
+      $query['query']['destination'] = $destination; // add destination to query-string
+    }
+
+    $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), $userpath)), $query);
+
     header('Location: ' . $url, TRUE, $http_response_code);
+
   }
-  return TRUE;
+  else {
+    drupal_goto('user', array(), 301);
+  }
 }
 
 // Change error language of Google reCAPTCHA module
