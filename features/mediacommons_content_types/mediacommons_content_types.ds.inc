@@ -451,6 +451,11 @@ function mediacommons_content_types_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'spoke';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
+    'contributors_to_this_spoke' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'title' => array(
       'weight' => '0',
       'label' => 'hidden',
@@ -1779,6 +1784,22 @@ function mediacommons_content_types_ds_layout_settings_info() {
   $ds_layout->view_mode = 'default';
   $ds_layout->layout = 'ds_1col';
   $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'title',
+        1 => 'field_taxonomy',
+        2 => 'field_body',
+        3 => 'field_embed',
+        4 => 'contributors_to_this_spoke',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'ds_content',
+      'field_taxonomy' => 'ds_content',
+      'field_body' => 'ds_content',
+      'field_embed' => 'ds_content',
+      'contributors_to_this_spoke' => 'ds_content',
+    ),
     'classes' => array(),
     'wrappers' => array(
       'ds_content' => 'div',

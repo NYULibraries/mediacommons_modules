@@ -21,6 +21,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -31,12 +37,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -59,6 +59,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -69,12 +75,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -97,6 +97,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -107,12 +113,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -135,9 +135,15 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
-        'region' => 'sidebar_first',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
@@ -145,12 +151,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => 'content',
-        'status' => 1,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -173,6 +173,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -183,12 +189,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -211,6 +211,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -221,12 +227,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -249,23 +249,23 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
-        'region' => 'sidebar_first',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 2,
+        'weight' => 0,
       ),
       'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
         'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => 'content',
-        'status' => 1,
-        'theme' => 'rubik',
-        'weight' => 2,
       ),
       'zen' => array(
         'region' => '',
@@ -287,6 +287,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -297,12 +303,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -325,6 +325,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -335,12 +341,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -363,6 +363,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -373,12 +379,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -401,6 +401,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -411,12 +417,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -439,6 +439,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -449,12 +455,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -477,6 +477,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -487,12 +493,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -515,23 +515,23 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
-        'region' => 'homepage_sidebar',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 2,
+        'weight' => 0,
       ),
       'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
         'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => 'content',
-        'status' => 1,
-        'theme' => 'rubik',
-        'weight' => 2,
       ),
       'zen' => array(
         'region' => '',
@@ -553,9 +553,15 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
-        'region' => 'sidebar_tagpages',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'mediacommons',
         'weight' => 0,
       ),
@@ -563,12 +569,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => 'content',
-        'status' => 1,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -591,6 +591,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -601,12 +607,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -629,23 +629,23 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
-        'region' => 'homepage_sidebar',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'mediacommons',
-        'weight' => 3,
+        'weight' => 0,
       ),
       'mediacommons_admin' => array(
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
         'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => 'content',
-        'status' => 1,
-        'theme' => 'rubik',
-        'weight' => 3,
       ),
       'zen' => array(
         'region' => '',
@@ -667,6 +667,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -677,12 +683,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
@@ -705,6 +705,12 @@ function mediacommons_content_types_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'mediacommons' => array(
         'region' => '',
         'status' => 0,
@@ -715,12 +721,6 @@ function mediacommons_content_types_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'mediacommons_admin',
-        'weight' => 0,
-      ),
-      'rubik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'rubik',
         'weight' => 0,
       ),
       'zen' => array(
