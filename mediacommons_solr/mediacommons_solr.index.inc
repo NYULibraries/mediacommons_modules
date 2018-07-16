@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @file
+ * MediaCommons Integration with the Apache Solr module.
+ * Indexing task
+ */
+
+/**
  * Build the documents before sending them to Solr.
  * The function is the follow-up for apachesolr_update_index
  *

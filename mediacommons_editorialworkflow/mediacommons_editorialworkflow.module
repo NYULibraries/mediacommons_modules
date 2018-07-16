@@ -1,17 +1,29 @@
 <?php
 
 /**
+ * @file
+ * MediaCommons Editorial Workflow
+ */
+
+/**
+ * https://api.drupal.org/api/drupal/modules%21system%21theme.api.php/function/hook_process/7.x
  */
 function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
   $name = $variables['element']['#field_name'];
   $bundle = $variables['element']['#bundle'];
+  // in certain cases we allow the "preview" of a content that has not been 
+  // published. E.g., MediaCommoms IMR "preview" the title of the upcoming "posts"
   if ($bundle == 'spoke' && ($name == 'title' || $name == 'field_attached_images')) {
     $now = time();
     $variables['label_link'] = FALSE;
     $node = $variables['element']['#object'];
     $wrapper = entity_metadata_wrapper('node', $node);
     $pubdate = $wrapper->field_pubdate->value();
+    // check for the value of "Publication day"
     if ($pubdate > $now) {
+      // the content is not available
+      // allow the users in certain cases to see the "preview" but don't
+      // link to content
       if ($name == 'field_attached_images') {
         foreach ($variables['items'] as $key => $item) {
           // https://api.drupal.org/api/drupal/modules%21image%21image.field.inc/function/theme_image_formatter/7.x
