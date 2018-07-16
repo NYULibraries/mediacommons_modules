@@ -30,6 +30,7 @@ function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
           unset($variables['items'][$key]['#path']);
         }
       }
+      // @TODO: why?
       if ($name == 'title') {
         foreach ($variables['items'] as $key => $item) {
           $variables['items'][$key]['#markup'] = $wrapper->label();
@@ -59,11 +60,13 @@ function mediacommons_editorialworkflow_process_node_spoke(&$variables, $wrapper
 }
 
 /**
- * See https://api.drupal.org/api/drupal/modules%21system%21theme.api.php/function/hook_process/7.x 
+ * See https://api.drupal.org/api/drupal/modules%21system%21theme.api.php/function/hook_process/7.x
  */
 function mediacommons_editorialworkflow_process_node(&$variables) {
   $wrapper = entity_metadata_wrapper('node', $variables['node']);
   $callback = __FUNCTION__ . '_' . $wrapper->getBundle();
+  // Allow us to process by bundle
+  // e.g., mediacommons_editorialworkflow_process_node_spoke
   if (function_exists($callback)) {
     $callback($variables, $wrapper);
   }
@@ -1095,18 +1098,11 @@ function mediacommons_editorialworkflow_hubs_user_can_contribute() {
  */
  function mediacommons_editorialworkflow_node_access($node, $op, $account) {
   if (is_object($node) && !$node->status) {
-    //$wrapper = entity_metadata_wrapper('node', $node);
-    //if (!$wrapper->status->value()) {
-    return mediacommons_editorialworkflow_user_can_edit_node($node) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
-    //}
+   return mediacommons_editorialworkflow_user_can_edit_node($node) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
   }
   // Returning nothing from this function would have the same effect.
   return NODE_ACCESS_IGNORE;
 }
-
-/**
- * All things queue
- */
 
 /**
  * Implementation of hook_cron_queue_info()
