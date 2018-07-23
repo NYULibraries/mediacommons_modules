@@ -4,6 +4,7 @@
  * @file
  * Module file for mediacommons_block.
  */
+
 function mediacommons_blocks_init() {
   drupal_add_js(array(
     'mediacommons_blocks' => array(
@@ -166,6 +167,11 @@ function mediacommons_blocks_block_info() {
     'info' => t('MediaCommons: User content: Comments'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+
+  $blocks['usercontent_reviewer'] = array(
+    'info' => t('MediaCommons: User content: Reviews'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );  
 
   $blocks['mediacommons_solr_comments'] = array(
     'info' => t('MediaCommons: User comments'),
@@ -358,6 +364,9 @@ function mediacommons_blocks_preprocess_search_results(&$variables) {
     case 'usercontent_comments' :
         $title = t('As commenter');
         break;
+    case 'usercontent_reviewer' :
+      $title = t('As reviewer');
+      break;        
     default :
       $title = t('Search results');
     break;
@@ -388,7 +397,7 @@ function mediacommons_blocks_user_search($uid, $key = NULL, $conditions = array(
     $content = render($render_array);
   }
   else {
-    watchdog('MediaCommons Blocks', format_string("User @uidcontributions, no results.", array('!uid' => $uid)), NULL, WATCHDOG_ERROR);
+    watchdog('MediaCommons Blocks', format_string("User @uid contributions, no results.", array('@uid' => $uid)), NULL, WATCHDOG_ERROR);
   }
   return $content;
 }
@@ -876,11 +885,34 @@ function usercontent_comments($uid) {
   $conditions = array(
     'fq' => array(
       'im_contributors:' . $uid,
-      'entity_type: comment',
+      'entity_type:comment',
     ),
     'spellcheck' => 'false',
     'sort' => 'timestamp desc',
   );
   $block['content'] = mediacommons_blocks_user_search($uid, $key, $conditions, __FUNCTION__);
   return $block;
+}
+
+function usercontent_reviewer($uid) {
+  
+  $key = '*:*';
+  
+  $block = array();
+  
+  $block['subject'] = t('User content: Reviews');
+  
+  $conditions = array(
+    'fq' => array(
+      'im_contributors:' . $uid,
+      'bundle:review',
+    ),
+    'spellcheck' => 'false',
+    'sort' => 'timestamp desc',
+  );
+
+  $block['content'] = mediacommons_blocks_user_search($uid, $key, $conditions, __FUNCTION__);
+
+  return $block;
+
 }
