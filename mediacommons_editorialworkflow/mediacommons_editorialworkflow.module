@@ -394,7 +394,9 @@ function mediacommons_editorialworkflow_custom_theme() {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7.x
  */
 function mediacommons_editorialworkflow_menu() {
+  
   $items = array();
+  
   $items['dashboard'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
@@ -402,6 +404,7 @@ function mediacommons_editorialworkflow_menu() {
     'access arguments' => array('access mediacommons dashboard'),
     'type' =>  MENU_NORMAL_ITEM,
   );
+  
   $items['dashboard/panel'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
@@ -410,6 +413,7 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 0,
     'type' =>  MENU_LOCAL_TASK,
   );
+
   $items['dashboard/add'] = array(
     'title' => 'Create content',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_create_content',
@@ -418,6 +422,7 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 8,
     'type' => MENU_LOCAL_TASK,
   );
+  
   $items['dashboard/profile'] = array(
     'title' => 'Profile',
     'page callback' => 'mediacommons_editorialworkflow_userpath',
@@ -426,6 +431,7 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 9,
     'type' => MENU_LOCAL_TASK,
   );
+
   $items['dashboard/others'] = array(
     'title' => 'Others',
     'description' => 'Others',
@@ -434,6 +440,7 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 10,
     'type' =>  MENU_LOCAL_TASK,
   );
+
   $items['dashboard/others/rebuild-cache'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
     'access arguments' => array('access mediacommons dashboard'),
@@ -447,6 +454,7 @@ function mediacommons_editorialworkflow_menu() {
     'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
   );
+
   $items['dashboard/refresh/%'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
     'access arguments' => array('access mediacommons dashboard'),
@@ -454,6 +462,7 @@ function mediacommons_editorialworkflow_menu() {
     'type' => MENU_CALLBACK,
     'page arguments' => array(2)
   );
+
   return $items;
 }
 
@@ -645,8 +654,6 @@ function mediacommons_editorialworkflow_menu_alter(&$items) {
           case 'user/password' :
           case 'user/reset/%/%/%' :
           case 'user/logout' :
-          case 'user/%user' :
-          case 'user/%user/view' :
           case 'user/%user/cancel' :
           case 'user/%user/cancel/confirm/%/%' :
           case 'user/%user/edit' :
@@ -659,6 +666,11 @@ function mediacommons_editorialworkflow_menu_alter(&$items) {
             $items[$path]['options']['alter'] = TRUE;
             $items[$path]['page callback'] = 'mediacommons_editorialworkflow_userpath';
             break;
+          case 'user/%user' :
+          case 'user/%user/view' :
+          $items[$path]['options']['alter'] = TRUE;
+          $items[$path]['page callback'] = 'mediacommons_editorialworkflow_redirect_to_umbrella';
+          break;
         }
       }
       unset($matches);
@@ -1329,14 +1341,308 @@ function mediacommons_editorialworkflow_contributor_dashboard_create_content () 
 
 }
 
-function mediacommons_editorialworkflow_contributor_dashboard () {
+/**
+ * Remove the option to select a text format in the edit form
+ */
+function mediacommons_editorialworkflow_remove_text_format_option(&$form) {
+  $form[LANGUAGE_NONE][0]['format']['guidelines']['#access'] = FALSE;
+  $form[LANGUAGE_NONE][0]['format']['format']['#access'] = FALSE;
+  $form[LANGUAGE_NONE][0]['format']['help']['#access'] = FALSE;
+  $form[LANGUAGE_NONE][0]['format']['#theme_wrappers'] = NULL;
+  return $form;
+}
+
+function is_contributor() {
+  $role = user_role_load_by_name('contributor');
+  if (user_has_role($role->rid)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+function mediacommons_editorialworkflow_user_can_edit_node($node) {
+
+  global $user;
+
+  if (!user_is_logged_in()) return false;
+
+  if ($user->uid == 1) return true;
+
+  $username = $user->name;
+
+  // logged user is the same as the author of the entity?
+  if ($node->name == $username) return TRUE;
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  $role_administrator = user_role_load_by_name('administrator');
+
+  $role_managing_editor = user_role_load_by_name('managing editor');
+
+  if (user_has_role($role_managing_editor->rid)) return TRUE;
+
+  if (user_has_role($role_administrator->rid)) return TRUE;
+
+  $fields_info = field_info_instances('node', $wrapper->getBundle());
+
+  if (isset($fields_info['field_contributors'])) {
+    foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
+      if ($contributor->name == $username) return TRUE;
+    }
+  }
+
+  if (isset($fields_info['field_curators_editors'])) {
+    foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
+      if ($curators_editors->name == $username) return TRUE;
+    }
+  }
+
+  if (isset($fields_info['field_co_editor'])) {
+    foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
+      if ($field_co_editor->name == $username) return TRUE;
+    }
+  }
+
+  return FALSE;
+
+}
+
+function mediacommons_editorialworkflow_redirect_to_umbrella() {
+  $project = $hail = variable_get('mediacommons_project', 'mediacommons');
+  $parameters = drupal_get_query_parameters();
+  if (isset($parameters['project'])) {
+    $hail = $parameters['project'];
+  }
+  if (
+    $destination =
+      isset($_GET['destination']) // ask if destination is set
+        ? // if true
+        check_plain($_GET['destination']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
+        : // else
+        FALSE // fail test
+  ) {
+    $query['query']['destination'] = $destination; // add destination to query-string
+  }
+  elseif (
+    $destination =
+      isset($_GET['q']) // ask if q is set
+        ? // if true
+        check_plain($_GET['q']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
+        : // else
+        FALSE // fail test
+  ) {
+    $query['query']['destination'] = $destination; // add destination to query-string
+  }
+
+  $query = array(
+    'query' => array(
+      'project' => $hail,
+    )
+  );  
+
+  if ($hail != 'mediacommons') {
+    $http_response_code = 302;
+    $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), $destination)), $query);
+    header('Location: ' . $url, TRUE, $http_response_code);
+  }
+  else {
+    drupal_goto($destination, array(), 301);
+  }  
+}
+
+function mediacommons_editorialworkflow_userpath() {
+  $project = $hail = variable_get('mediacommons_project', 'mediacommons');
+  $parameters = drupal_get_query_parameters();
+  $userpath = 'user';
+  if (isset($parameters['project'])) {
+    $hail = $parameters['project'];
+  }
+  if ($hail != 'mediacommons') {
+    $http_response_code = 302;
+    $query = array(
+      'query' => array(
+        'project' => $hail,
+      )
+    );
+    if (
+      $destination =
+        isset($_GET['destination']) // ask if destination is set
+          ? // if true
+          check_plain($_GET['destination']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
+          : // else
+          FALSE // fail test
+    ) {
+      $query['query']['destination'] = $destination; // add destination to query-string
+    }
+    elseif (
+      $destination =
+        isset($_GET['q']) // ask if q is set
+          ? // if true
+          check_plain($_GET['q']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
+          : // else
+          FALSE // fail test
+    ) {
+      $query['query']['destination'] = $destination; // add destination to query-string
+    }
+
+    $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), $userpath)), $query);
+
+    print_r($destination);
+
+    print_r($userpath);
+
+    print '<br />';
+    print '<br />';
+ 
+    die($url);
+
+    header('Location: ' . $url, TRUE, $http_response_code);
+
+  }
+  else {
+    drupal_goto('user', array(), 301);
+  }
+}
+
+// Change error language of Google reCAPTCHA module
+// See: https://jira.nyu.edu/jira/browse/MC-329
+function mediacommons_editorialworkflow_keep_going($form, &$form_state) {
+  $errors = form_get_errors();
+  if ($errors) {
+    $recaptcha_error = FALSE;
+    foreach ($errors as $key => $error) {
+      $pos = strpos($error, 'reCAPTCHA');
+      if ($pos) {
+        $recaptcha_error = TRUE;
+        $errors[$key] = t('Your registration did not go through. Please try again. For example, did you remember to check the box next to "I am not a robot?"');
+      }
+    }
+    // https://api.drupal.org/comment/28464#comment-28464
+    if ($recaptcha_error) {
+      // Clear errors.
+      form_clear_error();
+      // Clear error messages.
+      $error_messages = drupal_get_messages('error');
+      // Initialize an array where removed error messages are stored.
+      $removed_messages = array();
+      // Reinstate remaining errors.
+      foreach ($errors as $name => $error) {
+        form_set_error($name, $error);
+        // form_set_error() calls drupal_set_message(), so we have to filter out
+        // these from the error messages as well.
+        $removed_messages[] = $error;
+      }
+    }
+  }
+}
+
+function mediacommons_apis_is_pjax() {
+  $is_pjax = &drupal_static('is_pjax');
+  if (!isset($is_pjax) && function_exists('getallheaders')) {
+    $headers = getallheaders();
+    if (isset($headers['X-Pjax']) || isset($headers['X-PJAX'])) {
+      drupal_add_http_header('uri', request_uri());
+      $is_pjax = TRUE;
+    }
+    else {
+      $params = drupal_get_query_parameters();
+      if (isset($params['pjax'])) {
+        drupal_add_http_header('uri', base_path() . request_uri());
+        $is_pjax = TRUE;
+      }
+      else {
+        $is_pjax = FALSE;
+      }
+    }
+  }
+  return $is_pjax;
+}
+
+function mediacommons_apis_is_embed() {
+  $is_embed = &drupal_static('is_embed');
+  if (!isset($is_embed)) {
+	$params = drupal_get_query_parameters();
+	if (isset($params['embed'])) {
+	  if ($params['embed'] === '1' || $params['embed'] === 'true') {
+	    $is_embed = TRUE;
+	  }
+	  else {
+		$is_embed = FALSE;
+	  }
+    }
+  }
+  return $is_embed;
+}
+
+function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache($bid) {
+  if (empty($_GET['tok']) || !drupal_valid_token($_GET['tok'])) {
+    return MENU_ACCESS_DENIED;
+  }
+  /** make sure Drupal Ajax framework javascript is around */
+  drupal_add_library('system', 'drupal.ajax');
+  $commands = array();
+  $sql = "SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid ORDER BY proceed ASC";
+  $item = db_query($sql, array(':mbid' => $bid))->fetchObject();
+  $update = array('proceed' => time(), 'expire' => time() + (3600 * 4),);
+  if (filter_var($item->url, FILTER_VALIDATE_URL)) {
+    $url = check_url($item->url);
+    $request = drupal_http_request($url);
+    /** we can't reach the URL. we have a problem. */
+    if (isset($request->error)) {
+      $commands[] = ajax_command_alert($request->error);
+    }
+    elseif ($request->status_message) {
+      $status_message = strtolower(check_plain($request->status_message));
+      if ($status_message == 'ok') {
+        $update['content'] = serialize(filter_xss($request->data, mediacommons_filter_allowed_tags()));
+        $success = db_update('mediacommons_blocks_blocks')->fields($update)->condition('mbid', $bid, '=')->execute();
+        if ($success) {
+          $commands[] = ajax_command_alert('Success');
+        }
+      }
+      else {
+        $commands[] = ajax_command_alert($status_message);
+      }
+    }
+  }
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  );
+}
+
+function mediacommons_editorialworkflow_contributor_dashboard_solr_metadata() {
+  if (empty($_GET['tok']) || !drupal_valid_token($_GET['tok'])) {
+    return MENU_ACCESS_DENIED;
+  }
+  // Make sure Drupal Ajax framework javascript is around
+  drupal_add_library('system', 'drupal.ajax');
+  module_load_include('inc', 'apachesolr_multisitesearch', 'apachesolr_multisitesearch.index');
+  // Delete all current variables and refresh them
+  variable_del('apachesolr_multisitesearch_last_metadata_update');
+  variable_del('apachesolr_multisitesearch_last_metadata_fetch');
+  apachesolr_multisitesearch_refresh_metadata();
+  $commands = array();
+  // $commands[] = ajax_command_append('.dashboard-console', t('Task done.'));
+  $commands[] = ajax_command_alert(t('Task done.'));
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  );
+}
+
+
+function mediacommons_editorialworkflow_contributor_dashboard() {
+
   global $user, $conf;
 
   drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'dashboard'),));
+  
   drupal_set_title(t('@sitename: Dashboard', array('@sitename' => variable_get('site_name', 'MediaCommons'))));
+  
   // we need something more elegant. deal with this using access callback?
   if (!user_access('create spoke content')) return '';
-
+  
   $output = '';
 
   $br = theme('html_tag', array(
@@ -1500,245 +1806,3 @@ function mediacommons_editorialworkflow_contributor_dashboard () {
 
 }
 
-/**
- * Remove the option to select a text format in the edit form
- */
-function mediacommons_editorialworkflow_remove_text_format_option(&$form) {
-  $form[LANGUAGE_NONE][0]['format']['guidelines']['#access'] = FALSE;
-  $form[LANGUAGE_NONE][0]['format']['format']['#access'] = FALSE;
-  $form[LANGUAGE_NONE][0]['format']['help']['#access'] = FALSE;
-  $form[LANGUAGE_NONE][0]['format']['#theme_wrappers'] = NULL;
-  return $form;
-}
-
-function is_contributor() {
-  $role = user_role_load_by_name('contributor');
-  if (user_has_role($role->rid)) {
-    return TRUE;
-  }
-  return FALSE;
-}
-
-function mediacommons_editorialworkflow_user_can_edit_node($node) {
-
-  global $user;
-
-  if (!user_is_logged_in()) return false;
-
-  if ($user->uid == 1) return true;
-
-  $username = $user->name;
-
-  // logged user is the same as the author of the entity?
-  if ($node->name == $username) return TRUE;
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-
-  $role_administrator = user_role_load_by_name('administrator');
-
-  $role_managing_editor = user_role_load_by_name('managing editor');
-
-  if (user_has_role($role_managing_editor->rid)) return TRUE;
-
-  if (user_has_role($role_administrator->rid)) return TRUE;
-
-  $fields_info = field_info_instances('node', $wrapper->getBundle());
-
-  if (isset($fields_info['field_contributors'])) {
-    foreach ($wrapper->field_contributors->value() as $delta => $contributor) {
-      if ($contributor->name == $username) return TRUE;
-    }
-  }
-
-  if (isset($fields_info['field_curators_editors'])) {
-    foreach ($wrapper->field_curators_editors->value() as $delta => $curators_editors) {
-      if ($curators_editors->name == $username) return TRUE;
-    }
-  }
-
-  if (isset($fields_info['field_co_editor'])) {
-    foreach ($wrapper->field_co_editor->value() as $delta => $field_co_editor) {
-      if ($field_co_editor->name == $username) return TRUE;
-    }
-  }
-
-  return FALSE;
-
-}
-
-function mediacommons_editorialworkflow_userpath() {
-  
-  $project = $hail = variable_get('mediacommons_project', 'mediacommons');
-  
-  $parameters = drupal_get_query_parameters();
-
-  $userpath = 'user';
-
-  if (isset($parameters['project'])) {
-    $hail = $parameters['project'];
-  }
-
-  if ($hail != 'mediacommons') {
-    $http_response_code = 302;
-    $query = array(
-      'query' => array(
-        'project' => $hail,
-      )
-    );
-    if (
-      $destination =
-        isset($_GET['destination']) // ask if destination is set
-          ? // if true
-          check_plain($_GET['destination']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
-          : // else
-          FALSE // fail test
-    ) {
-      $query['query']['destination'] = $destination; // add destination to query-string
-    }
-    elseif (
-      $destination =
-        isset($_GET['q']) // ask if q is set
-          ? // if true
-          check_plain($_GET['q']) // 1) validate string as UTF-8 to prevent cross site scripting attacks and 2) assign it to $destination
-          : // else
-          FALSE // fail test
-    ) {
-      $query['query']['destination'] = $destination; // add destination to query-string
-    }
-
-    $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), $userpath)), $query);
-
-    header('Location: ' . $url, TRUE, $http_response_code);
-
-  }
-  else {
-    drupal_goto('user', array(), 301);
-  }
-}
-
-// Change error language of Google reCAPTCHA module
-// See: https://jira.nyu.edu/jira/browse/MC-329
-function mediacommons_editorialworkflow_keep_going($form, &$form_state) {
-  $errors = form_get_errors();
-  if ($errors) {
-    $recaptcha_error = FALSE;
-    foreach ($errors as $key => $error) {
-      $pos = strpos($error, 'reCAPTCHA');
-      if ($pos) {
-        $recaptcha_error = TRUE;
-        $errors[$key] = t('Your registration did not go through. Please try again. For example, did you remember to check the box next to "I am not a robot?"');
-      }
-    }
-    // https://api.drupal.org/comment/28464#comment-28464
-    if ($recaptcha_error) {
-      // Clear errors.
-      form_clear_error();
-      // Clear error messages.
-      $error_messages = drupal_get_messages('error');
-      // Initialize an array where removed error messages are stored.
-      $removed_messages = array();
-      // Reinstate remaining errors.
-      foreach ($errors as $name => $error) {
-        form_set_error($name, $error);
-        // form_set_error() calls drupal_set_message(), so we have to filter out
-        // these from the error messages as well.
-        $removed_messages[] = $error;
-      }
-    }
-  }
-}
-
-function mediacommons_apis_is_pjax() {
-  $is_pjax = &drupal_static('is_pjax');
-  if (!isset($is_pjax) && function_exists('getallheaders')) {
-    $headers = getallheaders();
-    if (isset($headers['X-Pjax']) || isset($headers['X-PJAX'])) {
-      drupal_add_http_header('uri', request_uri());
-      $is_pjax = TRUE;
-    }
-    else {
-      $params = drupal_get_query_parameters();
-      if (isset($params['pjax'])) {
-        drupal_add_http_header('uri', base_path() . request_uri());
-        $is_pjax = TRUE;
-      }
-      else {
-        $is_pjax = FALSE;
-      }
-    }
-  }
-  return $is_pjax;
-}
-
-function mediacommons_apis_is_embed() {
-  $is_embed = &drupal_static('is_embed');
-  if (!isset($is_embed)) {
-	$params = drupal_get_query_parameters();
-	if (isset($params['embed'])) {
-	  if ($params['embed'] === '1' || $params['embed'] === 'true') {
-	    $is_embed = TRUE;
-	  }
-	  else {
-		$is_embed = FALSE;
-	  }
-    }
-  }
-  return $is_embed;
-}
-
-function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache($bid) {
-  if (empty($_GET['tok']) || !drupal_valid_token($_GET['tok'])) {
-    return MENU_ACCESS_DENIED;
-  }
-  /** make sure Drupal Ajax framework javascript is around */
-  drupal_add_library('system', 'drupal.ajax');
-  $commands = array();
-  $sql = "SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid ORDER BY proceed ASC";
-  $item = db_query($sql, array(':mbid' => $bid))->fetchObject();
-  $update = array('proceed' => time(), 'expire' => time() + (3600 * 4),);
-  if (filter_var($item->url, FILTER_VALIDATE_URL)) {
-    $url = check_url($item->url);
-    $request = drupal_http_request($url);
-    /** we can't reach the URL. we have a problem. */
-    if (isset($request->error)) {
-      $commands[] = ajax_command_alert($request->error);
-    }
-    elseif ($request->status_message) {
-      $status_message = strtolower(check_plain($request->status_message));
-      if ($status_message == 'ok') {
-        $update['content'] = serialize(filter_xss($request->data, mediacommons_filter_allowed_tags()));
-        $success = db_update('mediacommons_blocks_blocks')->fields($update)->condition('mbid', $bid, '=')->execute();
-        if ($success) {
-          $commands[] = ajax_command_alert('Success');
-        }
-      }
-      else {
-        $commands[] = ajax_command_alert($status_message);
-      }
-    }
-  }
-  return array(
-    '#type' => 'ajax',
-    '#commands' => $commands,
-  );
-}
-
-function mediacommons_editorialworkflow_contributor_dashboard_solr_metadata() {
-  if (empty($_GET['tok']) || !drupal_valid_token($_GET['tok'])) {
-    return MENU_ACCESS_DENIED;
-  }
-  // Make sure Drupal Ajax framework javascript is around
-  drupal_add_library('system', 'drupal.ajax');
-  module_load_include('inc', 'apachesolr_multisitesearch', 'apachesolr_multisitesearch.index');
-  // Delete all current variables and refresh them
-  variable_del('apachesolr_multisitesearch_last_metadata_update');
-  variable_del('apachesolr_multisitesearch_last_metadata_fetch');
-  apachesolr_multisitesearch_refresh_metadata();
-  $commands = array();
-  // $commands[] = ajax_command_append('.dashboard-console', t('Task done.'));
-  $commands[] = ajax_command_alert(t('Task done.'));
-  return array(
-    '#type' => 'ajax',
-    '#commands' => $commands,
-  );
-}
