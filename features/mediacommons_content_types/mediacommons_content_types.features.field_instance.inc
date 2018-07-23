@@ -8,6 +8,7 @@
  * Implements hook_field_default_field_instances().
  */
 function mediacommons_content_types_field_default_field_instances() {
+  $fid = variable_get('mediacommons_content_types_default_image_fid', 1);
   $field_instances = array();
 
   // Exported field_instance:
@@ -1188,7 +1189,7 @@ Please choose "Crop" to create an additional version of your image which will be
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 1,
+      'default_image' => $fid,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '10 MB',
@@ -2531,7 +2532,7 @@ Immediately after upload, you will need to crop the image.   To change the cropp
     'required' => 0,
     'settings' => array(
       'alt_field' => 1,
-      'default_image' => 1,
+      'default_image' => $fid,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '200 KB',
