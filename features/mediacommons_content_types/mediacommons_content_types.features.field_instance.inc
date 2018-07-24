@@ -2518,7 +2518,7 @@ Immediately after upload, you will need to crop the image.   To change the cropp
         'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
-          'image_link' => 'content',
+          'image_link' => '',
           'image_style' => 'manual_crop_thumbnail_120_by_80',
         ),
         'type' => 'image',
