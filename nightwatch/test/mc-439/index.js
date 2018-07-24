@@ -9,9 +9,6 @@ module.exports = {
       .assert.elementPresent('li.search-result')
       .end();
   },
-
-  
- 
   'Finished': function (client) {
     client
       .perform(() => {

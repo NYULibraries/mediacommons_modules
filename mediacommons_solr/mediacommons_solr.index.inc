@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @file
+ * MediaCommons Integration with the Apache Solr module.
+ * Indexing task
+ */
+
+/**
  * Build the documents before sending them to Solr.
  * The function is the follow-up for apachesolr_update_index
  *
@@ -36,7 +42,9 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
     $document->addField('im_contributor', $user_entity->uid);
     $json[] = mediacommons_solr_user_metadata($user_entity);
   }
+
   $document->addField('zs_contributors', json_encode($json));
+
   // Representative image
   $ri = array();
   $representativeimage = $wrapper->field_representative_image->value();
@@ -343,9 +351,11 @@ function mediacommons_solr_user_metadata($entity) {
 			$organization ['name'] = $field_organization->name;
 			$organization ['vocabulary'] = $field_organization->vocabulary_machine_name;
 			$organization ['url'] = drupal_get_path_alias ('taxonomy/term/' . $field_organization->tid );
-		}
-		$user ['uid'] = $uwrapper->getIdentifier ();
-		$user ['url'] = mediacommons_homepage_umbrella_url() . '/' . drupal_get_path_alias('user/' . $uid);
+    }
+    
+		$user['uid'] = $uwrapper->getIdentifier();
+    $user['url'] = mediacommons_homepage_umbrella_url() . '/' . drupal_get_path_alias('user/' . $uid);
+    
 		$user ['organization'] = $organization;
 		$user ['picture'] = $picture;
 		if (isset ($entity->realname )) {

@@ -1,4 +1,4 @@
-<?php foreach ($peoplelist as $person) :?>
+<?php foreach ($peoplelist as $person) : ?>
   <div class="h-card">
     <?php if ($person->name) : ?>
       <span class="p-name name fn">
@@ -6,7 +6,7 @@
       </span>
     <?php endif; ?>
     <?php if ($person->organization) : ?>
-      <span class="p-org"><a href="<?php print url($person->organization->url) ?>" data-vocabulary="<?php print $person->organization->vocabulary ?>" data-tid="<?php print $person->organization->tid ?>" data-vid="<?php print $person->organization->vid ?>"><?php print $person->organization->name ?></a></span>      
+      <span class="p-org"><a href="<?php print url($person->organization->url, array('absolute' => TRUE)) ?>" data-vocabulary="<?php print $person->organization->vocabulary ?>" data-tid="<?php print $person->organization->tid ?>" data-vid="<?php print $person->organization->vid ?>"><?php print $person->organization->name ?></a></span>      
     <?php endif; ?>
   </div>
 <?php endforeach; ?>

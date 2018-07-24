@@ -52,32 +52,36 @@ function mc_preprocess_html(&$vars) {
 }
 
 function  mc_get_root_url() {
+
   static $root_url;
 
   if ($root_url) {
     return $root_url;
   }
+
   // NOTE: gethostname() does not work for local /etc/hosts/ aliases.
-  if (drupal_is_cli()) {
-    $hostname = $_SERVER['HTTP_HOST'];
+  if (drupal_is_cli() && isset($GLOBALS['mc_umbrella_baseurl'])) {
+    // drush_log('Umbrella : ' . $GLOBALS['mc_umbrella_baseurl'], 'ok');
+    // drush_log('Site : ' . $GLOBALS['mc_site_baseurl'], 'ok');
+    // print_r($GLOBALS['mc_sites']);
+    $root_url = $GLOBALS['mc_umbrella_baseurl'];
   }
   else {
     $hostname = $_SERVER['SERVER_NAME'];
+    // Don't just do `$_SERVER['HTTPS'] ? 'https' : 'http';`.  This will throw an
+    // error "Notice: Undefined index: HTTPS" which is not fatal but is printed on
+    // on the page.
+    if ( array_key_exists( 'HTTPS', $_SERVER ) ) {
+      // It's unclear from http://php.net/manual/en/reserved.variables.server.php
+      // whether the existence of the key is enough.  Test if it's "non-empty".
+      $protocol = empty( $_SERVER['HTTPS'] ) ? 'https' : 'http';
+    }
+    else {
+      $protocol = 'http';
+    }
+    $port = ($_SERVER['SERVER_PORT'] === '80' || !isset($_SERVER['SERVER_PORT'])) ? '' : ':' . $_SERVER['SERVER_PORT'];
+    $root_url = "${protocol}://${hostname}${port}";  
   }
-  // Don't just do `$_SERVER['HTTPS'] ? 'https' : 'http';`.  This will throw an
-  // error "Notice: Undefined index: HTTPS" which is not fatal but is printed on
-  // on the page.
-  if ( array_key_exists( 'HTTPS', $_SERVER ) ) {
-    // It's unclear from http://php.net/manual/en/reserved.variables.server.php
-    // whether the existence of the key is enough.  Test if it's "non-empty".
-    $protocol = empty( $_SERVER['HTTPS'] ) ? 'https' : 'http';
-  }
-  else {
-    $protocol = 'http';
-  }
-  $port = ($_SERVER['SERVER_PORT'] === '80' || !isset($_SERVER['SERVER_PORT'])) ? '' : ':' . $_SERVER['SERVER_PORT'];
-  $root_url = "${protocol}://${hostname}${port}";
-  
   return $root_url;
 }
 

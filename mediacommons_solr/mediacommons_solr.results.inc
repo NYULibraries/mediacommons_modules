@@ -51,13 +51,56 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
 }
 
 function mediacommons_solr_preprocess_search_result_review(&$variables) {
+
   $fields = $variables['result']['fields'];
+
   $referencedspoke = json_decode($fields['ss_referencedspoke']);
-  $variables['classes_array'][] = 'clearfix';
-  $variables['classes_array'][] = 'node-comment';
-  $variables['classes_array'][] = 'node-' . $fields['ss_projectclass'];
-  $variables['created_date'] = $fields['ss_createddate'];
-  $variables['referencedspoke'] = json_decode($fields['ss_referencedspoke']);
+
+  // we don't render the "review" view
+  // we render the "spoke" view
+  // Umbrella won't be able to render external nodes. We need to find it using Solr
+  $key = '*:*';
+  $conditions = array(
+    'fq' => array(
+      'entity_id:' . $referencedspoke->nid,
+      'ss_project:' . $variables['project'],
+    ),
+    'spellcheck' => 'false',
+    'sort' => 'timestamp desc',
+  );
+
+  $spoke = mediacommons_solr_runsearch('*:*', $conditions);
+
+  if (!empty($spoke)) {
+    $spoke = array_pop($spoke);
+    $variables['link'] = $spoke['link'];  
+    $variables['url'] = $spoke['link'];  
+    $variables['classes_array'][] = 'node-teaser';
+    $variables['classes_array'][] = 'view-mode-teaser';
+    $spoke_fields = (object)$spoke['fields'];
+    $variables['title'] = $spoke['title'];
+    $variables['snippet'] = $spoke['snippet'];
+    // Representative Image
+    $variables['ri'] = json_decode($spoke_fields->zs_ri);
+    // Period start
+    $variables['created_date'] = $spoke_fields->ss_createddate;
+    $variables['comment_count'] = $spoke_fields->is_comment_count;
+    // contributors
+    $peoplelist = array(
+      'peoplelist' => json_decode($spoke_fields->zs_contributors)
+    );
+    
+    $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);
+    
+    // reviewer
+    $reviewerlist = array(
+      'peoplelist' => json_decode($fields['zs_reviewer'])
+    );
+     
+    $variables['reviewby'] = theme('mediacommons_solr_hcard', $reviewerlist);
+
+  }
+
 }
 
 function mediacommons_solr_preprocess_search_result_comment_node_spoke(&$variables) {
