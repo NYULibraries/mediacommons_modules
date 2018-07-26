@@ -42,9 +42,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
     $document->addField('im_contributor', $user_entity->uid);
     $json[] = mediacommons_solr_user_metadata($user_entity);
   }
-
   $document->addField('zs_contributors', json_encode($json));
-
   // Representative image
   $ri = array();
   $representativeimage = $wrapper->field_representative_image->value();
@@ -65,33 +63,25 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
       }
     }
   }
+  $document->addField('ss_comment_count', $entity->comment_count);
   $document->addField('zs_ri', json_encode($ri));
-  
   $pubdate = $wrapper->field_pubdate->value();
-
   if (empty($pubdate)) {
     $pubdate = $entity->created;
   }
-
   $document->addField('ss_periodstart', $pubdate);
   $document->addField('ss_createddate', date('F d, Y', $pubdate));
   $document->addField('ss_cdyyyymmdd', date('Y-m-d', $pubdate));
-  $document->addField('ss_pubdate', date('F d, Y', $pubdate));
-  
+  $document->addField('ss_pubdate', date('F d, Y', $pubdate));  
   // Timestamp of the node
   $document->addField('ds_pubdate', apachesolr_date_iso($pubdate));
   $document->addField('ds_pubdated', apachesolr_date_iso($pubdate));
   $document->addField('ds_pubdatea', apachesolr_date_iso($pubdate));
-
   /** searchable content; dump all you want to be searchable in this array */
-  $searchableFields = array();
-  
+  $searchableFields = array();  
   $searchableFields[] = $document->content;
-
-  // $searchableFields[] = $entity->label . ' ' . apachesolr_clean_text(drupal_render(node_view($entity, 'full')));
-  
-  unset($document->content);
-  
+  // $searchableFields[] = $entity->label . ' ' . apachesolr_clean_text(drupal_render(node_view($entity, 'full')));  
+  unset($document->content);  
   // Use node id to search for any reference (e.g., "Review" of this "Spoke")
   $query = new EntityFieldQuery;
   $keys = array();
@@ -99,15 +89,21 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
     ->entityCondition('bundle', 'review')
     ->fieldCondition('field_isreviewof', 'nid', array($entity->nid))
     ->execute();
+  // Reviewers  
+  $json_reviewers = array();
   if (!empty($result['node'])) {
     $keys = array_keys($result['node']);
     foreach ($keys as $key) {
-      $searchableFields[] = apachesolr_clean_text($entity->label . ' ' . drupal_render(node_view(node_load($key), 'full')));
+      $review_node = node_load($key);
+      $review_user = user_load($review_node->uid);
+      $document->addField('im_reviewers', $review_user->uid);
+      $document->addField('im_reviewer', $review_user->uid);
+      $json_reviewers[] = mediacommons_solr_user_metadata($review_user);
+      $searchableFields[] = apachesolr_clean_text($entity->label . ' ' . drupal_render(node_view($review_node, 'full')));
     }
   }
-
+  $document->addField('zs_reviewers', json_encode($json_reviewers));
   $document->addField('content', implode($searchableFields, ' '));
-
 }
 
 /**
@@ -353,7 +349,8 @@ function mediacommons_solr_user_metadata($entity) {
 			$organization ['url'] = drupal_get_path_alias ('taxonomy/term/' . $field_organization->tid );
     }
     
-		$user['uid'] = $uwrapper->getIdentifier();
+    $user['uid'] = $uwrapper->getIdentifier();
+    
     $user['url'] = mediacommons_homepage_umbrella_url() . '/' . drupal_get_path_alias('user/' . $uid);
     
 		$user ['organization'] = $organization;

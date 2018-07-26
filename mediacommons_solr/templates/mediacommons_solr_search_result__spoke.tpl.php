@@ -4,25 +4,25 @@
   </div>
   <div class="thumb">
     <?php if (!empty($ri)) : ?>
-    <a href="<?php print $url ?>">
+    <a role="presentation" tabindex="-1" href="<?php print $url ?>">
       <!-- $ri holds URL for all available styles defined by Drupal's image styles -->
-      <img typeof="foaf:Image" src="<?php print $ri->thumbnail__120x80_ ?>" width="120" height="80"/>
+      <img typeof="foaf:Image" src="<?php print $ri->thumbnail__120x80_ ?>" width="120" height="80" alt="">
     </a>
     <?php endif; ?>
   </div>
   <div class="spoke-teaser-meta node-meta">
     <h3 class="spoke-title node-title"<?php print $title_attributes ?>>
       <a href="<?php print $url ?>"><?php print $title ?></a>
-    </h3>
-    <div class="search-snippet-info">
-      <?php if ($snippet): ?>
-        <p class="search-snippet"<?php print $content_attributes; ?>><?php print $snippet; ?></p>
-      <?php endif; ?>
-    </div>
+    </h3>   
     <div class="peoplelist contributors">
       <span>By</span> 
       <?php print $peoplelist ?>
     </div>
+    <?php if (!empty($reviewlist)) : ?>
+    <div class="peoplelist reviewers">
+      <span>Reviewed by</span> <?php print $reviewlist ?>
+    </div> 
+    <?php endif ?>
     <time><?php print $created_date ?></time>
     <?php if ($comment_count): ?>
     <div class="comment-count">
@@ -31,5 +31,10 @@
       </a>
     </div>
     <?php endif ?>
+     <div class="search-snippet-info">
+      <?php if ($snippet): ?>
+        <p class="search-snippet"<?php print $content_attributes; ?>><?php print $snippet; ?></p>
+      <?php endif; ?>
+    </div>
   </div>
 </li>

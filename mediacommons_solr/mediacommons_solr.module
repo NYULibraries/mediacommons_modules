@@ -89,6 +89,10 @@ function mediacommons_solr_user_view($account, $view_mode) {
  * Implements hook_apachesolr_query_alter().
  */
 function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $query) {
+  $name = $query->getName();
+  if ($name == 'apachesolr') {
+    $query->addParam('fq', '-bundle:review');
+  }
   // add FL's
   $query->replaceParam('fl', array_merge($query->getParam('fl'), mediacommons_solr_fls()));
 }
@@ -97,7 +101,6 @@ function mediacommons_solr_apachesolr_query_alter(DrupalSolrQueryInterface $quer
  * Executes search depending on the conditions given.
  */
 function mediacommons_solr_runsearch($keys = NULL, $conditions = NULL) {
-
   // don't run empty query
   if (!$keys) {
     apachesolr_failure(t('Solr search'), $keys);
@@ -177,7 +180,7 @@ function mediacommons_solr_runsearch($keys = NULL, $conditions = NULL) {
     // If we execute more than 2 search and one of the search does
     // not return value, we run into problems of the 2 queries failing
     // to return a value
-    $results = apachesolr_search_run('apachesolr' . uniqid(), $params, $solrsort, $search_page['search_path'], pager_find_page(), $solr, $context);
+    $results = apachesolr_search_run('mediacommons_apachesolr' . uniqid(), $params, $solrsort, $search_page['search_path'], pager_find_page(), $solr, $context);
 
   }
   catch (Exception $e) {
@@ -218,11 +221,13 @@ function mediacommons_solr_fls() {
     'im_reviewer',
     'ss_pubdate',
     'is_comment_count',
+    'ss_comment_count',
     'zs_reviewer', // JSON object
     'zs_contributors', // JSON object
     'zs_curatorseditors', // JSON object
     'zs_coeditor', // JSON object
     'zs_ri', // JSON object including all image styles URL
+    'zs_reviewers',
     'ss_periodstart',
     'ss_createddate',
     'ss_cdyyyymmdd',
