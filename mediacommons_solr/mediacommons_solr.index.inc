@@ -353,7 +353,8 @@ function mediacommons_solr_user_metadata($entity) {
 			$organization ['url'] = drupal_get_path_alias ('taxonomy/term/' . $field_organization->tid );
     }
     
-		$user['uid'] = $uwrapper->getIdentifier();
+    $user['uid'] = $uwrapper->getIdentifier();
+    
     $user['url'] = mediacommons_homepage_umbrella_url() . '/' . drupal_get_path_alias('user/' . $uid);
     
 		$user ['organization'] = $organization;
