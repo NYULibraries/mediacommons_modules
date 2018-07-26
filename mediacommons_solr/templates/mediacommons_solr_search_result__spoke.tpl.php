@@ -13,12 +13,16 @@
   <div class="spoke-teaser-meta node-meta">
     <h3 class="spoke-title node-title"<?php print $title_attributes ?>>
       <a href="<?php print $url ?>"><?php print $title ?></a>
-    </h3>
-   
+    </h3>   
     <div class="peoplelist contributors">
       <span>By</span> 
       <?php print $peoplelist ?>
     </div>
+    <?php if (!empty($reviewlist)) : ?>
+    <div class="peoplelist reviewers">
+      <span>Reviewed by</span> <?php print $reviewlist ?>
+    </div> 
+    <?php endif ?>
     <time><?php print $created_date ?></time>
     <?php if ($comment_count): ?>
     <div class="comment-count">
@@ -27,7 +31,6 @@
       </a>
     </div>
     <?php endif ?>
-
      <div class="search-snippet-info">
       <?php if ($snippet): ?>
         <p class="search-snippet"<?php print $content_attributes; ?>><?php print $snippet; ?></p>
