@@ -18,7 +18,7 @@
       <span>By</span>
       <?php print $peoplelist ?>
     </div>
-    <time datetime="YYYY-MM-DD">
+    <time>
       <?php print $created_date ?>
     </time>
     <div class="comment-body">

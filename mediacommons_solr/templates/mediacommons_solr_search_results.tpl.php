@@ -26,6 +26,7 @@
 
 <?php if ($search_results): ?>
   <h2 class="contribution-type"><?php print $title ?></h2>
+  <div class ="search-header-group">
   <?php if (isset($description)): ?>
     <div class="locator-text">
       <?php print $description ?>
@@ -34,6 +35,7 @@
    <?php if (isset($solr_sort)): ?>
     <?php print $solr_sort ?>
   <?php endif; ?>
+  </div>
   <ul class="mc-searchresults <?php print $module ?>-results">
     <?php print $search_results ?>
   </ul>
