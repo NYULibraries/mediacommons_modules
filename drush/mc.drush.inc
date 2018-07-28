@@ -145,100 +145,107 @@ function drush_mc_create_intransition_fake_reviews() {
   
   $pubdate = $dt->getTimestamp();  
 
-  $pirates = array();
+  $node_nids = array();
 
-  $pirate1 = user_load_by_mail('pirate.club.1@nyu.edu');
+  $map = array();
 
-  if ($pirate1) {
-    $pirates[] = $pirate1->uid;
-    $body = "Overhaul Spanish Main draft cutlass gunwalls lookout trysail loaded to the gunwalls careen bilge rat. Lanyard maroon warp black spot salmagundi ye pinnace heave to scuttle reef sails. Stern spike lateen sail transom gally hulk crack Jennys tea cup gibbet clap of thunder salmagundi.";
-    $embed = '<iframe allowfullscreen="" frameborder="0" height="360" mozallowfullscreen="" src="https://player.vimeo.com/video/233553740" webkitallowfullscreen="" width="640"></iframe>';
-    $node = mc_drush_create_node(
-      array(
-        'type' => 'spoke',
-        'title' => 'Overhaul Spanish Main',
-        'uid' => $pirate1->uid,
-        'contributors' => array($pirate1->uid),
-        'embed' => $embed,
-        'body' => $body,
-        'pubdate' => $pubdate,
-        'pubstat' => $pubstat,
-        'images' => '/vagrant/code/mediacommons_modules/drush/assets/images/s1.jpg',
-      )
-    );
+  $pirates = array(
+    'pirate.club.1@nyu.edu',
+    'pirate.club.2@nyu.edu',
+    'pirate.club.3@nyu.edu',
+  );
+
+  // load all pirates
+  $pirates_object = array();
+  $pirates_uids = array();
+  $pirates_uid = array();
+  $pirates_by_mail = array();
+
+  foreach ($pirates as $index => $pirate) {
+    $l = user_load_by_mail($pirate);
+    $pirates_object[$pirate] = $l;
+    $pirates_uid[] = $l->uid;
   }
 
-  $pirate2 = user_load_by_mail('pirate.club.2@nyu.edu');
-  if ($pirate2) {
-    $pirates[] = $pirate2->uid;
-    $body = "Sail ho quarterdeck jack furl tack Nelsons folly sheet heave to haul wind gangplank. Deadlights bring a spring upon her cable knave Davy Jones' Locker Barbary Coast warp lanyard furl fluke spanker. Bilged on her anchor boom code of conduct crow's nest brig deadlights boatswain reef sails Jack Tar Shiver me timbers.";
-    $review1 = mc_drush_create_node(
-      array(
-        'type' => 'review',
-        'title' => 'Sail ho quarterdeck jack',
-        'uid' => $pirate2->uid,
-        'body' => $body,
-        'pubstat' => $pubstat,      
-        'reviewer' => array($pirate2->uid),
-        'isreviewof' => intval($node->nid),
-      )
-    );
+  $body = array(
+    "Overhaul Spanish Main draft cutlass gunwalls lookout trysail loaded to the gunwalls careen bilge rat. Lanyard maroon warp black spot salmagundi ye pinnace heave to scuttle reef sails. Stern spike lateen sail transom gally hulk crack Jennys tea cup gibbet clap of thunder salmagundi.",
+    "Sail ho quarterdeck jack furl tack Nelsons folly sheet heave to haul wind gangplank. Deadlights bring a spring upon her cable knave Davy Jones' Locker Barbary Coast warp lanyard furl fluke spanker. Bilged on her anchor boom code of conduct crow's nest brig deadlights boatswain reef sails Jack Tar Shiver me timbers.",
+    "Scurvy hornswaggle chantey reef sails plunder take a caulk main sheet Cat o'nine tails wherry scuppers. Lugger crimp topsail Blimey lateen sail come about brig chandler run a shot across the bow execution dock. Maroon parley Jack Tar black spot crow's nest careen hogshead reef sails bilge rat scuppers.",
+  );  
+
+  foreach ($pirates_object as $index => $object) {
+    $result = db_select('node')
+      ->fields('node', array('nid'))
+      ->condition('type', 'hub')
+      ->orderRandom()
+      ->range(0, 2)
+      ->execute();
+    foreach ($result->fetchAll() as $record) {
+      $spokes = array();
+      $node = node_load($record->nid);
+      $node->uid = $object->uid;
+      unset($node->nid);
+      unset($node->vid);
+      unset($node->path);
+      node_save($node);
+      $wrapper = entity_metadata_wrapper('node', $node);
+      foreach ($wrapper->field_spokes->value() as $spoke) {
+        unset($spoke->nid);
+        unset($spoke->vid);
+        unset($spoke->path);
+        $spoke->uid = $pirates_object[$pirates[array_rand($pirates)]]->uid;
+        node_save($spoke);
+        drush_log('SPOKE ' . url('node/' . $spoke->nid, array('absolute' => TRUE)), 'ok');
+        $spokes[] = $spoke->nid;
+        $reviewer = $pirates_object[$pirates[array_rand($pirates)]]->uid;
+        $review = mc_drush_create_node(
+          array(
+            'type' => 'review',
+            'title' => substr(rand(0, 1), 0, rand(8, 25)),
+            'uid' => $reviewer,
+            'body' => $body[rand(0, 1)],
+            'pubstat' => $pubstat,
+            'reviewer' => array($reviewer),
+            'isreviewof' => $spoke->nid,
+          )
+        );
+        $result = db_select('comment')->fields('comment', array('cid'))->orderRandom()->range(0, rand(2, 13))->execute();
+        $cids = $result->fetchCol();
+        foreach (comment_load_multiple($cids) as $comment) {
+          $new_comment = (object) array(
+            'nid' => $spoke->nid,
+            'cid' => 0,
+            'pid' => 0,
+            'uid' => $pirates_object[$pirates[array_rand($pirates)]]->uid,
+            'mail' => $comment->mail,
+            'is_anonymous' => 0,
+            'homepage' =>  $comment->homepage,
+            'status' => 1,
+            'subject' => $comment->subject,
+            'language' => LANGUAGE_NONE,
+            'thread' => 0,
+            'hostname' => $comment->hostname,
+            'date' => date("Y-m-j H:i:s", $comment->created),
+            'comment_body' => array(
+              LANGUAGE_NONE => array(
+                0 => array (
+                  'value' => $comment->comment_body['und'][0]['value'],
+                  'format' => 'filtered_html',
+                ),
+              ),
+            ),
+          );
+          comment_submit($new_comment);
+          comment_save($new_comment);
+        }
+      }
+      $wrapper->field_contributors->set($pirates_uid);
+      $wrapper->field_spokes->set($spokes);
+      $wrapper->field_curators_editors->set(array($node->uid));      
+      $wrapper->save();    
+      drush_log('HUB by ' . $object->name . ' ' . url('node/' . $node->nid, array('absolute' => TRUE)), 'ok');
+    }
   }
-
-  $pirate3 = user_load_by_mail('pirate.club.3@nyu.edu');
-  if ($pirate3) {
-    $pirates[] = $pirate3->uid;
-    $body = "Scurvy hornswaggle chantey reef sails plunder take a caulk main sheet Cat o'nine tails wherry scuppers. Lugger crimp topsail Blimey lateen sail come about brig chandler run a shot across the bow execution dock. Maroon parley Jack Tar black spot crow's nest careen hogshead reef sails bilge rat scuppers.";
-    $review2 = mc_drush_create_node(
-      array(
-        'type' => 'review',
-        'title' => 'Scurvy hornswaggle chantey',
-        'uid' =>  $pirate3->uid,
-        'body' => $body,
-        'pubstat' => $pubstat,
-        'reviewer' => array( $pirate3->uid),
-        'isreviewof' => intval($node->nid),
-      )
-    );
-  }
-
-  $result = db_select('comment')->fields('comment', array('cid'))->orderRandom()->execute();
-
-  $cids = $result->fetchCol();
-
-  $comments = comment_load_multiple($cids);
-
-  foreach ($comments as $comment) {
-    $a = array_rand($pirates);
-    $uid = $pirates[$a];
-    $new_comment = (object) array(
-      'nid' => intval($node->nid),
-      'cid' => 0,
-      'pid' => 0, // need to fix this so that the parent of the comment get assigned
-      'uid' => $uid,
-      'mail' => $comment->mail,
-      'is_anonymous' => 0,
-      'homepage' =>  $comment->homepage,
-      'status' => ($comment->status == 0) ? 1 : 0,
-      'subject' => $comment->subject,
-      'language' => LANGUAGE_NONE,
-      'thread' => 0,
-      'hostname' => $comment->hostname,
-      'date' => date("Y-m-j H:i:s", $comment->created),
-      'comment_body' => array(
-        LANGUAGE_NONE => array(
-          0 => array (
-            'value' => $comment->comment_body['und'][0]['value'],
-            'format' => 'filtered_html',
-          ),
-        ),
-      ),
-    );
-
-    comment_submit($new_comment);
-
-    comment_save($new_comment);
-  }  
 
 }
 
@@ -284,7 +291,6 @@ function drush_mc_rebuild_cache () {
 }
 
 function mc_drush_create_node($config) {
-
   $values = array(
     'type' => $config['type'],
     'uid' => $config['uid'],
@@ -292,71 +298,67 @@ function mc_drush_create_node($config) {
     'comment' => 1,
     'promote' => 0,
   );
-
   $entity = entity_create('node', $values);
-
-  $wrapper = entity_metadata_wrapper('node', $entity);  
-  
+  $wrapper = entity_metadata_wrapper('node', $entity);    
   $wrapper->title->set($config['title']);
-
   if (isset($config['embed'])) {
     $wrapper->field_embed->set(array('value' =>  $config['embed'], 'format'=> 'limited_html'));
-  } 
-
+  }
   if (isset($config['body']) && $config['type'] == 'spoke') {
     $wrapper->field_body->set(array('value' => $config['body']));
   }
-
   if (isset($config['body']) && $config['type'] == 'review') {
     $wrapper->body->set(array('value' => $config['body']));
-  }  
-
+  }
   if (isset($config['isreviewof'])) {
     $wrapper->field_isreviewof->set($config['isreviewof']);
   }
-
   if (isset($config['reviewer'])) {
     $wrapper->field_reviewer->set($config['reviewer']);
   }
-
   if (isset($config['pubdate'])) {
     $wrapper->field_pubdate->set($pubdate);  
   }
-
+  
   if (isset($config['contributors'])) {
     $wrapper->field_contributors->set($config['contributors']);
   }
-
   if (isset($config['pubstat'])) {
     $wrapper->field_pubstat->set($config['pubstat']);
   }
-
-  if (isset($config['images'])) {
-    $image = drush_mc_user_picture($config['images']);
+  
+  if (isset($config['attached_images'])) {
+    $image = drush_mc_user_picture($config['attached_images']);
     $wrapper->field_attached_images->set(array(array('fid' => $image->fid)));
-    $wrapper->field_representative_image->set(array('fid' => $image->fid));
   }
+  
+  if (isset($config['representative_image'])) {
+    $image = drush_mc_user_picture($config['representative_image']);
+    $wrapper->field_representative_image->set(array('fid' => $image->fid));
+  }  
+
+
+        // field_representative_image
+        // field_image_rights
+        // field_taxonomy
+        // field_spokes
+        // field_contributors
+        // field_pubstat
+        // field_period
+        // field_curators_editors
+        // field_co_editor
 
   $wrapper->save();
-
   return $entity;
-
 }
 
 function drush_mc_user_picture($uri) {
-
   $filepath = pathinfo($uri);
-
   $destination_file = 'public://pictures/' . $filepath['basename'];
-
   $handle = fopen($uri, 'r');
-  
   $file = file_save_data($handle, $destination_file, FILE_EXISTS_REPLACE);
-  
   fclose($handle);
-
-  return $file;
-  
+  return $file; 
 }
 
 /** Create a taxonomy term and return the tid */
@@ -366,8 +368,7 @@ function drush_mc_create_taxonomy_term($vocabulary, $term) {
   $new->name = $term->name;
   $new->description = $term->description;
   $new->weight = $term->weight;
-  $new->parent = (int)$term->parent;
-  
+  $new->parent = (int)$term->parent;  
   return $new;
 }
 
@@ -403,53 +404,40 @@ function drush_mc_create_pirates() {
     drush_log(dt('Term organization "@term" saved!', array('@term' => $organization->name)), 'ok');
     $organization_term_by_name = taxonomy_get_term_by_name($organization->name, 'organizations');
   }
-  else {
-    $organization = array_pop($organization_term_by_name);
-    $organization = intval($organization->tid);
-  }
+  
+  $organization = array_pop($organization_term_by_name);
+  $organization = intval($organization->tid);
   
   $cities = taxonomy_vocabulary_machine_name_load('city');
-
   $city = new stdClass();
   $city->vid = $cities->vid;
   $city->name = "New York";
   $city->description = "New York";
   $city->weight = 1;
-  $city->parent = $cities->vid;
-  
+  $city->parent = $cities->vid;  
   $city_term_by_name = taxonomy_get_term_by_name($city->name, 'city');
-
   if (!$city_term_by_name) {
-    $city_term_by_name= taxonomy_term_save($city);
+    $city_term_by_name = taxonomy_term_save($city);
     drush_log(dt('Term city "@term" saved!', array('@term' => $city->name)), 'ok');
     $city_term_by_name = taxonomy_get_term_by_name($city->name, 'city');
   }
-  else {
-    $city = array_pop($city_term_by_name);
-    $city = intval($city->tid);
-  }
-
+  $city = array_pop($city_term_by_name);
+  $city = intval($city->tid);
   $tags = taxonomy_vocabulary_machine_name_load('tags');
-
   $tag = new stdClass();
   $tag->vid = $tags->vid;
   $tag->name = 'sail the oceans and get rich';
   $tag->description = 'sail the oceans and get rich';
   $tag->weight = 1;
   $tag->parent = $tags->vid;
-  
   $tag_term_by_name = taxonomy_get_term_by_name($tag->name, 'tags');
-
   if (!$tag_term_by_name) {
-    $tag_term_by_name= taxonomy_term_save($tag);
+    $tag_term_by_name = taxonomy_term_save($tag);
     drush_log(dt('Term tag "@term" saved!', array('@term' => $tag->name)), 'ok');
-    $tag_term_by_name = taxonomy_get_term_by_name($tag->name, 'city');
+    $tag_term_by_name = taxonomy_get_term_by_name($tag->name, 'tags');
   }
-  else {
-    $tag = array_pop($tag_term_by_name);
-    $tag = intval($tag->tid);
-  }
-
+  $tag = array_pop($tag_term_by_name);
+  $tag = array(intval($tag->tid));
   $pirates = array(
     'pirate.club.1' => array(
       'name' => 'pirate.club.1',
@@ -463,7 +451,7 @@ function drush_mc_create_pirates() {
       'created' => 1524438746,
       'access' => 1524438746,
       'login' => 1524438746,      
-      'picture' => '/vagrant/code/mediacommons_modules/drush/assets/images/m1.jpg',
+      'picture' => __DIR__ . '/assets/images/m1.jpg',
       'bio' => "Anne Bonny was a strong, independent woman, who was way ahead of her time. The 18th century was still a time when man made all important decisions, a time when women did not have many rights. In this men's world, it was hard for Anne Bonny to become an equal crewmember and a respected pirate.",
       'phone' => '787-764-0000',
       'title' => 'Pirate',
@@ -471,9 +459,9 @@ function drush_mc_create_pirates() {
       'last_name' => 'Bonny',
       'country' => intval(12340),
       'state' => intval(12621),
-      'city' => intval($city),
-      'tag' => array($tag),
-      'organization' => intval($organization),
+      'city' => $city,
+      'tag' => $tag,
+      'organization' => $organization,
       'plan' => "No man to talk of breaking up their way of living, till each had shared one thousand pounds. If in order to this, any man should lose a limb, or become a cripple in their service, he was to have eight hundred dollars, out of the public stock, and for lesser hurts, proportionately.",
     ),
     'pirate.club.2' => array(
@@ -488,7 +476,7 @@ function drush_mc_create_pirates() {
       'created' => 1524438746,
       'access' => 1524438746,
       'login' => 1524438746,      
-      'picture' => '/vagrant/code/mediacommons_modules/drush/assets/images/m2.jpg',
+      'picture' => __DIR__ . '/assets/images/m2.jpg',
       'bio' => "The world's most successful pirate—and its most wanted man.",
       'phone' => '787-764-0000',
       'title' => 'Pirate',
@@ -496,9 +484,9 @@ function drush_mc_create_pirates() {
       'last_name' => 'Avery',
       'country' => intval(12340),
       'state' => intval(12621),
-      'city' => intval($city),
-      'tag' => array($tag),
-      'organization' => intval($organization),
+      'city' => $city,
+      'tag' => $tag,
+      'organization' => $organization,
       'plan' => "No person to game at cards or dice for money.",
     ),
     'pirate.club.3' => array(
@@ -513,7 +501,7 @@ function drush_mc_create_pirates() {
       'created' => 1524438746,
       'access' => 1524438746,
       'login' => 1524438746,      
-      'picture' => '/vagrant/code/mediacommons_modules/drush/assets/images/m3.jpg',
+      'picture' => __DIR__ . '/assets/images/m3.jpg',
       'bio' => "As the sun sank low in the sky, someone spotted sails bearing down on their sternz. Someone spotted Blackbeard.",
       'phone' => '787-764-0000',
       'title' => 'Pirate',
@@ -521,9 +509,9 @@ function drush_mc_create_pirates() {
       'last_name' => 'Avery',
       'country' => intval(12340),
       'state' => intval(12621),
-      'city' => intval($city),
-      'tag' => array($tag),
-      'organization' => intval($organization),
+      'city' => $city,
+      'tag' => $tag,
+      'organization' => $organization,
       'plan' => "If any Man shall offer to run away, or keep any Secret from the Company, he shall be marooned with one Bottle of Powder, one Bottle of Water, one small Arm, and Shot.",
     ),    
   );
