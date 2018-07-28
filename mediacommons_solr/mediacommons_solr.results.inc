@@ -121,8 +121,6 @@ function mediacommons_solr_preprocess_search_result_spoke(&$variables) {
   $variables['ri'] = json_decode($node->zs_ri);
   // Period start
   $variables['created_date'] = $node->ss_createddate;
-  
-  dpm($variables);
 
   $variables['comment_count'] = $node->ss_comment_count;
   // contributors

@@ -2730,7 +2730,7 @@ Immediately after upload, you will need to crop the image.   To change the cropp
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -2963,7 +2963,7 @@ Immediately after upload, you will need to crop the image.   To change the cropp
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 22,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3021,7 +3021,7 @@ Immediately after upload, you will need to crop the image.   To change the cropp
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 21,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3202,7 +3202,7 @@ Immediately after upload, you will need to crop the image.   To change the cropp
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 12,
+        'weight' => 13,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3261,7 +3261,7 @@ Immediately after upload, you will need to crop the image.   To change the cropp
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 20,
       ),
       'user_byline' => array(
         'label' => 'above',
@@ -3437,7 +3437,7 @@ Immediately after upload, you will need to crop the image.   To change the cropp
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'user_byline' => array(
         'label' => 'above',

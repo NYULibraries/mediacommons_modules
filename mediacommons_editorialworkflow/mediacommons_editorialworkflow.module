@@ -1805,4 +1805,3 @@ function mediacommons_editorialworkflow_contributor_dashboard() {
   return $container;
 
 }
-
