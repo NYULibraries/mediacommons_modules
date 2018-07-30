@@ -27,7 +27,8 @@ function mediacommons_solr_form_alter(&$form, &$form_state, $form_id) {
       );         
       $form['retain-filters'] = $form['basic']['retain-filters'];
       unset($form['basic']['retain-filters']);
-    }             
+    }    
+     $form['basic']['keys']['#attributes']['aria-label']= t('Search');         
     $form['basic']['submit'] = array(
       '#type' => 'submit',
       '#value' => t('')
