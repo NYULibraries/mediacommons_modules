@@ -1,7 +1,9 @@
 var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
-
+  tags: ['MC-441'],
+  '@disabled': false,
+  
   'MC-438 - When I search for "daniel day-lewis" on IMR I should get result "Bastard from a Basket: Deafness in There Will Be Blood"' : function (client) {
     client
       .url('http://mediacommons.local/imr/search/site/%22daniel%20day-lewis%22')
