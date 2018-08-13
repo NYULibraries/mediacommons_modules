@@ -1,6 +1,9 @@
 var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
+  tags: ['MC-441'],
+  '@disabled': false,
+  
   'MC-439 - If I serch inTransition for "dolores tierney" I expect to see search results' : function (client) {
     client
       .url('http://mediacommons.local/intransition/search/site/%2522dolores%2520tierney%2522')

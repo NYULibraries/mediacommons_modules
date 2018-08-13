@@ -1,6 +1,9 @@
 var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
+  tags: ['MC-441'],
+  '@disabled': false,
+  
   'MC-440 - When I search for "lacuna" I should get results' : function (client) {
     client
       .url('http://mediacommons.local/intransition/search/site/lacuna')

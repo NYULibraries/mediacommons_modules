@@ -1,6 +1,8 @@
 var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
+  tags: ['MC-441'],
+  '@disabled': false,
 
   'MC-445 - Navigating to "profile" from MC dashboard leads to blank page' : function (client) {
     // I need to fix this test. Leave it as-is for now
