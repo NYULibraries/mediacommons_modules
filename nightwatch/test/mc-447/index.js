@@ -1,6 +1,8 @@
 var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
+  tags: ['MC-441'],
+  '@disabled': false,
 
   'MC-447 - Attempting to comment leads to page not found' : function (client) {
     client
