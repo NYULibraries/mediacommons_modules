@@ -984,6 +984,23 @@ function mediacommons_content_types_ds_custom_fields_info() {
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
+  $ds_field->field = 'as_reviewer';
+  $ds_field->label = 'As reviewer';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'node' => 'node',
+    'user' => 'user',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'block' => 'mediacommons_blocks|usercontent_reviewer',
+    'block_render' => '1',
+    'block_visibility' => 0,
+  );
+  $export['as_reviewer'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
   $ds_field->field = 'comment_count_spokes';
   $ds_field->label = 'Comment Count Spokes';
   $ds_field->field_type = 7;
