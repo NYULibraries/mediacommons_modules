@@ -25,10 +25,10 @@
       </a>
     </div>
     <?php endif ?>
+    <?php if (!empty($reviewby)) : ?>
     <div class="peoplelist reviewers">
       <span>Review by</span> <?php print $reviewby ?>
     </div>    
-    
-
+    <?php endif ?>
   </div>
 </li>
