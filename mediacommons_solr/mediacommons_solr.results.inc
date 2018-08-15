@@ -90,11 +90,14 @@ function mediacommons_solr_preprocess_search_result_review(&$variables) {
       'peoplelist' => json_decode($spoke_fields->zs_contributors)
     );    
     $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);    
+    
     // reviewer
     $reviewerlist = array(
       'peoplelist' => json_decode($fields['zs_reviewer'])
     );     
+    
     $variables['reviewby'] = theme('mediacommons_solr_hcard', $reviewerlist);
+
   }
 }
 
@@ -127,13 +130,15 @@ function mediacommons_solr_preprocess_search_result_spoke(&$variables) {
   $peoplelist = array(
     'peoplelist' => json_decode($node->zs_contributors)
   );
-  // reviewers
-  $reviewerlist = array(
-    'peoplelist' => json_decode($node->zs_reviewers)
-  );
-  $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);
   
-  $variables['reviewlist'] = theme('mediacommons_solr_hcard', $reviewerlist);
+  // reviewers
+  if (isset($node->zs_reviewers)) {
+     $reviewerlist = json_decode($node->zs_reviewers);
+     if (!empty($reviewerlist)) {
+       $variables['reviewlist'] = theme('mediacommons_solr_hcard', array('peoplelist' => $reviewerlist));
+    }
+  }
+  $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);
 }
 
 function mediacommons_solr_preprocess_search_result_hub(&$variables) {

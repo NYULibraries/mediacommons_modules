@@ -78,9 +78,8 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   $document->addField('ds_pubdated', apachesolr_date_iso($pubdate));
   $document->addField('ds_pubdatea', apachesolr_date_iso($pubdate));
   /** searchable content; dump all you want to be searchable in this array */
-  $searchableFields = array();  
+  $searchableFields = array();
   $searchableFields[] = $document->content;
-  // $searchableFields[] = $entity->label . ' ' . apachesolr_clean_text(drupal_render(node_view($entity, 'full')));  
   unset($document->content);  
   // Use node id to search for any reference (e.g., "Review" of this "Spoke")
   $query = new EntityFieldQuery;
@@ -99,7 +98,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
       $document->addField('im_reviewers', $review_user->uid);
       $document->addField('im_reviewer', $review_user->uid);
       $json_reviewers[] = mediacommons_solr_user_metadata($review_user);
-      $searchableFields[] = apachesolr_clean_text($entity->label . ' ' . drupal_render(node_view($review_node, 'full')));
+      $searchableFields[] = apachesolr_clean_text($entity->title . ' ' . drupal_render(node_view($review_node, 'full')));
     }
   }
   $document->addField('zs_reviewers', json_encode($json_reviewers));
