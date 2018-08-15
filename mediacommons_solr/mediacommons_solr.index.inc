@@ -78,7 +78,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   $document->addField('ds_pubdated', apachesolr_date_iso($pubdate));
   $document->addField('ds_pubdatea', apachesolr_date_iso($pubdate));
   /** searchable content; dump all you want to be searchable in this array */
-  $searchableFields = array();  
+  $searchableFields = array();
   $searchableFields[] = $document->content;
   unset($document->content);  
   // Use node id to search for any reference (e.g., "Review" of this "Spoke")
