@@ -95,11 +95,16 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
     $keys = array_keys($result['node']);
     foreach ($keys as $key) {
       $review_node = node_load($key);
-      $review_user = user_load($review_node->uid);
-      $document->addField('im_reviewers', $review_user->uid);
-      $document->addField('im_reviewer', $review_user->uid);
-      $json_reviewers[] = mediacommons_solr_user_metadata($review_user);
       $searchableFields[] = apachesolr_clean_text($entity->title . ' ' . drupal_render(node_view($review_node, 'full')));
+      // Use entity API
+      $review_wrapper = entity_metadata_wrapper('node', $review_node);
+      // Get all the reviewer using Entity API
+      foreach ($review_wrapper->field_reviewer->value() as $delta => $reviewer) {
+        $document->addField('im_reviewers', $reviewer->uid);
+        $document->addField('im_reviewer', $reviewer->uid);
+        $review_user = user_load($reviewer->uid);
+        $json_reviewers[] = mediacommons_solr_user_metadata($review_user);
+      }
     }
   }
   $document->addField('zs_reviewers', json_encode($json_reviewers));
