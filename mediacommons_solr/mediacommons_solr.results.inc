@@ -51,11 +51,8 @@ function mediacommons_solr_preprocess_search_result(&$variables) {
 }
 
 function mediacommons_solr_preprocess_search_result_review(&$variables) {
-
   $fields = $variables['result']['fields'];
-
   $referencedspoke = json_decode($fields['ss_referencedspoke']);
-
   // we don't render the "review" view
   // we render the "spoke" view
   // Umbrella won't be able to render external nodes. We need to find it using Solr
@@ -68,9 +65,7 @@ function mediacommons_solr_preprocess_search_result_review(&$variables) {
     'spellcheck' => 'false',
     'sort' => 'timestamp desc',
   );
-
   $spoke = mediacommons_solr_runsearch('*:*', $conditions);
-
   if (!empty($spoke)) {
     $spoke = array_pop($spoke);
     $variables['link'] = $spoke['link'];  
@@ -90,14 +85,14 @@ function mediacommons_solr_preprocess_search_result_review(&$variables) {
       'peoplelist' => json_decode($spoke_fields->zs_contributors)
     );    
     $variables['peoplelist'] = theme('mediacommons_solr_hcard', $peoplelist);    
-    
-    // reviewer
-    $reviewerlist = array(
-      'peoplelist' => json_decode($fields['zs_reviewer'])
-    );     
-    
-    $variables['reviewby'] = theme('mediacommons_solr_hcard', $reviewerlist);
-
+    // reviewers
+    if (isset($spoke_fields->zs_reviewers)) {
+      $reviewerlist = json_decode($spoke_fields->zs_reviewers);
+      dpm($reviewerlist);
+      if (!empty($reviewerlist)) {
+       $variables['reviewby'] = theme('mediacommons_solr_hcard', array('peoplelist' => $reviewerlist));
+      }
+    }
   }
 }
 
