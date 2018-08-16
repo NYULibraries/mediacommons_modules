@@ -88,6 +88,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
     ->entityCondition('bundle', 'review')
     ->fieldCondition('field_isreviewof', 'nid', array($entity->nid))
     ->execute();
+    
   // Reviewers  
   $json_reviewers = array();
   if (!empty($result['node'])) {
@@ -198,27 +199,30 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
  * Review
  */
 function mediacommons_solr_apachesolr_index_document_build_review(&$document, $wrapper, $entity) {
+  global $base_url;
   $json = array();
-  foreach ($wrapper->field_reviewer->value () as $item) {
+  
+  foreach ($wrapper->field_reviewer->value() as $item) {
     $document->addField('im_contributors', $item->uid);
     $document->addField('im_reviewer', $item->uid);
     $json[] = mediacommons_solr_user_metadata($item);
   }
   
-  print_r($json);
- 
   $document->addField('zs_reviewer', json_encode($json));
   $document->addField('ss_pubdate', apachesolr_date_iso($entity->created));
   $document->addField('ss_pubdated', apachesolr_date_iso($entity->created));
-  $document->addField('ss_pubdatea', apachesolr_date_iso($entity->created));
+  $document->addField('ss_pubdatea', apachesolr_date_iso($entity->created));  
   $isreviewof = $wrapper->field_isreviewof->value();
+  
   $referencedspoke = array(
     'cid' => NULL,
     'nid' => $isreviewof->nid,
     'label' => $isreviewof->title,
     'url' => $base_url . '/' . drupal_get_path_alias('node/' . $isreviewof->nid),
   );  
+  
   $document->addField('ss_referencedspoke', json_encode($referencedspoke));
+  
   unset($node);
 }
 
