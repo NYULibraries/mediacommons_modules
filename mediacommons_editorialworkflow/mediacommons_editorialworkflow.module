@@ -1487,15 +1487,6 @@ function mediacommons_editorialworkflow_userpath() {
 
     $url = url(implode('/', array(mediacommons_homepage_umbrella_url(), $userpath)), $query);
 
-    print_r($destination);
-
-    print_r($userpath);
-
-    print '<br />';
-    print '<br />';
- 
-    die($url);
-
     header('Location: ' . $url, TRUE, $http_response_code);
 
   }
