@@ -88,7 +88,6 @@ function mediacommons_solr_preprocess_search_result_review(&$variables) {
     // reviewers
     if (isset($spoke_fields->zs_reviewers)) {
       $reviewerlist = json_decode($spoke_fields->zs_reviewers);
-      dpm($reviewerlist);
       if (!empty($reviewerlist)) {
        $variables['reviewby'] = theme('mediacommons_solr_hcard', array('peoplelist' => $reviewerlist));
       }

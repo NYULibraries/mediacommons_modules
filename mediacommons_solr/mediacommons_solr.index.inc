@@ -48,7 +48,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   $representativeimage = $wrapper->field_representative_image->value();
   if ($representativeimage['fid']) {
     foreach (image_styles() as $style) {
-	  $derivative_uri = image_style_path($style['name'], $representativeimage['uri']);
+      $derivative_uri = image_style_path($style['name'], $representativeimage['uri']);
       if (!file_exists($derivative_uri)) {
         $image = image_style_create_derivative($style, $representativeimage['uri'], $derivative_uri);
         if ($image) {
@@ -203,7 +203,10 @@ function mediacommons_solr_apachesolr_index_document_build_review(&$document, $w
     $document->addField('im_contributors', $item->uid);
     $document->addField('im_reviewer', $item->uid);
     $json[] = mediacommons_solr_user_metadata($item);
-  }  
+  }
+  
+  print_r($json);
+ 
   $document->addField('zs_reviewer', json_encode($json));
   $document->addField('ss_pubdate', apachesolr_date_iso($entity->created));
   $document->addField('ss_pubdated', apachesolr_date_iso($entity->created));
@@ -318,55 +321,69 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_review(&
 function mediacommons_solr_user_metadata($entity) {
   $user = array();
   try {
-    $uwrapper = entity_metadata_wrapper('user', $entity);
-	  $uid = $uwrapper->getIdentifier ();
-	  $picture = array ();
-	  if (!empty($entity->picture)) {
-	  foreach (image_styles () as $style ) {
-		  $derivative_uri = image_style_path ($style ['name'], $entity->picture->uri );
-				if (! file_exists ($derivative_uri )) {
-					$image = image_style_create_derivative ($style, $entity->picture->uri, $derivative_uri );
-					if ($image) {
-						$imageurl = file_create_url ($derivative_uri );
-					}
-				} else {
-					$imageurl = file_create_url ($derivative_uri );
-				}
-				// Make sure we have a URL
-				if (isset ($imageurl )) {
-					$picture [$style ['name']] = $imageurl;
-				}
-			}
-		}
-		$field_organization = $uwrapper->field_organization->value ();
-		$organization = array ();
-		if ($field_organization) {
-			$organization ['tid'] = $field_organization->tid;
-			$organization ['vid'] = $field_organization->vid;
-			$organization ['name'] = $field_organization->name;
-			$organization ['vocabulary'] = $field_organization->vocabulary_machine_name;
-			$organization ['url'] = drupal_get_path_alias ('taxonomy/term/' . $field_organization->tid );
-    }
     
-    $user['uid'] = $uwrapper->getIdentifier();
+    // User entity wrapper
+    $uwrapper = entity_metadata_wrapper('user', $entity);  
+    
+    // User id
+    $uid = $uwrapper->getIdentifier();
+    
+    // Array to hold derivative image URL
+    $picture = array();  
+    
+    // Image
+    if (!empty($entity->picture)) {
+      foreach (image_styles() as $style) {
+        $derivative_uri = image_style_path($style['name'], $entity->picture->uri);
+        if (!file_exists($derivative_uri)) {
+          $image = image_style_create_derivative($style, $entity->picture->uri, $derivative_uri);
+          if ($image) {
+	    $imageurl = file_create_url($derivative_uri);
+          }
+        } 
+        else {
+          $imageurl = file_create_url($derivative_uri);
+        }
+        // Make sure we have a URL
+        if (isset($imageurl)) {
+          $picture[$style['name']] = $imageurl;
+        }
+      }
+    }
+
+    // Organization
+    $field_organization = $uwrapper->field_organization->value();
+    $organization = array();
+    
+    if ($field_organization) {
+      $organization['tid'] = $field_organization->tid;
+      $organization['vid'] = $field_organization->vid;
+      $organization['name'] = $field_organization->name;
+      $organization['vocabulary'] = $field_organization->vocabulary_machine_name;
+      $organization['url'] = drupal_get_path_alias('taxonomy/term/' . $field_organization->tid);
+    }
+
+    $user['uid'] = $uid;
     
     $user['url'] = mediacommons_homepage_umbrella_url() . '/' . drupal_get_path_alias('user/' . $uid);
     
-		$user ['organization'] = $organization;
-		$user ['picture'] = $picture;
-		if (isset ($entity->realname )) {
-			$user ['name'] = $entity->realname;
-		}
-	} catch (EntityMetadataWrapperException $exc ) {
-		$args = array (
-				'%function' => __FUNCTION__,
-				'@trace' => $exc->getTraceAsString ()
-		);
-		$string = 'EntityMetadataWrapper exception in %function() <pre>@trace</pre>';
-		watchdog ('mediacommons_solr', $string, $args, WATCHDOG_ERROR );
-		if (function_exists ('drush' )) {
-			drush_log (dt ($string, $args ), 'error');
-		}
-	}
-	return $user;
+    $user['organization'] = $organization;
+    
+    $user['picture'] = $picture;
+
+    if (isset($entity->realname)) {
+      $user['name'] = $entity->name;
+    }
+
+  } 
+  catch (EntityMetadataWrapperException $exc) {
+    $args = array('%function' => __FUNCTION__, '@trace' => $exc->getTraceAsString());
+    $string = 'EntityMetadataWrapper exception in %function() <pre>@trace</pre>';
+    watchdog('mediacommons_solr', $string, $args, WATCHDOG_ERROR);
+    if (function_exists('drush')) {
+      drush_log(dt($string, $args), 'error');
+    }
+  }
+  return $user;
 }
+
