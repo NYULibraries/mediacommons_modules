@@ -381,6 +381,9 @@ function mediacommons_solr_user_metadata($entity) {
     $user['picture'] = $picture;
 
     if (isset($entity->realname)) {
+      $user['name'] = $entity->realname;
+    }
+    else {
       $user['name'] = $entity->name;
     }
 

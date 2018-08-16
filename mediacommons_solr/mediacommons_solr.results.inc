@@ -118,13 +118,11 @@ function mediacommons_solr_preprocess_search_result_spoke(&$variables) {
   $variables['ri'] = json_decode($node->zs_ri);
   // Period start
   $variables['created_date'] = $node->ss_createddate;
-
   $variables['comment_count'] = $node->ss_comment_count;
   // contributors
   $peoplelist = array(
     'peoplelist' => json_decode($node->zs_contributors)
   );
-  
   // reviewers
   if (isset($node->zs_reviewers)) {
      $reviewerlist = json_decode($node->zs_reviewers);
