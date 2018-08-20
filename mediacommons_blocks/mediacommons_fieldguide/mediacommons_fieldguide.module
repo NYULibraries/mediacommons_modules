@@ -47,6 +47,7 @@ function mediacommons_fieldguide_cron() {
     'devmc2.dlib.nyu.edu' => 'http://dev.mediacommons.org/fieldguide/latest-hub-fieldguide-widget?pjax=1',  
     'stagemc2.dlib.nyu.edu' => 'http://stage.mediacommons.org/fieldguide/latest-hub-fieldguide-widget?pjax=1',
     'mc2.dlib.nyu.edu' => 'http://mediacommons.org/fieldguide/latest-hub-fieldguide-widget?pjax=1',
+    'mediacommons' => 'http://mediacommons.local/fieldguide/latest-hub-fieldguide-widget?pjax=1',
   );
   $hostname = gethostname();  
   if (isset($fieldguide_baseurl[$hostname])) {
@@ -63,6 +64,10 @@ function mediacommons_fieldguide_cron() {
         )
         ->condition('mbid', $mbid, '=')
         ->execute();
+        return TRUE;
+      }
+      else {
+        return FALSE;
       }
     }
   }

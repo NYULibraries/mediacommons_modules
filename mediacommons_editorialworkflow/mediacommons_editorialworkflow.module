@@ -463,6 +463,14 @@ function mediacommons_editorialworkflow_menu() {
     'page arguments' => array(2)
   );
 
+  $items['dashboard/refresh/mc_fieldguide'] = array(
+    'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache_fieldguide',
+    'access arguments' => array('access mediacommons dashboard'),
+    'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
+    'page arguments' => array(2)
+  );  
+
   return $items;
 }
 
@@ -1565,23 +1573,49 @@ function mediacommons_apis_is_embed() {
   return $is_embed;
 }
 
+
+function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache_fieldguide() {
+  if (empty($_GET['tok']) || !drupal_valid_token($_GET['tok'])) {
+    return MENU_ACCESS_DENIED;
+  }
+
+  /** make sure Drupal Ajax framework javascript is around */
+
+  drupal_add_library('system', 'drupal.ajax');
+
+  $commands = array();
+  
+  if ($cron = mediacommons_fieldguide_cron()) {
+    $commands[] = ajax_command_alert('Success');
+  }
+  else {
+    $commands[] = ajax_command_alert('Error');
+  }  
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  );
+}
+
 function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache($bid) {
   if (empty($_GET['tok']) || !drupal_valid_token($_GET['tok'])) {
     return MENU_ACCESS_DENIED;
   }
   /** make sure Drupal Ajax framework javascript is around */
-  drupal_add_library('system', 'drupal.ajax');
-  $commands = array();
-  $sql = "SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid ORDER BY proceed ASC";
+  drupal_add_library('system', 'drupal.ajax');  
+  $commands = array();  
+  $sql = "SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid ORDER BY proceed ASC";  
   $item = db_query($sql, array(':mbid' => $bid))->fetchObject();
   $update = array('proceed' => time(), 'expire' => time() + (3600 * 4),);
   if (filter_var($item->url, FILTER_VALIDATE_URL)) {
     $url = check_url($item->url);
     $request = drupal_http_request($url);
+    
     /** we can't reach the URL. we have a problem. */
     if (isset($request->error)) {
       $commands[] = ajax_command_alert($request->error);
     }
+
     elseif ($request->status_message) {
       $status_message = strtolower(check_plain($request->status_message));
       if ($status_message == 'ok') {
@@ -1595,6 +1629,7 @@ function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache($bid
         $commands[] = ajax_command_alert($status_message);
       }
     }
+
   }
   return array(
     '#type' => 'ajax',
