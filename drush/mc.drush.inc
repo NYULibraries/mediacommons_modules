@@ -83,6 +83,14 @@ function mc_drush_command() {
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   );
 
+  $items['remove-test-users'] = array(
+    'description' => 'Remove test users',
+    'arguments' => array(),
+    'options' => array(),
+    'aliases' => array('mcrtu'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  );  
+
   return $items;
 
 }
@@ -382,6 +390,33 @@ function drush_mc_kick_pirates() {
       }      
       user_delete($account->uid);
       drush_log(dt('Pirate "@pirate" kicked!', array('@pirate' =>  $pirate)), 'ok');
+    }
+  }
+}
+
+function drush_mc_remove_test_users() {
+  drush_mc_kick_pirates();
+  foreach (array(
+    'mc.cluster.curator.1@nyu.edu',
+    'mc.cluster.curator.2@nyu.edu',
+    'mc.cluster.curator.3@nyu.edu',
+    'mc.managing.editor.1@nyu.edu',
+    'mc.managing.editor.2@nyu.edu',
+    'mc.managing.editor.3@nyu.edu',
+    'mc.contributor.1@nyu.edu',
+    'mc.contributor.2@nyu.edu',
+    'mc.contributor.3@nyu.edu',
+    'mc.administrator.1@nyu.edu',
+    'mc.administrator.2@nyu.edu',
+    'mc.administrator.3@nyu.edu',
+  ) as $mail) {
+    $account = user_load_by_mail($mail);
+    if (!empty($account)) {
+      user_delete($account->uid);
+      if (function_exists('drush_log')) {
+        drush_log(dt('User "@name" with uid @uid removed.', array('@name' =>  $account->name, '@uid' =>  $account->uid)), 'ok');
+      }
+      watchdog('MediaCommons', 'User "!user" with uid !uid removed.', array('!user' => $account->name, '!uid' => $account->uid), WATCHDOG_INFO);
     }
   }
 }
