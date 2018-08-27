@@ -19,7 +19,7 @@ include_once 'mediacommons_solr.results.inc';
 function mediacommons_solr_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id=="apachesolr_search_custom_page_search_form") {    
     $form['#attributes'] = array('role' => 'search', 'class' => array('search-results-input'));
-    $form['#id'] = 'search-block-form';     
+    $form['#id'] = 'search-block-form-mcsolr';     
     if (isset($form['basic']['retain-filters'])) {
       $form['retain-filters'] = array(
         '#type' => 'container',
