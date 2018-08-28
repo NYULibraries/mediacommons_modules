@@ -2,6 +2,8 @@
   <div class="field field-name-field-project">
     <?php print $project_link ?>
   </div>
+<div class="sr-item-group">
+<div class="sr-thumb-contain">
   <div class="thumb">
     <?php if (!empty($ri)) : ?>
     <a role="presentation" tabindex="-1" href="<?php print $url ?>">
@@ -9,6 +11,7 @@
       <img typeof="foaf:Image" src="<?php print $ri->thumbnail__120x80_ ?>" width="120" height="80" alt="">
     </a>
     <?php endif; ?>
+  </div>
   </div>
   <div class="spoke-teaser-meta node-meta">
     <h3 class="spoke-title node-title"<?php print $title_attributes ?>>
@@ -33,8 +36,9 @@
     <?php endif ?>
      <div class="search-snippet-info">
       <?php if ($snippet): ?>
-        <p class="search-snippet"<?php print $content_attributes; ?>><?php print $snippet; ?></p>
+      <?php print $snippet; ?>
       <?php endif; ?>
     </div>
   </div>
+</div>
 </li>
