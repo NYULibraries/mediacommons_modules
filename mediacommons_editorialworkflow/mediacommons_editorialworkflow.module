@@ -954,12 +954,7 @@ function mediacommons_editorialworkflow_cron() {
       }
     }
   }
-
-  drush_log(__FUNCTION__, 'ok');
-
-  mediacommons_editorialworkflow_config();
-
-  
+  mediacommons_editorialworkflow_config();  
 }
 
 function mediacommons_editorialworkflow_form_user_register_form_alter(&$form, &$form_state, $form_id) {
