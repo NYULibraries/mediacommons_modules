@@ -116,3 +116,11 @@ function mediacommons_utilities_is_project_redirect($path) {
     return FALSE;
   }
 }
+
+/**
+ * Enable login_emailusername module
+ */
+function mc_update_7001(&$sandbox) {
+  module_enable(array('login_emailusername'));
+}
+
