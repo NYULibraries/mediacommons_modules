@@ -124,3 +124,16 @@ function mc_update_7001(&$sandbox) {
   module_enable(array('login_emailusername'));
 }
 
+/**
+ * Update page field_pubstat instance. Hide it.
+ */
+function mc_update_7002() {
+  // Fetch an instance info array.
+  $instance_info = field_info_instance('node', 'field_pubstat', 'page');
+  // Change a single property in the instance definition.
+  unset($instance_info['display']['default']['module']);
+  $instance_info['display']['default']['type'] = 'hidden';
+  // Write the changed definition back.
+  field_update_instance($instance_info);
+}
+
