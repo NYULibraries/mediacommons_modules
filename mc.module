@@ -137,3 +137,20 @@ function mc_update_7002() {
   field_update_instance($instance_info);
 }
 
+/**
+ * Turn off theme debug
+ */
+// 
+function mc_update_7003() {
+  if (drupal_is_cli()) {
+    $hostname = php_uname('n');
+    if ($hostname == 'stagemc2.dlib.nyu.edu' || $hostname == 'mc2.dlib.nyu.edu') {
+      variable_set('theme_debug', 0);
+      $modules = array(
+        'devel',
+        'ds_devel',
+      );
+      module_disable($modules);
+    }
+  }
+}
