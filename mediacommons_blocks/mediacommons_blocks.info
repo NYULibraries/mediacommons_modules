@@ -5,6 +5,4 @@ dependencies[] = block
 dependencies[] = mediacommons_content_types
 dependencies[] = mediacommons_solr
 dependencies[] = drupal:system (>= 7.50)
-scripts[] = js/mediacommons_blocks.js
-scripts[] = js/infinite-scroll.pkgd.min.js
 package = MediaCommons
