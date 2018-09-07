@@ -91,6 +91,14 @@ function mc_drush_command() {
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   );  
 
+  $items['check-develop'] = array(
+    'description' => 'Check develop',
+    'arguments' => array(),
+    'options' => array(),
+    'aliases' => array('mccd'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  ); 
+
   return $items;
 
 }
@@ -392,6 +400,15 @@ function drush_mc_kick_pirates() {
       drush_log(dt('Pirate "@pirate" kicked!', array('@pirate' =>  $pirate)), 'ok');
     }
   }
+}
+
+function drush_mc_check_develop () {
+  $modules = array(
+    'devel',
+    'ds_devel',
+    'reroute_email',
+  );
+  module_enable($modules);
 }
 
 function drush_mc_remove_test_users() {
