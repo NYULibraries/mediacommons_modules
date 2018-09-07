@@ -346,7 +346,7 @@ function mediacommons_content_types_field_group_info() {
         'classes' => '',
         'description' => 'All fields are optional, and can be updated at any time.',
         'show_label' => '1',
-        'label_element' => 'h3',
+        'label_element' => 'h2',
         'effect' => 'none',
         'speed' => 'none',
       ),
