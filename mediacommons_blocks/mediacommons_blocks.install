@@ -80,7 +80,7 @@ function mediacommons_blocks_enable () {
     'type' => 'fulltext',
     'mbid' => 'mc_footer',    
     'label' => 'Default footer',
-    'content' => '<div class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank">NYU DLTS</a></div>',
+    'content' => '<div class="footer-nav credits" ><ul> <li class="first"><a class="external" href="https://www.nyu.edu/footer/accessibility.html" target="_blank">Accessibility</a></li><li class="powered">Powered by <a href="http://dlib.nyu.edu/dlts/" target="_blank" class="external">NYU DLTS</a></li></ul></div>',
   );
   
   mediacommons_blocks_save_block($options);
