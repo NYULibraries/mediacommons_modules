@@ -665,7 +665,7 @@ function drush_mc_drop_mail_passwords() {
   $count = $countQuery->fetchObject();
   $value = (int) $count->value;
   $dlts = array(
-    'lhenze', 'da70', 'cmk', 'aortiz',
+    'lhenze', 'da70', 'cmk', 'aortiz', 'jonathan.greenberg',
   );
   $dt = new DateTime('now');
   $pubdate = $dt->getTimestamp();
