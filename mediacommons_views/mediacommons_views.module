@@ -24,3 +24,18 @@ function mediacommons_views_views_default_views () {
   }
   return $views;
 }
+
+function mediacommons_views_views_query_alter(&$view, &$query) {
+  // do not display message in admin/content view
+  if ($view->name == 'admin_views_node') {
+    $condition = array(
+      'field' => 'node.type',
+      'value' => array('message'),
+      'operator' => 'not in',
+    );
+    // Traverse through the 'where' part of the query.
+    foreach ($query->where as &$condition_group) {
+      $condition_group['conditions'][] = $condition;
+    }
+  }
+}
