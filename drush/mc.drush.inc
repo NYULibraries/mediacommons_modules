@@ -21,7 +21,15 @@ function mc_drush_command() {
     'options' => array(),
     'aliases' => array('mcif'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
-  );   
+  );
+  
+  $items['drop-mail-passwords'] = array(
+    'description' => 'Drop users emails and password (development)',
+    'arguments' => array(),
+    'options' => array(),
+    'aliases' => array('mcdmp'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  );  
 
   $items['solr-metadata'] = array(
     'description' => 'Refresh Apache Solr Multi-Site metadata.',
@@ -651,3 +659,35 @@ function drush_mc_create_pirates() {
   }
 
 }
+
+function drush_mc_drop_mail_passwords() {
+  $countQuery = db_query('SELECT COUNT(*) as value FROM {users}');
+  $count = $countQuery->fetchObject();
+  $value = (int) $count->value;
+  $dlts = array(
+    'lhenze', 'da70', 'cmk', 'aortiz', 'jonathan.greenberg',
+  );
+  $dt = new DateTime('now');
+  $pubdate = $dt->getTimestamp();
+  while ($value--) {
+    if ($value == 0) continue;
+    if ($value == 1) continue;
+    try {
+      $account = user_load($value);
+      if ($account) {
+        if (!in_array($account->name, $dlts)) {
+          $edit = array(
+            'pass' => user_password(),
+            'created' => $pubdate,
+            'mail' => $account->uuid . '@devmc2.dlib.nyu.edu',
+            'init' => $account->uuid . '@devmc2.dlib.nyu.edu',
+          );
+          user_save($account, $edit);
+        }
+      }
+    } catch (Exception $e) {
+      drush_log('Caught exception: ' .  $e->getMessage(), 'ok');
+    }
+  }
+}
+
