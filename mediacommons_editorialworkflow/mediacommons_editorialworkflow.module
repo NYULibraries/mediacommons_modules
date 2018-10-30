@@ -242,9 +242,9 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
   $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
   $form['field_image_rights']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-  if ($is_contributor) {
-    $form['field_contributors'][$form['language']['#value']][0]['uid']['#default_value'] = $user->uid;
-  }
+  //if ($is_contributor) {
+  //  $form['field_contributors'][$form['language']['#value']][0]['uid']['#default_value'] = $user->uid;
+  //}
   $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
   $settings = array(
     'mediacommons_editorialworkflow' => array(
@@ -564,18 +564,24 @@ function mediacommons_editorialworkflow_node_presave($node) {
           }
         }
       }
-      if (!$author_is_listed) {
-        if (!empty($node->field_contributors)) {
-          array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
-        }
-      }
+
+      // user can create a spoke without being listed as a contributor.
+      // See: https://jira.nyu.edu/jira/browse/MC-509
+      //if (!$author_is_listed) {
+      //  if (!empty($node->field_contributors)) {
+      //    array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
+      //  }
+      //}
+
     }
+
     if (!empty($node->field_contributors)) {
       foreach ($node->field_contributors[$node->language] as $contributor) {
         $queue = DrupalQueue::get('mediacommons_editorialworkflow_promote_user_worker');
         $queue->createItem($contributor += array('sponsor' => $node->uid));
       }
     }
+    
   }
   // Inserting a new node @TODO: test work, add validation
   if ($bundle == 'hub') {
@@ -593,12 +599,15 @@ function mediacommons_editorialworkflow_node_presave($node) {
           }
         }
       }
-      if (!$author_is_listed) {
-        if (!empty($node->field_contributors)) {
-          array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
-        }
-      }
+      // user can create a hub without being listed as a contributor.
+      // See: https://jira.nyu.edu/jira/browse/MC-509      
+      //if (!$author_is_listed) {
+      //  if (!empty($node->field_contributors)) {
+      //    array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
+      //  }
+      //}
     }
+    
     if (!empty($node->field_contributors)) {
       foreach ($node->field_contributors[$node->language] as $contributor) {
         $queue = DrupalQueue::get('mediacommons_editorialworkflow_promote_user_worker');
@@ -606,6 +615,7 @@ function mediacommons_editorialworkflow_node_presave($node) {
       }
     }
   }
+  
   foreach ($listed_contributors as $listed_contributor) {
     $data = array(
       'message' => $wrapper->label() . ' saved!',
