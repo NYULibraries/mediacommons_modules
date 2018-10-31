@@ -7,7 +7,6 @@
   <div class="thumb">
     <?php if (!empty($ri)) : ?>
     <a role="presentation" tabindex="-1" href="<?php print $url ?>">
-      <!-- $ri holds URL for all available styles defined by Drupal's image styles -->
       <img typeof="foaf:Image" src="<?php print $ri->thumbnail__120x80_ ?>" width="120" height="80" alt="">
     </a>
     <?php endif; ?>

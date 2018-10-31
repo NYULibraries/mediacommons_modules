@@ -1,3 +1,15 @@
+<?php
+
+/*
+* Reviews Search Result Item Template
+*
+*  This is used by profile pages, not by search results
+*  For search results, the spoke template -
+*  mediacommons_solr_search_result__spoke.tpl.php
+*  is used instead
+*/
+
+?>
 <li class="<?php print $classes ?>"<?php print $attributes ?>>
   <div class="field field-name-field-project">
     <?php print $project_link ?>
@@ -5,7 +17,6 @@
   <div class="thumb">
     <?php if (!empty($ri)) : ?>
     <a role="presentation" tabindex="-1" href="<?php print $url ?>">
-      <!-- $ri holds URL for all available styles defined by Drupal's image styles -->
       <img typeof="foaf:Image" src="<?php print $ri->thumbnail__120x80_ ?>" width="120" height="80" alt="">
     </a>
     <?php endif; ?>
