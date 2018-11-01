@@ -265,9 +265,7 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
     $settings['mediacommons_editorialworkflow']['redirect']['trigger'] = TRUE;
   }
   else {
-    if (!isset($form['#node']->nid)) {
-
-    }
+    if (!isset($form['#node']->nid)) {}
   }
   drupal_add_js($settings, 'setting');
 }
@@ -277,16 +275,11 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
  */
 function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$form_state, $form_id) {
-
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-
   $form['field_embed']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-
   /** node exist */
   if (!isset($form['#node']->nid)) return;
-
   $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
-
   $settings = array(
     'mediacommons_editorialworkflow' => array(
       'isAdminPage' => TRUE,
@@ -295,9 +288,7 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
       ),
     ),
   );
-
   $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
-
   if (!$user_can_edit) {
     // add a class so that we can style the form
     $form['#attributes']['class'][] = 'user-cant-contribute';
@@ -316,42 +307,33 @@ function mediacommons_editorialworkflow_form_spoke_node_form_alter(&$form, &$for
  * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_login/7.x
  */
 function mediacommons_editorialworkflow_user_login(&$edit, $account) {
-
   $parameters = drupal_get_query_parameters();
-
   $redirection = $destination = NULL;
-
   $project = $hail = variable_get('mediacommons_project', 'mediacommons');
-
   if (isset($edit['values']['project'])) {
     $hail = $edit['values']['project'];
   }
   elseif (isset($parameters['project'])) {
     $hail = $parameters['project'];
   }
-
   if (isset($edit['values']['destination'])) {
     $destination = $edit['values']['destination'];
   }
   elseif (isset($parameters['destination'])) {
     $destination = $parameters['destination'];
   }
-
   // allow users to log-in from any MediaCommons project and return to the intended target
   // https://jira.nyu.edu/jira/browse/MC-344
   if (
     $project != $hail // user is trying to log-in from a MediaCommon project (not Umbrella)
   ) {
-
     if ($destination) { // we have a destination to go
       $redirection = mc_project_url($hail) . '/' . check_plain($destination);
     }
     else {
       $redirection = mc_project_url($hail);
     }
-
   }
-
   // I need to check from where the user "hail from" e.g., if user is trying to write
   // a comment redirect to the original post after login.
   if (isset($parameters['redirect'])) {
@@ -393,18 +375,15 @@ function mediacommons_editorialworkflow_custom_theme() {
  * Implements hook_menu().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7.x
  */
-function mediacommons_editorialworkflow_menu() {
-  
-  $items = array();
-  
+function mediacommons_editorialworkflow_menu() {  
+  $items = array();  
   $items['dashboard'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
     'access arguments' => array('access mediacommons dashboard'),
     'type' =>  MENU_NORMAL_ITEM,
-  );
-  
+  );  
   $items['dashboard/panel'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
@@ -413,7 +392,6 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 0,
     'type' =>  MENU_LOCAL_TASK,
   );
-
   $items['dashboard/add'] = array(
     'title' => 'Create content',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_create_content',
@@ -421,8 +399,7 @@ function mediacommons_editorialworkflow_menu() {
     'access arguments' => array('access mediacommons dashboard'),
     'weight' => 8,
     'type' => MENU_LOCAL_TASK,
-  );
-  
+  );  
   $items['dashboard/profile'] = array(
     'title' => 'Profile',
     'page callback' => 'mediacommons_editorialworkflow_userpath',
@@ -431,7 +408,6 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 9,
     'type' => MENU_LOCAL_TASK,
   );
-
   $items['dashboard/others'] = array(
     'title' => 'Others',
     'description' => 'Others',
@@ -440,21 +416,18 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 10,
     'type' =>  MENU_LOCAL_TASK,
   );
-
   $items['dashboard/others/rebuild-cache'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
     'access arguments' => array('access mediacommons dashboard'),
     'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
   );
-
   $items['dashboard/others/solr-metadata'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_solr_metadata',
     'access arguments' => array('access mediacommons dashboard'),
     'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
   );
-
   $items['dashboard/refresh/%'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
     'access arguments' => array('access mediacommons dashboard'),
@@ -462,15 +435,13 @@ function mediacommons_editorialworkflow_menu() {
     'type' => MENU_CALLBACK,
     'page arguments' => array(2)
   );
-
   $items['dashboard/refresh/mc_fieldguide'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache_fieldguide',
     'access arguments' => array('access mediacommons dashboard'),
     'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
     'page arguments' => array(2)
-  );  
-
+  );
   return $items;
 }
 
@@ -564,24 +535,7 @@ function mediacommons_editorialworkflow_node_presave($node) {
           }
         }
       }
-
-      // user can create a spoke without being listed as a contributor.
-      // See: https://jira.nyu.edu/jira/browse/MC-509
-      //if (!$author_is_listed) {
-      //  if (!empty($node->field_contributors)) {
-      //    array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
-      //  }
-      //}
-
     }
-
-    if (!empty($node->field_contributors)) {
-      foreach ($node->field_contributors[$node->language] as $contributor) {
-        $queue = DrupalQueue::get('mediacommons_editorialworkflow_promote_user_worker');
-        $queue->createItem($contributor += array('sponsor' => $node->uid));
-      }
-    }
-    
   }
   // Inserting a new node @TODO: test work, add validation
   if ($bundle == 'hub') {
@@ -599,23 +553,8 @@ function mediacommons_editorialworkflow_node_presave($node) {
           }
         }
       }
-      // user can create a hub without being listed as a contributor.
-      // See: https://jira.nyu.edu/jira/browse/MC-509      
-      //if (!$author_is_listed) {
-      //  if (!empty($node->field_contributors)) {
-      //    array_unshift($node->field_contributors[$node->language], array('uid' => $node->uid));
-      //  }
-      //}
-    }
-    
-    if (!empty($node->field_contributors)) {
-      foreach ($node->field_contributors[$node->language] as $contributor) {
-        $queue = DrupalQueue::get('mediacommons_editorialworkflow_promote_user_worker');
-        $queue->createItem($contributor += array('sponsor' => $node->uid));
-      }
-    }
-  }
-  
+    }    
+  }  
   foreach ($listed_contributors as $listed_contributor) {
     $data = array(
       'message' => $wrapper->label() . ' saved!',
@@ -697,24 +636,18 @@ function mediacommons_editorialworkflow_menu_alter(&$items) {
 }
 
 function mediacommons_editorialworkflow_link($item) {
-
   $project = variable_get('mediacommons_project', 'mediacommons');
-
   if ($project === 'mediacommons') {
     return;
   }
-
   $umbrella_url = mediacommons_homepage_umbrella_url();
-
   preg_match('/(user)/', $item['path'], $matches, PREG_OFFSET_CAPTURE);
-
   if (!empty($matches)) {
     return '<a href="' . check_plain(url($umbrella_url . '/' . $item['path'], $item['options'])) . '"' . drupal_attributes($item['options']['attributes']) . '>' . ($item['options']['html'] ? $item['text'] : check_plain($item['text'])) . '</a>';
   }
   else {
     return '<a href="' . check_plain(url($item['path'], $item['options'])) . '"' . drupal_attributes($item['options']['attributes']) . '>' . ($item['options']['html'] ? $item['text'] : check_plain($item['text'])) . '</a>';
   }
-
 }
 
 function mediacommons_editorialworkflow_views_data_alter(&$data) {
@@ -785,12 +718,7 @@ function mediacommons_editorialworkflow_user_picture(&$variables) {
     $filepath = _gravatar_get_account_user_picture($account);
     if (!empty($filepath)) {
       $alt = t("@user's picture", array('@user' => format_username($account)));
-      //if (module_exists('image') && file_valid_uri($filepath) && $style = variable_get('user_picture_style', '')) {
-        //$variables['user_picture'] = theme('image_style', array('style_name' => $style, 'path' => $filepath, 'alt' => $alt, 'title' => $alt));
-      //}
-      //else {
       $variables['user_picture'] = theme('image', array('path' => $filepath, 'alt' => $alt, 'title' => $alt));
-      //}
       if ($account->uid && user_access('access user profiles')) {
         // Create link to the user's profile.
         $attributes = array('title' => t('View user profile.'));
@@ -898,13 +826,9 @@ function mediacommons_editorialworkflow_admin_menu_output_build(&$content) {
 }
 
 function mediacommons_editorialworkflow_send_message($data) {
-
   $contributor = $data['contributor'];
-
   $message = $data['message'];
-
   $uid = $contributor->uid;
-
   $values = array(
     'title' => truncate_utf8($message, 80, FALSE, TRUE),
     'type' => 'message',
@@ -913,19 +837,12 @@ function mediacommons_editorialworkflow_send_message($data) {
     'comment' => 0,
     'promote' => 0,
   );
-
   $entity = entity_create('node', $values);
-
   $wrapper = entity_metadata_wrapper('node', $entity);
-
   $wrapper->field_message->set($message);
-
   $wrapper->field_recipient->set(array($uid));
-
   $wrapper->save();
-
   watchdog('mediacommons_editorialworkflow', $message, array(), WATCHDOG_INFO);
-
 }
 
 /**
@@ -984,25 +901,6 @@ function mediacommons_editorialworkflow_preprocess_button(&$variables) {
   global $user;
   if (isset($user->contribute)) {
     $element = $variables['element'];
-
-    // disable submit button
-    //if (
-    //		1 == 2 &&
-    //    $element['#type'] == 'submit' /** submit buttons */
-    //    &&
-    //    isset( $user->contribute['current_nid'] ) /** is a node */
-    //    &&
-    //    $user->uid != $user->contribute['current_uid'] /** not the primary contributor */
-    //		&& ! in_array('administrator', $user->roles) /** not an administrator */
-    //) {
-    //	if ( ! in_array ( $user->contribute['current_nid'], $user->contribute['spokes_can_contribute'] ) /** not a additional contributor */ ) {
-    //   $element['#attributes'] = array(
-    //      'disabled' => 'disabled',
-    //      'class' => array('no-contributor-permission element-invisible')
-    //   );
-    //  }
-    //}
-
     if (isset($element['#value']) && isset($element['#name'])) {
       switch ($element['#name']) {
         case 'field_contributed_piece_add_more' :
@@ -1016,7 +914,6 @@ function mediacommons_editorialworkflow_preprocess_button(&$variables) {
           break;
       }
     }
-
   }
 }
 
@@ -1153,6 +1050,8 @@ function mediacommons_editorialworkflow_cron_queue_info() {
  *   User ID (uid) to be associated with task. e.g., array('uid' => 2)
  */
 function mediacommons_editorialworkflow_promote_user($data) {
+  return;
+
 	if (
 	  isset($data['uid']) // we have a user account ID
 	  && $data['uid'] != 1 // no need to proceed if user 1
@@ -1548,21 +1447,22 @@ function mediacommons_editorialworkflow_keep_going($form, &$form_state) {
 
 function mediacommons_apis_is_pjax() {
   $is_pjax = &drupal_static('is_pjax');
-  if (!isset($is_pjax) && function_exists('getallheaders')) {
-    $headers = getallheaders();
-    if (isset($headers['X-Pjax']) || isset($headers['X-PJAX'])) {
-      drupal_add_http_header('uri', request_uri());
-      $is_pjax = TRUE;
+  if (!isset($is_pjax)) {
+    $is_pjax = FALSE;
+    if (function_exists('getallheaders')) {
+      $headers = getallheaders();
+      if (isset($headers['X-Pjax']) || isset($headers['X-PJAX'])) {
+        drupal_add_http_header('uri', request_uri());
+        $is_pjax = TRUE;
+      }
     }
-    else {
+    // in case getallheaders is not present, check query_parameters
+    if (!$is_pjax) {
       $params = drupal_get_query_parameters();
       if (isset($params['pjax'])) {
         drupal_add_http_header('uri', base_path() . request_uri());
         $is_pjax = TRUE;
-      }
-      else {
-        $is_pjax = FALSE;
-      }
+      }      
     }
   }
   return $is_pjax;
@@ -1584,18 +1484,13 @@ function mediacommons_apis_is_embed() {
   return $is_embed;
 }
 
-
 function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache_fieldguide() {
   if (empty($_GET['tok']) || !drupal_valid_token($_GET['tok'])) {
     return MENU_ACCESS_DENIED;
   }
-
   /** make sure Drupal Ajax framework javascript is around */
-
   drupal_add_library('system', 'drupal.ajax');
-
-  $commands = array();
-  
+  $commands = array();  
   if ($cron = mediacommons_fieldguide_cron()) {
     $commands[] = ajax_command_alert('Success');
   }
@@ -1668,46 +1563,30 @@ function mediacommons_editorialworkflow_contributor_dashboard_solr_metadata() {
   );
 }
 
-
 function mediacommons_editorialworkflow_contributor_dashboard() {
-
   global $user, $conf;
-
   drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'dashboard'),));
-  
   drupal_set_title(t('@sitename: Dashboard', array('@sitename' => variable_get('site_name', 'MediaCommons'))));
-  
   // we need something more elegant. deal with this using access callback?
   if (!user_access('create spoke content')) return '';
-  
   $output = '';
-
   $br = theme('html_tag', array(
     'element' => array(
       '#tag' => 'br',
     ),
   ));
-
   $hr = theme('html_tag', array(
     'element' => array(
       '#tag' => 'hr',
     ),
   ));
-
   $super = ($user->uid == 1) ? TRUE : FALSE;
-
   $role_contributor = user_role_load_by_name('contributor');
-
   $contributor = user_has_role($role_contributor->rid);
-
   $role_clustercurator = user_role_load_by_name('cluster curator');
-
   $clustercurator = user_has_role($role_clustercurator->rid);
-
   $role_managingeditor = user_role_load_by_name('managing editor');
-
   $managingeditor = user_has_role($role_managingeditor->rid);
-
   $output .= theme('html_tag', array(
     'element' => array(
       '#tag' => 'h2',
@@ -1717,11 +1596,9 @@ function mediacommons_editorialworkflow_contributor_dashboard() {
       '#value' => t('Recent content'),
     ),
   ));
-
   $output .= $br;
   $output .= views_embed_view('recent_content', 'default', $user->uid);
   $output .= $hr;
-
   if ($super|| $contributor || $clustercurator || $managingeditor) {
     $view = views_embed_view('contributorscontent', 'block_i_can_contribute', $user->uid);
     $output .= $br;
@@ -1738,7 +1615,6 @@ function mediacommons_editorialworkflow_contributor_dashboard() {
     $output .= $view;
     $output .= $hr;
   }
-
   if ($super|| $clustercurator || $managingeditor) {
     $view_contributorsspokes_block_1 = views_embed_view('contributorscontent', 'block_i_can_curate', $user->uid);
     $view_contributorsspokes_block_2 = views_embed_view('contributorscontent', 'block_i_am_co_editor', $user->uid);
@@ -1769,7 +1645,6 @@ function mediacommons_editorialworkflow_contributor_dashboard() {
     $output .= $view_contributorsspokes_block_2;
     $output .= $hr;
     $output .= $br;
-
     $view_contributorsspokes_block_3 = views_embed_view('contributorscontent', 'block_i_authored', $user->uid);
     $output .= theme('html_tag', array(
       'element' => array(
@@ -1785,7 +1660,6 @@ function mediacommons_editorialworkflow_contributor_dashboard() {
     $output .= $hr;
     $output .= $br;
   }
-
   if (user_access('administer comments')) {
     $attributes = array(
       'element' => array(
