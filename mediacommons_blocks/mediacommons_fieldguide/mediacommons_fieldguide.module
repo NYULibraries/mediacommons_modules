@@ -41,7 +41,7 @@ function mediacommons_fieldguide_block_view($delta = '') {
  * Implements hook_cron().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_cron/7.x
  */
-function mediacommons_fieldguide_cron() {
+function mediacommons_fieldguide_cron() {  
   $mbid = 'mc_fieldguide';
   $fieldguide_baseurl = array(
     'devmc2.dlib.nyu.edu' => 'http://dev.mediacommons.org/fieldguide/latest-hub-fieldguide-widget?pjax=1',  
@@ -49,7 +49,7 @@ function mediacommons_fieldguide_cron() {
     'mc2.dlib.nyu.edu' => 'http://mediacommons.org/fieldguide/latest-hub-fieldguide-widget?pjax=1',
     'mediacommons' => 'http://mediacommons.local/fieldguide/latest-hub-fieldguide-widget?pjax=1',
   );
-  $hostname = gethostname();  
+  $hostname = gethostname();
   if (isset($fieldguide_baseurl[$hostname])) {
     $request = drupal_http_request($fieldguide_baseurl[$hostname]);
     if ($request->status_message) {
