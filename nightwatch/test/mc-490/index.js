@@ -1,7 +1,7 @@
 var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
-  tags: ['mc-xxx'],
+  tags: ['mc-490'],
   '@disabled': false,
 
   "MC-490 - HTML filter should be more flexible" : function (client) {

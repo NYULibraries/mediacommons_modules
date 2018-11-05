@@ -1,18 +1,5 @@
 <?php
 
-function mediacommons_filter_init() {
-  
-  // Overview of all formats.
-  $formats = filter_formats();
-
-  // Retrieve available filters and load all configured filters for existing
-  // text formats.
-  $filter_info = filter_get_filters();
-
-  // dpm($filter_info['filter_html']);
-
-}
-
 /**
  * @file
  * Module file for mediacommons_filter.
@@ -54,12 +41,6 @@ function mediacommons_filter_help($path, $arg) {
   }
 }
 
-function mediacommons_filter_allow_html() {
-  // https://jira.nyu.edu/jira/browse/MC-500
-  $allow_html = '<a> <abbr> <acronym> <address> <b> <blockquote> <br> <caption> <cite> <code> <dd> <del> <div> <dl> <dt> <em> <h1> <h2> <h3> <h4> <h5> <h6> <hr> <i> <img> <ins> <li> <ol> <p> <pre> <quote> <small> <span> <strike> <strong> <sub> <sup> <table> <tbody> <td> <th> <thead> <tr> <u> <ul> <iframe>';  
-  return $allow_html;
-}
-
 /**
  * Implements hook_filter_info().
  *
@@ -95,7 +76,6 @@ function mediacommons_filter_filter_info() {
   );
 
   return $filters;
-
 }
 
 /**
@@ -114,10 +94,8 @@ function _mediacommons_filter_filter_html($text, $filter) {
     }
     $text = filter_dom_serialize($html_dom);
   }
-
   return trim($text);
 }
-
 /**
  * Implements callback_filter_settings().
  *
@@ -125,7 +103,6 @@ function _mediacommons_filter_filter_html($text, $filter) {
  */
 function _mediacommons_filter_filter_html_settings($form, &$form_state, $filter, $format, $defaults) {
   $filter->settings += $defaults;
-
   $settings['allowed_html'] = array(
     '#type' => 'textfield',
     '#title' => t('Allowed HTML tags'),
@@ -275,6 +252,12 @@ function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
       }
     }
   }
+}
+
+function mediacommons_filter_allow_html() {
+  // https://jira.nyu.edu/jira/browse/MC-500
+  $allow_html = '<a> <abbr> <acronym> <address> <b> <header> <blockquote> <br> <caption> <cite> <code> <dd> <del> <div> <dl> <dt> <em> <h1> <h2> <h3> <h4> <h5> <h6> <hr> <i> <img> <ins> <li> <ol> <p> <pre> <quote> <small> <span> <strike> <time> <strong> <sub> <sup> <table> <tbody> <td> <th> <thead> <tr> <u> <ul> <iframe>';  
+  return $allow_html;
 }
 
 function mediacommons_filter_allowed_tags() {
