@@ -900,7 +900,9 @@ function usercontent_reviewer($uid) {
   
   $block = array();
   
-  $block['subject'] = t('User content: Reviews');
+  // $block['subject'] = t('User content: Reviews');
+  // https://jira.nyu.edu/jira/browse/MC-484
+  $block['subject'] = '';
   
   $conditions = array(
     'fq' => array(
