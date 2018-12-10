@@ -13,7 +13,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $view = new view();
   $view->name = 'recent_6_hubs';
   $view->description = 'For use on homepage, for all channels';
-  $view->tag = '';
+  $view->tag = 'homepage';
   $view->base_table = 'node';
   $view->human_name = 'Homepage featured hubs: for all channels';
   $view->core = 0;
@@ -31,7 +31,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '6';
-  $handler->display->display_options['pager']['options']['offset'] = '';
+  $handler->display->display_options['pager']['options']['offset'] = '1';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
   /* Relationship: Nodequeue: Queue */
@@ -53,7 +53,7 @@ function mediacommons_homepage_featured_views_default_views() {
   );
   $handler->display->display_options['fields']['fieldset_1']['fieldset']['type'] = 'div';
   $handler->display->display_options['fields']['fieldset_1']['fieldset']['classes'] = 'field-name-field-representative-image';
-  /* Field: Content: Representative Image */
+  /* Field: Content: Thumbnail image */
   $handler->display->display_options['fields']['field_representative_image']['id'] = 'field_representative_image';
   $handler->display->display_options['fields']['field_representative_image']['table'] = 'field_data_field_representative_image';
   $handler->display->display_options['fields']['field_representative_image']['field'] = 'field_representative_image';
@@ -136,11 +136,11 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['sorts']['position']['field'] = 'position';
   $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
   $handler->display->display_options['sorts']['position']['order'] = 'DESC';
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Sort criterion: Content: Start and end dates (field_period:value2) */
+  $handler->display->display_options['sorts']['field_period_value2']['id'] = 'field_period_value2';
+  $handler->display->display_options['sorts']['field_period_value2']['table'] = 'field_data_field_period';
+  $handler->display->display_options['sorts']['field_period_value2']['field'] = 'field_period_value2';
+  $handler->display->display_options['sorts']['field_period_value2']['order'] = 'DESC';
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -286,7 +286,7 @@ function mediacommons_homepage_featured_views_default_views() {
   $view = new view();
   $view->name = 'single_hub_latest';
   $view->description = 'For use on homepage';
-  $view->tag = 'homepage ';
+  $view->tag = 'homepage';
   $view->base_table = 'node';
   $view->human_name = 'Channels: Single Hub Latest';
   $view->core = 0;
@@ -306,7 +306,15 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  /* Field: Content: Representative Image */
+  /* Relationship: Nodequeue: Queue */
+  $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
+  $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
+    'featured_content_for_homepage' => 'featured_content_for_homepage',
+  );
+  /* Field: Content: Thumbnail image */
   $handler->display->display_options['fields']['field_representative_image']['id'] = 'field_representative_image';
   $handler->display->display_options['fields']['field_representative_image']['table'] = 'field_data_field_representative_image';
   $handler->display->display_options['fields']['field_representative_image']['field'] = 'field_representative_image';
@@ -359,11 +367,16 @@ function mediacommons_homepage_featured_views_default_views() {
   $handler->display->display_options['fields']['field_contributors']['element_wrapper_class'] = 'peoplelist';
   $handler->display->display_options['fields']['field_contributors']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_contributors']['delta_offset'] = '0';
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Sort criterion: Nodequeue: Position */
+  $handler->display->display_options['sorts']['position']['id'] = 'position';
+  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['position']['field'] = 'position';
+  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
+  $handler->display->display_options['sorts']['position']['order'] = 'DESC';
+  /* Sort criterion: Content: Start and end dates (field_period:value2) */
+  $handler->display->display_options['sorts']['field_period_value2']['id'] = 'field_period_value2';
+  $handler->display->display_options['sorts']['field_period_value2']['table'] = 'field_data_field_period';
+  $handler->display->display_options['sorts']['field_period_value2']['field'] = 'field_period_value2';
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
