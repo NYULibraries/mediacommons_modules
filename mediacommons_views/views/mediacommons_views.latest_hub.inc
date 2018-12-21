@@ -30,11 +30,11 @@ $handler->display->display_options['fields']['title']['field'] = 'title';
 $handler->display->display_options['fields']['title']['label'] = '';
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-/* Sort criterion: Content: Post date */
-$handler->display->display_options['sorts']['created']['id'] = 'created';
-$handler->display->display_options['sorts']['created']['table'] = 'node';
-$handler->display->display_options['sorts']['created']['field'] = 'created';
-$handler->display->display_options['sorts']['created']['order'] = 'DESC';
+/* Sort criterion: Content: Start and end dates (field_period:value2) */
+$handler->display->display_options['sorts']['field_period_value2']['id'] = 'field_period_value2';
+$handler->display->display_options['sorts']['field_period_value2']['table'] = 'field_data_field_period';
+$handler->display->display_options['sorts']['field_period_value2']['field'] = 'field_period_value2';
+$handler->display->display_options['sorts']['field_period_value2']['order'] = 'DESC';
 /* Filter criterion: Content: Published */
 $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'node';

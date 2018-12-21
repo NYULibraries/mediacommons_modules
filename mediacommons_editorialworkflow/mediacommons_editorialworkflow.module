@@ -13,7 +13,7 @@ function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
   $bundle = $variables['element']['#bundle'];
   // in certain cases we allow the "preview" of a content that has not been 
   // published. E.g., MediaCommoms IMR "preview" the title of the upcoming "posts"
-  if ($bundle == 'spoke' && ($name == 'title' || $name == 'field_attached_images')) {
+  if ($bundle == 'spoke' && ($name == 'title' || $name == 'field_representative_image')) {
     $now = time();
     $variables['label_link'] = FALSE;
     $node = $variables['element']['#object'];
@@ -24,10 +24,10 @@ function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
       // the content is not available
       // allow the users in certain cases to see the "preview" but don't
       // link to content
-      if ($name == 'field_attached_images') {
+      if ($name == 'field_representative_image') {
         foreach ($variables['items'] as $key => $item) {
           // https://api.drupal.org/api/drupal/modules%21image%21image.field.inc/function/theme_image_formatter/7.x
-          unset($variables['items'][$key]['#path']);
+          $variables['items'][$key]['classes_array'][] = "futurepub";
         }
       }
       // @TODO: why?
