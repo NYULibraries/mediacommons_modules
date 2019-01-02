@@ -106,6 +106,13 @@ function mc_drush_command() {
     'aliases' => array('mccd'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   ); 
+  
+  $items['reload-mc-menu'] = array(
+    'description' => 'Reload MediaCommons Global Navigation',
+    'arguments' => array(),
+    'options' => array(),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  );  
 
   return $items;
 
@@ -154,6 +161,10 @@ function drush_mc_set_theme_setting_class_name($class) {
 
 function drush_mc_update_fieldguide_umbrella_block() {
   mediacommons_fieldguide_cron();
+}
+
+function drush_mc_reload_mc_menu() {
+  _mediacommons_globalnav_config();
 }
 
 function drush_mc_init_fieldguide() {
