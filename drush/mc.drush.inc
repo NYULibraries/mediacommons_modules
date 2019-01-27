@@ -14,7 +14,14 @@ function mc_drush_command() {
     'aliases' => array('mcrc'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   );
-  
+
+  $items['reset-globalnav'] = array(
+    'description' => 'Reset MediaCommons Global nav.',
+    'arguments' => array(),
+    'options' => array(),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  );
+
   $items['init-fieldguide'] = array(
     'description' => 'Init Fieldguide block',
     'arguments' => array(),
@@ -691,3 +698,8 @@ function drush_mc_drop_mail_passwords() {
   }
 }
 
+function drush_mc_reset_globalnav() {
+  if (function_exists('_mediacommons_globalnav_config')) {
+    _mediacommons_globalnav_config();
+  }
+}
