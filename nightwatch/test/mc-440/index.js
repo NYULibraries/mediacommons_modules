@@ -2,7 +2,7 @@ var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
   tags: ['MC-441'],
-  '@disabled': false,
+  '@disabled': true,
   
   'MC-440 - When I search for "lacuna" I should get results' : function (client) {
     client
