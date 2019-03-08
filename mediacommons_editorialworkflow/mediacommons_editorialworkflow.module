@@ -461,6 +461,17 @@ function mediacommons_editorialworkflow_menu() {
     'page arguments' => array(1)
   );
 
+  /**
+   * Convinient way to edit user
+   */
+  $items['api/user/%/edit'] = array(
+    'title' => 'Edit user',
+    'access arguments' => array('administer users'),
+    'page callback' => '_mediacommons_editorialworkflow_users_edit',
+    'type' => MENU_CALLBACK,
+    'page arguments' => array(2)
+  );
+
   return $items;
 }
 
@@ -487,6 +498,15 @@ function _mediacommons_editorialworkflow_users_as_json($uid) {
   echo drupal_json_encode($user);
   die();
 }
+
+function _mediacommons_editorialworkflow_users_edit($username) {
+  $user = user_load_by_name($username);
+  if ($user) {
+    drupal_goto('user/' . $user->uid . '/edit');
+  }
+  drupal_not_found();
+}
+
 
 /**
  * Implementation of hook_permission().

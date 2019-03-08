@@ -19,6 +19,7 @@ exports.command = function (user = {}, configuration = {}, callback) {
   })
   client.submitForm('#edit-submit')
   client.waitForElementVisible('body', 1000)
+  client.assert.containsText('.messages.status', `Created a new user account for ${user.name}.`)
   if (typeof callback === 'function') {
     callback.call(client, result)
   }
