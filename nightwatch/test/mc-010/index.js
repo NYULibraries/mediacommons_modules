@@ -1,13 +1,13 @@
 'use strict'
 
+const crypto = require('crypto')
+const url = require('url')
 const conf = require('../../nightwatch.conf.js')
 const testId = 'mc-010'
-const disabled = false
+const disabled = true
 const baseurl = process.env.BASEURL
 const userAdminId = process.env.USERADMINID
 const userAdminPass = process.env.USERADMINPASS
-const crypto = require('crypto')
-const url = require('url')
 
 module.exports = {
   tags: [testId],
@@ -16,9 +16,9 @@ module.exports = {
   'As Managing Editor I should be able to edit/delete any Hub': function (client) {
     const newUserId = `managingeditor${crypto.randomBytes(10).toString('hex')}`
     const newUserPass = crypto.randomBytes(10).toString('hex')
-    const label =  `${testId} - Test - ${newUserId}`
+    const label = `${testId} - Test - ${newUserId}`
     /**
-     * log in as super user
+     * Log-in as super user
      */
     client.url(`${baseurl}/user?destination=admin/people/create`)
     client.waitForElementPresent('form#user-login', 1000)
@@ -27,7 +27,7 @@ module.exports = {
     client.submitForm('#user-login')
     client.waitForElementVisible('body', 1000)
     /**
-     * populate new user form
+     * Populate new user form
      */
     client.setValue('input#edit-name', newUserId)
     client.setValue('input[name="mail"]', `${newUserId}@dlib.nyu.edu`)
@@ -54,7 +54,7 @@ module.exports = {
     client.waitForElementPresent('body', 1000)
     client.assert.containsText('.views-table tr:nth-child(2) td:nth-child(2) a', label)
     /**
-     * find the edit node link
+     * Find the edit node link
      */
     client.element('css selector', '.views-table tr:nth-child(2) td:nth-child(7) a', function (result) {
       client.elementIdAttribute(result.value.ELEMENT, 'href', function (link) {
@@ -66,12 +66,12 @@ module.exports = {
          */ 
         client.url(`${baseurl}/user/logout`)
         /**
-         * log-in as the newly created managing editor user
+         * Log-in as the newly created managing editor user
          */
         client.url(`${baseurl}/user?destination=${destination}`)
         client.waitForElementPresent('form#user-login', 1000)
         client.setValue('input#edit-name', newUserId)
-        client.setValue('input#edit-pass', newUserPass)        
+        client.setValue('input#edit-pass', newUserPass)
         client.submitForm('#user-login')
         client.waitForElementVisible('body', 1000)
         /**
@@ -104,23 +104,23 @@ module.exports = {
         client.url(`${baseurl}/users/${newUserId}`)
         client.waitForElementVisible('body', 1000)
         /**
-         * click edit user link
+         * Click edit user link
          */        
         client.waitForElementPresent('.tabs-primary__tab:nth-child(2) a', 1000)
         client.click('.tabs-primary__tab:nth-child(2) a')
         /**
-         * click Cancel account button
+         * Click Cancel account button
          */
         client.click('#edit-cancel')
         /**
-         * delete new user
+         * Delete new user
          */
         client.click('#edit-user-cancel-method--5')
         client.click('#edit-submit')
-        client.waitForElementVisible('body', 5000)
+        client.waitForElementVisible('body', 1000)
         client.assert.containsText('.messages.status', `${newUserId} has been deleted.`)
         /**
-         * log out
+         * Log-out
          */
         client.url(`${baseurl}/user/logout`)
         client.end()

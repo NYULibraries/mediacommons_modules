@@ -2,7 +2,7 @@
 
 const conf = require('../../nightwatch.conf.js')
 const testId = 'mc-001'
-const disabled = false
+const disabled = true
 const url = process.env.BASEURL
 const userAdminId = process.env.USERADMINID
 const userAdminPass = process.env.USERADMINPASS

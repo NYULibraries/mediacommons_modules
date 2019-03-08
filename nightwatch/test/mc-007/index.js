@@ -3,7 +3,7 @@
 const conf = require('../../nightwatch.conf.js')
 const { join } = require('path')
 const testId = 'mc-007'
-const disabled = false
+const disabled = true
 const url = process.env.BASEURL
 const project = 'tne'
 const userAdminId = process.env.USERADMINID

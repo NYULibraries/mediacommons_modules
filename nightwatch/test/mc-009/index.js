@@ -1,20 +1,19 @@
 'use strict'
 
+const crypto = require('crypto')
+const url = require('url')
 const conf = require('../../nightwatch.conf.js')
 const testId = 'mc-009'
-const disabled = false
+const disabled = true
 const baseurl = process.env.BASEURL
 const userAdminId = process.env.USERADMINID
 const userAdminPass = process.env.USERADMINPASS
-const crypto = require('crypto')
-const url = require('url')
 
 module.exports = {
   tags: [testId],
   '@disabled': disabled,
 
   'As Managing Editor I should be able to edit/delete any Spoke': function (client) {
-
     const newUserId = `managingeditor${crypto.randomBytes(10).toString('hex')}`
     const newUserPass = crypto.randomBytes(10).toString('hex')
     const spokeTitle =  `${testId} - Test - ${newUserId}`
@@ -23,7 +22,6 @@ module.exports = {
                   <ol><li>LIST</li></ol>
                   <img id="id-image-${testId}" src="http://dlib.nyu.edu/aco/images/logos/nyu_short_color.png">
                   </p>`
-
     /**
      * log in as super user
      */
@@ -33,7 +31,6 @@ module.exports = {
     client.setValue('input#edit-pass', userAdminPass)
     client.submitForm('#user-login')
     client.waitForElementVisible('body', 1000)
-
     /**
      * populate new user form
      */
@@ -44,13 +41,11 @@ module.exports = {
     client.assert.containsText('label[for="edit-roles-6"]', 'managing editor')
     client.click('input#edit-roles-6')
     client.submitForm('#edit-submit')
-
     /**
      * Test if the new user was created
      */
     client.waitForElementVisible('body', 1000)
     client.assert.containsText('.messages.status', `Created a new user account for ${newUserId}.`)
-
     /**
      * Create a dummy Spoke node
      */
@@ -61,7 +56,6 @@ module.exports = {
     client.submitForm('form#spoke-node-form')
     client.waitForElementPresent('body', 1000)
     client.assert.elementPresent(`#id-image-${testId}`)
-
     /**
      * Check the new node was created
      */
@@ -132,7 +126,7 @@ module.exports = {
          */
         client.click('#edit-user-cancel-method--5')
         client.click('#edit-submit')
-        client.waitForElementVisible('body', 5000)
+        client.waitForElementVisible('body', 1000)
         client.assert.containsText('.messages.status', `${newUserId} has been deleted.`)
         /**
          * log out
