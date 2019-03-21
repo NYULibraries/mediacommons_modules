@@ -15,6 +15,13 @@ function mc_drush_command() {
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   );
 
+  $items['claim-network-jobs'] = array(
+    'description' => 'Run MediaCommons network jobs.',
+    'arguments' => array(),
+    'options' => array(),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  );
+
   $items['reset-globalnav'] = array(
     'description' => 'Reset MediaCommons Global nav.',
     'arguments' => array(),
@@ -289,6 +296,35 @@ function drush_mc_create_intransition_fake_reviews() {
     }
   }
 
+}
+
+function drush_mc_claim_network_jobs() {
+  $project = variable_get('mediacommons_project', 'mediacommons');  
+  $update = array(
+    'processed' => 1,
+    'changed' => time(),
+  );
+  $items = db_query_range('SELECT * FROM {mc_network_actions} WHERE processed = 0 AND project = :project ORDER BY aid ASC', 0, 25, array(':project' => $project))->fetchAll();
+  if ($items) {
+    foreach ($items as $item) {
+      drush_log('Job ' . $item->aid, 'ok');
+      $data = unserialize($item->data);
+      $callback = $item->callback;
+      if (function_exists($callback)) {
+        try {
+          $callback($data);
+          $succeeded = db_update('mc_network_actions')->fields($update)->condition('aid', $item->aid, '=')->execute();
+        } catch (Exception $e) {
+          die(__FILE__ . ' ' .  __LINE__ . ' ' . $e->getMessage());
+        }
+      }
+      else {
+        $update['processed'] = 9;
+        $succeeded = db_update('mc_network_actions')->fields($update)->condition('aid', $item->aid, '=')->execute();
+        die(__FILE__ . ' ' .  __LINE__ . ' callback "' . $callback . '" does not exists.');
+      }
+    }
+  }
 }
 
 /**

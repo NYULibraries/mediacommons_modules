@@ -118,6 +118,114 @@ function mediacommons_utilities_is_project_redirect($path) {
 }
 
 /**
+ * Implements hook_user_update
+ * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_update/7.x
+ */
+function mc_user_update(&$edit, $account, $category) {
+  $query = new EntityFieldQuery;
+  $result = $query->entityCondition('entity_type', 'node')
+                  ->entityCondition('bundle', 'project')
+                  ->propertyCondition('status', 1)
+                  ->execute();
+  if (!empty($result['node'])) {
+    $keys = array_keys($result['node']);
+    foreach ($keys as $nid) {
+      $node = node_load($nid);
+      $wrapper = entity_metadata_wrapper('node', $node);
+      db_insert('mc_network_actions')->fields(array(
+        'processed' => 0,
+        'type' => __FUNCTION__,
+        'project' => $wrapper->field_identifier->value(),
+        'callback' => 'drupal_flush_all_caches',
+        'data' => serialize(
+          array(
+            'uid' => $account->uid,
+            'mail' => $account->mail,
+            'uuid' => $account->uuid,
+          )
+        ),
+        'created' => $_SERVER['REQUEST_TIME'],
+        'changed' => $_SERVER['REQUEST_TIME'], 
+      ))->execute();
+      unset($wrapper);
+      unset($node);
+    }
+  }  
+}
+
+function mc_initialize_schema($module, &$schema) {
+  // Set the name and module key for all tables.
+  foreach ($schema as $name => $table) {
+    if (empty($table['module'])) {
+      $schema[$name]['module'] = $module;
+    }
+    if (!isset($table['name'])) {
+      $schema[$name]['name'] = $name;
+    }
+  }
+}
+
+function mc_list_schemas() {
+  $schema = array();
+  $schema['mc_network_actions'] = array(
+    'description' => 'Stores a record of Bitstreams.',
+    'fields' => array(
+      'aid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'processed' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'project' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),    
+      'callback' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),  
+      'data' => array(
+        'type' => 'blob',
+        'size' => 'big',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'description' => 'Serialized data containing properties that do not warrant a dedicated column.',
+      ),
+      'created' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'aid' => array('aid'),
+    ),
+    'primary key' => array('aid'),
+  );
+  return $schema;
+}
+
+/**
  * Enable login_emailusername module
  */
 function mc_update_7001(&$sandbox) {
@@ -140,7 +248,6 @@ function mc_update_7002() {
 /**
  * Turn off theme debug
  */
-// 
 function mc_update_7003() {
   if (drupal_is_cli()) {
     $hostname = php_uname('n');
@@ -153,4 +260,57 @@ function mc_update_7003() {
       module_disable($modules);
     }
   }
+}
+
+/**
+ * Adds table to register network actions
+ */
+function mc_update_7010() {
+
+  if (!db_table_exists('mc_network_actions')) {
+    
+    $list_schemas = mc_list_schemas();
+
+    $schemas = array(
+      'mc_network_actions' => $list_schemas['mc_network_actions'],
+    );
+    
+    mc_initialize_schema('mc', $schemas);
+
+    foreach ($schemas as $name => $schema) {
+      if (!db_table_exists($name)) {
+        db_create_table($name, $schema);
+      }
+    }
+
+  }
+
+  module_enable(array('projects'));
+
+  drupal_flush_all_caches();
+
+  $data = json_decode(file_get_contents(__DIR__ . '/features/projects/nodes.json'));
+  
+  $values = array(
+    'type' => 'project',
+    'uid' => 1,
+    'status' => 1,
+    'comment' => 0,
+    'promote' => 0,
+    'language' => LANGUAGE_NONE,
+  );
+
+  foreach ($data->nodes as $node) {
+    $entity = entity_create('node', $values);
+    $wrapper = entity_metadata_wrapper('node', $entity);
+    $wrapper->title->set($node->label);
+    $wrapper->field_identifier->set($node->identifier);
+    $wrapper->field_shortname->set($node->shortname);
+    $wrapper->field_description->set($node->description);
+    $wrapper->field_path->set($node->path);
+    $wrapper->save();
+    unset($wrapper);
+    unset($entity);
+  }
+
 }
