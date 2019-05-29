@@ -5,16 +5,14 @@
  * Admin page.
  */
 function mediacommons_filter_admin($form, &$form_state) {
-  dpm(__FUNCTION__ . 'we need to fix this');
-  
   //db_insert('mediacommons_filter')->fields( array('domain' => 'vimeo.com') )->execute();
-  
+
   $result = db_query("SELECT * FROM {mediacommons_filter}");
   $form['sources'] = array(
     '#type' => 'fieldset',
     '#title' => t('Add or edit allowed domains in an iframe'),
-    '#collapsed' => FALSE,
-    '#collapsible' => TRUE,
+    '#collapsed' => false,
+    '#collapsible' => true,
   );
   foreach ( $result as $record ) {
     $form['sources']['sources_u_' . $record->did] = array(
@@ -24,14 +22,14 @@ function mediacommons_filter_admin($form, &$form_state) {
       '#size' => 60,
       '#maxlength' => 256,
       '#description' => t("Set host name. <acronym title=\"for example\">e.g.</acronym>, nyu.edu"),
-      '#required' => FALSE,
+      '#required' => false,
     );
   }
   $form['sources']['sources_n_1'] = array(
   	'#type' => 'textarea',
   	'#title' => t('Add more allowed domain'),
   	'#description' => t("Set domains. <acronym title=\"for example\">e.g.</acronym>, nyu.edu, example.com"),
-    '#required' => FALSE,
+    '#required' => false,
   );
   $form['#submit'][] = 'mediacommons_filter_admin_settings_submit';
   return system_settings_form($form);
