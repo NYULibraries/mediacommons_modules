@@ -314,3 +314,22 @@ function mc_update_7010() {
   }
 
 }
+
+function mc_projects () {
+  $projects = &drupal_static(__FUNCTION__, array());
+  if (empty($projects)) {
+    $nodes = node_load_multiple(array(), array('type' => 'project'));
+    foreach ($nodes as $project) {
+      $wrapper = entity_metadata_wrapper('node', $project);
+      $identifier = $wrapper->field_identifier->value();
+      $projects[$identifier] = array(
+        'uuid' => $project->uuid,
+        'label' => $project->title,
+        'identifier' => $identifier,
+        'path' => $wrapper->field_path->value(),
+        'shortname' => $wrapper->field_shortname->value(),
+      );
+    }
+  }
+  return $projects;
+}
