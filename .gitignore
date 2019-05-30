@@ -11,3 +11,5 @@
 .vscode/
 
 nightwatch/*.png
+
+selenium-server.log

@@ -2,7 +2,7 @@ var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
   tags: ['MC-441'],
-  '@disabled': false,
+  '@disabled': true,
 
   "MC-449 - I should see user profile page" : function (client) {
     client

@@ -1,16 +1,18 @@
 var conf = require('../../nightwatch.conf.js');
+const userAdminId = process.env.USERADMINID
+const userAdminPass = process.env.USERADMINPASS
 
 module.exports = {
   tags: ['mc-xxx'],
-  '@disabled': false,
+  '@disabled': true,
 
   "MC-XXX - Do not display Message content-type in admin/content view" : function (client) {
     client
       .url('http://mediacommons.local/user?destination=admin/content')
       .waitForElementVisible('body', 1000)
       .waitForElementPresent('form#user-login', 1000)
-      .setValue('input#edit-name', 'dlts.pa')
-      .setValue('input#edit-pass', '000000')
+      .setValue('input#edit-name', userAdminId)
+      .setValue('input#edit-pass', userAdminPass)
       .saveScreenshot('mc-xxx-01.png')
       .submitForm('#user-login')
       .waitForElementVisible('body', 1000)

@@ -10,16 +10,14 @@ function mediacommons_filter_schema() {
     'fields' => array(
       'did' => array(
         'description' => 'The domain ID.',
-        'type' => 'serial',
-      	'unsigned' => TRUE,
-      	'not null' => TRUE,
+        'type' => 'varchar',
+      	'length' => 250,
       ),
       'domain' => array(
         'description' => 'The domain source.',
         'type' => 'text',
       ),
     ),
-    'primary key' => array('did'),
   );
 
   $schema['cache_mediacommons_filter'] = drupal_get_schema_unprocessed('system', 'cache');

@@ -11,7 +11,7 @@
 function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
   $name = $variables['element']['#field_name'];
   $bundle = $variables['element']['#bundle'];
-  // in certain cases we allow the "preview" of a content that has not been 
+  // in certain cases we allow the "preview" of a content that has not been
   // published. E.g., MediaCommoms IMR "preview" the title of the upcoming "posts"
   if ($bundle == 'spoke' && ($name == 'title' || $name == 'field_representative_image')) {
     $now = time();
@@ -46,8 +46,8 @@ function mediacommons_editorialworkflow_process_field(&$variables, $hook) {
 function mediacommons_editorialworkflow_process_node_spoke(&$variables, $wrapper) {
   // get the current time
   $now = time();
-  // sites can use field_pubdate to indicate that a node it is ready and 
-  // will be available to public after pubdate. 
+  // sites can use field_pubdate to indicate that a node it is ready and
+  // will be available to public after pubdate.
   $pubdate = $wrapper->field_pubdate->value();
   // node available for general public at the moment
   if ($pubdate <= $now) {
@@ -166,17 +166,66 @@ function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_i
   }
 }
 
+function mediacommons_editorialworkflow_is_admin() {
+  global $user;
+  if ($user->uid == 1 || array_key_exists('administrator', $user->roles)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+function mediacommons_editorialworkflow_projects_user_can_contribute() {
+  global $user;
+  $projects = array();
+  $wrapper = entity_metadata_wrapper('user', $user);
+  foreach ($wrapper->field_projects->value() as $project) {
+    $project_entity = entity_metadata_wrapper('node', $project);
+    $identifier = $project_entity->field_identifier->value();
+    $projects[$identifier] = array(
+      'label' => $project->title,
+      'identifier' => $identifier,
+      'path' => $project_entity->field_path->value(),
+      'shortname' => $project_entity->field_shortname->value(),
+    );
+  }
+  return $projects;
+}
+
+function mediacommons_editorialworkflow_user_can_contribute_to_project ($op, $project) {
+  // if (mediacommons_editorialworkflow_is_admin()) {
+  //   return TRUE;
+  // }
+  // else {
+    if (user_access('access mediacommons dashboard')) {
+      $projects = mediacommons_editorialworkflow_projects_user_can_contribute();
+      if (array_key_exists($project, $projects)) {
+        return TRUE;
+      }
+    }
+  // }
+  return FALSE;
+}
+
+function __i () {
+  print __FUNCTION__;
+}
+
 /**
  * Implements hook_form_FORM_ID_alter() for node.
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
  */
 function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_state, $form_id) {
   global $user;
+
+  $projects_user_can_contribute = mediacommons_editorialworkflow_projects_user_can_contribute();
+
   // indication that this form was process by the editorial workflow module
   $form['#attributes']['class'][] = 'editorial-workflow';
+
   foreach ($user->roles as $role) {
     $form['#attributes']['class'][] = 'editorial-workflow-' . str_replace(' ', '-', $role);
   }
+
   // check if we are in a edit form
   if (isset($form['#node_edit_form']) && $form['#node_edit_form']) {
     // check if the form contains a type of "publication date"
@@ -198,13 +247,16 @@ function mediacommons_editorialworkflow_form_node_form_alter(&$form, &$form_stat
         unset($form['field_pubstat'][$language]['#options'][$position]);
       }
     }
-    // hide the "Publishing option" menu in the edit form.
-    $form['options']['#type'] = 'container';
-    $form['options']['#title'] = '';
-    $form['options']['status'] = array(
-      '#type' => 'value',
-      '#value' => 1
-    );
+
+    if (!mediacommons_editorialworkflow_is_admin()) {
+      // hide the "Publishing option" menu in the edit form.
+      $form['options']['#type'] = 'container';
+      $form['options']['#title'] = '';
+
+    }
+
+    $form['options']['status'] = array('#type' => 'value', '#value' => 1);
+
   }
 }
 
@@ -242,9 +294,6 @@ function mediacommons_editorialworkflow_form_hub_node_form_alter(&$form, &$form_
   $user_can_edit = mediacommons_editorialworkflow_user_can_edit_node($form['#node']);
   $form['field_body']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
   $form['field_image_rights']['#after_build'][] = 'mediacommons_editorialworkflow_remove_text_format_option';
-  //if ($is_contributor) {
-  //  $form['field_contributors'][$form['language']['#value']][0]['uid']['#default_value'] = $user->uid;
-  //}
   $path = (isset($form['#node']->nid)) ? url(drupal_get_path_alias('node/' . $form['#node']->nid)) : NULL;
   $settings = array(
     'mediacommons_editorialworkflow' => array(
@@ -375,15 +424,21 @@ function mediacommons_editorialworkflow_custom_theme() {
  * Implements hook_menu().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7.x
  */
-function mediacommons_editorialworkflow_menu() {  
-  $items = array();  
+function mediacommons_editorialworkflow_menu() {
+
+  $hail = variable_get('mediacommons_project', 'mediacommons');
+  $projects = mc_projects();
+  $project_index = 0;
+  $items = array();
+
   $items['dashboard'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard',
     'access arguments' => array('access mediacommons dashboard'),
     'type' =>  MENU_NORMAL_ITEM,
-  );  
+  );
+
   $items['dashboard/panel'] = array(
     'title' => 'Dashboard',
     'description' => 'User dashboard',
@@ -392,14 +447,34 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 0,
     'type' =>  MENU_LOCAL_TASK,
   );
+
   $items['dashboard/add'] = array(
-    'title' => 'Create content',
+    'title' => 'Create content for channel',
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_create_content',
     'description' => 'Create content',
     'access arguments' => array('access mediacommons dashboard'),
     'weight' => 8,
     'type' => MENU_LOCAL_TASK,
-  );  
+    'expanded' => TRUE,
+  );
+
+  foreach ($projects as $project) {
+    $items['dashboard/add/' . $project['identifier']] = array(
+      'title' =>  t('@label', array('@label' => $project['label'])),
+      'page callback' => '__i',
+      'description' => t('Create content for channel @label', array('@label' => $project['label'])),
+      'access callback' => 'mediacommons_editorialworkflow_user_can_contribute_to_project',
+      'type' => MENU_LOCAL_TASK,
+      'expanded' => TRUE,
+      'page arguments' => array(2),
+      'weight' => ++$project_index,
+      'access arguments' => array('create content project', $project['identifier']),
+    );
+    if ($hail == $project) {
+      $items['dashboard/add/' . $project['identifier']]['weight'] = 0;
+    }
+  }
+
   $items['dashboard/profile'] = array(
     'title' => 'Profile',
     'page callback' => 'mediacommons_editorialworkflow_userpath',
@@ -408,6 +483,7 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 9,
     'type' => MENU_LOCAL_TASK,
   );
+
   $items['dashboard/others'] = array(
     'title' => 'Others',
     'description' => 'Others',
@@ -416,18 +492,21 @@ function mediacommons_editorialworkflow_menu() {
     'weight' => 10,
     'type' =>  MENU_LOCAL_TASK,
   );
+
   $items['dashboard/others/rebuild-cache'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
     'access arguments' => array('access mediacommons dashboard'),
     'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
   );
+
   $items['dashboard/others/solr-metadata'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_solr_metadata',
     'access arguments' => array('access mediacommons dashboard'),
     'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
   );
+
   $items['dashboard/refresh/%'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache',
     'access arguments' => array('access mediacommons dashboard'),
@@ -435,6 +514,7 @@ function mediacommons_editorialworkflow_menu() {
     'type' => MENU_CALLBACK,
     'page arguments' => array(2)
   );
+
   $items['dashboard/refresh/mc_fieldguide'] = array(
     'page callback' => 'mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache_fieldguide',
     'access arguments' => array('access mediacommons dashboard'),
@@ -442,7 +522,73 @@ function mediacommons_editorialworkflow_menu() {
     'type' => MENU_CALLBACK,
     'page arguments' => array(2)
   );
+
+  /**
+   * Convinient way to edit objects
+   */
+  $items['content/%/edit'] = array(
+    'title' => 'Edit object',
+    'access arguments' => array('access mediacommons dashboard'),
+    'page callback' => '_mediacommons_editorialworkflow_edit_redirect',
+    'type' => MENU_CALLBACK,
+  );
+
+  /**
+   * Convinient way to edit objects
+   */
+  $items['users/%/user.json'] = array(
+    'title' => 'Edit object',
+    'access arguments' => array('access user profiles'),
+    'page callback' => '_mediacommons_editorialworkflow_users_as_json',
+    'type' => MENU_CALLBACK,
+    'page arguments' => array(1)
+  );
+
+  /**
+   * Convinient way to edit user
+   */
+  $items['api/user/%/edit'] = array(
+    'title' => 'Edit user',
+    'access arguments' => array('administer users'),
+    'page callback' => '_mediacommons_editorialworkflow_users_edit',
+    'type' => MENU_CALLBACK,
+    'page arguments' => array(2)
+  );
+
   return $items;
+
+}
+
+/**
+ * Route callback for books edit page
+ */
+function _mediacommons_editorialworkflow_edit_redirect() {
+  $path = drupal_get_normal_path(arg(0) . '/' . arg(1));
+  if ($path) {
+    drupal_goto($path . '/edit');
+  }
+  drupal_not_found();
+}
+
+function _mediacommons_editorialworkflow_users_as_json($uid) {
+  drupal_add_http_header('Content-Type', 'application/json');
+  $user = user_load_by_name($uid);
+  unset($user->pass);
+  unset($user->rdf_mapping);
+  unset($user->signature_format);
+  unset($user->init);
+  unset($user->theme);
+  unset($user->data);
+  echo drupal_json_encode($user);
+  die();
+}
+
+function _mediacommons_editorialworkflow_users_edit($username) {
+  $user = user_load_by_name($username);
+  if ($user) {
+    drupal_goto('user/' . $user->uid . '/edit');
+  }
+  drupal_not_found();
 }
 
 /**
@@ -499,10 +645,12 @@ function mediacommons_editorialworkflow_permission() {
  * https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_presave/7.x
  */
 function mediacommons_editorialworkflow_node_presave($node) {
+
   $contributors = array();
   $wrapper = entity_metadata_wrapper('node', $node);
   $bundle = $wrapper->getBundle();
   $listed_contributors = array();
+
   // https://jira.nyu.edu/jira/browse/MC-250
   if ($bundle == 'hub' || $bundle == 'spoke') {
     // Publication status
@@ -512,6 +660,7 @@ function mediacommons_editorialworkflow_node_presave($node) {
     $wrapper->status->set($pubstat);
     $listed_contributors = $wrapper->field_contributors->value();
   }
+
   // Inserting a new node @TODO: test work, add validation
   if ($bundle == 'spoke') {
     if ($node->is_new) {
@@ -537,6 +686,7 @@ function mediacommons_editorialworkflow_node_presave($node) {
       }
     }
   }
+
   // Inserting a new node @TODO: test work, add validation
   if ($bundle == 'hub') {
     $listed_contributors = array_merge($listed_contributors, $wrapper->field_curators_editors->value());
@@ -553,8 +703,9 @@ function mediacommons_editorialworkflow_node_presave($node) {
           }
         }
       }
-    }    
-  }  
+    }
+  }
+
   foreach ($listed_contributors as $listed_contributor) {
     $data = array(
       'message' => $wrapper->label() . ' saved!',
@@ -562,6 +713,7 @@ function mediacommons_editorialworkflow_node_presave($node) {
     );
     mediacommons_editorialworkflow_send_message($data);
   }
+
 }
 
 /**
@@ -881,7 +1033,7 @@ function mediacommons_editorialworkflow_cron() {
       }
     }
   }
-  mediacommons_editorialworkflow_config();  
+  mediacommons_editorialworkflow_config();
 }
 
 function mediacommons_editorialworkflow_form_user_register_form_alter(&$form, &$form_state, $form_id) {
@@ -1154,7 +1306,7 @@ function mediacommons_editorialworkflow_contributor_dashboard_others() {
   }
   catch (Exception $e) {
   }
-  
+
   $attributes = array(
     'class' => 'mediacommons_editorialworkflow',
     'width' => '100%',
@@ -1356,7 +1508,7 @@ function mediacommons_editorialworkflow_redirect_to_umbrella() {
     'query' => array(
       'project' => $hail,
     )
-  );  
+  );
 
   if ($hail != 'mediacommons') {
     $http_response_code = 302;
@@ -1365,7 +1517,7 @@ function mediacommons_editorialworkflow_redirect_to_umbrella() {
   }
   else {
     drupal_goto($destination, array(), 301);
-  }  
+  }
 }
 
 function mediacommons_editorialworkflow_userpath() {
@@ -1462,7 +1614,7 @@ function mediacommons_apis_is_pjax() {
       if (isset($params['pjax'])) {
         drupal_add_http_header('uri', base_path() . request_uri());
         $is_pjax = TRUE;
-      }      
+      }
     }
   }
   return $is_pjax;
@@ -1490,13 +1642,13 @@ function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache_fiel
   }
   /** make sure Drupal Ajax framework javascript is around */
   drupal_add_library('system', 'drupal.ajax');
-  $commands = array();  
+  $commands = array();
   if ($cron = mediacommons_fieldguide_cron()) {
     $commands[] = ajax_command_alert('Success');
   }
   else {
     $commands[] = ajax_command_alert('Error');
-  }  
+  }
   return array(
     '#type' => 'ajax',
     '#commands' => $commands,
@@ -1508,15 +1660,15 @@ function mediacommons_editorialworkflow_contributor_dashboard_rebuild_cache($bid
     return MENU_ACCESS_DENIED;
   }
   /** make sure Drupal Ajax framework javascript is around */
-  drupal_add_library('system', 'drupal.ajax');  
-  $commands = array();  
-  $sql = "SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid ORDER BY proceed ASC";  
+  drupal_add_library('system', 'drupal.ajax');
+  $commands = array();
+  $sql = "SELECT mbid, type, url, callback FROM {mediacommons_blocks_blocks} WHERE mbid = :mbid ORDER BY proceed ASC";
   $item = db_query($sql, array(':mbid' => $bid))->fetchObject();
   $update = array('proceed' => time(), 'expire' => time() + (3600 * 4),);
   if (filter_var($item->url, FILTER_VALIDATE_URL)) {
     $url = check_url($item->url);
     $request = drupal_http_request($url);
-    
+
     /** we can't reach the URL. we have a problem. */
     if (isset($request->error)) {
       $commands[] = ajax_command_alert($request->error);
@@ -1565,7 +1717,8 @@ function mediacommons_editorialworkflow_contributor_dashboard_solr_metadata() {
 
 function mediacommons_editorialworkflow_contributor_dashboard() {
   global $user, $conf;
-  drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'dashboard'),));
+  $projects = mediacommons_editorialworkflow_projects_user_can_contribute();
+  drupal_set_breadcrumb(array(l('Home', '<front>'), l('Dashboard', 'dashboard')));
   drupal_set_title(t('@sitename: Dashboard', array('@sitename' => variable_get('site_name', 'MediaCommons'))));
   // we need something more elegant. deal with this using access callback?
   if (!user_access('create spoke content')) return '';
@@ -1788,7 +1941,7 @@ function mediacommons_editorialworkflow_config() {
         'hidden' => 1,
         'roles' => '[1,2,4,6,5]',
       ),
-      11 => 
+      11 =>
       array (
         'vertical_tab' => 'book',
         'content_type' => 'hub',
@@ -2083,7 +2236,7 @@ function mediacommons_editorialworkflow_config() {
         'hidden' => 1,
         'roles' => '[1,2,4,6,5]',
       ),
-    );    
+    );
     vertical_tabs_config_save_config($config);
   }
 }

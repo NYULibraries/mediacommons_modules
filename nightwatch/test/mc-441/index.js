@@ -6,7 +6,7 @@ var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
   tags: ['MC-441'],
-  '@disabled': false,
+  '@disabled': true,
 
   "MC-441 - I should not see reviews in seach results" : function (client) {
     client
