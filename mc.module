@@ -76,7 +76,8 @@ function  mc_get_root_url() {
     if ( array_key_exists( 'HTTPS', $_SERVER ) ) {
       // It's unclear from http://php.net/manual/en/reserved.variables.server.php
       // whether the existence of the key is enough.  Test if it's "non-empty".
-      $protocol = empty( $_SERVER['HTTPS'] ) ? 'https' : 'http';
+      $protocol = empty( $_SERVER['HTTPS'] ) ? 'http' : 'https';
+
     }
     // Drupal .htaccess set "protossl" to "s" if we were accessed via https://
     // we can use this information if the first test fail.
@@ -87,7 +88,7 @@ function  mc_get_root_url() {
       $protocol = 'http';
     }
 
-    $port = ($_SERVER['SERVER_PORT'] === '80' || !isset($_SERVER['SERVER_PORT'])) ? '' : ':' . $_SERVER['SERVER_PORT'];
+    $port = ($_SERVER['SERVER_PORT'] === '443' || $_SERVER['SERVER_PORT'] === '80' || !isset($_SERVER['SERVER_PORT'])) ? '' : ':' . $_SERVER['SERVER_PORT'];
 
     $root_url = "${protocol}://${hostname}${port}";
 
