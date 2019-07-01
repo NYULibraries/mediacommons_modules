@@ -34,7 +34,7 @@ function mediacommons_solr_apachesolr_index_document_build(ApacheSolrDocument $d
 /**
  * Spoke
  */
-function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wrapper, $entity) { 
+function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wrapper, $entity) {
   // Contributors
   $json = array();
   foreach ($wrapper->field_contributors->value() as $delta => $user_entity) {
@@ -72,7 +72,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   $document->addField('ss_periodstart', $pubdate);
   $document->addField('ss_createddate', date('F d, Y', $pubdate));
   $document->addField('ss_cdyyyymmdd', date('Y-m-d', $pubdate));
-  $document->addField('ss_pubdate', date('F d, Y', $pubdate));  
+  $document->addField('ss_pubdate', date('F d, Y', $pubdate));
   // Timestamp of the node
   $document->addField('ds_pubdate', apachesolr_date_iso($pubdate));
   $document->addField('ds_pubdated', apachesolr_date_iso($pubdate));
@@ -80,7 +80,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
   /** searchable content; dump all you want to be searchable in this array */
   $searchableFields = array();
   $searchableFields[] = $document->content;
-  unset($document->content);  
+  unset($document->content);
   // Use node id to search for any reference (e.g., "Review" of this "Spoke")
   $query = new EntityFieldQuery;
   $keys = array();
@@ -88,8 +88,8 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
     ->entityCondition('bundle', 'review')
     ->fieldCondition('field_isreviewof', 'nid', array($entity->nid))
     ->execute();
-    
-  // Reviewers  
+
+  // Reviewers
   $json_reviewers = array();
   if (!empty($result['node'])) {
     $keys = array_keys($result['node']);
@@ -108,7 +108,7 @@ function mediacommons_solr_apachesolr_index_document_build_spoke(&$document, $wr
     }
   }
   $document->addField('zs_reviewers', json_encode($json_reviewers));
-  $document->addField('content', implode($searchableFields, ' '));
+  $document->addField('content', implode(' ', $searchableFields));
 }
 
 /**
@@ -136,7 +136,7 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
 		}
 	}
 	$document->addField('zs_ri', json_encode($ri));
- 
+
 	// Contributors
 	$json = array();
 	foreach ($wrapper->field_contributors->value () as $delta => $user_entity ) {
@@ -206,28 +206,28 @@ function mediacommons_solr_apachesolr_index_document_build_hub(&$document, $wrap
 function mediacommons_solr_apachesolr_index_document_build_review(&$document, $wrapper, $entity) {
   global $base_url;
   $json = array();
-  
+
   foreach ($wrapper->field_reviewer->value() as $item) {
     $document->addField('im_contributors', $item->uid);
     $document->addField('im_reviewer', $item->uid);
     $json[] = mediacommons_solr_user_metadata($item);
   }
-  
+
   $document->addField('zs_reviewer', json_encode($json));
   $document->addField('ss_pubdate', apachesolr_date_iso($entity->created));
   $document->addField('ss_pubdated', apachesolr_date_iso($entity->created));
-  $document->addField('ss_pubdatea', apachesolr_date_iso($entity->created));  
+  $document->addField('ss_pubdatea', apachesolr_date_iso($entity->created));
   $isreviewof = $wrapper->field_isreviewof->value();
-  
+
   $referencedspoke = array(
     'cid' => NULL,
     'nid' => $isreviewof->nid,
     'label' => $isreviewof->title,
     'url' => $base_url . '/' . drupal_get_path_alias('node/' . $isreviewof->nid),
-  );  
-  
+  );
+
   $document->addField('ss_referencedspoke', json_encode($referencedspoke));
-  
+
   unset($node);
 }
 
@@ -330,16 +330,16 @@ function mediacommons_solr_apachesolr_index_document_build_comment_node_review(&
 function mediacommons_solr_user_metadata($entity) {
   $user = array();
   try {
-    
+
     // User entity wrapper
-    $uwrapper = entity_metadata_wrapper('user', $entity);  
-    
+    $uwrapper = entity_metadata_wrapper('user', $entity);
+
     // User id
     $uid = $uwrapper->getIdentifier();
-    
+
     // Array to hold derivative image URL
-    $picture = array();  
-    
+    $picture = array();
+
     // Image
     if (!empty($entity->picture)) {
       foreach (image_styles() as $style) {
@@ -349,7 +349,7 @@ function mediacommons_solr_user_metadata($entity) {
           if ($image) {
 	    $imageurl = file_create_url($derivative_uri);
           }
-        } 
+        }
         else {
           $imageurl = file_create_url($derivative_uri);
         }
@@ -363,7 +363,7 @@ function mediacommons_solr_user_metadata($entity) {
     // Organization
     $field_organization = $uwrapper->field_organization->value();
     $organization = array();
-    
+
     if ($field_organization) {
       $organization['tid'] = $field_organization->tid;
       $organization['vid'] = $field_organization->vid;
@@ -373,11 +373,11 @@ function mediacommons_solr_user_metadata($entity) {
     }
 
     $user['uid'] = $uid;
-    
+
     $user['url'] = mediacommons_homepage_umbrella_url() . '/' . drupal_get_path_alias('user/' . $uid);
-    
+
     $user['organization'] = $organization;
-    
+
     $user['picture'] = $picture;
 
     if (isset($entity->realname)) {
@@ -387,7 +387,7 @@ function mediacommons_solr_user_metadata($entity) {
       $user['name'] = $entity->name;
     }
 
-  } 
+  }
   catch (EntityMetadataWrapperException $exc) {
     $args = array('%function' => __FUNCTION__, '@trace' => $exc->getTraceAsString());
     $string = 'EntityMetadataWrapper exception in %function() <pre>@trace</pre>';
