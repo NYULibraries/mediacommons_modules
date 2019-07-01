@@ -136,6 +136,7 @@ function mediacommons_solr_preprocess_search_result_spoke(&$variables) {
 function mediacommons_solr_preprocess_search_result_hub(&$variables) {
   $node = $variables['result']['node'];
   $variables['classes_array'][] = 'clearfix';
+  // $variables['classes_array'][] = 'node-teaser'; this breaks the style
   // Representative Image
   $variables['ri'] = json_decode($node->zs_ri);
   // Period start
@@ -143,7 +144,7 @@ function mediacommons_solr_preprocess_search_result_hub(&$variables) {
   $variables['cd_yyyy_mm_dd'] = $node->ss_cdyyyymmdd;
   // Period end
   $variables['end_date'] = $node->ss_enddate;
-  $variables['ed_yyyy_mm_dd'] = $node->ss_edyyyymmdd;
+  $variables['ed_yyyy_mm_dd'] = $node->ss_edyyyymmdd;  
   /**
    * Curated by:
    * Data needed: All of the curators to a hub, and the links to their
