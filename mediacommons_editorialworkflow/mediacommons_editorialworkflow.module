@@ -868,9 +868,11 @@ function mediacommons_editorialworkflow_user_picture(&$variables) {
     // Load the full user object since it is not provided with nodes, comments, or views displays.
     $account = _mediacommons_editorialworkflow_load_account($variables['account']);
     $filepath = _gravatar_get_account_user_picture($account);
+    dpm("Gravatar: $filepath");
     if (!empty($filepath)) {
       $alt = t("@user's picture", array('@user' => format_username($account)));
       $variables['user_picture'] = theme('image', array('path' => $filepath, 'alt' => $alt, 'title' => $alt));
+      // dpm($variables['user_picture']);
       if ($account->uid && user_access('access user profiles')) {
         // Create link to the user's profile.
         $attributes = array('title' => t('View user profile.'));
@@ -886,6 +888,7 @@ function mediacommons_editorialworkflow_user_picture(&$variables) {
       }
     }
   }
+
 }
 
 /**
@@ -1001,6 +1004,7 @@ function mediacommons_editorialworkflow_send_message($data) {
  * Implements hook_cron().
  */
 function mediacommons_editorialworkflow_cron() {
+
   // Find spokes meant to publish on a given day (field_pubdate)
   // If we find nodes, change the status and publish them
   $now = time();
@@ -2247,4 +2251,12 @@ function mediacommons_editorialworkflow_config() {
  */
 function mediacommons_editorialworkflow_update_7001(&$sandbox) {
   mediacommons_editorialworkflow_config();
+}
+
+/**
+ * Updates gravatar_url variable from http://www.gravatar.com/avatar/
+ * to https://www.gravatar.com/avatar/
+ */
+function mediacommons_editorialworkflow_update_7010(&$sandbox) {
+  variable_set('gravatar_url', 'https://www.gravatar.com/avatar/');
 }

@@ -67,7 +67,9 @@ function  mc_get_root_url() {
     $root_url = $GLOBALS['mc_umbrella_baseurl'];
   }
   else {
+
     $hostname = $_SERVER['SERVER_NAME'];
+
     // Don't just do `$_SERVER['HTTPS'] ? 'https' : 'http';`.  This will throw an
     // error "Notice: Undefined index: HTTPS" which is not fatal but is printed on
     // on the page.
@@ -76,12 +78,21 @@ function  mc_get_root_url() {
       // whether the existence of the key is enough.  Test if it's "non-empty".
       $protocol = empty( $_SERVER['HTTPS'] ) ? 'https' : 'http';
     }
+    // Drupal .htaccess set "protossl" to "s" if we were accessed via https://
+    // we can use this information if the first test fail.
+    else if (isset($_SERVER['protossl']) && $_SERVER['protossl'] =='s') {
+      $protocol = 'https';
+    }
     else {
       $protocol = 'http';
     }
+
     $port = ($_SERVER['SERVER_PORT'] === '80' || !isset($_SERVER['SERVER_PORT'])) ? '' : ':' . $_SERVER['SERVER_PORT'];
-    $root_url = "${protocol}://${hostname}${port}";  
+
+    $root_url = "${protocol}://${hostname}${port}";
+
   }
+
   return $root_url;
 }
 
@@ -145,12 +156,12 @@ function mc_user_update(&$edit, $account, $category) {
           )
         ),
         'created' => $_SERVER['REQUEST_TIME'],
-        'changed' => $_SERVER['REQUEST_TIME'], 
+        'changed' => $_SERVER['REQUEST_TIME'],
       ))->execute();
       unset($wrapper);
       unset($node);
     }
-  }  
+  }
 }
 
 function mc_initialize_schema($module, &$schema) {
@@ -192,13 +203,13 @@ function mc_list_schemas() {
         'length' => 255,
         'not null' => TRUE,
         'default' => '',
-      ),    
+      ),
       'callback' => array(
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '',
-      ),  
+      ),
       'data' => array(
         'type' => 'blob',
         'size' => 'big',
@@ -268,13 +279,13 @@ function mc_update_7003() {
 function mc_update_7010() {
 
   if (!db_table_exists('mc_network_actions')) {
-    
+
     $list_schemas = mc_list_schemas();
 
     $schemas = array(
       'mc_network_actions' => $list_schemas['mc_network_actions'],
     );
-    
+
     mc_initialize_schema('mc', $schemas);
 
     foreach ($schemas as $name => $schema) {
@@ -290,7 +301,7 @@ function mc_update_7010() {
   drupal_flush_all_caches();
 
   $data = json_decode(file_get_contents(__DIR__ . '/features/projects/nodes.json'));
-  
+
   $values = array(
     'type' => 'project',
     'uid' => 1,
