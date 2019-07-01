@@ -868,11 +868,9 @@ function mediacommons_editorialworkflow_user_picture(&$variables) {
     // Load the full user object since it is not provided with nodes, comments, or views displays.
     $account = _mediacommons_editorialworkflow_load_account($variables['account']);
     $filepath = _gravatar_get_account_user_picture($account);
-    dpm("Gravatar: $filepath");
     if (!empty($filepath)) {
       $alt = t("@user's picture", array('@user' => format_username($account)));
       $variables['user_picture'] = theme('image', array('path' => $filepath, 'alt' => $alt, 'title' => $alt));
-      // dpm($variables['user_picture']);
       if ($account->uid && user_access('access user profiles')) {
         // Create link to the user's profile.
         $attributes = array('title' => t('View user profile.'));
