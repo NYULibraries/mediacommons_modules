@@ -192,17 +192,12 @@ function mediacommons_editorialworkflow_projects_user_can_contribute() {
 }
 
 function mediacommons_editorialworkflow_user_can_contribute_to_project ($op, $project) {
-  // if (mediacommons_editorialworkflow_is_admin()) {
-  //   return TRUE;
-  // }
-  // else {
-    if (user_access('access mediacommons dashboard')) {
-      $projects = mediacommons_editorialworkflow_projects_user_can_contribute();
-      if (array_key_exists($project, $projects)) {
-        return TRUE;
-      }
+  if (user_access('access mediacommons dashboard')) {
+    $projects = mediacommons_editorialworkflow_projects_user_can_contribute();
+    if (array_key_exists($project, $projects)) {
+      return TRUE;
     }
-  // }
+  }
   return FALSE;
 }
 
@@ -427,8 +422,11 @@ function mediacommons_editorialworkflow_custom_theme() {
 function mediacommons_editorialworkflow_menu() {
 
   $hail = variable_get('mediacommons_project', 'mediacommons');
-  $projects = mc_projects();
+  
+  $projects = mediacommons_managment_projects();
+  
   $project_index = 0;
+  
   $items = array();
 
   $items['dashboard'] = array(
@@ -457,23 +455,6 @@ function mediacommons_editorialworkflow_menu() {
     'type' => MENU_LOCAL_TASK,
     'expanded' => TRUE,
   );
-
-  foreach ($projects as $project) {
-    $items['dashboard/add/' . $project['identifier']] = array(
-      'title' =>  t('@label', array('@label' => $project['label'])),
-      'page callback' => '__i',
-      'description' => t('Create content for channel @label', array('@label' => $project['label'])),
-      'access callback' => 'mediacommons_editorialworkflow_user_can_contribute_to_project',
-      'type' => MENU_LOCAL_TASK,
-      'expanded' => TRUE,
-      'page arguments' => array(2),
-      'weight' => ++$project_index,
-      'access arguments' => array('create content project', $project['identifier']),
-    );
-    if ($hail == $project) {
-      $items['dashboard/add/' . $project['identifier']]['weight'] = 0;
-    }
-  }
 
   $items['dashboard/profile'] = array(
     'title' => 'Profile',

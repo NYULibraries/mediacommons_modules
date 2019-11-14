@@ -126,7 +126,14 @@ function mc_drush_command() {
     'arguments' => array(),
     'options' => array(),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
-  );  
+  );
+
+  $items['before-import'] = array(
+    'description' => 'Run task before update',
+    'arguments' => array(),
+    'options' => array(),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  ); 
 
   return $items;
 
@@ -150,6 +157,15 @@ function mc_drush_help($section) {
     case 'drush:rebuild-cache':
       return dt("Rebuild all MediaCommons blocks cache.");
   }
+}
+
+function drush_mc_before_import() {
+  module_enable(
+    array(
+      'mediacommons_managment',
+    ),
+    TRUE
+  );
 }
 
 /**
