@@ -2,7 +2,7 @@ var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
   tags: ['MC-441'],
-  '@disabled': false,
+  '@disabled': true,
   
   'MC-439 - If I serch inTransition for "dolores tierney" I expect to see search results' : function (client) {
     client

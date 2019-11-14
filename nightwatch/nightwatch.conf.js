@@ -18,7 +18,8 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
       "webdriver.chrome.driver" : chromedriver.path
     }
   },
-  "test_workers" : {"enabled" : true, "workers" : "auto"}, // perform tests in parallel where possible
+  "custom_commands_path": "./commands",
+  "test_workers" : false, // {"enabled" : true, "workers" : "auto"}, // perform tests in parallel where possible
   "test_settings": {
     "default": {
       "launch_url": "http://localhost",

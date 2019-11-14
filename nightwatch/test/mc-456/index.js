@@ -2,7 +2,7 @@ var conf = require('../../nightwatch.conf.js');
 
 module.exports = {
   tags: ['MC-441'],
-  '@disabled': false,
+  '@disabled': true,
 
   'MC-456 - Nodes type "reviewer" should show up in user\'s profile page if exists':  function (client) {
     client
