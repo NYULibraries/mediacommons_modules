@@ -208,5 +208,6 @@ function mc_update_7003() {
 function mc_update_7004(&$sandbox) {
   module_enable(array('projects'));
   module_enable(array('mediacommons_managment'));
+  module_enable(array('mediacommons_api'));
   mediacommons_managment_import_default_projects();
 }
