@@ -46,5 +46,12 @@ function projects_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'view any unpublished project content'.
+  $permissions['view any unpublished project content'] = array(
+    'name' => 'view any unpublished project content',
+    'roles' => array(),
+    'module' => 'view_unpublished',
+  );
+
   return $permissions;
 }
