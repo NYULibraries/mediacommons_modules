@@ -4,7 +4,7 @@
  * @file
  * Module file for mediacommons_filter.
  */
-function mediacommons_filter_permission ( ) {
+function mediacommons_filter_permission() {
 	return array (
 	  'administer mediacommons filters' => array(
 			'title' => t('Administer allowed external sources widget'),
@@ -16,7 +16,7 @@ function mediacommons_filter_permission ( ) {
 /**
  * Implements hook_menu().
  */
-function mediacommons_filter_menu ( ) {
+function mediacommons_filter_menu() {
   $items = array ();
   $items['admin/people/external-sources'] = array (
     'title' => 'Filter iframe',
@@ -50,7 +50,7 @@ function mediacommons_filter_help($path, $arg) {
  * foo_filter is more complex, including its own settings and inline tips.
  */
 function mediacommons_filter_filter_info() {
-  
+
   $filters = array();
 
   $filters['filter_iframe'] = array(
@@ -123,6 +123,17 @@ function _mediacommons_filter_filter_html_settings($form, &$form_state, $filter,
   return $settings;
 }
 
+function mediacommons_filter_cache_allowed_domains() {
+  $result = db_query('SELECT * FROM {mediacommons_filter}');
+  $cache = array();
+  foreach ($result as $record) {
+    $cache[$record->did] = $record->domain;
+  }
+  $expire = strtotime('+6 hour', time());
+  cache_set('cache_mediacommons_filter', $cache, 'cache', $expire);
+  return $cache;
+}
+
 /**
  * Get the list of allowed domains.
  *
@@ -130,20 +141,13 @@ function _mediacommons_filter_filter_html_settings($form, &$form_state, $filter,
  *   An array of domains.
  */
 function mediacommons_filter_get_allowed_domains() {
-
-	$cache = cache_get('domains', 'cache_mediacommons_filter');
-
+	$cache = cache_get('cache_mediacommons_filter');
 	$domains = array();
-
 	if ($cache && ! empty($cache->data)) {
     $domains = $cache->data;
   }
   else {
-    $result = db_query("SELECT * FROM {mediacommons_filter} ORDER BY domain");
-    while ( $domain = $result->fetchAssoc() ) {
-      $domains[] = $domain['domain'] ;
-    }
-    cache_set('domains', $domains, 'cache_mediacommons_filter' , CACHE_TEMPORARY);
+    $domains = mediacommons_filter_cache_allowed_domains();
   }
   return $domains;
 }
@@ -175,42 +179,35 @@ function _filter_iframe_settings($form, $form_state, $filter, $format, $defaults
  * once any necessary substitutions have taken place. The example just replaces
  * foo with our custom defined string in the settings page.
  */
-function _filter_iframe_process ( $text, $filter, $format ) {
-
-	if ( empty ( $text ) ) return ;
-
-  $allowed_domains = mediacommons_filter_get_allowed_domains() ;
-
-  include_once ( libraries_get_path('simplehtmldom') . '/simple_html_dom.php' );
-
-  $dom = str_get_html ( $text ) ;
-
-  if ( is_object  ( $dom ) ) {
-    foreach ( $dom->find( 'iframe') as $element ) {
-      $parse_url = parse_url ( $element->src ) ;
-      if ( isset ( $parse_url['host'] ) && ! in_array ( $parse_url['host'], $allowed_domains, true ) ) {
-        $element->src = '';
-        $element->class = 'invalid-source';
+function _filter_iframe_process($text, $filter, $format) {
+	if (!empty($text)) {
+    $allowed_domains = mediacommons_filter_get_allowed_domains();
+    include_once(libraries_get_path('simplehtmldom') . '/simple_html_dom.php');
+    $dom = str_get_html($text);
+    if (is_object($dom)) {
+      foreach ($dom->find('iframe') as $element) {
+        $parse_url = parse_url($element->src);
+        if (isset($parse_url['scheme']) && isset($parse_url['host']) && !in_array($parse_url['scheme'] . '://' . $parse_url['host'], $allowed_domains, TRUE)) {
+          $element->src = '';
+          $element->class = 'invalid-source';
+        }
       }
+      $text = (string) $dom;
     }
-    $text = (string) $dom ;
   }
-
-  return $text ;
-
+  return $text;
 }
-
 
 /**
  * Filter tips callback for iframe filter.
  */
 function _filter_iframe_tips($filter, $format, $long = FALSE) {
-  if ( ! $long ) {
+  if (!$long) {
     // This string will be shown in the content add/edit form.
     return t('Remove non-allowed iframe sources.');
   }
   else {
-    return t ('Remove non-allowed iframe sources. You can add, edit or remove domains in !link.', array( '!link' => l( t('allowed domains'), 'admin/people/external-sources') ) ) ;
+    return t('Remove non-allowed iframe sources. You can add, edit or remove domains in !link.', array( '!link' => l( t('allowed domains'), 'admin/people/external-sources')));
   }
 }
 
@@ -220,32 +217,28 @@ function mediacommons_filter_form_alter(&$form, &$form_state, $form_id) {
 	}
 }
 
-function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
-
-  if (!isset($form_state['node'])) return TRUE;
-
+function mediacommons_filter_node_validate_handler($form, &$form_state) {
+  if (!isset($form_state['node'])) {
+    return TRUE;
+  }
   include_once(libraries_get_path('simplehtmldom') . '/simple_html_dom.php');
-
   $node = $form_state['values'];
-
   $allowed_domains = mediacommons_filter_get_allowed_domains();
-
-  $fields = field_info_instances('node', $node['type'] );
-
+  $fields = field_info_instances('node', $node['type']);
   foreach ($fields as $key => $field) {
-    $field_info_instance = field_info_instance($field['entity_type'], $field['field_name'], $field['bundle']) ;
-    if ( $field_info_instance['widget']['module'] === 'text') {
+    $field_info_instance = field_info_instance($field['entity_type'], $field['field_name'], $field['bundle']);
+    if ($field_info_instance['widget']['module'] === 'text') {
       $this_field = $node[$key];
-      foreach ( $this_field[$node['language']] as $value ) {
-      	$formats = filter_list_format ( $value['format'] ) ;
-        if ( array_key_exists( 'filter_iframe', $formats ) ) {
-          $html = str_get_html( $value['value'] ) ;
-          if ( empty ( $html ) ) continue;
+      foreach ($this_field[$node['language']] as $value) {
+        $formats = filter_list_format($value['format']);
+        if (array_key_exists('filter_iframe', $formats)) {
+          $html = str_get_html($value['value']);
+          if (empty($html)) continue;
           // Find all iframe
-          foreach ( $html->find('iframe') as $element ) {
-          	$parse_url = parse_url( $element->src ) ;
-          	if ( isset ( $parse_url['host'] ) && ! in_array ( $parse_url['host'] , $allowed_domains, true ) ) {
-          	  form_set_error( $key, t('Found not valid iframe !source', array ( '!source' => $element->src ) ) );
+          foreach ($html->find('iframe') as $element) {
+            $parse_url = parse_url($element->src);
+          	if (isset($parse_url['scheme']) && isset($parse_url['host']) && !in_array($parse_url['scheme'] . '://' . $parse_url['host'], $allowed_domains, TRUE)) {
+          	  form_set_error($key, t('Found not valid iframe !source', array ('!source' => $element->src)));
             }
           }
         }
@@ -256,7 +249,7 @@ function mediacommons_filter_node_validate_handler ( $form, &$form_state ) {
 
 function mediacommons_filter_allow_html() {
   // https://jira.nyu.edu/jira/browse/MC-500
-  $allow_html = '<a> <abbr> <acronym> <address> <b> <header> <blockquote> <br> <caption> <cite> <code> <dd> <del> <div> <dl> <dt> <em> <h1> <h2> <h3> <h4> <h5> <h6> <hr> <i> <img> <ins> <li> <ol> <p> <pre> <quote> <small> <span> <strike> <time> <strong> <sub> <sup> <table> <tbody> <td> <th> <thead> <tr> <u> <ul> <iframe>';  
+  $allow_html = '<a> <abbr> <acronym> <address> <b> <header> <blockquote> <br> <caption> <cite> <code> <dd> <del> <div> <dl> <dt> <em> <h1> <h2> <h3> <h4> <h5> <h6> <hr> <i> <img> <ins> <li> <ol> <p> <pre> <quote> <small> <span> <strike> <time> <strong> <sub> <sup> <table> <tbody> <td> <th> <thead> <tr> <u> <ul> <iframe>';
   return $allow_html;
 }
 
@@ -286,4 +279,26 @@ function mediacommons_filter_allowed_tags() {
     'time',
   );
   return $allowed_tags;
+}
+
+/**
+ * Update database table mediacommons_filter
+ */
+function mediacommons_filter_update_7001() {
+  db_drop_table('mediacommons_filter');
+  $schema = array(
+    'description' => 'The table for allowed iframe source.',
+    'fields' => array(
+      'did' => array(
+        'description' => 'The domain ID.',
+        'type' => 'varchar',
+      	'length' => 250,
+      ),
+      'domain' => array(
+        'description' => 'The domain source.',
+        'type' => 'text',
+      ),
+    )
+  );
+  db_create_table('mediacommons_filter', $schema);
 }
