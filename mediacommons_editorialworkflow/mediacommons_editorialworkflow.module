@@ -422,8 +422,7 @@ function mediacommons_editorialworkflow_custom_theme() {
 function mediacommons_editorialworkflow_menu() {
 
   $hail = variable_get('mediacommons_project', 'mediacommons');
-  
-  $projects = mediacommons_managment_projects();
+
   
   $project_index = 0;
   
