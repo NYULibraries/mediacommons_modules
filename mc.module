@@ -201,3 +201,10 @@ function mc_update_7003() {
     }
   }
 }
+
+/**
+ * Enable projects module
+ */
+function mc_update_7004(&$sandbox) {
+  module_enable(array('projects'));
+}
