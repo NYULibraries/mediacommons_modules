@@ -67,21 +67,33 @@ function  mc_get_root_url() {
     $root_url = $GLOBALS['mc_umbrella_baseurl'];
   }
   else {
+
     $hostname = $_SERVER['SERVER_NAME'];
+
     // Don't just do `$_SERVER['HTTPS'] ? 'https' : 'http';`.  This will throw an
     // error "Notice: Undefined index: HTTPS" which is not fatal but is printed on
     // on the page.
     if ( array_key_exists( 'HTTPS', $_SERVER ) ) {
       // It's unclear from http://php.net/manual/en/reserved.variables.server.php
       // whether the existence of the key is enough.  Test if it's "non-empty".
-      $protocol = empty( $_SERVER['HTTPS'] ) ? 'https' : 'http';
+      $protocol = empty( $_SERVER['HTTPS'] ) ? 'http' : 'https';
+
+    }
+    // Drupal .htaccess set "protossl" to "s" if we were accessed via https://
+    // we can use this information if the first test fail.
+    else if (isset($_SERVER['protossl']) && $_SERVER['protossl'] =='s') {
+      $protocol = 'https';
     }
     else {
       $protocol = 'http';
     }
-    $port = ($_SERVER['SERVER_PORT'] === '80' || !isset($_SERVER['SERVER_PORT'])) ? '' : ':' . $_SERVER['SERVER_PORT'];
-    $root_url = "${protocol}://${hostname}${port}";  
+
+    $port = ($_SERVER['SERVER_PORT'] === '443' || $_SERVER['SERVER_PORT'] === '80' || !isset($_SERVER['SERVER_PORT'])) ? '' : ':' . $_SERVER['SERVER_PORT'];
+
+    $root_url = "${protocol}://${hostname}${port}";
+
   }
+
   return $root_url;
 }
 
@@ -118,6 +130,42 @@ function mediacommons_utilities_is_project_redirect($path) {
 }
 
 /**
+ * Implements hook_user_update
+ * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_update/7.x
+ */
+function mc_user_update(&$edit, $account, $category) {
+  $query = new EntityFieldQuery;
+  $result = $query->entityCondition('entity_type', 'node')
+                  ->entityCondition('bundle', 'project')
+                  ->propertyCondition('status', 1)
+                  ->execute();
+  if (!empty($result['node'])) {
+    $keys = array_keys($result['node']);
+    foreach ($keys as $nid) {
+      $node = node_load($nid);
+      $wrapper = entity_metadata_wrapper('node', $node);
+      db_insert('mc_network_actions')->fields(array(
+        'processed' => 0,
+        'type' => __FUNCTION__,
+        'project' => $wrapper->field_identifier->value(),
+        'callback' => 'drupal_flush_all_caches',
+        'data' => serialize(
+          array(
+            'uid' => $account->uid,
+            'mail' => $account->mail,
+            'uuid' => $account->uuid,
+          )
+        ),
+        'created' => $_SERVER['REQUEST_TIME'],
+        'changed' => $_SERVER['REQUEST_TIME'],
+      ))->execute();
+      unset($wrapper);
+      unset($node);
+    }
+  }
+}
+
+/**
  * Enable login_emailusername module
  */
 function mc_update_7001(&$sandbox) {
@@ -140,7 +188,6 @@ function mc_update_7002() {
 /**
  * Turn off theme debug
  */
-// 
 function mc_update_7003() {
   if (drupal_is_cli()) {
     $hostname = php_uname('n');
@@ -153,4 +200,14 @@ function mc_update_7003() {
       module_disable($modules);
     }
   }
+}
+
+/**
+ * Enable projects module
+ */
+function mc_update_7004(&$sandbox) {
+  module_enable(array('projects'));
+  module_enable(array('mediacommons_managment'));
+  module_enable(array('mediacommons_api'));
+  mediacommons_managment_import_default_projects();
 }
