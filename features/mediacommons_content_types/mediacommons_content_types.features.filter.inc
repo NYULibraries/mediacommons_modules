@@ -50,7 +50,7 @@ function mediacommons_content_types_filter_default_formats() {
         'weight' => -10,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <iframe> <span> <div>',
+          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <iframe> <span> <div> <s>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 1,
         ),
@@ -94,7 +94,7 @@ function mediacommons_content_types_filter_default_formats() {
         'weight' => -44,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <abbr> <acronym> <address> <b> <blockquote> <br> <caption> <cite> <code> <dd> <del> <div> <dl> <dt> <em> <h1> <h2> <h3> <h4> <h5> <h6> <hr> <i> <img> <ins> <li> <ol> <p> <pre> <quote> <small> <span> <strike> <strong> <sub> <sup> <table> <tbody> <td> <th> <thead> <tr> <u> <ul> <iframe><script>',
+          'allowed_html' => '<a> <abbr> <acronym> <address> <b> <blockquote> <br> <caption> <cite> <code> <dd> <del> <div> <dl> <dt> <em> <h1> <h2> <h3> <h4> <h5> <h6> <hr> <i> <img> <ins> <li> <ol> <p> <pre> <quote> <small> <span> <strike> <strong> <sub> <sup> <table> <tbody> <td> <th> <thead> <tr> <u> <ul> <iframe> <s>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 0,
         ),
@@ -114,7 +114,7 @@ function mediacommons_content_types_filter_default_formats() {
         'weight' => -10,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>',
+          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <s>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 0,
         ),
@@ -170,7 +170,7 @@ function mediacommons_content_types_filter_default_formats() {
         'weight' => -46,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd><iframe>',
+          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd><iframe> <s>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 1,
         ),
