@@ -277,6 +277,7 @@ function mediacommons_filter_allowed_tags() {
     'h6',
     'span',
     'time',
+    's',
   );
   return $allowed_tags;
 }
