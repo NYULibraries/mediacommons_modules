@@ -400,6 +400,62 @@ function projects_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-spoke-field_projects'.
+  $field_instances['node-spoke-field_projects'] = array(
+    'bundle' => 'spoke',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 22,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full_intransition' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'field_projects',
+    'label' => 'projects',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 10,
+    ),
+  );
+
   // Exported field_instance: 'user-user-field_projects'.
   $field_instances['user-user-field_projects'] = array(
     'bundle' => 'user',
@@ -465,6 +521,7 @@ function projects_field_default_field_instances() {
   t('Path');
   t('Projects');
   t('Shortname');
+  t('projects');
 
   return $field_instances;
 }
