@@ -8,43 +8,43 @@ function mediacommons_api_menu() {
 
   $items = array();
 
-  $items['api/1/clusters'] = array(
+  $items['api/v1/clusters'] = array(
     'page callback' => 'mediacommons_api_list_clusters',
     'access arguments' => array('access content'),
     'delivery callback' => 'drupal_json_output',
     'type' => MENU_CALLBACK,
   );
 
-  $items['api/1/tags'] = array(
+  $items['api/v1/tags'] = array(
     'page callback' => 'mediacommons_api_list_tags',
     'access arguments' => array('access content'),
     'delivery callback' => 'drupal_json_output',
     'type' => MENU_CALLBACK,
   );
 
-  $items['api/1/organizations'] = array(
+  $items['api/v1/organizations'] = array(
     'page callback' => 'mediacommons_api_list_organizations',
     'access arguments' => array('access content'),
     'delivery callback' => 'drupal_json_output',
     'type' => MENU_CALLBACK,
   );
 
-  $items['api/1/frontpage_feature'] = array(
+  $items['api/v1/frontpage_feature'] = array(
     'page callback' => 'mediacommons_api_frontpage_feature',
-    'access arguments' => array('access content'), 
+    'access arguments' => array('access content'),
     'delivery callback' => 'drupal_json_output',
     'type' => MENU_CALLBACK,
   );
 
-  $items['api/1/user_form'] = array(
+  $items['api/v1/user_form'] = array(
     'page callback' => 'mediacommons_api_user_form',
-    'access arguments' => array('access content'), 
+    'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
 
-  $items['api/1/search_form'] = array(
+  $items['api/v1/search_form'] = array(
     'page callback' => 'mediacommons_api_search_form',
-    'access arguments' => array('access content'), 
+    'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
 
@@ -52,7 +52,7 @@ function mediacommons_api_menu() {
 
 }
 
-function mediacommons_api_list_tags () {
+function mediacommons_api_list_tags() {
   $tags = array();
   $query = "SELECT taxonomy_term_data.name AS taxonomy_term_data_name, taxonomy_term_data.vid AS taxonomy_term_data_vid, taxonomy_term_data.tid AS tid, taxonomy_vocabulary.machine_name AS taxonomy_vocabulary_machine_name, COUNT(DISTINCT node_taxonomy_index.nid) AS node_taxonomy_index_nid FROM {taxonomy_term_data} taxonomy_term_data LEFT JOIN {taxonomy_index} taxonomy_index ON taxonomy_term_data.tid = taxonomy_index.tid INNER JOIN {node} node_taxonomy_index ON taxonomy_index.nid = node_taxonomy_index.nid LEFT JOIN {taxonomy_vocabulary} taxonomy_vocabulary ON taxonomy_term_data.vid = taxonomy_vocabulary.vid WHERE (( (taxonomy_vocabulary.machine_name IN  ('tags')) )) GROUP BY taxonomy_term_data_name, taxonomy_term_data_vid, tid, taxonomy_vocabulary_machine_name ORDER BY node_taxonomy_index_nid DESC";
   $tags = db_query($query)->fetchAll();
@@ -72,15 +72,15 @@ function mediacommons_api_user_form() {
   global $language;
 
   drupal_add_http_header('Content-Type', 'text/html; charset=utf-8');
-  
-  drupal_add_http_header('Content-Language', $language->language);  
+
+  drupal_add_http_header('Content-Language', $language->language);
 
   $frame_options = variable_get('x_frame_options', 'SAMEORIGIN');
 
   if ($frame_options && is_null(drupal_get_http_header('X-Frame-Options'))) {
     drupal_add_http_header('X-Frame-Options', $frame_options);
   }
-  
+
   if (user_is_logged_in()) {
     print $out;
   } else {
@@ -98,7 +98,7 @@ function mediacommons_api_user_form() {
     $out .= '</li>';
     print $out;
   }
-  
+
   exit();
 
 }
@@ -110,35 +110,35 @@ function mediacommons_api_search_form() {
   global $language;
 
   drupal_add_http_header('Content-Type', 'text/html; charset=utf-8');
-  
-  drupal_add_http_header('Content-Language', $language->language);  
+
+  drupal_add_http_header('Content-Language', $language->language);
 
   print render(drupal_get_form('search_block_form'));
-  
+
   exit();
 }
 
 function mediacommons_api_frontpage_feature() {
-  
+
   $query = "SELECT node.nid AS nid, node.created AS node_created, node.title AS node_title, nodequeue_nodes_node.position AS nodequeue_nodes_node_position, field_data_field_period.field_period_value2 AS field_data_field_period_field_period_value2, 'node' AS field_data_field_representative_image_node_entity_type, 'node' AS field_data_field_period_node_entity_type, 'node' AS field_data_field_curators_editors_node_entity_type
-            FROM 
+            FROM
             {node} node
             LEFT JOIN {nodequeue_nodes} nodequeue_nodes_node ON node.nid = nodequeue_nodes_node.nid AND (nodequeue_nodes_node.qid = '1')
             LEFT JOIN {field_data_field_period} field_data_field_period ON node.nid = field_data_field_period.entity_id AND (field_data_field_period.entity_type = 'node' AND field_data_field_period.deleted = '0')
             WHERE (( (node.type IN  ('hub')) AND (node.status = '1') ))
             ORDER BY nodequeue_nodes_node_position DESC, field_data_field_period_field_period_value2 DESC
             LIMIT 6 OFFSET 1";
-  
+
   $find = db_query($query)->fetchAll();
 
   $nodes = array();
 
   foreach ($find as $data) {
-    
+
     $entity = node_load($data->nid);
-    
+
     $wrapper = entity_metadata_wrapper('node', $entity);
-    
+
     $nid = $data->nid;
 
     $path = drupal_lookup_path('alias', 'node/' . $nid);
@@ -189,7 +189,7 @@ function mediacommons_api_frontpage_feature() {
     $p = $wrapper->field_period->value();
 
     $start = format_date($p['value'], 'medium', 'n/d/Y');
-    
+
     $end = null;
 
     if ($p['value2'] && ($p['value2'] != $p['value'])) {
@@ -209,12 +209,12 @@ function mediacommons_api_frontpage_feature() {
     );
 
   }
-  
+
   return (object) array('response' => $nodes);
 
 }
 
-function mediacommons_api_list_clusters () {
+function mediacommons_api_list_clusters() {
 
   $allowed_tags = mediacommons_filter_allowed_tags();
 
@@ -223,10 +223,10 @@ function mediacommons_api_list_clusters () {
   $entities = array();
 
   $nodes = db_query('
-    SELECT 
-      n.nid FROM {node} n 
-    WHERE 
-      n.status = :status 
+    SELECT
+      n.nid FROM {node} n
+    WHERE
+      n.status = :status
       AND
       n.type = :type', array(':status' => 1, ':type' => 'hub')
       )->fetchAll();
@@ -288,9 +288,9 @@ function mediacommons_api_list_clusters () {
       if ($spoke->status == 1) {
 
         $spoke_contributors = array();
-        
+
         $s_wrapper = entity_metadata_wrapper('node', $spoke);
-        
+
         foreach ($s_wrapper->field_contributors->value() as $contributor) {
           $c = entity_metadata_wrapper('user', $contributor);
           $o = $c->field_organization->value();
@@ -337,7 +337,7 @@ function mediacommons_api_list_clusters () {
         $s_representative_image = $s_wrapper->field_representative_image->value();
         if ($s_representative_image) {
           $s_image = array(
-            'original' => file_create_url($s_representative_image['uri']),          
+            'original' => file_create_url($s_representative_image['uri']),
             'manual_crop_480_320' => image_style_url('manual_crop_480_320', $s_representative_image['uri']),
             'manual_crop_thumbnail_120_by_80' => image_style_url('manual_crop_thumbnail_120_by_80', $s_representative_image['uri']),
           );
@@ -364,7 +364,7 @@ function mediacommons_api_list_clusters () {
         unset($s_wrapper);
       }
     }
-    
+
     $curators = array();
 
     $field_curators_editors = $wrapper->field_curators_editors->value();
@@ -394,11 +394,11 @@ function mediacommons_api_list_clusters () {
     }
 
     $body = $wrapper->field_body->value();
-    
+
     $p = $wrapper->field_period->value();
 
     $start = format_date($p['value'], 'medium', 'l, F j, Y');
-    
+
     $end = null;
 
     if ($p['value2'] && ($p['value2'] != $p['value'])) {
@@ -419,7 +419,7 @@ function mediacommons_api_list_clusters () {
       'spokes' => $spokes,
       'taxonomy' => $taxonomy,
       'period' => array(
-        'start' => $start, 
+        'start' => $start,
         'end' => $end,
       ),
     );

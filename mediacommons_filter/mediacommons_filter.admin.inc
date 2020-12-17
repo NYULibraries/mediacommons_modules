@@ -7,8 +7,6 @@
 
 function mediacommons_filter_admin($form, &$form_state) {
 
-  $cache = cache_get('cache_mediacommons_filter');
-
   $result = db_query('SELECT * FROM {mediacommons_filter}');
 
   $form['sources'] = array(
@@ -19,7 +17,7 @@ function mediacommons_filter_admin($form, &$form_state) {
   );
 
   foreach ($result as $record) {
-    $form['sources']['sources_u_' . $record->did] = array(
+    $form['sources']['sources_u_' . md5($record->domain)] = array(
       '#type' => 'textfield',
       '#title' => t('Allowed domain'),
       '#default_value' => $record->domain,
@@ -47,15 +45,9 @@ function mediacommons_filter_admin($form, &$form_state) {
  * Form submit handler for mediacommons_filter admin settings form.
  */
 function mediacommons_filter_admin_settings_submit($form, &$form_state) {
-
   $result = db_query('SELECT * FROM {mediacommons_filter}');
   $domains = array();
   $cache = array();
-
-  foreach ($result as $record) {
-    $domains[$record->did] = $record->domain;
-  }
-
   foreach ($form_state['values'] as $key => $value) {
     $value = trim(filter_xss($value));
     preg_match('/sources_([un]{1})_([\w]+)/', $key, $matches);
@@ -76,6 +68,12 @@ function mediacommons_filter_admin_settings_submit($form, &$form_state) {
               drupal_set_message(t('An error occurred. Invalid URL @uri, please provide a valid URL. E.g., <em>https://</em>example.com', array('@uri' => $new_domain)), 'error');
               continue;
             }
+            if (isset($parsed_domain['scheme']) && $parsed_domain['scheme'] == 'http') {
+              // set error msg
+              drupal_set_message(t('Invalid URL @uri, please provide a valid HTTPS URL. E.g., <em>https://</em>example.com', array('@uri' => $new_domain)), 'error');
+              continue;
+            }
+
             // test URL host
             if (!isset($parsed_domain['host'])) {
               // set error msg
@@ -107,11 +105,8 @@ function mediacommons_filter_admin_settings_submit($form, &$form_state) {
             db_update('mediacommons_filter')->fields(array('domain' => $value, 'did' => md5($value)))->condition('did', $did, '=')->execute();
           }
           break;
-
       }
     }
   }
-
-  mediacommons_filter_cache_allowed_domains();
 
 }

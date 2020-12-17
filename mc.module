@@ -24,6 +24,7 @@ function mc_init() {
    * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
    */
   drupal_add_http_header('Access-Control-Allow-Origin', '*');
+  drupal_register_shutdown_function('mc_shutdown');
 }
 
 /**
@@ -130,39 +131,39 @@ function mediacommons_utilities_is_project_redirect($path) {
 }
 
 /**
- * Implements hook_user_update
- * https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_update/7.x
+ * Implements hook_user_update()
+ * @link https://api.drupal.org/api/drupal/modules%21user%21user.api.php/function/hook_user_update/7.x
  */
 function mc_user_update(&$edit, $account, $category) {
-  $query = new EntityFieldQuery;
-  $result = $query->entityCondition('entity_type', 'node')
-                  ->entityCondition('bundle', 'project')
-                  ->propertyCondition('status', 1)
-                  ->execute();
-  if (!empty($result['node'])) {
-    $keys = array_keys($result['node']);
-    foreach ($keys as $nid) {
-      $node = node_load($nid);
-      $wrapper = entity_metadata_wrapper('node', $node);
-      db_insert('mc_network_actions')->fields(array(
-        'processed' => 0,
-        'type' => __FUNCTION__,
-        'project' => $wrapper->field_identifier->value(),
-        'callback' => 'drupal_flush_all_caches',
-        'data' => serialize(
-          array(
-            'uid' => $account->uid,
-            'mail' => $account->mail,
-            'uuid' => $account->uuid,
-          )
-        ),
-        'created' => $_SERVER['REQUEST_TIME'],
-        'changed' => $_SERVER['REQUEST_TIME'],
-      ))->execute();
-      unset($wrapper);
-      unset($node);
-    }
-  }
+  // $query = new EntityFieldQuery;
+  // $result = $query->entityCondition('entity_type', 'node')
+  //                 ->entityCondition('bundle', 'project')
+  //                 ->propertyCondition('status', 1)
+  //                 ->execute();
+  // if (!empty($result['node'])) {
+  //   $keys = array_keys($result['node']);
+  //   foreach ($keys as $nid) {
+  //     $node = node_load($nid);
+  //     $wrapper = entity_metadata_wrapper('node', $node);
+      // db_insert('mc_network_actions')->fields(array(
+      //   'processed' => 0,
+      //   'type' => __FUNCTION__,
+      //   'project' => $wrapper->field_identifier->value(),
+      //   'callback' => 'drupal_flush_all_caches',
+      //   'data' => serialize(
+      //     array(
+      //       'uid' => $account->uid,
+      //       'mail' => $account->mail,
+      //       'uuid' => $account->uuid,
+      //     )
+      //   ),
+      //   'created' => $_SERVER['REQUEST_TIME'],
+      //   'changed' => $_SERVER['REQUEST_TIME'],
+      // ))->execute();
+  //     unset($wrapper);
+  //     unset($node);
+  //   }
+  // }
 }
 
 /**
@@ -206,8 +207,85 @@ function mc_update_7003() {
  * Enable projects module
  */
 function mc_update_7004(&$sandbox) {
-  module_enable(array('projects'));
   module_enable(array('mediacommons_managment'));
   module_enable(array('mediacommons_api'));
-  mediacommons_managment_import_default_projects();
+}
+
+// shutdown function
+function mc_shutdown() {
+  global $user;
+  if (
+    isset($_SERVER['REQUEST_URI']) &&
+    isset($_SERVER['REMOTE_ADDR'])
+  ) {
+    $req_ulr = $_SERVER['REQUEST_URI'];
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $regex = array();
+    $regex[] = 'admin-ajax.php';
+    $regex[] = 'totalsportek';
+    $regex[] = 'phpmyadmin';
+    $regex[] = 'framework.php';
+    $regex[] = 'total-free';
+    $regex[] = 'logon.aspx';
+    $regex[] = 'full-ncaatv';
+    $regex[] = 'live-tsn';
+    $regex[] = 'redditfree';
+    $regex[] = 'wp-login';
+    $regex[] = 'wp-admin';
+    $regex[] = 'livestreamofficial';
+    $regex[] = 'ncaamonline';
+    $regex[] = 'formLogin';
+    $regex[] = 'wp-content';
+    $regex[] = 'streaming-live';
+    $regex[] = 'officiallive';
+    $regex[] = 'login.action';
+    $regex[] = 'CHANGELOG';
+    $regex[] = 'xmldata';
+    $regex[] = 'jbossmq-httpil';
+    $regex[] = 'spiffymcgee';
+    $regex[] = 'wp-login';
+    $regex[] = 'joomla.xml';
+    $regex[] = 'dyndata.js';
+    $regex[] = 'ftpsync.settings';
+    $regex[] = 'deployment-config.json';
+    $regex[] = 'LoginForm.jsp';
+    $regex[] = 'totalsportek';
+    $regex[] = 'officiallive*';
+    $regex[] = 'espn-live*';
+    $regex[] = 'full-fight-ufc';
+    $regex[] = 'live-tv-*';
+    $regex[] = 'content\/espntv';
+    $regex[] = 'php\/login';
+    $regex[] = 'console\/App.html';
+    $regex[] = 'includes\/defines.php';
+    $regex[] = 'content\/reddit';
+    $regex[] = 'content\/livestream';
+    $regex[] = 'content\/freewatch';
+    $regex[] = 'content\/cbsfree';
+    $regex[] = 'config\/getuser';
+
+    $regstring = '/' . implode('|', $regex) . '/';
+
+    preg_match($regstring, $req_ulr, $matches);
+
+    if (isset($matches) && !empty($matches)) {
+      $count = db_select('blocked_ips', 't')
+        ->condition('t.ip', $ip)
+        ->countQuery()
+        ->execute()
+        ->fetchField();
+      if ($count < 1) {
+        db_insert('blocked_ips')
+          ->fields(array('ip' => $ip))
+          ->execute();
+        $message = "%name (uid: %uid). IP %ip banned on %date.";
+        watchdog('mc', $message, array(
+          '%uid' => $user->uid,
+          '%name' => ($user->uid == 0) ? 'anonymous' : $user->name,
+          '%ip' => $ip,
+          '%date' => date('m/d/Y H:i:s ', $_SERVER['REQUEST_TIME']),
+        ), WATCHDOG_ERROR);
+      }
+    }
+  }
 }
