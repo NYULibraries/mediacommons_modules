@@ -97,35 +97,26 @@ function projects_field_default_field_bases() {
   // Exported field_base: 'field_projects'.
   $field_bases['field_projects'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_projects',
     'indexes' => array(
-      'nid' => array(
-        0 => 'nid',
+      'value' => array(
+        0 => 'value',
       ),
     ),
     'locked' => 0,
-    'module' => 'node_reference',
+    'module' => 'list',
     'settings' => array(
-      'referenceable_types' => array(
-        'front_page_post' => 0,
-        'hub' => 0,
-        'message' => 0,
-        'page' => 0,
-        'project' => 'project',
-        'review' => 0,
-        'spoke' => 0,
+      'allowed_values' => array(
+        0 => '',
+        1 => '',
       ),
-      'view' => array(
-        'args' => array(),
-        'display_name' => '',
-        'view_name' => '',
-      ),
+      'allowed_values_function' => '',
     ),
     'translatable' => 0,
-    'type' => 'node_reference',
+    'type' => 'list_boolean',
   );
 
   // Exported field_base: 'field_shortname'.
