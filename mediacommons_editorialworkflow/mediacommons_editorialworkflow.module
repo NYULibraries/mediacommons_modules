@@ -191,7 +191,7 @@ function mediacommons_editorialworkflow_projects_user_can_contribute() {
   return $projects;
 }
 
-function mediacommons_editorialworkflow_user_can_contribute_to_project ($op, $project) {
+function mediacommons_editorialworkflow_user_can_contribute_to_project($op, $project) {
   if (user_access('access mediacommons dashboard')) {
     $projects = mediacommons_editorialworkflow_projects_user_can_contribute();
     if (array_key_exists($project, $projects)) {
@@ -199,10 +199,6 @@ function mediacommons_editorialworkflow_user_can_contribute_to_project ($op, $pr
     }
   }
   return FALSE;
-}
-
-function __i () {
-  print __FUNCTION__;
 }
 
 /**
@@ -423,9 +419,9 @@ function mediacommons_editorialworkflow_menu() {
 
   $hail = variable_get('mediacommons_project', 'mediacommons');
 
-  
+
   $project_index = 0;
-  
+
   $items = array();
 
   $items['dashboard'] = array(
@@ -625,7 +621,7 @@ function mediacommons_editorialworkflow_permission() {
  * https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_presave/7.x
  */
 function mediacommons_editorialworkflow_node_presave($node) {
-
+  global $user;
   $contributors = array();
   $wrapper = entity_metadata_wrapper('node', $node);
   $bundle = $wrapper->getBundle();
@@ -686,13 +682,12 @@ function mediacommons_editorialworkflow_node_presave($node) {
     }
   }
 
-  foreach ($listed_contributors as $listed_contributor) {
-    $data = array(
-      'message' => $wrapper->label() . ' saved!',
-      'contributor' => $listed_contributor,
-    );
-    mediacommons_editorialworkflow_send_message($data);
-  }
+  $label = $wrapper->label();
+  $project = variable_get('mediacommons_project', 'mediacommons');
+  $nodeurl = url('node/' . $node->nid, array('absolute' => TRUE));
+  $message = "$label ($bundle) saved by $user->name (uid: $user->uid). Part of project $project. See $nodeurl";
+
+  watchdog('mediacommons_editorialworkflow', $message, array(), WATCHDOG_INFO);
 
 }
 
