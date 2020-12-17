@@ -18,12 +18,12 @@ function mediacommons_filter_permission() {
  */
 function mediacommons_filter_menu() {
   $items = array ();
-  $items['admin/people/external-sources'] = array (
-    'title' => 'Filter iframe',
-    'description' => t('Provides an extended Image Field for displaying.'),
+  $items['admin/config/content/external-sources'] = array (
+    'title' => 'Allow external sources',
+    'description' => t('Add and remove domains that are allowed as embeded content in the &lt;iframe> element.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('mediacommons_filter_admin'),
-    'access arguments' => array ( 'administer mediacommons filters' ),
+    'access arguments' => array ('administer mediacommons filters'),
     'file' => 'mediacommons_filter.admin.inc',
   );
   return $items;
@@ -187,7 +187,7 @@ function _filter_iframe_process($text, $filter, $format) {
     if (is_object($dom)) {
       foreach ($dom->find('iframe') as $element) {
         $parse_url = parse_url($element->src);
-        if (isset($parse_url['scheme']) && isset($parse_url['host']) && !in_array($parse_url['scheme'] . '://' . $parse_url['host'], $allowed_domains, TRUE)) {
+        if (isset($parse_url['scheme']) && isset($parse_url['host']) && !in_array($parse_url['host'], $allowed_domains, TRUE)) {
           $element->src = '';
           $element->class = 'invalid-source';
         }
@@ -237,7 +237,10 @@ function mediacommons_filter_node_validate_handler($form, &$form_state) {
           // Find all iframe
           foreach ($html->find('iframe') as $element) {
             $parse_url = parse_url($element->src);
-          	if (isset($parse_url['scheme']) && isset($parse_url['host']) && !in_array($parse_url['scheme'] . '://' . $parse_url['host'], $allowed_domains, TRUE)) {
+          	if (
+              isset($parse_url['scheme']) &&
+              isset($parse_url['host']) &&
+              !in_array($parse_url['host'], $allowed_domains, TRUE)) {
           	  form_set_error($key, t('Found not valid iframe !source', array ('!source' => $element->src)));
             }
           }
@@ -286,6 +289,11 @@ function mediacommons_filter_allowed_tags() {
  * Update database table mediacommons_filter
  */
 function mediacommons_filter_update_7001() {
+  $result = db_query('SELECT * FROM {mediacommons_filter}');
+  $domains = array();
+  foreach ($result as $record) {
+    $domains[] = $record;
+  }
   db_drop_table('mediacommons_filter');
   $schema = array(
     'description' => 'The table for allowed iframe source.',
@@ -302,4 +310,12 @@ function mediacommons_filter_update_7001() {
     )
   );
   db_create_table('mediacommons_filter', $schema);
+  foreach ($domains as $record) {
+    $update = array(
+      'did' => md5($record->domain),
+      'domain' => $record->domain,
+    );
+    db_insert('mediacommons_filter')->fields($update)->execute();
+  }
+
 }
