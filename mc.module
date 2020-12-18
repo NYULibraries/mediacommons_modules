@@ -263,6 +263,11 @@ function mc_shutdown() {
     $regex[] = 'content\/freewatch';
     $regex[] = 'content\/cbsfree';
     $regex[] = 'config\/getuser';
+    $regex[] = 'manager\/html';
+    $regex[] = 'update_cron.php';
+    $regex[] = 'security.txt';
+    $regex[] = 'thinkphp';
+    $regex[] = 'elrekt.php';
 
     $regstring = '/' . implode('|', $regex) . '/';
 
