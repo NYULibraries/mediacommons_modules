@@ -221,6 +221,7 @@ function mc_shutdown() {
     $req_ulr = $_SERVER['REQUEST_URI'];
     $ip = $_SERVER['REMOTE_ADDR'];
     $regex = array();
+    $regex[] = '2020livestream';
     $regex[] = 'admin-ajax.php';
     $regex[] = 'totalsportek';
     $regex[] = 'phpmyadmin';

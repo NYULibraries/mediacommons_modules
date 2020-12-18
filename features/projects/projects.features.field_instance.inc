@@ -456,8 +456,8 @@ function projects_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_projects'.
-  $field_instances['user-user-field_projects'] = array(
+  // Exported field_instance: 'user-user-field_project'.
+  $field_instances['user-user-field_project'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
@@ -465,9 +465,9 @@ function projects_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'node_reference',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'node_reference_default',
+        'type' => 'list_default',
         'weight' => 21,
       ),
       'full' => array(
@@ -497,18 +497,18 @@ function projects_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'user',
-    'field_name' => 'field_projects',
+    'field_name' => 'field_project',
     'label' => 'Projects',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 1,
+      'user_register_form' => 0,
     ),
     'widget' => array(
       'active' => 1,
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 40,
+      'weight' => 41,
     ),
   );
 
