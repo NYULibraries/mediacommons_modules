@@ -410,9 +410,6 @@ function mediacommons_blocks_user_search($uid, $key = NULL, $conditions = array(
     );
     $content = render($render_array);
   }
-  else {
-    // watchdog('MediaCommons Blocks', format_string("User @uid contributions, no results.", array('@uid' => $uid)), NULL, WATCHDOG_ERROR);
-  }
   return $content;
 }
 
