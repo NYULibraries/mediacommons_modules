@@ -99,6 +99,7 @@ function mediacommons_editorialworkflow_form_validate(&$form, &$form_state) {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_alter/7.x
  */
 function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
@@ -163,7 +164,25 @@ function mediacommons_editorialworkflow_form_alter(&$form, &$form_state, $form_i
       // See: https://jira.nyu.edu/jira/browse/MC-329
       $form['#validate'][] = 'mediacommons_editorialworkflow_keep_going';
       break;
+
+    case 'user_profile_form':
+      if (
+        (
+          !in_array('user manager', $user->roles) &&
+          !in_array('administrator', $user->roles) &&
+          $user->uid !== '1'
+        )
+      ) {
+        $form['#after_build'] = array('mediacommons_editorialworkflow_disable_project_field');
+      }
+      break;
+
   }
+}
+
+function mediacommons_editorialworkflow_disable_project_field($form_element, &$form_state) {
+  $form_element['field_project']['#access'] = FALSE;
+  return $form_element;
 }
 
 function mediacommons_editorialworkflow_is_admin() {
@@ -178,16 +197,31 @@ function mediacommons_editorialworkflow_projects_user_can_contribute() {
   global $user;
   $projects = array();
   $wrapper = entity_metadata_wrapper('user', $user);
-  foreach ($wrapper->field_projects->value() as $project) {
-    $project_entity = entity_metadata_wrapper('node', $project);
-    $identifier = $project_entity->field_identifier->value();
-    $projects[$identifier] = array(
-      'label' => $project->title,
-      'identifier' => $identifier,
-      'path' => $project_entity->field_path->value(),
-      'shortname' => $project_entity->field_shortname->value(),
-    );
+  $entities = array();
+  $nodes = db_query('SELECT n.nid FROM {node} n WHERE n.status = :status AND n.type = :type', array(':status' => 1, ':type' => 'project'))->fetchAll();
+
+  foreach ($nodes as $node) {
+    $entity = node_load($node->nid);
+    $node_wrapper = entity_metadata_wrapper('node', $entity);
+    $identifier = $node_wrapper->field_identifier->value();
+    $entities[$identifier] = $node_wrapper;
   }
+
+  $identifier = NULL;
+  $node_wrapper = NULL;
+  $entity = NULL;
+
+  foreach ($wrapper->field_project->value() as $project) {
+    if (isset($entities[$project])) {
+      $projects[$project] = array(
+        'label' => $entities[$project]->label(),
+        'identifier' => $project,
+        'path' => $entities[$project]->field_path->value(),
+        'shortname' => $entities[$project]->field_shortname->value(),
+      );
+    }
+  }
+
   return $projects;
 }
 
@@ -1600,14 +1634,14 @@ function mediacommons_apis_is_pjax() {
 function mediacommons_apis_is_embed() {
   $is_embed = &drupal_static('is_embed');
   if (!isset($is_embed)) {
-	$params = drupal_get_query_parameters();
-	if (isset($params['embed'])) {
-	  if ($params['embed'] === '1' || $params['embed'] === 'true') {
-	    $is_embed = TRUE;
-	  }
-	  else {
-		$is_embed = FALSE;
-	  }
+	  $params = drupal_get_query_parameters();
+	  if (isset($params['embed'])) {
+	    if ($params['embed'] === '1' || $params['embed'] === 'true') {
+	      $is_embed = TRUE;
+	    }
+	    else {
+		    $is_embed = FALSE;
+	    }
     }
   }
   return $is_embed;
