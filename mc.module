@@ -250,7 +250,6 @@ function mc_shutdown() {
     $regex[] = 'spiffymcgee';
     $regex[] = 'wp-login';
     $regex[] = 'joomla.xml';
-                                                                                                                                                                           217,1         71%
     $regex[] = 'thinkphp';
     $regex[] = 'elrekt.php';
     $regex[] = 'w00tw00t';
