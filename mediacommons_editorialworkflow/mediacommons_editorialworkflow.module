@@ -1717,8 +1717,7 @@ function mediacommons_editorialworkflow_contributor_dashboard_solr_metadata() {
   variable_del('apachesolr_multisitesearch_last_metadata_update');
   variable_del('apachesolr_multisitesearch_last_metadata_fetch');
   apachesolr_multisitesearch_refresh_metadata();
-  $commands = array();
-  // $commands[] = ajax_command_append('.dashboard-console', t('Task done.'));
+  $commands = [];
   $commands[] = ajax_command_alert(t('Task done.'));
   return array(
     '#type' => 'ajax',
